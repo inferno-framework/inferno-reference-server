@@ -1,3 +1,5 @@
+This project (and the following README.md) started as a copy of https://github.com/hapifhir/hapi-fhir-jpaserver-starter
+
 # HAPI-FHIR Starter Project
 
 This project is a complete starter project you can use to deploy a FHIR server using HAPI FHIR JPA.
