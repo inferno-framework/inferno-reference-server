@@ -225,6 +225,10 @@ public class JpaRestfulServer extends RestfulServer {
             IInterceptorService interceptorService = appCtx.getBean(IInterceptorService.class);
             interceptorService.registerInterceptor(new SubscriptionDebugLogInterceptor());
         }
+        
+        //add Interceptor to check for Authorization token
+        this.registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
+
 
     }
 

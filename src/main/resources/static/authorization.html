@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- Normally this will be a site to accept a user name and password and log in to determine which code to send, for now it'll just redirect-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Authorize</title>
+  <meta name="description" content="Authorize Cindehr">
+</head>
+
+<body>
+  <script>
+  	//static code that the HAPI interceptor will look for to return token
+  	let code = "SAMPLE_CODE";
+  	let urlParams = new URLSearchParams(window.location.search);
+  	let redirect = urlParams.get('redirect') + '?code=' + code;
+  	console.log("Redirect is " + redirect);
+
+  	window.location = redirect;
+  </script>
+</body>
+</html>
