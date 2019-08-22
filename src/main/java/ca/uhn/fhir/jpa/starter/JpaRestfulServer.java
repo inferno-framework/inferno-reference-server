@@ -227,7 +227,7 @@ public class JpaRestfulServer extends RestfulServer {
         }
         
         //add Interceptor to check for Authorization token
-        this.registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
+        //this.registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
 
     }

@@ -14,9 +14,9 @@
   	let code = "SAMPLE_CODE";
   	let urlParams = new URLSearchParams(window.location.search);
   	let redirect = urlParams.get('redirect') + '?code=' + code;
-  	console.log("Redirect is " + redirect);
+  	alert("Redirect is " + redirect);
 
-  	window.location = redirect;
+  	window.location.href = redirect;
   </script>
 </body>
 </html>

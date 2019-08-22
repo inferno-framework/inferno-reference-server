@@ -1,4 +1,4 @@
-package ca.uhn.fhir.jpa.starter;
+package gov.onc.authorization;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

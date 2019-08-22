@@ -1,6 +1,7 @@
 package ca.uhn.fhir.jpa.starter;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -17,6 +18,7 @@ import ca.uhn.fhir.to.TesterConfig;
  *    method below
  */
 @Configuration
+@ComponentScan(basePackages={"gov.onc.authorization"}) //scan for the "authorization" rest services
 @Import(FhirTesterMvcConfig.class)
 public class FhirTesterConfig {
 
