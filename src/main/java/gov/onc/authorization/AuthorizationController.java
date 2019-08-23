@@ -19,6 +19,8 @@ import com.github.dnault.xmlpatch.internal.Log;
 public class AuthorizationController {
 	
 	private static final String SAMPLE_CODE = "SAMPLE_CODE";
+	private static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
+
 	
 	@PostConstruct
 	protected void postConstruct(){
@@ -35,14 +37,23 @@ public class AuthorizationController {
 
 		if (code.equals(SAMPLE_CODE))
 		{
-			String tokenString = 
-					"{"
-					+ "token : \"123\""
-					+ "}";		
-			return tokenString;
+			return generateToken();
 		}
 		
 		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
 
+	}
+	
+	private String generateToken()
+	{
+		String tokenString = "{"
+				+ "\"access_token\":\"" + SAMPLE_ACCESS_TOKEN + "\","
+				+ "\"token_type\":\"bearer\","
+				+ "\"expires_in\":3600,"
+				//+ "\"refresh_token\":\"IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk\","
+				//+ "\"scope\":\"create\""
+				+ "}";
+		
+		return tokenString;
 	}
 }
