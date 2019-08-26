@@ -25,6 +25,9 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.CorsInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
+import gov.onc.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
+import gov.onc.authorization.ServerConformanceWithAuthorizationProvider;
+
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.springframework.context.ApplicationContext;
@@ -93,9 +96,13 @@ public class JpaRestfulServer extends RestfulServer {
             setServerConformanceProvider(confProvider);
         } else if (fhirVersion == FhirVersionEnum.R4) {
             IFhirSystemDao<org.hl7.fhir.r4.model.Bundle, org.hl7.fhir.r4.model.Meta> systemDao = appCtx.getBean("mySystemDaoR4", IFhirSystemDao.class);
-            JpaConformanceProviderR4 confProvider = new JpaConformanceProviderR4(this, systemDao, appCtx.getBean(DaoConfig.class));
-            confProvider.setImplementationDescription("HAPI FHIR R4 Server");
+            /*JpaConformanceProviderR4 confProvider = new JpaConformanceProviderR4(this, systemDao, appCtx.getBean(DaoConfig.class));            
+            confProvider.setImplementationDescription("HAPI FHIR R4 Server");            
+            setServerConformanceProvider(confProvider);*/
+            ServerConformanceWithAuthorizationProvider confProvider = new ServerConformanceWithAuthorizationProvider(this, systemDao, appCtx.getBean(DaoConfig.class));            
+            confProvider.setImplementationDescription("HAPI FHIR R4 Server");            
             setServerConformanceProvider(confProvider);
+            
         } else {
             throw new IllegalStateException();
         }
@@ -227,7 +234,9 @@ public class JpaRestfulServer extends RestfulServer {
         }
         
         //add Interceptor to check for Authorization token
-        //this.registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
+        FakeOauth2AuthorizationInterceptorAdaptor authorizationInterceptor = new FakeOauth2AuthorizationInterceptorAdaptor();
+        //authorizationInterceptor.excludePathPatterns("/student/**");
+        this.registerInterceptor(authorizationInterceptor);
 
 
     }

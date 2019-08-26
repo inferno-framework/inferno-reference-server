@@ -8,15 +8,22 @@ import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter{
 	
+	private static String CONFORMANCE_PATH = "/metadata";
+	
 	@Override
 	public boolean incomingRequestPostProcessed(RequestDetails requestDetails, HttpServletRequest request, HttpServletResponse response )
 	{
-		String bearerToken = ""; //logic to extract bearer token from the security headers
-		if (isBearerTokenValid(bearerToken))
+		request.getPathInfo();
+					
+		if (CONFORMANCE_PATH.equals(request.getPathInfo()))
 		{
 			return true;
 		}
-		return false;
+		
+		String bearerToken = requestDetails.getHeader("Authorization");
+	     
+		return isBearerTokenValid(bearerToken);
+		
 	}
 	
 	public boolean isBearerTokenValid(String bearerToken)

@@ -3,10 +3,8 @@ package gov.onc.authorization;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +42,10 @@ public class AuthorizationController {
 
 	}
 	
+	/**
+	 * Generates Token in Oauth2 expected format
+	 * @return token JSON String
+	 */
 	private String generateToken()
 	{
 		String tokenString = "{"
