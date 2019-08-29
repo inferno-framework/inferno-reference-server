@@ -3,7 +3,6 @@ package ca.uhn.fhir.jpa.starter;
 import static ca.uhn.fhir.util.TestUtil.waitForSize;
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
 import java.util.concurrent.Future;
