@@ -6,6 +6,8 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.util.PortUtil;
+import gov.onc.authorization.TestUtils;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -39,12 +41,12 @@ public class ExampleServerDstu2IT {
 	public void testCreateAndRead() {
 		ourLog.info("Base URL is: " +  HapiProperties.getServerAddress());
 		String methodName = "testCreateResourceConditional";
-
+		
 		Patient pt = new Patient();
 		pt.addName().addFamily(methodName);
-		IIdType id = ourClient.create().resource(pt).execute().getId();
+		IIdType id = ourClient.create().resource(pt).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute().getId();
 
-		Patient pt2 = ourClient.read().resource(Patient.class).withId(id).execute();
+		Patient pt2 = ourClient.read().resource(Patient.class).withId(id).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).withAdditionalHeader("Authorization", "Bearer SAMPLE_ACCESS_TOKEN").execute();
 		assertEquals(methodName, pt2.getName().get(0).getFamily().get(0).getValue());
 	}
 
@@ -75,6 +77,7 @@ public class ExampleServerDstu2IT {
 		ourServerBase = "http://localhost:" + ourPort + "/hapi-fhir-jpaserver/fhir/";
 		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
 		ourClient.registerInterceptor(new LoggingInterceptor(true));
+		
 	}
 
 	public static void main(String[] theArgs) throws Exception {

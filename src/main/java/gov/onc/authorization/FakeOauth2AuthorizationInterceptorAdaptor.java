@@ -1,5 +1,7 @@
 package gov.onc.authorization;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +29,20 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 	     				
 		if (!isBearerTokenValid(bearerToken))
 		{
-			throw new InvalidBearerTokenException();
+			System.out.println("Intercepted Request ------------------------------------------------------BEGIN");
+
+			Enumeration<String> headers = request.getHeaderNames();
+			while (headers.hasMoreElements())
+			{
+				String currentHeader = headers.nextElement();
+				System.out.println("Header Name is " + currentHeader + " , and Header Value is " + request.getHeader(currentHeader));
+			}
+			
+			System.out.println("Request Name is " + request.getRequestURI());
+			
+			System.out.println("Intercepted End ------------------------------------------------------BEGIN");
+
+			throw new InvalidBearerTokenException(bearerToken);
 		}
 		
 		return true;

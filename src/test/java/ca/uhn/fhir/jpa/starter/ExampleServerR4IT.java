@@ -8,6 +8,8 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.util.PortUtil;
+import gov.onc.authorization.TestUtils;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.api.Session;
@@ -56,9 +58,9 @@ public class ExampleServerR4IT {
 
         Patient pt = new Patient();
         pt.addName().setFamily(methodName);
-        IIdType id = ourClient.create().resource(pt).execute().getId();
+        IIdType id = ourClient.create().resource(pt).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute().getId();
 
-        Patient pt2 = ourClient.read().resource(Patient.class).withId(id).execute();
+        Patient pt2 = ourClient.read().resource(Patient.class).withId(id).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
         assertEquals(methodName, pt2.getName().get(0).getFamily());
     }
 
@@ -77,11 +79,11 @@ public class ExampleServerR4IT {
         channel.setPayload("application/json");
         subscription.setChannel(channel);
 
-        MethodOutcome methodOutcome = ourClient.create().resource(subscription).execute();
+        MethodOutcome methodOutcome = ourClient.create().resource(subscription).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
         IIdType mySubscriptionId = methodOutcome.getId();
 
         // Wait for the subscription to be activated
-        waitForSize(1, () -> ourClient.search().forResource(Subscription.class).where(Subscription.STATUS.exactly().code("active")).cacheControl(new CacheControlDirective().setNoCache(true)).returnBundle(Bundle.class).execute().getEntry().size());
+        waitForSize(1, () -> ourClient.search().forResource(Subscription.class).where(Subscription.STATUS.exactly().code("active")).cacheControl(new CacheControlDirective().setNoCache(true)).returnBundle(Bundle.class).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute().getEntry().size());
 
         /*
          * Attach websocket
@@ -104,7 +106,7 @@ public class ExampleServerR4IT {
          */
         Observation obs = new Observation();
         obs.setStatus(Observation.ObservationStatus.FINAL);
-        ourClient.create().resource(obs).execute();
+        ourClient.create().resource(obs).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
 
         // Give some time for the subscription to deliver
         Thread.sleep(2000);
@@ -117,7 +119,7 @@ public class ExampleServerR4IT {
         /*
          * Clean up
          */
-        ourClient.delete().resourceById(mySubscriptionId).execute();
+        ourClient.delete().resourceById(mySubscriptionId).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
     }
 
     @AfterClass
