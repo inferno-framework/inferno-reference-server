@@ -21,9 +21,6 @@ public class AuthorizationController {
 	private static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
 	private static final String SAMPLE_SCOPE = "launch launch/patient offline_access openid profile user/*.* patient/*.* fhirUser";
 	private static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
-	private static final String REFRESH_TOKEN_PARAM = "refresh_token";
-	private static final String CODE_PARAM = "code";
-
 	
 	@PostConstruct
 	protected void postConstruct(){
@@ -31,31 +28,14 @@ public class AuthorizationController {
 	}
 		
 	@PostMapping("/token")
-	//public String getToken(@RequestBody Map<String,String> params)
 	public ResponseEntity<String> getToken(@RequestParam(name="\"code\"",required=false) String code)
-	//public ResponseEntity<String> getToken(@RequestBody MultiValueMap<String, String> params)
 	{
-		
-		/*if (params.get(REFRESH_TOKEN_PARAM) != null)
-		{
-			return generateBearerTokenResponse();
-		}
-		
-		Log.info("input params");
-		for (String key : params.keySet())
-		{
-			Log.info("   key is " + key);
-		}
-				
-		String code = params.getFirst(CODE_PARAM);*/
-
 		if (code.equals(SAMPLE_CODE))
 		{
 			return generateBearerTokenResponse();
 		}
 		
 		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
-
 	}
 	
 	private ResponseEntity<String> generateBearerTokenResponse()
