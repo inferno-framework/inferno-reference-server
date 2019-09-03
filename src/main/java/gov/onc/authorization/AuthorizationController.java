@@ -30,14 +30,12 @@ public class AuthorizationController {
 	@PostMapping("/token")
 	public ResponseEntity<String> getToken(@RequestParam(name="\"code\"",required=false) String code)
 	{
-
 		if (code.equals(SAMPLE_CODE))
 		{
 			return generateBearerTokenResponse();
 		}
 		
 		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
-
 	}
 	
 	private ResponseEntity<String> generateBearerTokenResponse()
