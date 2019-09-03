@@ -9,11 +9,6 @@ public class InvalidBearerTokenException extends BaseServerResponseException {
 	
 	private static final long serialVersionUID = 1L;
 
-	public InvalidBearerTokenException()
-	{
-		super(HTTP_RESPONSE_CODE_UNAUTHORIZED, ERROR_MESSAGE);
-	}
-	
 	public InvalidBearerTokenException(String bearerToken)
 	{
 		super(HTTP_RESPONSE_CODE_UNAUTHORIZED,ERROR_MESSAGE + " Supplied Bearer Token: " + bearerToken);
