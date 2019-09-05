@@ -26,6 +26,7 @@ import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import gov.onc.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import gov.onc.authorization.ServerConformanceWithAuthorizationProvider;
+import gov.onc.authorization.WellKnownAuthorizationEndpointController;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Meta;
@@ -235,7 +236,9 @@ public class JpaRestfulServer extends RestfulServer {
         //add Interceptor to check for Authorization token
         this.registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
-
+        //add plain provider for services
+        this.registerProvider(new WellKnownAuthorizationEndpointController());
+                
     }
 
 }
