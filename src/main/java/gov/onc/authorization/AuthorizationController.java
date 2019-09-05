@@ -39,12 +39,10 @@ public class AuthorizationController {
 		Log.info("code is " + code);
 
 		if (SAMPLE_CODE.equals(code)) {
-
 			return generateBearerTokenResponse();
 		}
 
 		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
-
 	}
 	
 	private ResponseEntity<String> generateBearerTokenResponse() {
