@@ -10,14 +10,10 @@ import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.UriType;
 
-import com.github.dnault.xmlpatch.internal.Log;
-
 import ca.uhn.fhir.jpa.dao.DaoConfig;
 import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.r4.JpaConformanceProviderR4;
 import ca.uhn.fhir.rest.server.RestfulServer;
-
-
 
 public class ServerConformanceWithAuthorizationProvider extends JpaConformanceProviderR4 {
 	
@@ -29,13 +25,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	private static final String AUTHORIZE_EXTENSION_URL = "authorize";
 	private static final String AUTHORIZE_EXTENSION_VALUE_URI = "http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization"; //this needs to relative
 
-	
 	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer, IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
 		super(theRestfulServer, theSystemDao, theDaoConfig);
 		setCache(false); //set cache to false to prevent caching and readding elements in getServerConformance
 	}
-	
-	
 	
 	@Override
 	public CapabilityStatement getServerConformance(HttpServletRequest theRequest) {
@@ -61,21 +54,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		authorizeValue.setValue(AUTHORIZE_EXTENSION_VALUE_URI);		
 		authorizeExtension.setValue(authorizeValue);//valueUri
 		oauthUris.addExtension(authorizeExtension);
-
 		
 		security.addExtension(oauthUris);		
 		rest.setSecurity(security);
 		
-		
-
-		Log.info("Logging getServerConf!!!!!!!!!");
-
-		//capabilityStatementRestComponent.addChild("security");
-		//capabilityStatementRestComponent.
-		//capabilityStatement.getRest().add(capabilityStatementRestComponent);
-		
-		return capabilityStatement;
-		
+		return capabilityStatement;		
 	}
 
 }

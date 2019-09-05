@@ -85,4 +85,9 @@ public class SocketImplementation {
 			myError = "Unexpected message: " + theMsg;
 		}
 	}
+	
+	public int getMyPingCount()
+	{
+		return myPingCount;
+	}
 }
