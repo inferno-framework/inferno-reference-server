@@ -40,6 +40,26 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>authorization</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextClass</param-name>
+			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				gov.onc.authorization.FhirAuthorizationConfig
+			</param-value>
+		</init-param>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>authorization</servlet-name>
+		<url-pattern>/fhir/.well-known/smart-configuration</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>fhirServlet</servlet-name>
@@ -50,5 +70,4 @@
 		<servlet-name>fhirServlet</servlet-name>
 		<url-pattern>/fhir/*</url-pattern>
 	</servlet-mapping>
-
 </web-app>
