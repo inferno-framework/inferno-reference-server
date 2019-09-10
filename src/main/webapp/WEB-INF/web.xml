@@ -71,10 +71,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				<!-- gov.onc.authorization.AuthorizationController, gov.onc.authorization.AuthorizationViewController-->
-				 gov.onc.authorization.AuthorizationConfig
-				<!-- ca.uhn.fhir.jpa.starter.FhirTesterConfig, gov.onc.authorization.AuthorizationController, gov.onc.authorization.AuthorizationViewController-->
-				
+				 gov.onc.authorization.AuthorizationConfig				
 			</param-value>
 		</init-param>
 		

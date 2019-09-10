@@ -197,6 +197,21 @@
             <artifactId>javax.interceptor-api</artifactId>
             <scope>provided</scope>
         </dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test-mvc -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test-mvc</artifactId>
+		    <version>1.0.0.M2</version>
+		    <scope>test</scope>
+		</dependency>
 
 
     </dependencies>
