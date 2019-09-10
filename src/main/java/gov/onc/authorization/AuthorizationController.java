@@ -7,14 +7,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.github.dnault.xmlpatch.internal.Log;
 
 @RestController
-@RequestMapping("/oauth")
 public class AuthorizationController {
 
 	private static final String SAMPLE_CODE = "SAMPLE_CODE";

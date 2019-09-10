@@ -1,7 +1,6 @@
 package ca.uhn.fhir.jpa.starter;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -17,7 +16,7 @@ import ca.uhn.fhir.to.TesterConfig;
  * 2. It tells the tester which server(s) to talk to, via the testerConfig()
  *    method below
  */
-@ComponentScan(basePackages={"gov.onc.authorization"}) //scan for the "authorization" rest services
+@Configuration
 @Import(FhirTesterMvcConfig.class)
 public class FhirTesterConfig {
 
