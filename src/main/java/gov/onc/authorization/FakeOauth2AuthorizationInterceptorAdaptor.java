@@ -12,7 +12,6 @@ import gov.onc.authorization.exception.InvalidBearerTokenException;
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
 
 	private static final String CONFORMANCE_PATH = "/metadata";
-	private static final String WELL_KNOWN_PATH = "/.well-known";
 	private static final String EXPECTED_BEARER_TOKEN = "SAMPLE_ACCESS_TOKEN";
 	private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
@@ -22,10 +21,6 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
 		// exempt the capability statement from requiring the token
 		if (CONFORMANCE_PATH.equals(request.getPathInfo())) {
-			return true;
-		}
-
-		if (request.getPathInfo() != null && request.getPathInfo().startsWith(WELL_KNOWN_PATH)) {
 			return true;
 		}
 
