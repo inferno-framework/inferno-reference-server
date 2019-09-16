@@ -19,8 +19,6 @@
     let state = urlParams.get('state') || '';
   	let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
 
-  	alert("Redirect is " + redirect);
-
   	window.location.href = redirect;
   </script>
 </body>
