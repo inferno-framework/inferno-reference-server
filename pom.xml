@@ -204,16 +204,14 @@
 		    <artifactId>spring-test</artifactId>
 		    <scope>test</scope>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test-mvc -->
+				
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test-mvc</artifactId>
-		    <version>1.0.0.M2</version>
+		    <artifactId>spring-test</artifactId>
 		    <scope>test</scope>
 		</dependency>
-
-
+		
     </dependencies>
 
     <packaging>war</packaging>
