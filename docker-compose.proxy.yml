@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  proxy:
+    image: haproxy:1.9-alpine
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - fhir
+    networks:
+      - fhirnet
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy:ro
+
+networks:
+  fhirnet:

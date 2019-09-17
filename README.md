@@ -1,119 +1,41 @@
-This project (and the following README.md) started as a copy of https://github.com/hapifhir/hapi-fhir-jpaserver-starter
+# Inferno US Core R4 Reference Server
 
-# HAPI-FHIR Starter Project
+This is a work-in-progress reference implementation for the US Core R4 IG.
 
-This project is a complete starter project you can use to deploy a FHIR server using HAPI FHIR JPA.
+It's based on [Tim Shaffer's dockerized HAPI
+server](https://gitlab.mitre.org/tshaffer/mitre-fhir-server)
 
-# Prerequisites
+By default, you can browse the server at
+[http://localhost:8080](http://localhost:8080), and the FHIR endpoint is at
+[http://localhost:8080/r4](http://localhost:8080/r4)
 
-In order to use this sample, you should have:
+## Docker
 
-* [This project](https://github.com/hapifhir/hapi-fhir-jpaserver-starter) checked out. You may wish to create a GitHub Fork of the project and check that out instead so that you can customize the project and save the results to GitHub.
-* Oracle Java (JDK) installed: Minimum JDK8 or newer.
-* Apache Maven build tool (newest version)
+The server runs using two containers, one for the server, and one for the
+database. You can run both containers with `docker-compose up`.
 
-# Running Locally
+## Loading US Core
 
-The easiest way to run this server is to run it directly in Maven using a built-in Jetty server. To do this, change `src/main/resources/hapi.properties` `server_address` and `server.base` with the values commented out as *For Jetty, use this* and then execute the following command:
+- `docker-compose up` to run the server. The database has to initialize its data
+  directory the first time it runs (or if its data has been deleted). If you see
+  a big stack trace the first time you run `docker-compose up`, it is because
+  the server is trying to connect to the db before it's finished initializing.
+  Shut it down with `CTRL-C` and `docker-compose down` then restart the server
+  with `docker-compose up` if this happens
+- `gem install httparty` to install the upload scripts dependencies
+- `ruby upload.rb` will upload the US Core resources
 
-```
-mvn jetty:run
-```
+## Resetting the server
 
-Then, browse to the following link to use the server:
+You can delete the server's data with `rm -rf fhir-pgdata`. The server must be
+restarted after this.
 
-[http://localhost:8080/hapi-fhir-jpaserver/](http://localhost:8080/hapi-fhir-jpaserver/)
+## Creating Final Docker Images
 
-If you need to run this server on a different port (using Maven), you can change the port in the run command as follows:
-```
-mvn -Djetty.port=8888 jetty:run
-```
-And replacing 8888 with the port of your choice.
-
-# Configuration
-
-Much of this HAPI starter project can be configured using the properties file in *src/main/resources/hapi.properties*. By default, this starter project is configured to use Derby as the database.
-
-## MySql
-
-To configure the starter app to use MySQL, instead of the default Derby, update the hapi.properties file to have the following:
-
-* datasource.driver=com.mysql.jdbc.Driver
-* datasource.url=jdbc:mysql://localhost:3306/hapi_dstu3
-* hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-
-Because the integration tests within the project rely on the default Derby database configuration, it is important to either explicity skip the integration tests during the build process, i.e., `mvn install -DskipTests`, or delete the tests altogether. Failure to skip or delete the tests once you've configured MySQL for the datasource.driver, datasource.url, and hibernate.dialect as outlined above will result in build errors and compilation failure.
-
-It is important to use MySQL5Dialect when using MySQL version 5+.
-
-# Customizing The Web Testpage UI
-
-The UI that comes with this server is an exact clone of the server available at [http://hapi.fhir.org](http://hapi.fhir.org). You may skin this UI if you'd like. For example, you might change the introductory text or replace the logo with your own.
-
-The UI is customized using [Thymeleaf](https://www.thymeleaf.org/) template files. You might want to learn more about Thymeleaf, but you don't necessarily need to: they are quite easy to figure out.
-
-Several template files that can be customized are found in the following directory: [https://github.com/hapifhir/hapi-fhir-jpaserver-starter/tree/master/src/main/webapp/WEB-INF/templates](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/tree/master/src/main/webapp/WEB-INF/templates)
-
-# Deploying to a Container
-
-Using the Maven-Embedded Jetty method above is convenient, but it is not a good solution if you want to leave the server running in the background.
-
-Most people who are using HAPI FHIR JPA as a server that is accessible to other people (whether internally on your network or publically hosted) will do so using an Application Server, such as [Apache Tomcat](http://tomcat.apache.org/) or [Jetty](https://www.eclipse.org/jetty/). Note that any Servlet 3.0+ compatible Web Container will work (e.g Wildfly, Websphere, etc.).
-
-Tomcat is very popular, so it is a good choice simply because you will be able to find many tutorials online. Jetty is a great alternative due to its fast startup time and good overall performance.
-
-To deploy to a container, you should first build the project:
-
-```
-mvn clean install
-```
-
-This will create a file called `hapi-fhir-jpaserver.war` in your `target` directory. This should be installed in your Web Container according to the instructions for your particular container. For example, if you are using Tomcat, you will want to copy this file to the `webapps/` directory.
-
-Again, browse to the following link to use the server (note that the port 8080 may not be correct depending on how your server is configured).
-
-[http://localhost:8080/hapi-fhir-jpaserver/](http://localhost:8080/hapi-fhir-jpaserver/)
-
-# Running hapi-fhir-jpaserver-example in Tomcat from IntelliJ
-
-Install Tomcat.
-
-Make sure you have Tomcat set up in IntelliJ.
-
-- File->Settings->Build, Execution, Deployment->Application Servers
-- Click +
-- Select "Tomcat Server"
-- Enter the path to your tomcat deployment for both Tomcat Home (IntelliJ will fill in base directory for you)
-
-Add a Run Configuration for running hapi-fhir-jpaserver-example under Tomcat
-
-- Run->Edit Configurations
-- Click the green +
-- Select Tomcat Server, Local
-- Change the name to whatever you wish
-- Uncheck the "After launch" checkbox
-- On the "Deployment" tab, click the green +
-- Select "Artifact"
-- Select "hapi-fhir-jpaserver-example:war" 
-- In "Application context" type /hapi
-
-Run the configuration.
-
-- You should now have an "Application Servers" in the list of windows at the bottom.
-- Click it.
-- Select your server, and click the green triangle (or the bug if you want to debug)
-- Wait for the console output to stop
-
-Point your browser (or fiddler, or what have you) to `http://localhost:8080/hapi/baseDstu3/Patient`
-
-It is important to use MySQL5Dialect when using MySQL version 5+.
-
-# Enabling Subscriptions
-
-The server may be configured with subscription support by enabling properties in the [hapi.properties](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/hapi.properties) file: 
-
-* `subscription.resthook.enabled` - Enables REST Hook subscriptions, where the server will make an outgoing connection to a remote REST server
-
-* `subscription.email.enabled` - Enables email subscriptions. Note that you must also provide the connection details for a usable SMTP server.
-
-* `subscription.websocket.enabled` - Enables websocket subscriptions. With this enabled, your server will accept incoming websocket connections on the following URL (this example uses the default context path and port, you may need to tweak depending on your deployment environment): [ws://localhost:8080/hapi-fhir-jpaserver/websocket](ws://localhost:8080/hapi-fhir-jpaserver/websocket)
+- Once data has been loaded into the server, `./build-docker-images.sh` will
+  create docker images for a FHIR server containing the loaded data.
+- These images can be uploaded to Mitre's Artifactory with
+  `./upload-docker-images.sh`. Once uploaded to artifactory, any Mitre employee
+  can access and use these images without having to rebuild them.
+- The preloaded version of the server can be run with `docker-compose -f
+  docker-compose.artifactory.yml up`

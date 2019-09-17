@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6-alpine
+    ports:
+      - '5432:5432'
+    networks:
+      - fhirnet
+    volumes:
+      - ./fhir-pgdata:/var/lib/postgresql/data
+  fhir:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      - POSTGRES_HOST=db
+    networks:
+      - fhirnet
+    depends_on:
+      - db
+
+networks:
+  fhirnet:

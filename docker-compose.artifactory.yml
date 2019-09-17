@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    image: artifacts.mitre.org:8200/inferno-us-core-r4-reference-server-db:latest
+    ports:
+      - '5432:5432'
+    networks:
+      - fhirnet
+  fhir:
+    image: artifacts.mitre.org:8200/inferno-us-core-r4-reference-server:latest
+    ports:
+      - '8080:8080'
+    environment:
+      - POSTGRES_HOST=db
+    networks:
+      - fhirnet
+    depends_on:
+      - db
+
+networks:
+  fhirnet:
