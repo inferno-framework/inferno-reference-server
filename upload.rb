@@ -1,7 +1,7 @@
 require 'httparty'
 require 'pry'
 
-FHIR_SERVER = 'http://localhost:8080/r4'
+FHIR_SERVER = 'http://localhost:8080/mitre-fhir/r4'
 
 def upload_us_core_resources
   file_path = File.join(__dir__, 'us-core-r4-resources', '*.json')
@@ -49,7 +49,10 @@ def upload_resource(resource)
   HTTParty.put(
     "#{FHIR_SERVER}/#{resource_type}/#{id}",
     body: resource.to_json,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 
+    	'Content-Type': 'application/json',
+    	'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
+    }
   )
 end
 
@@ -65,7 +68,9 @@ def record_exists_on_server?(patient_identifier)
   response = HTTParty.get(
     "#{FHIR_SERVER}/Patient",
     query: { identifier: patient_identifier },
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json',
+    	'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
+     }
   )
   JSON.parse(response.body)['entry']&.any?
 
@@ -76,7 +81,9 @@ def execute_transaction(transaction)
   HTTParty.post(
     FHIR_SERVER,
     body: transaction.to_json,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json',
+'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
+     }
   )
 end
 
