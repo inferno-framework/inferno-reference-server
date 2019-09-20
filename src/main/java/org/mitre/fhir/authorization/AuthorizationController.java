@@ -60,9 +60,14 @@ public class AuthorizationController {
 	 * @return token JSON String
 	 */
 	private String generateBearerToken() {
-		String tokenString = "{" + "\"access_token\":\"" + SAMPLE_ACCESS_TOKEN + "\"," + "\"token_type\":\"bearer\","
-				+ "\"expires_in\":3600," + "\"refresh_token\":\"" + SAMPLE_REFRESH_TOKEN + "\"," + "\"scope\":\""
-				+ SAMPLE_SCOPE + "\"" + "}";
+		String tokenString = "{" 
+				+ "\"access_token\":\"" + SAMPLE_ACCESS_TOKEN + "\"," 
+				+ "\"token_type\":\"bearer\","
+				+ "\"expires_in\":3600," 
+				+ "\"refresh_token\":\"" + SAMPLE_REFRESH_TOKEN + "\","
+				+ "\"scope\":\"" + SAMPLE_SCOPE + "\"," 
+				+ "\"patient\": \"6\""
+			+ "}";
 
 		return tokenString;
 	}
