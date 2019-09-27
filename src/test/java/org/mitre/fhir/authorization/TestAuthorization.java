@@ -29,6 +29,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+//@ContextConfiguration
+//@TestPropertySource("/test.properties")
 public class TestAuthorization {
 
     //private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(ExampleServerR4IT.class);

@@ -190,6 +190,13 @@
 		    <scope>test</scope>
 		</dependency>
 		
+		<!-- This example uses Derby embedded database for test cases. -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+        	<version>10.10.2.0</version>
+        </dependency>
+		
     </dependencies>
 
     <build>
