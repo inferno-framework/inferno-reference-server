@@ -98,23 +98,6 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     }
 
     private Properties jpaProperties() {
-        /*Properties properties = new Properties();
-        properties.put("hibernate.dialect", PostgreSQL9Dialect.class.getName());
-        properties.put("hibernate.format_sql", "true");
-        properties.put("hibernate.show_sql", "false");
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.jdbc.batch_size", "20");
-        properties.put("hibernate.cache.use_query_cache", "false");
-        properties.put("hibernate.cache.use_second_level_cache", "false");
-        properties.put("hibernate.cache.use_structured_entries", "false");
-        properties.put("hibernate.cache.use_minimal_puts", "false");
-        // TODO: Configure lucerne search directory.
-        properties.put("hibernate.search.model_mapping", LuceneSearchMappingFactory.class.getName());
-        properties.put("hibernate.search.default.directory_provider", "filesystem");
-        properties.put("hibernate.search.default.indexBase", "target/lucenefiles");
-        properties.put("hibernate.search.lucene_version", "LUCENE_CURRENT");
-        // extraProperties.put("hibernate.search.default.worker.execution", "async");
-        return properties;*/
     	
     	HapiReferenceServerProperties hapiReferenceServerProperties = new HapiReferenceServerProperties();
     	
@@ -135,9 +118,6 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
         properties.put("hibernate.search.lucene_version", hapiReferenceServerProperties.getHibernateSearchLuceneVersion());
         // extraProperties.put("hibernate.search.default.worker.execution", "async");
         return properties;
-    		
-    	//HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-    	//return properties;//.getProperties();
     	
     }
 
