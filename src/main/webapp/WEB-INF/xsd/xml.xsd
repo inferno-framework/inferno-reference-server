@@ -189,8 +189,8 @@
 
  <xs:annotation>
   <xs:documentation>
-   <div xml:id="usage" id="usage">
-    <h2><a name="usage">About this schema document</a></h2>
+   <div id="usage">
+    <h2><a>About this schema document</a></h2>
 
     <div class="bodytext">
      <p>
@@ -236,8 +236,8 @@
 
  <xs:annotation>
   <xs:documentation>
-   <div id="nsversioning" xml:id="nsversioning">
-    <h2><a name="nsversioning">Versioning policy for this schema document</a></h2>
+   <div id="nsversioning">
+    <h2><a>Versioning policy for this schema document</a></h2>
     <div class="bodytext">
      <p>
       In keeping with the XML Schema WG's standard versioning
