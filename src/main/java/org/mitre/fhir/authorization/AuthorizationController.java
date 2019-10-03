@@ -19,6 +19,7 @@ public class AuthorizationController {
 	private static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
 	private static final String SAMPLE_SCOPE = "launch launch/patient offline_access openid profile user/*.* patient/*.* fhirUser";
 	private static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
+	private static final String SAMPLE_CLIENT_ID = "SAMPLE_CLIENT_ID";
 
 	@PostConstruct
 	protected void postConstruct() {
@@ -32,10 +33,21 @@ public class AuthorizationController {
 	 * @return bearer token to be used for authorization
 	 */
 	@PostMapping("/token")
-	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code) {
+	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code, @RequestParam(name = "refresh_token", required = false) String refreshToken, @RequestParam(name = "client_id", required = false) String clientId) {
 
 		Log.info("code is " + code);
+		
+		//if refresh token is provided, then service will return refreshed token
+		if (SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
+			//confirm client id is correct
+			if (!SAMPLE_CLIENT_ID.equals(clientId))
+			{
+				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid client id");
+			}
+			return generateBearerTokenResponse();
+		}
 
+		//if a code is passed in, return token
 		if (SAMPLE_CODE.equals(code)) {
 			return generateBearerTokenResponse();
 		}
