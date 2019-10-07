@@ -5,6 +5,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
+
 import org.mitre.fhir.authorization.TestUtils;
 
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -16,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,11 +31,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-//@ContextConfiguration
-//@TestPropertySource("/test.properties")
 public class TestAuthorization {
 
-    //private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(ExampleServerR4IT.class);
     private static IGenericClient ourClient;
     private static FhirContext ourCtx;
     private static int ourPort;
@@ -52,7 +51,7 @@ public class TestAuthorization {
 
     @Test
     public void testCreateAndRead() {
-        //ourLog.info("Base URL is: " +  HapiProperties.getServerAddress());
+
         String methodName = "testCreateResourceConditional";
 
         Patient pt = new Patient();
@@ -61,6 +60,9 @@ public class TestAuthorization {
 
         Patient pt2 = ourClient.read().resource(Patient.class).withId(id).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
         assertEquals(methodName, pt2.getName().get(0).getFamily());
+        
+        //delete the new entry so it doesn't get bigger
+        ourClient.delete().resourceById(id).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
     }
     
     @Test
@@ -91,7 +93,13 @@ public class TestAuthorization {
     	AuthorizationController authorizationController = new AuthorizationController();
     	
     	try {
-    		authorizationController.getToken("INVALID_CODE");
+    		String serverBaseUrl = "/mitre-fhir";
+    		MockHttpServletRequest request = new MockHttpServletRequest();
+    		request.setLocalAddr("localhost");
+    		request.setRequestURI(serverBaseUrl);
+    		request.setServerPort(1234);
+    		
+    		authorizationController.getToken("INVALID_CODE", request);
         	Assert.fail();
     	}
     	
@@ -111,7 +119,15 @@ public class TestAuthorization {
     	AuthorizationController authorizationController = new AuthorizationController();
     	
     	try {
-    		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE");
+    		String serverBaseUrl = "/mitre-fhir";
+    		MockHttpServletRequest request = new MockHttpServletRequest();
+    		request.setLocalAddr("localhost");
+    		request.setRequestURI(serverBaseUrl);
+    		request.setServerPort(1234);
+    		
+    		System.out.println(request.getRequestURL().toString());
+
+    		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE", request);
 
     		ObjectMapper mapper = new ObjectMapper();
     		
