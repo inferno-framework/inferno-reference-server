@@ -91,7 +91,7 @@ public class TestAuthorization {
     	AuthorizationController authorizationController = new AuthorizationController();
     	
     	try {
-    		authorizationController.getToken("INVALID_CODE");
+    		authorizationController.getToken("INVALID_CODE", null, "SAMPLE_CLIENT_ID");
         	Assert.fail();
     	}
     	
@@ -111,7 +111,7 @@ public class TestAuthorization {
     	AuthorizationController authorizationController = new AuthorizationController();
     	
     	try {
-    		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE");
+    		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE", null, "SAMPLE_CLIENT_ID");
 
     		ObjectMapper mapper = new ObjectMapper();
     		
