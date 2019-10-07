@@ -60,10 +60,36 @@ public class AuthorizationController {
 	 * @return token JSON String
 	 */
 	private String generateBearerToken() {
-		String tokenString = "{" + "\"access_token\":\"" + SAMPLE_ACCESS_TOKEN + "\"," + "\"token_type\":\"bearer\","
-				+ "\"expires_in\":3600," + "\"refresh_token\":\"" + SAMPLE_REFRESH_TOKEN + "\"," + "\"scope\":\""
-				+ SAMPLE_SCOPE + "\"" + "}";
+		String tokenString = 
+				"{" 
+						+ "\"access_token\":\"" + SAMPLE_ACCESS_TOKEN + "\","
+						+ "\"token_type\":\"bearer\","
+						+ "\"expires_in\":3600," 
+						+ "\"refresh_token\":\"" + SAMPLE_REFRESH_TOKEN + "\"," 
+						+ "\"scope\":\"" + SAMPLE_SCOPE + "\"," 
+						+ "\"id_token\":" + generateSampleOpenIdToken() 
+				+ "}";
 
 		return tokenString;
+	}
+	/**
+	 * Generates a sample open id token https://openid.net/specs/openid-connect-core-1_0.html
+	 * 
+	 * @return token JSON String representing the open id token
+	 */
+	private String generateSampleOpenIdToken()
+	{
+		String sampleOpenIdTokenString =
+				"{"
+					+ "\"iss\": \"https://server.example.com\","
+				    + "\"sub\": 24400320,"
+				    + "\"aud\": \"s6BhdRkqt3\","
+				    + "\"nonce\": \"n-0S6_WzA2Mj\","
+				    + "\"exp\": 1311281970,"
+				    + "\"iat\": 1311280970,"
+				    + "\"auth_time\": 1311280969,"
+				    + "\"acr\": \"urn:mace:incommon:iap:silver\""
+				 + "}";
+		return sampleOpenIdTokenString;
 	}
 }
