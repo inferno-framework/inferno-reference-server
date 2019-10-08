@@ -38,6 +38,7 @@ public class TestAuthorization {
 	private static int ourPort;
 	private static Server ourServer;
 	private static String ourServerBase;
+	private static IIdType testPatientId;
 
 	static {
 		ourCtx = FhirContext.forR4();
@@ -101,6 +102,8 @@ public class TestAuthorization {
 	@Test
 	public void testTestAuthorizationWithValidCode() throws IOException {
 
+		
+		
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "/mitre-fhir";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -136,6 +139,8 @@ public class TestAuthorization {
 
 	@AfterClass
 	public static void afterClass() throws Exception {
+		//delete test Patient that was added in @Before class
+		ourClient.delete().resourceById(testPatientId).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE).execute();
 		ourServer.stop();
 	}
 
@@ -167,6 +172,16 @@ public class TestAuthorization {
 		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
 		ourClient.registerInterceptor(new LoggingInterceptor(true));
 		ourClient.capabilities();
+		
+		//ensure that db is not empty (will be deleted @AfterClass)
+		Patient pt = new Patient();
+		pt.addName().setFamily("Test");
+		testPatientId = ourClient.create().resource(pt)
+				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE)
+				.execute().getId();
+
+		
+		
 	}
 
 }
