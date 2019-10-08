@@ -12,7 +12,7 @@ For now, the docker support does not work, so instead you have to start the piec
 
 First you need a postgres db running
 
-Once you have done that, update the src/main/resources/hapi.properties to connect datasource.url, datasource.username=postgres, datasource.password, datasource.schema (or make your existing postgres db have these values)
+Once you have done that, update the src/main/resources/hapi.properties to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have these values)
 
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  Then go to localhost:8080 to see information about the fhir server
 
