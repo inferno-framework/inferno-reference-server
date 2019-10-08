@@ -27,7 +27,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization"; //this needs to relative
 
 	
-	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer, IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
+	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
+			IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
 		super(theRestfulServer, theSystemDao, theDaoConfig);
 		setCache(false); //set cache to false to prevent caching and readding elements in getServerConformance
 	}
