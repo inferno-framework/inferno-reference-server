@@ -99,7 +99,7 @@ public class TestAuthorization {
     		request.setRequestURI(serverBaseUrl);
     		request.setServerPort(1234);
     		
-    		authorizationController.getToken("INVALID_CODE", request);
+    		authorizationController.getToken("INVALID_CODE", null, "SAMPLE_CLIENT_ID", request);
         	Assert.fail();
     	}
     	
@@ -119,6 +119,7 @@ public class TestAuthorization {
     	AuthorizationController authorizationController = new AuthorizationController();
     	
     	try {
+
     		String serverBaseUrl = "/mitre-fhir";
     		MockHttpServletRequest request = new MockHttpServletRequest();
     		request.setLocalAddr("localhost");
@@ -127,7 +128,7 @@ public class TestAuthorization {
     		
     		System.out.println(request.getRequestURL().toString());
 
-    		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE", request);
+    		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE", null, "SAMPLE_CLIENT_ID", request);
 
     		ObjectMapper mapper = new ObjectMapper();
     		

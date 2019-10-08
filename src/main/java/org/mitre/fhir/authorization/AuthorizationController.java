@@ -34,6 +34,9 @@ public class AuthorizationController {
 	public static final String FHIR_SERVER_PATH = "/mitre-fhir/r4";
 
 
+	private static final String SAMPLE_CLIENT_ID = "SAMPLE_CLIENT_ID";
+
+
 	@PostConstruct
 	protected void postConstruct() {
 		Log.info("Authorization Controller added");
@@ -46,10 +49,21 @@ public class AuthorizationController {
 	 * @return bearer token to be used for authorization
 	 */
 	@PostMapping("/token")
-	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code, HttpServletRequest request) {
+	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code, @RequestParam(name = "refresh_token", required = false) String refreshToken, @RequestParam(name = "client_id", required = false) String clientId, HttpServletRequest request) {
 
 		Log.info("code is " + code);
+		
+		//if refresh token is provided, then service will return refreshed token
+		if (SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
+			//confirm client id is correct
+			if (!SAMPLE_CLIENT_ID.equals(clientId))
+			{
+				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid client id");
+			}
+			return generateBearerTokenResponse();
+		}
 
+		//if a code is passed in, return token
 		if (SAMPLE_CODE.equals(code)) {
 			return generateBearerTokenResponse(request);
 		}
