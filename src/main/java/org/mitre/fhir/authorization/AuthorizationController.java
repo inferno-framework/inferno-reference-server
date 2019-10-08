@@ -60,7 +60,7 @@ public class AuthorizationController {
 			{
 				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid client id");
 			}
-			return generateBearerTokenResponse();
+			return generateBearerTokenResponse(request);
 		}
 
 		//if a code is passed in, return token
