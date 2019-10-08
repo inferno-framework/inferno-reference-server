@@ -31,6 +31,8 @@ public class AuthorizationController {
 	
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer SAMPLE_ACCESS_TOKEN";
+	public static final String FHIR_SERVER_PATH = "/mitre-fhir/r4";
+
 
 	@PostConstruct
 	protected void postConstruct() {
@@ -73,16 +75,14 @@ public class AuthorizationController {
 	 */
 	private String generateBearerToken(HttpServletRequest request) {
 				
-		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/mitre-fhir/r4";
+		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + FHIR_SERVER_PATH;
 				
 		FhirContext fhirContext = FhirContext.forR4();
 		IGenericClient client = fhirContext.newRestfulGenericClient(serverBaseUrl);
 
+		//get the first patient in the db
         Bundle patientsBundle =   client.search().forResource(Patient.class).returnBundle(Bundle.class).withAdditionalHeader(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_HEADER_VALUE).execute();
-        List<BundleEntryComponent> patients = patientsBundle.getEntry();
-        
-        Log.info("List length" + patients.size());
-        
+        List<BundleEntryComponent> patients = patientsBundle.getEntry();        
         Patient patient = null;
         for (BundleEntryComponent bundleEntryComponent : patients)
         {
@@ -90,12 +90,16 @@ public class AuthorizationController {
         	if (bundleEntryComponent.getResource().fhirType().equals("Patient"))
         	{
         		patient = (Patient)bundleEntryComponent.getResource();
-        		System.out.println("resource is patient with " + patient.getIdBase());
-
         		break;
         	}
         }
-                        
+        
+        if (patient == null)
+        {
+        	throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No patients found");
+        }
+        
+        //get their id
     	String patientId = patient.getIdElement().getIdPart();
  
 		String tokenString = "{" 

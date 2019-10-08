@@ -46,7 +46,7 @@ public class MitreJpaServer extends RestfulServer {
 
         // mySystemProviderR4 is generated as a part of hapi-fhir-jpaserver-base.
         // The system provider implements non-resource-type methods, such as transaction, and global history.
-        BaseJpaSystemProvider systemProvider = appContext.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
+        JpaSystemProviderR4 systemProvider = appContext.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
         registerProvider(systemProvider);
 
         // mySystemDaoR4 is generated as a part of hapi-fhir-jpaserver-base.
