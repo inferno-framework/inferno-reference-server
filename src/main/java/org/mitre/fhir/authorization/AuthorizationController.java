@@ -30,7 +30,7 @@ public class AuthorizationController {
 	private static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer SAMPLE_ACCESS_TOKEN";
+	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
 	public static final String FHIR_SERVER_PATH = "/mitre-fhir/r4";
 
 	private static final String SAMPLE_CLIENT_ID = "SAMPLE_CLIENT_ID";
