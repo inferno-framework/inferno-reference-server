@@ -89,21 +89,20 @@ public class TestAuthorization {
 			request.setServerPort(1234);
 
 			authorizationController.getToken("INVALID_CODE", null, "SAMPLE_CLIENT_ID", request);
-			Assert.fail();
+			//did not get expected exception
+			Assert.fail("Did not get expected Unauthorized ResponseStatusException");
 		}
 
 		catch (ResponseStatusException rse) {
 			if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
-				Assert.fail();
+				//did not get expected exception with correct response code
+				throw rse;
 			}
 		}
 	}
 
 	@Test
 	public void testTestAuthorizationWithValidCode() throws IOException {
-
-		
-		
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "/mitre-fhir";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -122,19 +121,12 @@ public class TestAuthorization {
 		String accessToken = jsonNode.get("access_token").asText();
 
 		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
-
 	}
 
 	@Test
 	public void testCapabilityStatementNotBlockedByInterceptor() {
 		// should throw an exception if intercepter does not white list it
-		try {
-			ourClient.capabilities().ofType(CapabilityStatement.class).execute();
-		}
-
-		catch (AuthenticationException ae) {
-			Assert.fail();
-		}
+		ourClient.capabilities().ofType(CapabilityStatement.class).execute();
 	}
 
 	@AfterClass
