@@ -14,7 +14,7 @@ First you need a postgres db running
 
 Once you have done that, update the src/main/resources/hapi.properties to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have these values)
 
-Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  Then go to localhost:8080 to see information about the fhir server
+Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  Then go to localhost:8080/mitre-fhir/ to see information about the fhir server
 
 Then to populate the db, run `ruby upload.rb` Note: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb is correct
 
