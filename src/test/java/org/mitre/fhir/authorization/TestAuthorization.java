@@ -82,7 +82,7 @@ public class TestAuthorization {
 		AuthorizationController authorizationController = new AuthorizationController();
 
 		try {
-			String serverBaseUrl = "/mitre-fhir";
+			String serverBaseUrl = "";
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.setLocalAddr("localhost");
 			request.setRequestURI(serverBaseUrl);
@@ -104,7 +104,7 @@ public class TestAuthorization {
 	@Test
 	public void testTestAuthorizationWithValidCode() throws IOException {
 		AuthorizationController authorizationController = new AuthorizationController();
-		String serverBaseUrl = "/mitre-fhir";
+		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
@@ -148,7 +148,7 @@ public class TestAuthorization {
 		ourServer = new Server(ourPort);
 
 		WebAppContext webAppContext = new WebAppContext();
-		webAppContext.setContextPath("/mitre-fhir");
+		webAppContext.setContextPath("");
 		webAppContext.setDisplayName("HAPI FHIR");
 		webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
 		webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
@@ -159,7 +159,7 @@ public class TestAuthorization {
 
 		ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
 		ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
-		ourServerBase = "http://localhost:" + ourPort + "/mitre-fhir/r4/";
+		ourServerBase = "http://localhost:" + ourPort + "/r4/";
 
 		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
 		ourClient.registerInterceptor(new LoggingInterceptor(true));

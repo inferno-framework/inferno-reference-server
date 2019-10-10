@@ -28,7 +28,7 @@ public class WellKnownAuthorizationEndpointController {
 	 * @return String representing json object of metadata returned at this url
 	 * @throws IOException
 	 */
-	@GetMapping
+	@GetMapping(produces={"application/json"})
 	public String getWellKnownJSON(HttpServletRequest theRequest) {
 
 		String wellKnownJSON = "{" + WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY + " : \""

@@ -31,7 +31,7 @@ public class AuthorizationController {
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
-	public static final String FHIR_SERVER_PATH = "/mitre-fhir/r4";
+	public static final String FHIR_SERVER_PATH = "/r4";
 
 	private static final String SAMPLE_CLIENT_ID = "SAMPLE_CLIENT_ID";
 
@@ -46,7 +46,7 @@ public class AuthorizationController {
 	 * @param code
 	 * @return bearer token to be used for authorization
 	 */
-	@PostMapping("/token")
+	@PostMapping(path="/token", 	produces={"application/json"})
 	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
 			@RequestParam(name = "refresh_token", required = false) String refreshToken,
 			@RequestParam(name = "client_id", required = false) String clientId, HttpServletRequest request) {
