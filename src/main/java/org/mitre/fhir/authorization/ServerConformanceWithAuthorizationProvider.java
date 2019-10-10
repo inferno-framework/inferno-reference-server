@@ -21,15 +21,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	private static final String OAUTH_URL = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
 
 	public static final String TOKEN_EXTENSION_URL = "token";
-	//public static final String TOKEN_EXTENSION_VALUE_URI = "http://localhost:8080/hapi-fhir-jpaserver/oauth/token"; //this needs to relative
 	private static final String TOKEN_EXTENSION_VALUE_URI = "/oauth/token"; //this needs to relative
 
 	public static final String AUTHORIZE_EXTENSION_URL = "authorize";
-	//public static final String AUTHORIZE_EXTENSION_VALUE_URI = "http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization"; //this needs to relative
 	private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization"; //this needs to relative
 
 	
-	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer, IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
+	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
+			IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
 		super(theRestfulServer, theSystemDao, theDaoConfig);
 		setCache(false); //set cache to false to prevent caching and readding elements in getServerConformance
 	}

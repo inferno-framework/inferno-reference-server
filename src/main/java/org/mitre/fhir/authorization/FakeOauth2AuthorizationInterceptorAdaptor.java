@@ -27,18 +27,12 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 		String bearerToken = requestDetails.getHeader("Authorization");
 
 		if (!isBearerTokenValid(bearerToken)) {
-			System.out.println("Intercepted Request ------------------------------------------------------BEGIN");
-
 			Enumeration<String> headers = request.getHeaderNames();
 			while (headers.hasMoreElements()) {
 				String currentHeader = headers.nextElement();
 				System.out.println("Header Name is " + currentHeader + " , and Header Value is "
 						+ request.getHeader(currentHeader));
 			}
-
-			System.out.println("Request Name is " + request.getRequestURI());
-
-			System.out.println("Intercepted End ------------------------------------------------------BEGIN");
 
 			throw new InvalidBearerTokenException(bearerToken);
 		}
