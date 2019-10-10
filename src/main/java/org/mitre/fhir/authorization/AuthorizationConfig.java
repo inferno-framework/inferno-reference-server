@@ -8,9 +8,9 @@ import ca.uhn.fhir.to.TesterConfig;
 
 //simplified copy of config from  ca.uhn.fhir.jpa.starter.FhirTesterConfig
 @Import(FhirTesterMvcConfig.class)
-@ComponentScan(basePackages={"org.mitre.fhir.authorization"})
+@ComponentScan(basePackages = { "org.mitre.fhir.authorization" })
 public class AuthorizationConfig {
-	
+
 	@Bean
 	public TesterConfig testerConfig() {
 		TesterConfig retVal = new TesterConfig();

@@ -4,7 +4,6 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.dao.DaoConfig;
 import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
-import ca.uhn.fhir.jpa.provider.BaseJpaSystemProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
 import ca.uhn.fhir.jpa.provider.r4.TerminologyUploaderProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
@@ -46,7 +45,7 @@ public class MitreJpaServer extends RestfulServer {
 
         // mySystemProviderR4 is generated as a part of hapi-fhir-jpaserver-base.
         // The system provider implements non-resource-type methods, such as transaction, and global history.
-        BaseJpaSystemProvider systemProvider = appContext.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
+        JpaSystemProviderR4 systemProvider = appContext.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
         registerProvider(systemProvider);
 
         // mySystemDaoR4 is generated as a part of hapi-fhir-jpaserver-base.
