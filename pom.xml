@@ -212,7 +212,7 @@
                     <version>${jetty_version}</version>
                     <configuration>
                         <webApp>
-                            <contextPath>/mitre-fhir</contextPath>
+                            <contextPath></contextPath>
                             <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                         </webApp>
                     </configuration>

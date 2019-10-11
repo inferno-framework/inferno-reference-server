@@ -1,7 +1,7 @@
 require 'httparty'
 require 'pry'
 
-FHIR_SERVER = 'http://localhost:8080/mitre-fhir/r4'
+FHIR_SERVER = 'http://localhost:8080/r4'
 
 def upload_us_core_resources
   file_path = File.join(__dir__, 'us-core-r4-resources', '*.json')
