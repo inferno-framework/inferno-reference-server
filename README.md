@@ -50,3 +50,13 @@ Once you have done that, update the src/main/resources/hapi.properties to connec
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server
 
 To populate the database with sample data, run `ruby upload.rb` Note: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb is correct
+
+## Using Inferno
+
+To run with Inferno, the client_id is SAMPLE_CLIENT_ID
+
+With Inferno, not everything is supported :
+
+OpenID Connect tests are not supported
+
+
