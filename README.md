@@ -5,6 +5,7 @@ This is a work-in-progress reference implementation for the US Core R4 IG.
 It's based on [Tim Shaffer's dockerized HAPI
 server](https://gitlab.mitre.org/tshaffer/mitre-fhir-server)
 
+
 By default, you can browse the server at
 [http://localhost:8080](http://localhost:8080), and the FHIR endpoint is at
 [http://localhost:8080/r4](http://localhost:8080/r4)
@@ -39,3 +40,13 @@ restarted after this.
   can access and use these images without having to rebuild them.
 - The preloaded version of the server can be run with `docker-compose -f
   docker-compose.artifactory.yml up`
+
+## Running without Docker
+
+If you cannot run docker, you will need to create a postgres database
+
+Once you have done that, update the src/main/resources/hapi.properties to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have the provided values)
+
+Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server
+
+To populate the database with sample data, run `ruby upload.rb` Note: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb is correct
