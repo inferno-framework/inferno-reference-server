@@ -19,6 +19,9 @@ public class RSAUtils {
 	private static final String RSA_PUBLIC_KEY_RESOURCE_PATH = "/rsa_key.pub";
 	private static final String RSA_PRIVATE_KEY_RESOURCE_PATH = "/rsa_key.key";
 	
+	//line separator for the files on this os
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	
 	public static RSAPublicKey getRSAPublicKey()
 	{
 		return getRSAPublicKey(RSA_PUBLIC_KEY_RESOURCE_PATH);
@@ -33,13 +36,12 @@ public class RSAUtils {
 			InputStream in = RSAUtils.class.getResourceAsStream(publicKeyResourcePath);
 
 			publicBytes = in.readAllBytes();
-		 
-		
+		 		
 			String temp = new String(publicBytes);
-			String publicKeyPEM = temp.replace("-----BEGIN RSA PUBLIC KEY-----\n", "");
+			String publicKeyPEM = temp.replace("-----BEGIN RSA PUBLIC KEY-----", "");
 		    publicKeyPEM = publicKeyPEM.replace("-----END RSA PUBLIC KEY-----", "");
-		    publicKeyPEM = publicKeyPEM.replace("\n", "");
-	
+		    publicKeyPEM = publicKeyPEM.replace(LINE_SEPARATOR, "");		    
+		    
 			Decoder decoder = Base64.getDecoder();
 			byte[] decoded = decoder.decode(publicKeyPEM);
 			
@@ -53,9 +55,6 @@ public class RSAUtils {
 		catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new RuntimeException("Error getting RSA Public Key", e);
 		}		
-
-		
-
 	}
 	
 	public static RSAPrivateKey getRSAPrivateKey()
@@ -73,9 +72,9 @@ public class RSAUtils {
 			privateBytes = in.readAllBytes();
 		 		
 			String temp = new String(privateBytes);
-			String privateKeyPEM = temp.replace("-----BEGIN RSA PRIVATE KEY-----\n", "");
+			String privateKeyPEM = temp.replace("-----BEGIN RSA PRIVATE KEY-----", "");
 		    privateKeyPEM = privateKeyPEM.replace("-----END RSA PRIVATE KEY-----", "");
-		    privateKeyPEM = privateKeyPEM.replace("\n", "");
+		    privateKeyPEM = privateKeyPEM.replace(LINE_SEPARATOR, "");		    
 	
 			Decoder decoder = Base64.getDecoder();
 			byte[] decoded = decoder.decode(privateKeyPEM);
