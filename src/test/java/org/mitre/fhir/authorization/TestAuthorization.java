@@ -8,6 +8,7 @@ import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 
 import org.mitre.fhir.authorization.TestUtils;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.RSAUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Patient;
@@ -22,6 +23,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -133,7 +135,7 @@ public class TestAuthorization {
 	}
 	
 	@Test 
-	public void testOpenId()
+	public void testGetTokenGivesValidOpenId()
 	{
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
@@ -150,7 +152,12 @@ public class TestAuthorization {
 		
 		//will throw an exception if invalid
 		DecodedJWT decoded = JWT.decode(idToken);
+		Algorithm algorithm = Algorithm.RSA256(RSAUtils.getRSAPublicKey(), null);
+
+		//verify signature
+		JWT.require(algorithm).build().verify(decoded);
 		
+		//test some of the fields of decoded jwt
 		Assert.assertEquals("RS256", decoded.getAlgorithm());
 		Assert.assertNotNull(decoded.getClaim("fhirUser")); 
 

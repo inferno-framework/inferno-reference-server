@@ -130,10 +130,13 @@ public class AuthorizationController {
 		RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
 
 		String patientId = patient.getIdElement().getIdPart();
-
+		
+		//for now hard coding as a Patient http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
+		String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
+	
 		Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
 		String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-				.withAudience(FhirReferenceServerUtils.SAMPLE_CLIENT_ID).withClaim("fhirUser", patientId)
+				.withAudience(FhirReferenceServerUtils.SAMPLE_CLIENT_ID).withClaim("fhirUser", fhirUserURL)
 				.sign(algorithm);
 
 		return token;
