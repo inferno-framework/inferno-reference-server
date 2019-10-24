@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Patient;
+import org.json.JSONObject;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RSAUtils;
 import org.springframework.http.CacheControl;
@@ -30,7 +31,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 @RestController
 public class AuthorizationController {
-
+	
 	@PostConstruct
 	protected void postConstruct() {
 		Log.info("Authorization Controller added");
@@ -109,14 +110,21 @@ public class AuthorizationController {
 
 		// get their id
 		String patientId = patient.getIdElement().getIdPart();
+		
+		JSONObject tokenJSON = new JSONObject();
+		
+		tokenJSON.put("access_token", FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN);
+		tokenJSON.put("token_type", "bearer");
+		tokenJSON.put("expires_in", 3600);
+		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
+		tokenJSON.put("scope", FhirReferenceServerUtils.SAMPLE_SCOPE);
+		tokenJSON.put("patient", patientId);
+		tokenJSON.put("id_token", generateSampleOpenIdToken(request, patient));
+		
+		return tokenJSON.toString();
+		
+		
 
-		String tokenString = "{" + "\"access_token\":\"" + FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN + "\","
-				+ "\"token_type\":\"bearer\"," + "\"expires_in\":3600," + "\"refresh_token\":\""
-				+ FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN + "\"," + "\"scope\":\""
-				+ FhirReferenceServerUtils.SAMPLE_SCOPE + "\"," + "\"patient\": \"" + patientId + "\","
-				+ "\"id_token\":" + "\"" + generateSampleOpenIdToken(request, patient) + "\"" + "}";
-
-		return tokenString;
 	}
 
 	/**
