@@ -55,8 +55,5 @@ To populate the database with sample data, run `ruby upload.rb` Note: make sure 
 
 To run with Inferno, the client_id is SAMPLE_CLIENT_ID
 
-With Inferno, not everything is supported :
-
-OpenID Connect tests are not supported
 
 

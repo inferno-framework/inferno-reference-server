@@ -7,10 +7,12 @@ import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 
 import org.mitre.fhir.authorization.TestUtils;
-
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.RSAUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Patient;
+import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -20,6 +22,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dnault.xmlpatch.internal.Log;
@@ -128,6 +133,37 @@ public class TestAuthorization {
 		// should throw an exception if intercepter does not white list it
 		ourClient.capabilities().ofType(CapabilityStatement.class).execute();
 	}
+	
+	@Test 
+	public void testGetTokenGivesValidOpenId()
+	{
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(1234);
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null,
+				FhirReferenceServerUtils.SAMPLE_CLIENT_ID, request);
+		String jSONString = tokenResponseEntity.getBody();
+		JSONObject jSONObject = new JSONObject(jSONString);
+		String idToken = (String)jSONObject.get("id_token");
+		
+		//will throw an exception if invalid
+		DecodedJWT decoded = JWT.decode(idToken);
+		Algorithm algorithm = Algorithm.RSA256(RSAUtils.getRSAPublicKey(), null);
+
+		//verify signature
+		JWT.require(algorithm).build().verify(decoded);
+		
+		//test some of the fields of decoded jwt
+		Assert.assertEquals("RS256", decoded.getAlgorithm());
+		Assert.assertNotNull(decoded.getClaim("fhirUser")); 
+
+		
+
+	}
 
 	@AfterClass
 	public static void afterClass() throws Exception {
@@ -172,8 +208,8 @@ public class TestAuthorization {
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_VALUE)
 				.execute().getId();
 
-		
-		
 	}
+	
+	
 
 }

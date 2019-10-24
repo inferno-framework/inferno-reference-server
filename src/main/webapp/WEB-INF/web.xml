@@ -64,7 +64,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>wellknown</servlet-name>
-		<url-pattern>/r4/.well-known/smart-configuration</url-pattern>
+		<url-pattern>/r4/.well-known/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>	

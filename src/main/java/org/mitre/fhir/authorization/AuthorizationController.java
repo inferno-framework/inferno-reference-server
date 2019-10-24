@@ -1,5 +1,7 @@
 package org.mitre.fhir.authorization;
 
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Patient;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.RSAUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.github.dnault.xmlpatch.internal.Log;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -23,17 +30,6 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 @RestController
 public class AuthorizationController {
-
-	private static final String SAMPLE_CODE = "SAMPLE_CODE";
-	private static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
-	private static final String SAMPLE_SCOPE = "launch launch/patient offline_access openid profile user/*.* patient/*.* fhirUser";
-	private static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
-
-	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
-	public static final String FHIR_SERVER_PATH = "/r4";
-
-	private static final String SAMPLE_CLIENT_ID = "SAMPLE_CLIENT_ID";
 
 	@PostConstruct
 	protected void postConstruct() {
@@ -46,7 +42,7 @@ public class AuthorizationController {
 	 * @param code
 	 * @return bearer token to be used for authorization
 	 */
-	@PostMapping(path="/token", 	produces={"application/json"})
+	@PostMapping(path = "/token", produces = { "application/json" })
 	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
 			@RequestParam(name = "refresh_token", required = false) String refreshToken,
 			@RequestParam(name = "client_id", required = false) String clientId, HttpServletRequest request) {
@@ -54,16 +50,16 @@ public class AuthorizationController {
 		Log.info("code is " + code);
 
 		// if refresh token is provided, then service will return refreshed token
-		if (SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
+		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
 			// confirm client id is correct
-			if (!SAMPLE_CLIENT_ID.equals(clientId)) {
+			if (!FhirReferenceServerUtils.SAMPLE_CLIENT_ID.equals(clientId)) {
 				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid client id");
 			}
 			return generateBearerTokenResponse(request);
 		}
 
 		// if a code is passed in, return token
-		if (SAMPLE_CODE.equals(code)) {
+		if (FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
 			return generateBearerTokenResponse(request);
 		}
 
@@ -88,15 +84,16 @@ public class AuthorizationController {
 	 */
 	private String generateBearerToken(HttpServletRequest request) {
 
-		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-				+ FHIR_SERVER_PATH;
+		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request) + FhirReferenceServerUtils.FHIR_SERVER_PATH;
 
 		FhirContext fhirContext = FhirContext.forR4();
-		IGenericClient client = fhirContext.newRestfulGenericClient(serverBaseUrl);
+		IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
 
 		// get the first patient in the db
 		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class)
-				.withAdditionalHeader(AUTHORIZATION_HEADER_NAME, AUTHORIZATION_HEADER_VALUE).execute();
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
+				.execute();
 		List<BundleEntryComponent> patients = patientsBundle.getEntry();
 		Patient patient = null;
 		for (BundleEntryComponent bundleEntryComponent : patients) {
@@ -113,10 +110,36 @@ public class AuthorizationController {
 		// get their id
 		String patientId = patient.getIdElement().getIdPart();
 
-		String tokenString = "{" + "\"access_token\":\"" + SAMPLE_ACCESS_TOKEN + "\"," + "\"token_type\":\"bearer\","
-				+ "\"expires_in\":3600," + "\"refresh_token\":\"" + SAMPLE_REFRESH_TOKEN + "\"," + "\"scope\":\""
-				+ SAMPLE_SCOPE + "\"," + "\"patient\": \"" + patientId + "\"}";
+		String tokenString = "{" + "\"access_token\":\"" + FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN + "\","
+				+ "\"token_type\":\"bearer\"," + "\"expires_in\":3600," + "\"refresh_token\":\""
+				+ FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN + "\"," + "\"scope\":\""
+				+ FhirReferenceServerUtils.SAMPLE_SCOPE + "\"," + "\"patient\": \"" + patientId + "\","
+				+ "\"id_token\":" + "\"" + generateSampleOpenIdToken(request, patient) + "\"" + "}";
 
 		return tokenString;
 	}
+
+	/**
+	 * Generates a sample open id token
+	 * https://openid.net/specs/openid-connect-core-1_0.html
+	 * 
+	 * @return token JSON String representing the open id token
+	 */
+	private String generateSampleOpenIdToken(HttpServletRequest request, Patient patient) {
+		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
+		RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
+
+		String patientId = patient.getIdElement().getIdPart();
+		
+		//for now hard coding as a Patient http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
+		String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
+	
+		Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
+		String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
+				.withAudience(FhirReferenceServerUtils.SAMPLE_CLIENT_ID).withClaim("fhirUser", fhirUserURL)
+				.sign(algorithm);
+
+		return token;
+	}
+
 }
