@@ -23,7 +23,7 @@ public class TestRSAUtils {
 
 	@Test
 	public void testRSAPublicAndPrivateKey() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-		// create a challeng
+		// create a challenge
 		byte[] challenge = new byte[10000];
 		ThreadLocalRandom.current().nextBytes(challenge);
 
