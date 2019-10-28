@@ -17,9 +17,22 @@
     //http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization?response_type=code&client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A4567%2Finferno%2Foauth2%2Fstatic%2Fredirect&scope=launch%2Fpatient+patient%2F%2A.read+openid+fhirUser+offline_access&state=ddc2657d-7146-418b-8b4e-64e3f8e92eb0&aud=http%3A%2F%2Flocalhost%3A8080%2Fhapi-fhir-jpaserver%2Ffhir
 
     let state = urlParams.get('state') || '';
+    
+    let clientId = urlParams.get('client_id') || '';
+    
   	let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
 
-  	window.location.href = redirect;
+    validClientIds = ['SAMPLE_CLIENT_ID', 'CONFIDENTIAL_SAMPLE_CLIENT_ID']; //should probably replace this with a service from the reference server
+	  if (validClientIds.includes(clientId))
+	  {
+      //redirect if client id is valid
+  		window.location.href = redirect;
+  	}
+  	
+  	else
+  	{
+  		alert('Invalid Client ID: ' + clientId);
+  	}
   </script>
 </body>
 </html>

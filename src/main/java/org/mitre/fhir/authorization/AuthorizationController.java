@@ -2,6 +2,9 @@ package org.mitre.fhir.authorization;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +14,8 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Patient;
 import org.json.JSONObject;
+import org.mitre.fhir.authorization.exception.InvalidClientIdException;
+import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RSAUtils;
 import org.springframework.http.CacheControl;
@@ -44,18 +49,35 @@ public class AuthorizationController {
 	 * @return bearer token to be used for authorization
 	 */
 	@PostMapping(path = "/token", produces = { "application/json" })
-	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
-			@RequestParam(name = "refresh_token", required = false) String refreshToken,
-			@RequestParam(name = "client_id", required = false) String clientId, HttpServletRequest request) {
+	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code, @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
+			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) {
 
 		Log.info("code is " + code);
-
+						
+		//check client id and client secret if the server is confidential
+		String basicHeader = getBasicHeader(request);
+		
+		String clientId = null;
+		String clientSecret = null;
+		
+		//if basic header exists, extract clientId and clientSecret from basic header
+		if (basicHeader != null)
+		{
+			String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
+			clientId = decodedValue.split(":")[0]; //client id is user name, and should be before ':'
+			clientSecret = decodedValue.split(":")[1]; //client secret is password, and should be after ':'
+		}
+		
+		//if no basic auth, client id should be supplied as request param
+		else
+		{
+			clientId = clientIdRequestParam;
+		}
+		
+		validateClientIdAndClientSecret(clientId, clientSecret);
+		
 		// if refresh token is provided, then service will return refreshed token
 		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
-			// confirm client id is correct
-			if (!FhirReferenceServerUtils.SAMPLE_CLIENT_ID.equals(clientId)) {
-				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid client id");
-			}
 			return generateBearerTokenResponse(request);
 		}
 
@@ -122,9 +144,6 @@ public class AuthorizationController {
 		tokenJSON.put("id_token", generateSampleOpenIdToken(request, patient));
 		
 		return tokenJSON.toString();
-		
-		
-
 	}
 
 	/**
@@ -148,6 +167,47 @@ public class AuthorizationController {
 				.sign(algorithm);
 
 		return token;
+	}
+		
+	private static String getBasicHeader(HttpServletRequest request)
+	{
+		Enumeration<String> authorizationHeaders = request.getHeaders("Authorization"); 
+		//find Basic Auth
+		String basicHeader = null;
+		while (authorizationHeaders.hasMoreElements())
+		{
+			String header = authorizationHeaders.nextElement();
+			if (header.startsWith("Basic "))
+			{
+				basicHeader = header;
+				break;
+			}
+		}
+		
+		return basicHeader;	
+	}
+	
+	private static String getDecodedBasicAuthorizationString(String basicHeader)
+	{
+		String encodedValue = basicHeader.replaceFirst("Basic ", ""); //strip off the beginning
+		Decoder decoder = Base64.getUrlDecoder();
+		String decodedValue = new String(decoder.decode(encodedValue));
+		return decodedValue;
+	}
+	
+	private static void validateClientIdAndClientSecret(String clientId, String clientSecret)
+	{
+		if (!FhirReferenceServerUtils.SAMPLE_CLIENT_ID.equals(clientId) && !FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID.equals(clientId)) {
+			throw new InvalidClientIdException(clientId);
+		}
+		
+		if (FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID.equals(clientId))
+		{
+			if (!FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET.equals(clientSecret))
+			{
+				throw new InvalidClientSecretException();
+			}
+		}
 	}
 
 }
