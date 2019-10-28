@@ -78,23 +78,23 @@ public class AuthorizationController {
 		
 		// if refresh token is provided, then service will return refreshed token
 		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
-			return generateBearerTokenResponse(request);
+			return generateBearerTokenResponse(request, clientId);
 		}
 
 		// if a code is passed in, return token
 		if (FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
-			return generateBearerTokenResponse(request);
+			return generateBearerTokenResponse(request, clientId);
 		}
 
 		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
 	}
 
-	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request) {
+	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noStore());
 		headers.setPragma("no-cache");
 
-		String tokenJSONString = generateBearerToken(request);
+		String tokenJSONString = generateBearerToken(request, clientId);
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(tokenJSONString, headers, HttpStatus.OK);
 
 		return responseEntity;
@@ -105,7 +105,7 @@ public class AuthorizationController {
 	 * 
 	 * @return token JSON String
 	 */
-	private String generateBearerToken(HttpServletRequest request) {
+	private String generateBearerToken(HttpServletRequest request, String clientId) {
 
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request) + FhirReferenceServerUtils.FHIR_SERVER_PATH;
 
@@ -141,7 +141,7 @@ public class AuthorizationController {
 		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
 		tokenJSON.put("scope", FhirReferenceServerUtils.SAMPLE_SCOPE);
 		tokenJSON.put("patient", patientId);
-		tokenJSON.put("id_token", generateSampleOpenIdToken(request, patient));
+		tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
 		
 		return tokenJSON.toString();
 	}
@@ -152,7 +152,7 @@ public class AuthorizationController {
 	 * 
 	 * @return token JSON String representing the open id token
 	 */
-	private String generateSampleOpenIdToken(HttpServletRequest request, Patient patient) {
+	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, Patient patient) {
 		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
 		RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
 
@@ -163,7 +163,7 @@ public class AuthorizationController {
 	
 		Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
 		String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-				.withAudience(FhirReferenceServerUtils.SAMPLE_CLIENT_ID).withClaim("fhirUser", fhirUserURL)
+				.withAudience(clientId).withClaim("fhirUser", fhirUserURL)
 				.sign(algorithm);
 
 		return token;
