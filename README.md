@@ -55,5 +55,7 @@ To populate the database with sample data, run `ruby upload.rb` Note: make sure 
 
 To run with Inferno, the client_id is SAMPLE_CLIENT_ID
 
+If you want to run with Inferno with confidential credentials, use CONFIDENTIAL_SAMPLE_CLIENT_ID as the client id, and SAMPLE_CLIENT_SECRET as the client secret
+
 
 
