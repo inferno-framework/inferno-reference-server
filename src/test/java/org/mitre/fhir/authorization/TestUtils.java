@@ -9,20 +9,19 @@ public class TestUtils {
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	public static final String AUTHORIZATION_HEADER_BEARER_VALUE = "Bearer SAMPLE_ACCESS_TOKEN";
-	
-	public static String getBasicAuthorizationString(String clientId, String clientSecret)
-	{
+
+	public static String getBasicAuthorizationString(String clientId, String clientSecret) {
 		return clientId + ":" + clientSecret;
 	}
-	
-	public static String getEncodedBasicAuthorizationHeader()
-	{
-		return getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET);
+
+	public static String getEncodedBasicAuthorizationHeader() {
+		return getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID,
+				FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET);
 	}
-	
+
 	public static String getEncodedBasicAuthorizationHeader(String clientId, String clientSecret) {
 		Encoder encoder = Base64.getUrlEncoder();
-		String decodedValue = getBasicAuthorizationString(clientId, clientSecret); 
+		String decodedValue = getBasicAuthorizationString(clientId, clientSecret);
 		String encodedValue = encoder.encodeToString(decodedValue.getBytes());
 		return "Basic " + encodedValue;
 	}

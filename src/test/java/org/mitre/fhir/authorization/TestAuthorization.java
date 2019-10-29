@@ -38,7 +38,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-
 public class TestAuthorization {
 
 	private static IGenericClient ourClient;
@@ -119,8 +118,8 @@ public class TestAuthorization {
 		request.setServerPort(1234);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
-				FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+		ResponseEntity<String> tokenResponseEntity = authorizationController
+				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -146,12 +145,12 @@ public class TestAuthorization {
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
-		
-		//shouldn't throw an exception
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, FhirReferenceServerUtils.SAMPLE_CLIENT_ID, null, request);
+
+		// shouldn't throw an exception
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE,
+				FhirReferenceServerUtils.SAMPLE_CLIENT_ID, null, request);
 	}
-	
+
 	@Test(expected = InvalidClientIdException.class)
 	public void testGetTokenWithoutBasicAuthAndInvalidClientId() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -160,9 +159,8 @@ public class TestAuthorization {
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
-		
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, "INVALID_CLIENT_ID", null, request);
+
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, "INVALID_CLIENT_ID", null, request);
 	}
 
 	@Test(expected = InvalidClientIdException.class)
@@ -173,11 +171,10 @@ public class TestAuthorization {
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
-		
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 	}
-	
+
 	@Test
 	public void testGetTokenWithBasicAuth() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -188,10 +185,9 @@ public class TestAuthorization {
 		request.setServerPort(1234);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 	}
-	
+
 	@Test(expected = InvalidClientIdException.class)
 	public void testGetTokenWithBasicAuthWithInvalidClientId() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -200,12 +196,12 @@ public class TestAuthorization {
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
-		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader("INVALID_CLIENT_ID", FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET));
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader("INVALID_CLIENT_ID",
+				FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET));
 
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 	}
-	
+
 	@Test
 	public void testGetTokenWithBasicAuthWithConfidentialClientId() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -214,13 +210,13 @@ public class TestAuthorization {
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
-		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET));
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
+				FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET));
 
-		//no error should be thrown
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
-	}	
-	
+		// no error should be thrown
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+	}
+
 	@Test(expected = InvalidClientSecretException.class)
 	public void testGetTokenWithBasicAuthWithInvalidClientSecret() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -229,13 +225,12 @@ public class TestAuthorization {
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
-		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, "Invalid Client Secret"));
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
+				FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, "Invalid Client Secret"));
 
-		authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
-	}	
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+	}
 
-	
 	@Test
 	public void testGetTokenGivesValidOpenId() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -264,36 +259,6 @@ public class TestAuthorization {
 		Assert.assertNotNull(decoded.getClaim("fhirUser"));
 
 	}
-	
-	/*@Test
-	public void testValidateClientIdAndClientSecret() {
-		String serverBaseUrl = "";
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.setLocalAddr("localhost");
-		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
-				
-		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
-
-		AuthorizationController.validateClientIdAndClientSecret(request);
-	}	
-
-	@Test(expected = InvalidClientIdException.class)
-	public void testValidateClientIdAndClientSecretInvalidClientId() {
-		String serverBaseUrl = "";
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.setLocalAddr("localhost");
-		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
-		
-		String badUserNameAndPassword = "INVALID_CLIENT_ID" + ":" + "SAMPLE_CLIENT_SECRET";
-		Encoder encoder = Base64.getUrlEncoder();
-		String encodedUserNameAndPassword = new String(encoder.encode(badUserNameAndPassword.getBytes()));
-		
-		request.addHeader("Authorization", encodedUserNameAndPassword);
-
-		AuthorizationController.validateClientIdAndClientSecret(request);
-	}*/	
 
 	@AfterClass
 	public static void afterClass() throws Exception {
