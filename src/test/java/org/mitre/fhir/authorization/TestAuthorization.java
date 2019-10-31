@@ -148,7 +148,7 @@ public class TestAuthorization {
 
 		// shouldn't throw an exception
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE,
-				FhirReferenceServerUtils.SAMPLE_CLIENT_ID, null, request);
+				FhirReferenceServerUtils.PUBLIC_CLIENT_ID, null, request);
 	}
 
 	@Test(expected = InvalidClientIdException.class)
@@ -211,7 +211,7 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
-				FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET));
+				FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID, FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET));
 
 		// no error should be thrown
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
@@ -226,7 +226,7 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(1234);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
-				FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID, "Invalid Client Secret"));
+				FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID, "Invalid Client Secret"));
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 	}

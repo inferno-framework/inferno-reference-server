@@ -14,8 +14,8 @@ public class FhirReferenceServerUtils {
 	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
 	public static final String FHIR_SERVER_PATH = "/r4";
 
-	public static final String SAMPLE_CLIENT_ID = "SAMPLE_CLIENT_ID";
-	public static final String CONFIDENTIAL_SAMPLE_CLIENT_ID = "CONFIDENTIAL_SAMPLE_CLIENT_ID";
+	public static final String PUBLIC_CLIENT_ID = "PUBLIC_CLIENT_ID";
+	public static final String CONFIDENTIAL_CLIENT_ID = "CONFIDENTIAL_CLIENT_ID";
 
 	public static String getServerBaseUrl(HttpServletRequest request) {
 		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();

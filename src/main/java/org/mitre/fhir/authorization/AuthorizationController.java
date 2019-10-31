@@ -192,12 +192,12 @@ public class AuthorizationController {
 	}
 
 	private static void validateClientIdAndClientSecret(String clientId, String clientSecret) {
-		if (!FhirReferenceServerUtils.SAMPLE_CLIENT_ID.equals(clientId)
-				&& !FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID.equals(clientId)) {
+		if (!FhirReferenceServerUtils.PUBLIC_CLIENT_ID.equals(clientId)
+				&& !FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID.equals(clientId)) {
 			throw new InvalidClientIdException(clientId);
 		}
 
-		if (FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID.equals(clientId)
+		if (FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID.equals(clientId)
 				&& !FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET.equals(clientSecret)) {
 			throw new InvalidClientSecretException();
 		}

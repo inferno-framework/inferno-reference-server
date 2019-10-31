@@ -15,7 +15,7 @@ public class TestUtils {
 	}
 
 	public static String getEncodedBasicAuthorizationHeader() {
-		return getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.CONFIDENTIAL_SAMPLE_CLIENT_ID,
+		return getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID,
 				FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET);
 	}
 
