@@ -35,6 +35,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 public class TestAuthorization {
 
@@ -105,9 +106,56 @@ public class TestAuthorization {
 			}
 		}
 	}
+	
+	@Test
+	public void testTestAuthorizationWithNullCode() {
+		AuthorizationController authorizationController = new AuthorizationController();
+
+		try {
+			String serverBaseUrl = "";
+			MockHttpServletRequest request = new MockHttpServletRequest();
+			request.setLocalAddr("localhost");
+			request.setRequestURI(serverBaseUrl);
+			request.setServerPort(1234);
+
+			authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
+			//did not get expected exception
+			Assert.fail("Did not get expected Unauthorized ResponseStatusException");
+		}
+
+		catch (ResponseStatusException rse) {
+			if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
+				//did not get expected exception with correct response code
+				throw rse;
+			}
+		}
+	}
+
 
 	@Test
 	public void testTestAuthorizationWithValidCode() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(1234);
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE.aGVsbG8=", null,
+				"SAMPLE_CLIENT_ID", request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		String accessToken = jsonNode.get("access_token").asText();
+
+		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+	}
+	
+	@Test
+	public void testReadScopeNoScopeProvided() throws IOException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -123,11 +171,36 @@ public class TestAuthorization {
 		String jSONString = tokenResponseEntity.getBody();
 
 		JsonNode jsonNode = mapper.readTree(jSONString);
-		String accessToken = jsonNode.get("access_token").asText();
+		String scope = jsonNode.get("scope").asText();
 
-		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+		Assert.assertEquals("", scope);
 	}
 
+	@Test
+	public void testReadScope() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(1234);
+
+		String scope= "/patient openId _-\\/";
+		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+		
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope, null,
+				"SAMPLE_CLIENT_ID", request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		String scopeResult = jsonNode.get("scope").asText();
+
+		Assert.assertEquals(scope, scopeResult);
+	}
+	
 	@Test
 	public void testCapabilityStatementNotBlockedByInterceptor() {
 		// should throw an exception if intercepter does not white list it
@@ -160,9 +233,6 @@ public class TestAuthorization {
 		//test some of the fields of decoded jwt
 		Assert.assertEquals("RS256", decoded.getAlgorithm());
 		Assert.assertNotNull(decoded.getClaim("fhirUser")); 
-
-		
-
 	}
 
 	@AfterClass

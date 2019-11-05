@@ -2,6 +2,7 @@ package org.mitre.fhir.authorization;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -49,30 +50,46 @@ public class AuthorizationController {
 			@RequestParam(name = "client_id", required = false) String clientId, HttpServletRequest request) {
 
 		Log.info("code is " + code);
-
+		
+		String actualCode = null;
+		String scopes = "";
+		if (code != null)
+		{
+			//the provided code is actualcode.scopes
+			String[] codeAndScopes = code.split("\\."); 
+			actualCode = codeAndScopes[0];
+			
+			//if scope was included*/
+			if (codeAndScopes.length >= 2)
+			{
+				String encodedScopes = codeAndScopes[1];
+			    scopes = new String(Base64.getDecoder().decode(encodedScopes));
+			}
+		}
+		
 		// if refresh token is provided, then service will return refreshed token
 		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
 			// confirm client id is correct
 			if (!FhirReferenceServerUtils.SAMPLE_CLIENT_ID.equals(clientId)) {
 				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid client id");
 			}
-			return generateBearerTokenResponse(request);
+			return generateBearerTokenResponse(request, scopes);
 		}
 
 		// if a code is passed in, return token
-		if (FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
-			return generateBearerTokenResponse(request);
+		if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCode)) {
+			return generateBearerTokenResponse(request, scopes);
 		}
 
 		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
 	}
 
-	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request) {
+	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String scopes) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noStore());
 		headers.setPragma("no-cache");
 
-		String tokenJSONString = generateBearerToken(request);
+		String tokenJSONString = generateBearerToken(request, scopes);
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(tokenJSONString, headers, HttpStatus.OK);
 
 		return responseEntity;
@@ -83,7 +100,7 @@ public class AuthorizationController {
 	 * 
 	 * @return token JSON String
 	 */
-	private String generateBearerToken(HttpServletRequest request) {
+	private String generateBearerToken(HttpServletRequest request, String scopes) {
 
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request) + FhirReferenceServerUtils.FHIR_SERVER_PATH;
 
@@ -117,7 +134,7 @@ public class AuthorizationController {
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
 		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
-		tokenJSON.put("scope", FhirReferenceServerUtils.SAMPLE_SCOPE);
+		tokenJSON.put("scope", scopes);
 		tokenJSON.put("patient", patientId);
 		tokenJSON.put("id_token", generateSampleOpenIdToken(request, patient));
 		

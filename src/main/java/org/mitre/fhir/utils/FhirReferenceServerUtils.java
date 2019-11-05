@@ -6,7 +6,6 @@ public class FhirReferenceServerUtils {
 	
 	public static final String SAMPLE_CODE = "SAMPLE_CODE";
 	public static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
-	public static final String SAMPLE_SCOPE = "launch launch/patient offline_access openid profile user/*.* patient/*.* fhirUser";
 	public static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
