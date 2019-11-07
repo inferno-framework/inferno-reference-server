@@ -22,6 +22,8 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +42,13 @@ public class AuthorizationController {
 	@PostConstruct
 	protected void postConstruct() {
 		Log.info("Authorization Controller added");
+	}
+	
+	@GetMapping(path = "authorizeClientId/{clientId}", produces = { "application/json" })
+	public ResponseEntity<Boolean> validateClientId(@PathVariable String clientId)
+	{
+		authorizeClientId(clientId);	
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
 	/**
@@ -73,7 +82,7 @@ public class AuthorizationController {
 			clientId = clientIdRequestParam;
 		}
 
-		validateClientIdAndClientSecret(clientId, clientSecret);
+		authenticateClientIdAndClientSecret(clientId, clientSecret);
 
 		// if refresh token is provided, then service will return refreshed token
 		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
@@ -190,12 +199,18 @@ public class AuthorizationController {
 		String decodedValue = new String(decoder.decode(encodedValue));
 		return decodedValue;
 	}
-
-	private static void validateClientIdAndClientSecret(String clientId, String clientSecret) {
+	
+	private static void authorizeClientId(String clientId) {
 		if (!FhirReferenceServerUtils.PUBLIC_CLIENT_ID.equals(clientId)
 				&& !FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID.equals(clientId)) {
 			throw new InvalidClientIdException(clientId);
 		}
+	}
+
+
+	private static void authenticateClientIdAndClientSecret(String clientId, String clientSecret) {
+		
+		authorizeClientId(clientId);
 
 		if (FhirReferenceServerUtils.CONFIDENTIAL_CLIENT_ID.equals(clientId)
 				&& !FhirReferenceServerUtils.SAMPLE_CLIENT_SECRET.equals(clientSecret)) {

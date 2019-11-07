@@ -1,38 +1,46 @@
 <!doctype html>
 <!-- Normally this will be a site to accept a user name and password and log in to determine which code to send, for now it'll just redirect-->
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-  <title>Authorize</title>
-  <meta name="description" content="Authorize Cindehr">
-</head>
+    <title>Authorize</title>
+    <meta name="description" content="Authorize Cindehr">
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        //static code that the HAPI interceptor will look for to return token
+        let code = "SAMPLE_CODE";
+        let urlParams = new URLSearchParams(window.location.search);
 
-<body>
-  <script>
-    //static code that the HAPI interceptor will look for to return token
-    let code = "SAMPLE_CODE";
-    let urlParams = new URLSearchParams(window.location.search);
+        //http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization?response_type=code&client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A4567%2Finferno%2Foauth2%2Fstatic%2Fredirect&scope=launch%2Fpatient+patient%2F%2A.read+openid+fhirUser+offline_access&state=ddc2657d-7146-418b-8b4e-64e3f8e92eb0&aud=http%3A%2F%2Flocalhost%3A8080%2Fhapi-fhir-jpaserver%2Ffhir
 
-    //http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization?response_type=code&client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A4567%2Finferno%2Foauth2%2Fstatic%2Fredirect&scope=launch%2Fpatient+patient%2F%2A.read+openid+fhirUser+offline_access&state=ddc2657d-7146-418b-8b4e-64e3f8e92eb0&aud=http%3A%2F%2Flocalhost%3A8080%2Fhapi-fhir-jpaserver%2Ffhir
+        let state = urlParams.get('state') || '';
+        
+        let clientId = urlParams.get('client_id') || '';
+        
+        let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
 
-    let state = urlParams.get('state') || '';
-    
-    let clientId = urlParams.get('client_id') || '';
-    
-    let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
+        //validClientIds = ['PUBLIC_CLIENT_ID', 'CONFIDENTIAL_CLIENT_ID']; //should probably replace this with a service from the reference server
 
-    validClientIds = ['PUBLIC_CLIENT_ID', 'CONFIDENTIAL_CLIENT_ID']; //should probably replace this with a service from the reference server
-    if (validClientIds.includes(clientId))
-    {
-      //redirect if client id is valid
-      window.location.href = redirect;
-    }
-    
-    else
-    {
-      alert('Invalid Client ID: ' + clientId);
-    }
-  </script>
-</body>
+        const url = '/oauth/authorizeClientId/' + clientId;
+        $.get(url, function(data, status) {
+        
+          if (status === 'success')
+          {
+            //redirect if client id is valid
+            window.location.href = redirect;
+          }
+          
+          else
+          {
+            alert('Invalid Client ID: ' + clientId);
+          }
+
+        });
+      }); 
+    </script>
+  </body>
 </html>
