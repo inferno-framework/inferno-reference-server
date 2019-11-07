@@ -22,7 +22,7 @@
     
     let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
 
-    validClientIds = ['SAMPLE_CLIENT_ID', 'CONFIDENTIAL_SAMPLE_CLIENT_ID']; //should probably replace this with a service from the reference server
+    validClientIds = ['PUBLIC_CLIENT_ID', 'CONFIDENTIAL_CLIENT_ID']; //should probably replace this with a service from the reference server
     if (validClientIds.includes(clientId))
     {
       //redirect if client id is valid
