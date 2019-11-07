@@ -13,7 +13,8 @@ By default, you can browse the server at
 ## Docker
 
 The server runs using two containers, one for the server, and one for the
-database. You can run both containers with `docker-compose up`.
+database. You can build the containers with `docker-compose build` and 
+run both containers with `docker-compose up`.
 
 ## Loading US Core
 
