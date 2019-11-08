@@ -25,18 +25,10 @@
 
         const url = '/oauth/authorizeClientId/' + clientId;
         $.get(url, function(data, status) {
-        
-          if (status === 'success')
-          {
             //redirect if client id is valid
             window.location.href = redirect;
-          }
-          
-          else
-          {
+        }).fail(function() {
             alert('Invalid Client ID: ' + clientId);
-          }
-
         });
       }); 
     </script>
