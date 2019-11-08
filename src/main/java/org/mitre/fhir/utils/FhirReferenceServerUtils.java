@@ -8,14 +8,15 @@ public class FhirReferenceServerUtils {
 	public static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
 	public static final String SAMPLE_SCOPE = "launch launch/patient offline_access openid profile user/*.* patient/*.* fhirUser";
 	public static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
-	public static final String SAMPLE_CLIENT_SECRET = "SAMPLE_CLIENT_SECRET";
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
 	public static final String FHIR_SERVER_PATH = "/r4";
 
-	public static final String PUBLIC_CLIENT_ID = "PUBLIC_CLIENT_ID";
-	public static final String CONFIDENTIAL_CLIENT_ID = "CONFIDENTIAL_CLIENT_ID";
+	public static final String SAMPLE_PUBLIC_CLIENT_ID = "SAMPLE_PUBLIC_CLIENT_ID";
+	public static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
+	public static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET = "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
+
 
 	public static String getServerBaseUrl(HttpServletRequest request) {
 		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();

@@ -23,8 +23,6 @@
         
         let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
 
-        //validClientIds = ['PUBLIC_CLIENT_ID', 'CONFIDENTIAL_CLIENT_ID']; //should probably replace this with a service from the reference server
-
         const url = '/oauth/authorizeClientId/' + clientId;
         $.get(url, function(data, status) {
         
