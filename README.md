@@ -55,5 +55,7 @@ To populate the database with sample data, run `ruby upload.rb` Note: make sure 
 
 To run with Inferno, the client_id is SAMPLE_CLIENT_ID
 
+## App Launch
 
+To launch the Inferno app from the EHR for the EHR Practitioner App, go to `/app-launch` 
 
