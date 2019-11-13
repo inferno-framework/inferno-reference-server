@@ -13,7 +13,8 @@ By default, you can browse the server at
 ## Docker
 
 The server runs using two containers, one for the server, and one for the
-database. You can run both containers with `docker-compose up`.
+database. You can build the containers with `docker-compose build` and 
+run both containers with `docker-compose up`.
 
 ## Loading US Core
 
@@ -53,7 +54,9 @@ To populate the database with sample data, run `ruby upload.rb` Note: make sure 
 
 ## Using Inferno
 
-To run with Inferno, the client_id is SAMPLE_CLIENT_ID
+To run with Inferno, the client_id is `SAMPLE_PUBLIC_CLIENT_ID`
+
+If you want to run with Inferno with confidential credentials, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret
 
 
 
