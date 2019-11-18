@@ -2,10 +2,6 @@
 
 This is a work-in-progress reference implementation for the US Core R4 IG.
 
-It's based on [Tim Shaffer's dockerized HAPI
-server](https://gitlab.mitre.org/tshaffer/mitre-fhir-server)
-
-
 By default, you can browse the server at
 [http://localhost:8080](http://localhost:8080), and the FHIR endpoint is at
 [http://localhost:8080/r4](http://localhost:8080/r4)
@@ -14,7 +10,7 @@ By default, you can browse the server at
 
 The server runs using two containers, one for the server, and one for the
 database. You can build the containers with `docker-compose build` and 
-run both containers with `docker-compose up`.
+run both containers with `docker-compose up`
 
 ## Loading US Core
 
@@ -30,7 +26,7 @@ run both containers with `docker-compose up`.
 ## Resetting the server
 
 You can delete the server's data with `rm -rf fhir-pgdata`. The server must be
-restarted after this.
+restarted after this
 
 ## Creating Final Docker Images
 
@@ -52,11 +48,13 @@ Once that is done, you can run an instance of the fhir-reference server using `m
 
 To populate the database with sample data, run `ruby upload.rb` Note: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb is correct
 
-## Using Inferno
+## Using with Apps
 
-To run with Inferno, the client_id is `SAMPLE_PUBLIC_CLIENT_ID`
+Currently, there is no regestration process. To use with an app, just use the default client ids:
 
-If you want to run with Inferno with confidential credentials, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret
+To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id
+
+To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret
 
 
 
