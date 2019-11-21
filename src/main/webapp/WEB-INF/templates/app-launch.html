@@ -10,7 +10,7 @@
 
 <body>
 
-	<label for="exampleInputEmail1">App Launch URI</label>
+	<label>App Launch URI</label>
 
   	<input id="appURI" type="text"/> <button id="launchAppButton">Launch App</button>
   
@@ -23,7 +23,7 @@
       		const url = '/fhir-server-path'
 	        $.get(url, function(data, status) {
 	            let issParam = encodeURIComponent(data);
-	            let launchParam = "123"; //for now just static, but should be communicated back to fhir reference server and stored
+	            let launchParam = "123"; //for now just static, but should be communicated back to fhir reference server and stored http://www.hl7.org/fhir/smart-app-launch/
 	            let appURI = $('#appURI').val(); 
 	            let launchLinkHref = appURI + '?' + 'launch=' + launchParam + '&' + 'iss=' + issParam; 
 
