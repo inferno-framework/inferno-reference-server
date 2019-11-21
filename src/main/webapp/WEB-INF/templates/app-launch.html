@@ -10,7 +10,34 @@
 
 <body>
 
-  <a href="http://localhost:4567/inferno/oauth2/static/launch?launch=123&iss=http%3A%2F%2Flocalhost%3A8080%2Fr4" class="button">Launch Inferno</a>
+	<label for="exampleInputEmail1">App Launch URI</label>
 
+  	<input id="appURI" type="text"/> <button id="launchAppButton">Launch App</button>
+  
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script>
+      $(document).ready(function() {
+
+
+      	$('#launchAppButton').click(function() {
+      		const url = '/fhir-server-path'
+	        $.get(url, function(data, status) {
+	            let issParam = encodeURIComponent(data);
+	            let launchParam = "123";
+	            let appURI = $('#appURI').val(); 
+	            let launchLinkHref = appURI + '?' + 'launch=' + launchParam + '&' + 'iss=' + issParam; 
+
+	            window.location.href = launchLinkHref;
+
+	        }).fail(function() {
+	            alert("Error getting ISS");
+	        });
+	    });
+
+
+
+      });
+
+  </script>
 </body>
 </html>
