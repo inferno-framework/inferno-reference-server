@@ -58,5 +58,7 @@ To run with Inferno, the client_id is `SAMPLE_PUBLIC_CLIENT_ID`
 
 If you want to run with Inferno with confidential credentials, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret
 
+## App Launch
 
+To launch the Inferno app from the EHR for the EHR Practitioner App, go to `/app-launch` 
 
