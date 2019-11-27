@@ -26,7 +26,7 @@ run both containers with `docker-compose up`.
 ## Resetting the server
 
 You can delete the server's data with `rm -rf fhir-pgdata`. The server must be
-restarted after this
+restarted after this.
 
 ## Creating Final Docker Images
 
