@@ -1,6 +1,6 @@
 # Inferno US Core R4 Reference Server
 
-This is a work-in-progress reference implementation for the US Core R4 IG.
+This is a FHIR reference implementation server supporting the US Core R4 IG and SMART Launches.
 
 By default, you can browse the server at
 [http://localhost:8080](http://localhost:8080), and the FHIR endpoint is at
