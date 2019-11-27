@@ -14,27 +14,20 @@ run both containers with `docker-compose up`
 
 ## Loading US Core
 
-- `docker-compose up` to run the server. The database has to initialize its data
-  directory the first time it runs (or if its data has been deleted). If you see
-  a big stack trace the first time you run `docker-compose up`, it is because
-  the server is trying to connect to the db before it's finished initializing.
-  Shut it down with `CTRL-C` and `docker-compose down` then restart the server
-  with `docker-compose up` if this happens
+- Use `docker-compose up` to run the server. The database has to initialize its data
+  directory the first time it runs (or if its data has been deleted). If an error occurs on the initial `docker-compose up`, shut it down with `docker-compose down` and restart the server with `docker-compose up` again.  This is a known issue that occurs when the server attempts to connect to the database before it it finished initializing.
 - `gem install httparty` to install the upload scripts dependencies
 - `ruby upload.rb` will upload the US Core resources
 
 ## Resetting the server
 
 You can delete the server's data with `rm -rf fhir-pgdata`. The server must be
-restarted after this
+restarted after this.
 
 ## Creating Final Docker Images
 
 - Once data has been loaded into the server, `./build-docker-images.sh` will
   create docker images for a FHIR server containing the loaded data.
-- These images can be uploaded to Mitre's Artifactory with
-  `./upload-docker-images.sh`. Once uploaded to artifactory, any Mitre employee
-  can access and use these images without having to rebuild them.
 - The preloaded version of the server can be run with `docker-compose -f
   docker-compose.artifactory.yml up`
 
@@ -46,11 +39,11 @@ Once you have done that, update the src/main/resources/hapi.properties to connec
 
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server
 
-To populate the database with sample data, run `ruby upload.rb` Note: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb is correct
+To populate the database with sample data, run `ruby upload.rb` *Note*: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb is correct
 
 ## Using with Apps
 
-Currently, there is no regestration process. To use with an app, just use the default client ids:
+Currently, there is no registration process. To use with an app, just use the default client ids:
 
 To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id
 
