@@ -50,7 +50,7 @@ To populate the database with sample data, run `ruby upload.rb` Note: make sure 
 
 ## Using with Apps
 
-Currently, there is no regestration process. To use with an app, just use the default client ids:
+Currently, there is no regestration process. To use with an app, use the default client ids:
 
 To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id
 
