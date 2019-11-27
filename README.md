@@ -58,7 +58,7 @@ To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the clie
 
 
 ## Contact Us
-The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated HL7 FHIR chat channel.
+The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
 
 ## License
 Copyright 2019 The MITRE Corporation
