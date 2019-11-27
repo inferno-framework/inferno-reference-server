@@ -1,16 +1,16 @@
 # Inferno US Core R4 Reference Server
 
-This is a work-in-progress reference implementation for the US Core R4 IG.
+This is a FHIR reference implementation server supporting the US Core R4 IG and SMART Launches.
 
 By default, you can browse the server at
 [http://localhost:8080](http://localhost:8080), and the FHIR endpoint is at
 [http://localhost:8080/r4](http://localhost:8080/r4)
 
-## Docker
+## Running with Docker
 
 The server runs using two containers, one for the server, and one for the
 database. You can build the containers with `docker-compose build` and 
-run both containers with `docker-compose up`
+run both containers with `docker-compose up`.
 
 ## Loading US Core
 
@@ -43,7 +43,7 @@ To populate the database with sample data, run `ruby upload.rb` *Note*: make sur
 
 ## Using with Apps
 
-Currently, there is no registration process. To use with an app, just use the default client ids:
+Currently, there is no registration process. To use with an app, use the default client ids:
 
 To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id
 
@@ -51,7 +51,7 @@ To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the clie
 
 
 ## Contact Us
-The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated HL7 FHIR chat channel.
+The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
 
 ## License
 Copyright 2019 The MITRE Corporation
