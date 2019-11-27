@@ -6,7 +6,7 @@ By default, you can browse the server at
 [http://localhost:8080](http://localhost:8080), and the FHIR endpoint is at
 [http://localhost:8080/r4](http://localhost:8080/r4)
 
-## Docker
+## Running with Docker
 
 The server runs using two containers, one for the server, and one for the
 database. You can build the containers with `docker-compose build` and 
