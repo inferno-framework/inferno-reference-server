@@ -47,6 +47,7 @@ To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id.
 
 To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret.
 
+To launch an app from the EHR go to `/app-launch` 
 
 ## Contact Us
 The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).

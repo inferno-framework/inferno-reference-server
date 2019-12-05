@@ -2,6 +2,7 @@ package org.mitre.fhir;
 
 import ca.uhn.fhir.to.TesterConfig;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -13,6 +14,7 @@ import ca.uhn.fhir.to.FhirTesterMvcConfig;
  */
 @Configuration
 @Import(FhirTesterMvcConfig.class)
+@ComponentScan(basePackages = { "org.mitre.fhir.app.launch" })
 public class MitreOverlayConfig {
 
     @Bean
