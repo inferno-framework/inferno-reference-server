@@ -1,2 +1,0 @@
-FROM postgres:9.6-alpine
-COPY fhir-pgdata /var/lib/postgresql/data
