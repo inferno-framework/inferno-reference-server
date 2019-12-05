@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mitre.fhir</groupId>
-    <artifactId>mitre-fhir-server</artifactId>
+    <artifactId>inferno-fhir-reference-server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>MITRE HAPI FHIR Server</name>
+    <name>Inferno FHIR Reference Server</name>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -215,7 +215,7 @@
     </dependencies>
 
     <build>
-        <finalName>mitre-fhir</finalName>
+        <finalName>inferno-fhir-reference-server</finalName>
 
         <!-- Not required for the application to build. -->
         <!-- Allows you to run locally by running "mvn jetty:run" from the command line. -->
