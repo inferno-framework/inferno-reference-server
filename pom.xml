@@ -17,16 +17,6 @@
         
     </properties>
 
-    <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>oss-snapshots</id>-->
-            <!--<snapshots>-->
-                <!--<enabled>true</enabled>-->
-            <!--</snapshots>-->
-            <!--<url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
-        <!--</repository>-->
-    <!--</repositories>-->
-
     <dependencies>
         <!-- HAPI-FHIR core classes. -->
         <dependency>
@@ -108,13 +98,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Spring Web is used to deploy the server to a web container. -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-web</artifactId>-->
-            <!--<version>5.1.5.RELEASE</version>-->
-        <!--</dependency>-->
-
         <!-- You may not need this if you are deploying to an application server -->
         <!-- which provides database connection pools itself. -->
         <dependency>
@@ -130,50 +113,13 @@
             <version>42.2.5</version>
         </dependency>
         
-        
-        <!-- The following dependencies are only needed for automated unit tests, you do not necessarily need them to run the example. -->
-        <!-- <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlets</artifactId>
-            <scope>test</scope>
-            <version>${jetty_version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <scope>test</scope>
-            <version>${jetty_version}</version>            
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <scope>test</scope>
-            <version>${jetty_version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-util</artifactId>
-            <scope>test</scope>
-            <version>${jetty_version}</version>
-        </dependency>-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <scope>test</scope>
             <version>${jetty_version}</version>
 		</dependency>
-		
-        <!--
-        For some reason JavaDoc crashed during site generation unless we have this dependency
-        -->
-        
-        <!-- <dependency>
-            <groupId>javax.interceptor</groupId>
-            <artifactId>javax.interceptor-api</artifactId>
-            <scope>provided</scope>
-        </dependency>-->
-        
-        
+             
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
