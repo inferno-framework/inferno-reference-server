@@ -1,0 +1,42 @@
+{
+  "id": "5fb87e03-468d-41d5-a741-615cb97fae32",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "5fb87e03-468d-41d5-a741-615cb97fae32"
+    }
+  ],
+  "active": true,
+  "type": "person",
+  "actual": true,
+  "name": "Synthea US Core Patients",
+  "quantity": 5,
+  "member": [
+    {
+      "entity": {
+        "reference": "urn:uuid:96cfdb79-ab84-444a-a53e-9136cb619618"
+      }
+    },
+    {
+      "entity": {
+        "reference": "urn:uuid:7b4cf3d5-26bd-4c44-8f45-f11928c63c0e"
+      }
+    },
+    {
+      "entity": {
+        "reference": "urn:uuid:8effc322-4f03-4dd6-89dc-810af24f9046"
+      }
+    },
+    {
+      "entity": {
+        "reference": "urn:uuid:c4e2411d-aa66-43d3-b9a8-a763353c4449"
+      }
+    },
+    {
+      "entity": {
+        "reference": "urn:uuid:cc3bf71c-1e1a-47d6-89e1-87e369e3802d"
+      }
+    }
+  ],
+  "resourceType": "Group"
+}
