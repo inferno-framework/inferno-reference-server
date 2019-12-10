@@ -2,6 +2,7 @@ package org.mitre.fhir.authorization;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Enumeration;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
@@ -155,18 +157,50 @@ public class AuthorizationController {
 		if (patient == null) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
 		}
-
+		
 		// get their id
 		String patientId = patient.getIdElement().getIdPart();
+				
+		//get encounter
+		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
+				.execute();
+		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
+		Encounter encounter = null;
+		for (BundleEntryComponent bundleEntryComponent : encounters) {
+			if (bundleEntryComponent.getResource().fhirType().equals("Encounter")) {
+				encounter = (Encounter) bundleEntryComponent.getResource();
+				break;
+			}
+		}
+
+		if (encounter == null) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+		}
+		
+		String encounterId = encounter.getIdElement().getIdPart();
 
 		JSONObject tokenJSON = new JSONObject();
 
+		List<String> scopesList = Arrays.asList(scopes.split(" "));
+		
 		tokenJSON.put("access_token", FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN);
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
 		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
 		tokenJSON.put("scope", scopes);
-		tokenJSON.put("patient", patientId);
+		
+		if (scopesList.contains("launch/patient"))
+		{
+			tokenJSON.put("patient", patientId);
+		}
+		
+		if (scopesList.contains("launch/encounter"))
+		{
+			tokenJSON.put("encounter", encounterId);
+		}		
+		
 		tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
 
 		return tokenJSON.toString();
