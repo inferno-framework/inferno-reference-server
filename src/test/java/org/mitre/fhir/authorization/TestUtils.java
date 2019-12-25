@@ -1,9 +1,16 @@
 package org.mitre.fhir.authorization;
 
 import java.util.Base64;
+import java.util.List;
 import java.util.Base64.Encoder;
 
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.FhirUtils;
+
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 public class TestUtils {
 
@@ -24,6 +31,36 @@ public class TestUtils {
 		String decodedValue = getBasicAuthorizationString(clientId, clientSecret);
 		String encodedValue = encoder.encodeToString(decodedValue.getBytes());
 		return "Basic " + encodedValue;
+	}
+	
+	public static void clearDB(IGenericClient ourClient) {
+		
+		//maybe add a line to confirm this is localhost 
+		
+		clearAllPatientsFromDB(ourClient);
+		clearAllEncountersFromDB(ourClient);
+	}
+	
+	private static void clearAllPatientsFromDB(IGenericClient ourClient)
+	{
+		List<BundleEntryComponent> patients = FhirUtils.getAllPatients(ourClient);
+								
+		for (BundleEntryComponent bundleEntryComponent : patients) {
+			Patient patient = (Patient) bundleEntryComponent.getResource();
+			System.out.println("Deleting Patient " + patient.getIdElement().getIdPart());
+			ourClient.delete().resource(patient).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE).execute();
+		}
+	}
+	
+	private static void clearAllEncountersFromDB(IGenericClient ourClient)
+	{
+			List<BundleEntryComponent> encounters = FhirUtils.getAllEncounters(ourClient);
+		
+		for (BundleEntryComponent bundleEntryComponent : encounters) {
+			Encounter encounter = (Encounter) bundleEntryComponent.getResource();
+			System.out.println("Deleting Encounter " + encounter.getIdElement().getIdPart());
+			ourClient.delete().resource(encounter).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE).execute();
+		}			
 	}
 
 }
