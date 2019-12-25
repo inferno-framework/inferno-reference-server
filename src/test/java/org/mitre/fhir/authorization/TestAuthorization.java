@@ -102,7 +102,7 @@ public class TestAuthorization {
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.setLocalAddr("localhost");
 			request.setRequestURI(serverBaseUrl);
-			request.setServerPort(1234);
+			request.setServerPort(TestUtils.TEST_PORT);
 
 			authorizationController.getToken("INVALID_CODE", null, null, request);
 			// did not get expected exception
@@ -126,7 +126,7 @@ public class TestAuthorization {
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.setLocalAddr("localhost");
 			request.setRequestURI(serverBaseUrl);
-			request.setServerPort(1234);
+			request.setServerPort(TestUtils.TEST_PORT);
 
 			authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
 			// did not get expected exception
@@ -148,7 +148,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE.aGVsbG8=",
@@ -171,7 +171,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE",
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
@@ -193,7 +193,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		String scope = "/patient openId _-\\/";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
@@ -224,7 +224,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		// shouldn't throw an exception
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE,
@@ -238,7 +238,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, "INVALID_CLIENT_ID", null, request);
 	}
@@ -250,7 +250,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 	}
@@ -262,7 +262,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
@@ -275,7 +275,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
@@ -289,7 +289,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		String scope = "launch/patient openId ";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
@@ -316,7 +316,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		String scope = "";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
@@ -343,7 +343,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		String scope = "launch/patient launch/encounter ";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
@@ -370,7 +370,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		String scope = "launch/encounter ";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
@@ -397,7 +397,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader("INVALID_CLIENT_ID",
 				FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
 		String encodedScopes = "";
@@ -412,7 +412,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization",
 				TestUtils.getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID,
 						FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
@@ -428,7 +428,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
 				FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID, "Invalid Client Secret"));
 
@@ -442,7 +442,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		ResponseEntity<String> tokenResponseEntity = authorizationController
@@ -466,7 +466,6 @@ public class TestAuthorization {
 	@AfterClass
 	public static void afterClass() throws Exception {
 
-
 		// delete test patient and encounter
 		ourClient.delete().resourceById(testPatientId)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
@@ -479,7 +478,7 @@ public class TestAuthorization {
 		testPatientId = null;
 		testEncounterId = null;
 
-		//clear db just in case there are any erroneous patients or encounters
+		// clear db just in case there are any erroneous patients or encounters
 		TestUtils.clearDB(ourClient);
 
 		ourServer.stop();
@@ -495,7 +494,7 @@ public class TestAuthorization {
 		Log.info("Project base path is: " + path + " is our port " + ourPort);
 
 		if (ourPort == 0) {
-			ourPort = 1234;
+			ourPort = TestUtils.TEST_PORT;
 		}
 		ourServer = new Server(ourPort);
 
