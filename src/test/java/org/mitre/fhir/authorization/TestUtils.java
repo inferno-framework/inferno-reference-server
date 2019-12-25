@@ -17,6 +17,8 @@ public class TestUtils {
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	public static final String AUTHORIZATION_HEADER_BEARER_VALUE = "Bearer SAMPLE_ACCESS_TOKEN";
 
+	public static final int TEST_PORT = 1234;
+	
 	public static String getBasicAuthorizationString(String clientId, String clientSecret) {
 		return clientId + ":" + clientSecret;
 	}
@@ -35,7 +37,11 @@ public class TestUtils {
 	
 	public static void clearDB(IGenericClient ourClient) {
 		
-		//maybe add a line to confirm this is localhost 
+		//confirm that this is only being called on test data
+		if (!ourClient.getServerBase().startsWith("http://localhost:" + TEST_PORT))
+		{
+			throw new RuntimeException("ClearDB should ONLY be used on tests!");
+		}
 		
 		clearAllPatientsFromDB(ourClient);
 		clearAllEncountersFromDB(ourClient);
