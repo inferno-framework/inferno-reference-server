@@ -36,6 +36,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.github.dnault.xmlpatch.internal.Log;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 @RestController
@@ -133,53 +134,13 @@ public class AuthorizationController {
 	 * @return token JSON String
 	 */
 	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes) {
-
+		
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
-
 		FhirContext fhirContext = FhirContext.forR4();
 		IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
 
-		// get the first patient in the db
-		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
-				.execute();
-		List<BundleEntryComponent> patients = patientsBundle.getEntry();
-		Patient patient = null;
-		for (BundleEntryComponent bundleEntryComponent : patients) {
-			if (bundleEntryComponent.getResource().fhirType().equals("Patient")) {
-				patient = (Patient) bundleEntryComponent.getResource();
-				break;
-			}
-		}
-
-		if (patient == null) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
-		}
 		
-		// get their id
-		String patientId = patient.getIdElement().getIdPart();
-				
-		//get encounter
-		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
-				.execute();
-		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
-		Encounter encounter = null;
-		for (BundleEntryComponent bundleEntryComponent : encounters) {
-			if (bundleEntryComponent.getResource().fhirType().equals("Encounter")) {
-				encounter = (Encounter) bundleEntryComponent.getResource();
-				break;
-			}
-		}
-
-		if (encounter == null) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
-		}
-		
-		String encounterId = encounter.getIdElement().getIdPart();
 
 		JSONObject tokenJSON = new JSONObject();
 
@@ -190,14 +151,31 @@ public class AuthorizationController {
 		tokenJSON.put("expires_in", 3600);
 		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
 		tokenJSON.put("scope", scopes);
+
+		
+		Patient patient = getFirstPatient(client);
+
+		if (patient == null) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
+		}
+		
+		// get their id
+		String patientId = patient.getIdElement().getIdPart();
 		
 		if (scopesList.contains("launch/patient"))
 		{
 			tokenJSON.put("patient", patientId);
-		}
+		}		
 		
 		if (scopesList.contains("launch/encounter"))
 		{
+			Encounter encounter = getFirstEncounter(client);
+	
+			if (encounter == null) {
+				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+			}
+			
+			String encounterId = encounter.getIdElement().getIdPart();		
 			tokenJSON.put("encounter", encounterId);
 		}		
 		
@@ -227,6 +205,48 @@ public class AuthorizationController {
 				.withAudience(clientId).withClaim("fhirUser", fhirUserURL).sign(algorithm);
 
 		return token;
+	}
+	
+	private Patient getFirstPatient(IGenericClient client)
+	{
+
+		Patient patient = null;
+		
+		// get the first patient in the db
+		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class).count(100).cacheControl(new CacheControlDirective().setNoCache(true))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
+				.execute();
+		List<BundleEntryComponent> patients = patientsBundle.getEntry();
+		for (BundleEntryComponent bundleEntryComponent : patients) {
+			if (bundleEntryComponent.getResource().fhirType().equals("Patient")) {
+				patient = (Patient) bundleEntryComponent.getResource();
+				break;
+			}
+		}
+		
+		return patient;
+	}
+	
+	private Encounter getFirstEncounter(IGenericClient client)
+	{
+		Encounter encounter = null;
+
+		//List<BundleEntryComponent> encounters = FhirUtils.getAllEncounters(client);
+		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class).count(100).cacheControl(new CacheControlDirective().setNoCache(true))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
+				.execute();
+		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
+		
+		for (BundleEntryComponent bundleEntryComponent : encounters) {
+			if (bundleEntryComponent.getResource().fhirType().equals("Encounter")) {
+				encounter = (Encounter) bundleEntryComponent.getResource();
+				break;
+			}
+		}
+		
+		return encounter;
 	}
 
 	private static String getBasicHeader(HttpServletRequest request) {
@@ -268,5 +288,6 @@ public class AuthorizationController {
 			throw new InvalidClientSecretException();
 		}
 	}
+	
 
 }
