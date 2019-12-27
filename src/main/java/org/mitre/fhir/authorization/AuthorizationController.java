@@ -110,7 +110,7 @@ public class AuthorizationController {
 			return generateBearerTokenResponse(request, clientId, scopes);
 		}
 
-		throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid code");
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
 	}
 
 	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId, String scopes) {
