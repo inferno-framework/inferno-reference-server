@@ -4,6 +4,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -100,8 +101,23 @@ public class AuthorizationController {
 			}
 		}
 		
+		String actualRefreshToken = "";
+		if (refreshToken != null)
+		{
+			//the provided code is actualcode.scopes
+			String[] refreshTokenAndScopes = refreshToken.split("\\."); 
+			actualRefreshToken = refreshTokenAndScopes[0];
+			
+			//if scope was included*/
+			if (refreshTokenAndScopes.length >= 2)
+			{
+				String encodedScopes = refreshTokenAndScopes[1];
+			    scopes = new String(Base64.getDecoder().decode(encodedScopes));
+			}
+		}
+		
 		// if refresh token is provided, then service will return refreshed token
-		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
+		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualRefreshToken)) {
 			return generateBearerTokenResponse(request, clientId, scopes);
 		}
 
@@ -160,11 +176,14 @@ public class AuthorizationController {
 		String patientId = patient.getIdElement().getIdPart();
 
 		JSONObject tokenJSON = new JSONObject();
+		
+		Encoder encoder = Base64.getUrlEncoder();
+		String encodedScopes = encoder.encodeToString(scopes.getBytes());
 
 		tokenJSON.put("access_token", FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN);
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
-		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
+		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN + "." + encodedScopes);
 		tokenJSON.put("scope", scopes);
 		tokenJSON.put("patient", patientId);
 		tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
