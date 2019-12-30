@@ -22,21 +22,9 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MitreServerConfig extends BaseJavaConfigR4 {
 
-    // Uncomment this to only support certain resource types.
-    // @Override
-    // protected boolean isSupported(String resourceType) {
-    // 	return resourceType.startsWith("Patient") || resourceType.startsWith("Account");
-    // }
-
     @Bean
     public DaoConfig daoConfig() {
         DaoConfig config = new DaoConfig();
-        // config.setAllowMultipleDelete(true);
-        // config.addSupportedSubscriptionType(Subscription.SubscriptionChannelType.RESTHOOK);
-        // config.addSupportedSubscriptionType(Subscription.SubscriptionChannelType.WEBSOCKET);
-        // config.addSupportedSubscriptionType(Subscription.SubscriptionChannelType.EMAIL);
-        // config.setSubscriptionMatchingEnabled(true);
-
         config.setAllowExternalReferences(true);
         config.getTreatBaseUrlsAsLocal().add("http://hl7.org/fhir/us/core/");
         return config;
@@ -56,8 +44,7 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
         {
         	//org.apache.derby.jdbc.EmbeddedDriver
         	HapiReferenceServerProperties hapiReferenceServerProperties = new HapiReferenceServerProperties();
-        	
-        	
+       	        	
         	String driverName = hapiReferenceServerProperties.getDataSourceDriver();
         	String url = hapiReferenceServerProperties.getDataSourceUrl();
         	String username = hapiReferenceServerProperties.getDataSourceUsername();
@@ -78,7 +65,6 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
         
         catch(Exception e)
         {
-        	System.out.println("Got Here !!!!!");
 			e.printStackTrace();
 			System.exit(0);
         }                
@@ -111,12 +97,12 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
         properties.put("hibernate.cache.use_second_level_cache", hapiReferenceServerProperties.getHibernateCacheUseSecondLevelCache());
         properties.put("hibernate.cache.use_structured_entries", hapiReferenceServerProperties.getHibernateCacheUseStructuredEntries());
         properties.put("hibernate.cache.use_minimal_puts", hapiReferenceServerProperties.getHibernateCacheUseMinimalPuts());
-        // TODO: Configure lucerne search directory.
+
         properties.put("hibernate.search.model_mapping", hapiReferenceServerProperties.getHibernateSearchModelMapping());
         properties.put("hibernate.search.default.directory_provider", hapiReferenceServerProperties.getHibernateSearchDefaultDirectoryProvider());
         properties.put("hibernate.search.default.indexBase", hapiReferenceServerProperties.getHibernateSearchDefaultIndexBase());
         properties.put("hibernate.search.lucene_version", hapiReferenceServerProperties.getHibernateSearchLuceneVersion());
-        // extraProperties.put("hibernate.search.default.worker.execution", "async");
+
         return properties;
     	
     }
@@ -125,11 +111,6 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     public ResponseHighlighterInterceptor responseHighlighterInterceptor() {
         return new ResponseHighlighterInterceptor();
     }
-
-    // @Bean
-    // public IServerInterceptor subscriptionSecurityInterceptor() {
-    //     return new SubscriptionsRequireManualActivationInterceptorR4();
-    // }
 
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
