@@ -30,7 +30,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.dnault.xmlpatch.internal.Log;
 
 import static org.junit.Assert.assertEquals;
 import org.eclipse.jetty.server.Server;
@@ -38,9 +37,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
 public class TestAuthorization {
 
@@ -49,8 +46,6 @@ public class TestAuthorization {
 	private static int ourPort;
 	private static Server ourServer;
 	private static String ourServerBase;
-
-	static List<String> messages = new ArrayList<String>();
 
 	private static IIdType testPatientId;
 	private static IIdType testEncounterId;
@@ -66,8 +61,6 @@ public class TestAuthorization {
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute().getId();
 
-		messages.add("Line 66 Adding patient " + id.getIdPart());
-
 		Patient pt2 = ourClient.read().resource(Patient.class).withId(id)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
@@ -77,8 +70,6 @@ public class TestAuthorization {
 		ourClient.delete().resourceById(id)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
-
-		messages.add("Line 83 Deleting patient " + id.getIdPart());
 
 	}
 
@@ -105,13 +96,11 @@ public class TestAuthorization {
 			request.setServerPort(TestUtils.TEST_PORT);
 
 			authorizationController.getToken("INVALID_CODE", null, null, request);
-			// did not get expected exception
 			Assert.fail("Did not get expected Unauthorized ResponseStatusException");
 		}
 
 		catch (ResponseStatusException rse) {
 			if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
-				// did not get expected exception with correct response code
 				throw rse;
 			}
 		}
@@ -129,13 +118,11 @@ public class TestAuthorization {
 			request.setServerPort(TestUtils.TEST_PORT);
 
 			authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
-			// did not get expected exception
 			Assert.fail("Did not get expected Unauthorized ResponseStatusException");
 		}
 
 		catch (ResponseStatusException rse) {
 			if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
-				// did not get expected exception with correct response code
 				throw rse;
 			}
 		}
@@ -455,10 +442,8 @@ public class TestAuthorization {
 		DecodedJWT decoded = JWT.decode(idToken);
 		Algorithm algorithm = Algorithm.RSA256(RSAUtils.getRSAPublicKey(), null);
 
-		// verify signature
 		JWT.require(algorithm).build().verify(decoded);
 
-		// test some of the fields of decoded jwt
 		Assert.assertEquals("RS256", decoded.getAlgorithm());
 		Assert.assertNotNull(decoded.getClaim("fhirUser"));
 	}
@@ -490,8 +475,6 @@ public class TestAuthorization {
 		String path = Paths.get("").toAbsolutePath().toString();
 
 		ourCtx = FhirContext.forR4();
-
-		Log.info("Project base path is: " + path + " is our port " + ourPort);
 
 		if (ourPort == 0) {
 			ourPort = TestUtils.TEST_PORT;

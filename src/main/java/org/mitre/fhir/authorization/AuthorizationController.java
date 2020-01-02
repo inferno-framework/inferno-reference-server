@@ -212,8 +212,7 @@ public class AuthorizationController {
 
 		Patient patient = null;
 		
-		// get the first patient in the db
-		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class).count(100).cacheControl(new CacheControlDirective().setNoCache(true))
+		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
 						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
 				.execute();
@@ -232,8 +231,7 @@ public class AuthorizationController {
 	{
 		Encounter encounter = null;
 
-		//List<BundleEntryComponent> encounters = FhirUtils.getAllEncounters(client);
-		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class).count(100).cacheControl(new CacheControlDirective().setNoCache(true))
+		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
 						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
 				.execute();
