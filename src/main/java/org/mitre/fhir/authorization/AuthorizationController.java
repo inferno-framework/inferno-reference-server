@@ -162,12 +162,12 @@ public class AuthorizationController {
 		// get their id
 		String patientId = patient.getIdElement().getIdPart();
 		
-		if (scopesList.contains("launch/patient"))
+		if (scopesList.contains("launch") || scopesList.contains("launch/patient"))
 		{
 			tokenJSON.put("patient", patientId);
 		}		
 		
-		if (scopesList.contains("launch/encounter"))
+		if (scopesList.contains("launch") || scopesList.contains("launch/encounter"))
 		{
 			Encounter encounter = getFirstEncounter(client);
 	
