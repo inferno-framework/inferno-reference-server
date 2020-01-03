@@ -13,6 +13,7 @@ import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RSAUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.CapabilityStatement;
+import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
 import org.json.JSONObject;
 import org.junit.AfterClass;
@@ -29,7 +30,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.dnault.xmlpatch.internal.Log;
 
 import static org.junit.Assert.assertEquals;
 import org.eclipse.jetty.server.Server;
@@ -46,11 +46,9 @@ public class TestAuthorization {
 	private static int ourPort;
 	private static Server ourServer;
 	private static String ourServerBase;
-	private static IIdType testPatientId;
 
-	static {
-		ourCtx = FhirContext.forR4();
-	}
+	private static IIdType testPatientId;
+	private static IIdType testEncounterId;
 
 	@Test
 	public void testCreateAndRead() {
@@ -68,10 +66,11 @@ public class TestAuthorization {
 				.execute();
 		assertEquals(methodName, pt2.getName().get(0).getFamily());
 
-		// delete the new entry so the db
+		// delete the new entry so the db won't have a leftover artifact
 		ourClient.delete().resourceById(id)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
+
 	}
 
 	@Test(expected = AuthenticationException.class)
@@ -94,21 +93,19 @@ public class TestAuthorization {
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.setLocalAddr("localhost");
 			request.setRequestURI(serverBaseUrl);
-			request.setServerPort(1234);
+			request.setServerPort(TestUtils.TEST_PORT);
 
 			authorizationController.getToken("INVALID_CODE", null, null, request);
-			// did not get expected exception
 			Assert.fail("Did not get expected Unauthorized ResponseStatusException");
 		}
 
 		catch (ResponseStatusException rse) {
 			if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
-				// did not get expected exception with correct response code
 				throw rse;
 			}
 		}
 	}
-	
+
 	@Test
 	public void testTestAuthorizationWithNullCode() {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -118,21 +115,18 @@ public class TestAuthorization {
 			MockHttpServletRequest request = new MockHttpServletRequest();
 			request.setLocalAddr("localhost");
 			request.setRequestURI(serverBaseUrl);
-			request.setServerPort(1234);
+			request.setServerPort(TestUtils.TEST_PORT);
 
 			authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
-			//did not get expected exception
 			Assert.fail("Did not get expected Unauthorized ResponseStatusException");
 		}
 
 		catch (ResponseStatusException rse) {
 			if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
-				//did not get expected exception with correct response code
 				throw rse;
 			}
 		}
 	}
-
 
 	@Test
 	public void testTestAuthorizationWithValidCode() throws IOException {
@@ -141,7 +135,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE.aGVsbG8=",
@@ -156,7 +150,7 @@ public class TestAuthorization {
 
 		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
 	}
-	
+
 	@Test
 	public void testReadScopeNoScopeProvided() throws IOException {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -164,10 +158,10 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE", "SAMPLE_PUBLIC_CLIENT_ID",
-				null, request);
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE",
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -186,13 +180,13 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
-		String scope= "/patient openId _-\\/";
+		String scope = "/patient openId _-\\/";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
-		
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID",
-				null, request);
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -203,7 +197,7 @@ public class TestAuthorization {
 
 		Assert.assertEquals(scope, scopeResult);
 	}
-	
+
 	@Test
 	public void testCapabilityStatementNotBlockedByInterceptor() {
 		// should throw an exception if intercepter does not white list it
@@ -217,7 +211,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		// shouldn't throw an exception
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE,
@@ -231,7 +225,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, "INVALID_CLIENT_ID", null, request);
 	}
@@ -243,7 +237,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
 	}
@@ -255,10 +249,132 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+	}
+
+	@Test
+	public void testGetTokenNoPatientScopeProvided() {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+
+	}
+
+	@Test
+	public void testGetTokenNoEncounterScopeProvided() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+
+		String scope = "launch/patient openId ";
+		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		JsonNode patientId = jsonNode.get("patient");
+		JsonNode encounterId = jsonNode.get("encounter");
+
+		Assert.assertNotNull(patientId);
+		Assert.assertNull(encounterId);
+	}
+
+	@Test
+	public void testGetTokenNoPatientOrEncounterScopeProvided() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+
+		String scope = "";
+		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		JsonNode patientId = jsonNode.get("patient");
+		JsonNode encounterId = jsonNode.get("encounter");
+
+		Assert.assertNull(patientId);
+		Assert.assertNull(encounterId);
+	}
+
+	@Test
+	public void testPatientAndEncounterScopeProvided() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+
+		String scope = "launch/patient launch/encounter ";
+		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		String patientId = jsonNode.get("patient").asText();
+		String encounterId = jsonNode.get("encounter").asText();
+
+		Assert.assertNotNull(patientId);
+		Assert.assertNotNull(encounterId);
+	}
+
+	@Test
+	public void testNoPatientScopeButEncounterScopeProvided() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+
+		String scope = "launch/encounter ";
+		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		JsonNode patientId = jsonNode.get("patient");
+		JsonNode encounterId = jsonNode.get("encounter");
+
+		Assert.assertNull(patientId);
+		Assert.assertNotNull(encounterId);
 	}
 
 	@Test(expected = InvalidClientIdException.class)
@@ -268,11 +384,12 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader("INVALID_CLIENT_ID",
 				FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
-
-		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+		String encodedScopes = "";
+		String code = FhirReferenceServerUtils.SAMPLE_CODE + encodedScopes;
+		authorizationController.getToken(code, null, null, request);
 	}
 
 	@Test
@@ -282,9 +399,10 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
-		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
-				FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID, FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
+		request.setServerPort(TestUtils.TEST_PORT);
+		request.addHeader("Authorization",
+				TestUtils.getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID,
+						FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
 
 		// no error should be thrown
 		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
@@ -297,7 +415,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
 				FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID, "Invalid Client Secret"));
 
@@ -311,7 +429,7 @@ public class TestAuthorization {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setLocalAddr("localhost");
 		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
 		ResponseEntity<String> tokenResponseEntity = authorizationController
@@ -324,31 +442,42 @@ public class TestAuthorization {
 		DecodedJWT decoded = JWT.decode(idToken);
 		Algorithm algorithm = Algorithm.RSA256(RSAUtils.getRSAPublicKey(), null);
 
-		// verify signature
 		JWT.require(algorithm).build().verify(decoded);
 
-		// test some of the fields of decoded jwt
 		Assert.assertEquals("RS256", decoded.getAlgorithm());
 		Assert.assertNotNull(decoded.getClaim("fhirUser"));
 	}
 
 	@AfterClass
 	public static void afterClass() throws Exception {
-		// delete test Patient that was added in @Before class
+
+		// delete test patient and encounter
 		ourClient.delete().resourceById(testPatientId)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
+
+		ourClient.delete().resourceById(testEncounterId)
+				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.execute();
+
+		testPatientId = null;
+		testEncounterId = null;
+
+		// clear db just in case there are any erroneous patients or encounters
+		TestUtils.clearDB(ourClient);
+
 		ourServer.stop();
 	}
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
+
 		String path = Paths.get("").toAbsolutePath().toString();
 
-		Log.info("Project base path is: " + path + " is our port " + ourPort);
+		ourCtx = FhirContext.forR4();
 
 		if (ourPort == 0) {
-			ourPort = 1234;
+			ourPort = TestUtils.TEST_PORT;
 		}
 		ourServer = new Server(ourPort);
 
@@ -374,6 +503,11 @@ public class TestAuthorization {
 		Patient pt = new Patient();
 		pt.addName().setFamily("Test");
 		testPatientId = ourClient.create().resource(pt)
+				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.execute().getId();
+
+		Encounter encounter = new Encounter();
+		testEncounterId = ourClient.create().resource(encounter)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute().getId();
 
