@@ -10,6 +10,7 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -133,8 +134,6 @@ public class TestAuthorizationWithNoData {
 		System.out.println(jSONString);
 
 		JsonNode jsonNode = mapper.readTree(jSONString);
-		System.out.println("Patient in response is " + jsonNode.get("patient").asText());
-		System.out.println("Encounter in response is " + jsonNode.get("encounter").asText());
 
 	}
 
@@ -169,6 +168,13 @@ public class TestAuthorizationWithNoData {
 		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
 		ourClient.registerInterceptor(new LoggingInterceptor(true));
 		ourClient.capabilities();
+		
+	}
+	
+	@AfterClass
+	public static void afterClass() throws Exception
+	{
+		ourServer.stop();
 
 	}
 
