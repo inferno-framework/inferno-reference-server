@@ -204,9 +204,9 @@ public class AuthorizationController {
 
 		Calendar calendar = Calendar.getInstance();
 		
-		Date expiresAt = calendar.getTime();
-		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 		Date issuedAt = calendar.getTime();
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+		Date expiresAt = calendar.getTime();
 		
 		
 		
