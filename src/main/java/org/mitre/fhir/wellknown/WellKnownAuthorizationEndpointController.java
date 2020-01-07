@@ -59,15 +59,27 @@ public class WellKnownAuthorizationEndpointController {
 	}
 
 	@GetMapping(path = "/openid-configuration", produces = { "application/json" })
-	public String getSmartConfiguration(HttpServletRequest theRequest) {
+	public String getOpenIdConfiguration(HttpServletRequest theRequest) {
 
 		String uri = FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest) + "/.well-known/jwk";
 
-		JSONObject smartConfigJSON = new JSONObject();
+		JSONObject openIdConfigJSON = new JSONObject();
 
-		smartConfigJSON.put(WELL_KNOWN_JWK_URI_KEY, uri);
+		openIdConfigJSON.put("issuer", FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest));
+		openIdConfigJSON.put("authorization_endpoint", ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionURI(theRequest));
+		openIdConfigJSON.put("token_endpoint", ServerConformanceWithAuthorizationProvider.getTokenExtensionURI(theRequest));
+		openIdConfigJSON.put(WELL_KNOWN_JWK_URI_KEY, uri);
+		
+		String[] responseTypesSupported = {"code","id_token","token id_token"};
+		openIdConfigJSON.put("response_types_supported", new JSONArray(responseTypesSupported));
+		
+		String[] subjectTypesSupported = {"pairwise","public"};
+		openIdConfigJSON.put("subject_types_supported", new JSONArray(subjectTypesSupported));
 
-		return smartConfigJSON.toString();
+		String[] idTokenSigningAlgorithmValuesSupported = {"RS256"};
+		openIdConfigJSON.put("id_token_signing_alg_values_supported", new JSONArray(idTokenSigningAlgorithmValuesSupported));
+		
+		return openIdConfigJSON.toString();
 
 	}
 
