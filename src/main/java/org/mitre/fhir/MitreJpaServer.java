@@ -53,17 +53,12 @@ public class MitreJpaServer extends RestfulServer {
         // The JPA version adds resource counts to the exported statement, so it is a nice addition.
         @SuppressWarnings("unchecked")
         IFhirSystemDao<Bundle, Meta> systemDao = appContext.getBean("mySystemDaoR4", IFhirSystemDao.class);
-        //JpaConformanceProviderR4 confProvider = new JpaConformanceProviderR4(this, systemDao, appContext.getBean(DaoConfig.class));
-        //confProvider.setImplementationDescription("Example Server");
         ServerConformanceWithAuthorizationProvider confProvider = new ServerConformanceWithAuthorizationProvider(this, systemDao, appContext.getBean(DaoConfig.class));            
         confProvider.setImplementationDescription("HAPI FHIR R4 Server");            
         setServerConformanceProvider(confProvider);
 
         // Enable e-tag support.
         setETagSupport(ETagSupportEnum.ENABLED);
-
-        // Dynamically generate narratives.
-        // getFhirContext().setNarrativeGenerator(new DefaultThymeleafNarrativeGenerator());
 
         // Default to JSON and pretty printing
         setDefaultPrettyPrint(true);
@@ -84,25 +79,12 @@ public class MitreJpaServer extends RestfulServer {
         // Consider using an AuthorizationInterceptor with this feature.
         registerProvider(appContext.getBean(TerminologyUploaderProviderR4.class));
 
-        // Set a specific Java class for incoming profiles.
-        // getFhirContext().setDefaultTypeForProfile("Profile/CustomPatient", CustomPatient.class);
-
         // Add logging interceptor.
         LoggingInterceptor loggingInterceptor = new LoggingInterceptor();
         loggingInterceptor.setLoggerName("fhir.access");
         loggingInterceptor.setMessageFormat("Path[${servletPath}] Source[${requestHeader.x-forwarded-for}] Operation[${operationType} ${operationName} ${idOrResourceName}] UA[${requestHeader.user-agent}] Params[${requestParameters}] ResponseEncoding[${responseEncodingNoDefault}]");
         registerInterceptor(loggingInterceptor);
-
-        // Validate incoming instances against default profile or custom StructureDefinition.
-        // myInstanceValidatorR4 is generated as a part of hapi-fhir-jpaserver-base.
-        // IValidatorModule instanceValidator = (IValidatorModule) appContext.getBean("myInstanceValidatorR4");
-        // RequestValidatingInterceptor validatingInterceptor = new RequestValidatingInterceptor();
-        // validatingInterceptor.addValidatorModule(instanceValidator);
-        // validatingInterceptor.setFailOnSeverity(ResultSeverityEnum.WARNING);
-        // validatingInterceptor.setAddResponseHeaderOnSeverity(ResultSeverityEnum.WARNING);
-        // registerInterceptor(validatingInterceptor);
-        
-        
+              
         registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
     }
 }
