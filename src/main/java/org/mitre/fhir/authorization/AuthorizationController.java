@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -48,11 +49,10 @@ public class AuthorizationController {
 	protected void postConstruct() {
 		Log.info("Authorization Controller added");
 	}
-	
+
 	@GetMapping(path = "authorizeClientId/{clientId}", produces = { "application/json" })
-	public ResponseEntity<Boolean> validateClientId(@PathVariable String clientId)
-	{
-		authorizeClientId(clientId);	
+	public ResponseEntity<Boolean> validateClientId(@PathVariable String clientId) {
+		authorizeClientId(clientId);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
@@ -88,25 +88,36 @@ public class AuthorizationController {
 		}
 
 		authenticateClientIdAndClientSecret(clientId, clientSecret);
-		
+
 		String actualCode = null;
 		String scopes = "";
-		if (code != null)
-		{
-			//the provided code is actualcode.scopes
-			String[] codeAndScopes = code.split("\\."); 
+		if (code != null) {
+			// the provided code is actualcode.scopes
+			String[] codeAndScopes = code.split("\\.");
 			actualCode = codeAndScopes[0];
-			
-			//if scope was included*/
-			if (codeAndScopes.length >= 2)
-			{
+
+			// if scope was included
+			if (codeAndScopes.length >= 2) {
 				String encodedScopes = codeAndScopes[1];
-			    scopes = new String(Base64.getDecoder().decode(encodedScopes));
+				scopes = new String(Base64.getDecoder().decode(encodedScopes));
 			}
 		}
-		
+
+		String actualRefreshToken = "";
+		if (refreshToken != null) {
+			// the provided refresh token is actualrefreshtoken.scopes
+			String[] refreshTokenAndScopes = refreshToken.split("\\.");
+			actualRefreshToken = refreshTokenAndScopes[0];
+
+			// if scope was included
+			if (refreshTokenAndScopes.length >= 2) {
+				String encodedScopes = refreshTokenAndScopes[1];
+				scopes = new String(Base64.getDecoder().decode(encodedScopes));
+			}
+		}
+
 		// if refresh token is provided, then service will return refreshed token
-		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(refreshToken)) {
+		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualRefreshToken)) {
 			return generateBearerTokenResponse(request, clientId, scopes);
 		}
 
@@ -118,7 +129,8 @@ public class AuthorizationController {
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
 	}
 
-	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId, String scopes) {
+	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId,
+			String scopes) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noStore());
 		headers.setPragma("no-cache");
@@ -136,51 +148,49 @@ public class AuthorizationController {
 	 * @return token JSON String
 	 */
 	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes) {
-		
+
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
 		FhirContext fhirContext = FhirContext.forR4();
 		IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
 
-		
-
 		JSONObject tokenJSON = new JSONObject();
 
+		Encoder encoder = Base64.getUrlEncoder();
+		String encodedScopes = encoder.encodeToString(scopes.getBytes());
+
 		List<String> scopesList = Arrays.asList(scopes.split(" "));
-		
+
 		tokenJSON.put("access_token", FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN);
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
-		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN);
+		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN + "." + encodedScopes);
 		tokenJSON.put("scope", scopes);
 
-		
 		Patient patient = getFirstPatient(client);
 
 		if (patient == null) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
 		}
-		
+
 		// get their id
 		String patientId = patient.getIdElement().getIdPart();
-		
-		if (scopesList.contains("launch") || scopesList.contains("launch/patient"))
-		{
+
+		if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
 			tokenJSON.put("patient", patientId);
-		}		
-		
-		if (scopesList.contains("launch") || scopesList.contains("launch/encounter"))
-		{
+		}
+
+		if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
 			Encounter encounter = getFirstEncounter(client);
-	
+
 			if (encounter == null) {
 				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
 			}
-			
-			String encounterId = encounter.getIdElement().getIdPart();		
+
+			String encounterId = encounter.getIdElement().getIdPart();
 			tokenJSON.put("encounter", encounterId);
-		}		
-		
+		}
+
 		tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
 
 		return tokenJSON.toString();
@@ -221,13 +231,13 @@ public class AuthorizationController {
 		
 		return token;
 	}
-	
-	private Patient getFirstPatient(IGenericClient client)
-	{
+
+	private Patient getFirstPatient(IGenericClient client) {
 
 		Patient patient = null;
-		
-		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
+
+		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class)
+				.cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
 						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
 				.execute();
@@ -238,27 +248,27 @@ public class AuthorizationController {
 				break;
 			}
 		}
-		
+
 		return patient;
 	}
-	
-	private Encounter getFirstEncounter(IGenericClient client)
-	{
+
+	private Encounter getFirstEncounter(IGenericClient client) {
 		Encounter encounter = null;
 
-		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
+		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class)
+				.cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
 						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
 				.execute();
 		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
-		
+
 		for (BundleEntryComponent bundleEntryComponent : encounters) {
 			if (bundleEntryComponent.getResource().fhirType().equals("Encounter")) {
 				encounter = (Encounter) bundleEntryComponent.getResource();
 				break;
 			}
 		}
-		
+
 		return encounter;
 	}
 
@@ -283,7 +293,7 @@ public class AuthorizationController {
 		String decodedValue = new String(decoder.decode(encodedValue));
 		return decodedValue;
 	}
-	
+
 	private static void authorizeClientId(String clientId) {
 		if (!FhirReferenceServerUtils.SAMPLE_PUBLIC_CLIENT_ID.equals(clientId)
 				&& !FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID.equals(clientId)) {
@@ -291,9 +301,8 @@ public class AuthorizationController {
 		}
 	}
 
-
 	private static void authenticateClientIdAndClientSecret(String clientId, String clientSecret) {
-		
+
 		authorizeClientId(clientId);
 
 		if (FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID.equals(clientId)
@@ -301,6 +310,5 @@ public class AuthorizationController {
 			throw new InvalidClientSecretException();
 		}
 	}
-	
 
 }
