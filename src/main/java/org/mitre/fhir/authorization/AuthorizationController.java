@@ -5,6 +5,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.List;
@@ -210,10 +212,23 @@ public class AuthorizationController {
 		// http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
 		String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
 
+		Calendar calendar = Calendar.getInstance();
+		
+		Date issuedAt = calendar.getTime();
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+		Date expiresAt = calendar.getTime();
+		
+		
+		
 		Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
-		String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-				.withAudience(clientId).withClaim("fhirUser", fhirUserURL).sign(algorithm);
-
+		String token = JWT.create()
+				.withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
+				.withSubject("")
+				.withAudience(clientId)
+				.withExpiresAt(expiresAt)
+				.withIssuedAt(issuedAt)
+				.withClaim("fhirUser", fhirUserURL).sign(algorithm);
+		
 		return token;
 	}
 
