@@ -47,6 +47,8 @@ To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id.
 
 To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret.
 
+The Authorization Bearer Toeken is static and can be used directly by setting the `Authorization` header to `SAMPLE_ACCESS_TOKEN`.
+
 To launch an app from the EHR go to `/app-launch` 
 
 ## Contact Us
