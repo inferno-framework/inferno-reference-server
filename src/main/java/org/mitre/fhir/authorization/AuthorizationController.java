@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RSAUtils;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -49,10 +50,21 @@ public class AuthorizationController {
 	}
 
 	@GetMapping(path = "authorizeClientId/{clientId}", produces = { "application/json" })
-	public ResponseEntity<Boolean> validateClientId(@PathVariable String clientId) {
+	public String validateClientId(@PathVariable String clientId, HttpServletRequest request) {
 		authorizeClientId(clientId);
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
+				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
+		FhirContext fhirContext = FhirContext.forR4();
+		IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
+
+		Bundle patientsBundle = FhirUtils.getPatientsBundle(client);
+		String json = fhirContext.newJsonParser().encodeResourceToString(patientsBundle);
+		
+		
+		return json;
 	}
+	
+	
 
 	/**
 	 * Provide a code to get a bearer token for authorization
@@ -89,6 +101,8 @@ public class AuthorizationController {
 
 		String actualCode = null;
 		String scopes = "";
+		String patientId = "";
+		
 		if (code != null) {
 			// the provided code is actualcode.scopes
 			String[] codeAndScopes = code.split("\\.");
@@ -98,6 +112,12 @@ public class AuthorizationController {
 			if (codeAndScopes.length >= 2) {
 				String encodedScopes = codeAndScopes[1];
 				scopes = new String(Base64.getDecoder().decode(encodedScopes));
+			}
+			
+			if (codeAndScopes.length >= 3)
+			{
+				String encodedPatientId = codeAndScopes[2];
+				patientId = new String(Base64.getDecoder().decode(encodedPatientId));
 			}
 		}
 
@@ -116,24 +136,24 @@ public class AuthorizationController {
 
 		// if refresh token is provided, then service will return refreshed token
 		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualRefreshToken)) {
-			return generateBearerTokenResponse(request, clientId, scopes);
+			return generateBearerTokenResponse(request, clientId, scopes, patientId);
 		}
 
 		// if a code is passed in, return token
 		if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCode)) {
-			return generateBearerTokenResponse(request, clientId, scopes);
+			return generateBearerTokenResponse(request, clientId, scopes, patientId);
 		}
 
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
 	}
 
 	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId,
-			String scopes) {
+			String scopes, String patientId) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noStore());
 		headers.setPragma("no-cache");
 
-		String tokenJSONString = generateBearerToken(request, clientId, scopes);
+		String tokenJSONString = generateBearerToken(request, clientId, scopes, patientId);
 
 		ResponseEntity<String> responseEntity = new ResponseEntity<String>(tokenJSONString, headers, HttpStatus.OK);
 
@@ -145,7 +165,7 @@ public class AuthorizationController {
 	 * 
 	 * @return token JSON String
 	 */
-	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes) {
+	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) {
 
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
@@ -167,12 +187,12 @@ public class AuthorizationController {
 
 		Patient patient = getFirstPatient(client);
 
-		if (patient == null) {
+		if ("".equals(patientId)) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
 		}
 
 		// get their id
-		String patientId = patient.getIdElement().getIdPart();
+		//String patientId = patient.getIdElement().getIdPart();
 
 		if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
 			tokenJSON.put("patient", patientId);
