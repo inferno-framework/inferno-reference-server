@@ -35,6 +35,15 @@ public class TestUtils {
 		return "Basic " + encodedValue;
 	}
 	
+	public static String createCode(String actualCode, String scopes, String patientId)
+	{
+		String encodedScope = Base64.getEncoder().encodeToString(scopes.getBytes());
+		String encodedPatientId = Base64.getEncoder().encodeToString(patientId.getBytes());
+
+		return actualCode + "." + encodedScope + "." + encodedPatientId;
+
+	}
+	
 	public static void clearDB(IGenericClient ourClient) {
 		
 		//confirm that this is only being called on test data

@@ -37,7 +37,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Base64;
 
 public class TestAuthorization {
 
@@ -49,6 +48,8 @@ public class TestAuthorization {
 
 	private static IIdType testPatientId;
 	private static IIdType testEncounterId;
+	
+	private static final String SAMPLE_CODE = "SAMPLE_CODE"; 
 
 	@Test
 	public void testCreateAndRead() {
@@ -60,7 +61,7 @@ public class TestAuthorization {
 		IIdType id = ourClient.create().resource(pt)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute().getId();
-
+		
 		Patient pt2 = ourClient.read().resource(Patient.class).withId(id)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
@@ -138,7 +139,10 @@ public class TestAuthorization {
 		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE.aGVsbG8=",
+		String scopes = "launch/patient openId ";
+		String code = TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
+		
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(code,
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -150,7 +154,7 @@ public class TestAuthorization {
 
 		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
 	}
-
+		
 	@Test
 	public void testReadScopeNoScopeProvided() throws IOException {
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -160,7 +164,8 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE",
+		String scopes = "";
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -182,10 +187,9 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
-		String scope = "/patient openId _-\\/";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+		String scopes = "/patient openId _-\\/";
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -195,7 +199,7 @@ public class TestAuthorization {
 		JsonNode jsonNode = mapper.readTree(jSONString);
 		String scopeResult = jsonNode.get("scope").asText();
 
-		Assert.assertEquals(scope, scopeResult);
+		Assert.assertEquals(scopes, scopeResult);
 	}
 
 	@Test
@@ -213,8 +217,9 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
+		String scopes = "";
 		// shouldn't throw an exception
-		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE,
+		authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
 				FhirReferenceServerUtils.SAMPLE_PUBLIC_CLIENT_ID, null, request);
 	}
 
@@ -252,10 +257,10 @@ public class TestAuthorization {
 		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
-		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+		authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, "", testPatientId.getIdPart()), null, null, request);
 	}
 
-	@Test
+	@Test(expected = ResponseStatusException.class)
 	public void testGetTokenNoPatientScopeProvided() {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
@@ -278,10 +283,11 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
-		String scope = "launch/patient openId ";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+		String scopes = "launch/patient openId ";
+		
+		String code = TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(code,
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -305,10 +311,11 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
-		String scope = "";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+		String scopes = "";
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		String code = TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
+		
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(code,
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -332,10 +339,9 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
-		String scope = "launch/patient launch/encounter ";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+		String scopes = "launch/patient launch/encounter ";
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -359,10 +365,9 @@ public class TestAuthorization {
 		request.setRequestURI(serverBaseUrl);
 		request.setServerPort(TestUtils.TEST_PORT);
 
-		String scope = "launch/encounter ";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+		String scopes = "launch/encounter ";
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -403,9 +408,10 @@ public class TestAuthorization {
 		request.addHeader("Authorization",
 				TestUtils.getEncodedBasicAuthorizationHeader(FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID,
 						FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
-
+		String scopes = "";
+		
 		// no error should be thrown
-		authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+		authorizationController.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null, null, request);
 	}
 
 	@Test(expected = InvalidClientSecretException.class)
@@ -432,8 +438,9 @@ public class TestAuthorization {
 		request.setServerPort(TestUtils.TEST_PORT);
 		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
+		String scopes = "";
 		ResponseEntity<String> tokenResponseEntity = authorizationController
-				.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+				.getToken(TestUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null, null, request);
 		String jSONString = tokenResponseEntity.getBody();
 		JSONObject jSONObject = new JSONObject(jSONString);
 		String idToken = (String) jSONObject.get("id_token");
@@ -446,6 +453,81 @@ public class TestAuthorization {
 
 		Assert.assertEquals("RS256", decoded.getAlgorithm());
 		Assert.assertNotNull(decoded.getClaim("fhirUser"));
+	}
+	
+	@Test
+	public void testTestAuthorizationWithRefreshToken() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+		String scopes = "launch/patient openId ";
+		String refreshToken = TestUtils.createCode(FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN, scopes, testPatientId.getIdPart());
+		
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(null,
+				"SAMPLE_PUBLIC_CLIENT_ID", refreshToken, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		String accessToken = jsonNode.get("access_token").asText();
+
+		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+	}
+	
+	@Test(expected = ResponseStatusException.class)
+	public void testTestAuthorizationNoCodeAndNoRefreshToken() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+		
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(null,
+				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		String accessToken = jsonNode.get("access_token").asText();
+
+		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+	}
+	
+	@Test(expected = ResponseStatusException.class)
+	public void testTestAuthorizationInvalidRefreshToken() throws IOException {
+		AuthorizationController authorizationController = new AuthorizationController();
+		String serverBaseUrl = "";
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setLocalAddr("localhost");
+		request.setRequestURI(serverBaseUrl);
+		request.setServerPort(TestUtils.TEST_PORT);
+		request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+		
+		String scopes = "launch/patient openId ";
+		String refreshToken = TestUtils.createCode("INCORRECT_REFRESH_TOKEN", scopes, testPatientId.getIdPart());
+	
+		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(null,
+				"SAMPLE_PUBLIC_CLIENT_ID", refreshToken, request);
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String jSONString = tokenResponseEntity.getBody();
+
+		JsonNode jsonNode = mapper.readTree(jSONString);
+		String accessToken = jsonNode.get("access_token").asText();
+
+		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
 	}
 
 	@AfterClass

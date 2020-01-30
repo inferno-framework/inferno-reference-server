@@ -99,50 +99,48 @@ public class AuthorizationController {
 
 		authenticateClientIdAndClientSecret(clientId, clientSecret);
 
-		String actualCode = null;
 		String scopes = "";
 		String patientId = "";
+						
+		String fullCodeString;
 		
-		if (code != null) {
-			// the provided code is actualcode.scopes
-			String[] codeAndScopes = code.split("\\.");
-			actualCode = codeAndScopes[0];
-
-			// if scope was included
-			if (codeAndScopes.length >= 2) {
-				String encodedScopes = codeAndScopes[1];
-				scopes = new String(Base64.getDecoder().decode(encodedScopes));
-			}
-			
-			if (codeAndScopes.length >= 3)
-			{
-				String encodedPatientId = codeAndScopes[2];
-				patientId = new String(Base64.getDecoder().decode(encodedPatientId));
-			}
+		if (code != null)
+		{
+			fullCodeString = code;
 		}
-
-		String actualRefreshToken = "";
-		if (refreshToken != null) {
-			// the provided refresh token is actualrefreshtoken.scopes
-			String[] refreshTokenAndScopes = refreshToken.split("\\.");
-			actualRefreshToken = refreshTokenAndScopes[0];
-
-			// if scope was included
-			if (refreshTokenAndScopes.length >= 2) {
-				String encodedScopes = refreshTokenAndScopes[1];
-				scopes = new String(Base64.getDecoder().decode(encodedScopes));
-			}
+		
+		else if (refreshToken != null)
+		{
+			fullCodeString = refreshToken;
 		}
+		
+		else
+		{
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
+		}
+				
+		// the provided code is actualcode.scopes
+		String[] fullCode = fullCodeString.split("\\.");
+		
+		String actualCodeOrRefreshToken = fullCode[0];
 
-		// if refresh token is provided, then service will return refreshed token
-		if (FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualRefreshToken)) {
+		// if scope was included
+		if (fullCode.length >= 2) {
+			String encodedScopes = fullCode[1];
+			scopes = new String(Base64.getDecoder().decode(encodedScopes));
+		}
+		
+		if (fullCode.length >= 3)
+		{
+			String encodedPatientId = fullCode[2];
+			patientId = new String(Base64.getDecoder().decode(encodedPatientId));
+		}
+		
+		if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken) ) || (refreshToken != null && FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualCodeOrRefreshToken)))
+		{
 			return generateBearerTokenResponse(request, clientId, scopes, patientId);
 		}
-
-		// if a code is passed in, return token
-		if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCode)) {
-			return generateBearerTokenResponse(request, clientId, scopes, patientId);
-		}
+		
 
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
 	}
