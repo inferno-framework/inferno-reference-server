@@ -14,12 +14,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dnault.xmlpatch.internal.Log;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -60,17 +57,10 @@ public class TestAuthorizationWithNoData {
 		String scope = "launch/patient launch/encounter";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		authorizationController.getToken("SAMPLE_CODE." + encodedScope,
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
-		ObjectMapper mapper = new ObjectMapper();
-
-		String jSONString = tokenResponseEntity.getBody();
-
-		JsonNode jsonNode = mapper.readTree(jSONString);
-		System.out.println("Patient in response is " + jsonNode.get("patient").asText());
-		System.out.println("Encounter in response is " + jsonNode.get("encounter").asText());
-
+				
 		ourClient.delete().resourceById(patientId)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
@@ -95,17 +85,9 @@ public class TestAuthorizationWithNoData {
 		String scope = "launch/patient launch/encounter";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		authorizationController.getToken("SAMPLE_CODE." + encodedScope,
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		String jSONString = tokenResponseEntity.getBody();
-
-		JsonNode jsonNode = mapper.readTree(jSONString);
-		System.out.println("Patient in response is " + jsonNode.get("patient").asText());
-		System.out.println("Encounter in response is " + jsonNode.get("encounter").asText());
-
+		
 		ourClient.delete().resourceById(encounterId)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
@@ -125,16 +107,8 @@ public class TestAuthorizationWithNoData {
 		String scope = "launch/patient launch/encounter";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		ResponseEntity<String> tokenResponseEntity = authorizationController.getToken("SAMPLE_CODE." + encodedScope,
+		authorizationController.getToken("SAMPLE_CODE." + encodedScope,
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		String jSONString = tokenResponseEntity.getBody();
-		System.out.println(jSONString);
-
-		JsonNode jsonNode = mapper.readTree(jSONString);
-
 	}
 
 	@BeforeClass
