@@ -1,5 +1,7 @@
 package org.mitre.fhir.utils;
 
+import java.util.Base64;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class FhirReferenceServerUtils {
@@ -24,6 +26,14 @@ public class FhirReferenceServerUtils {
 
 	public static String getFhirServerBaseUrl(HttpServletRequest request) {
 		return getServerBaseUrl(request) + FHIR_SERVER_PATH;
+	}
+	
+	public static String createCode(String actualCode, String scopes, String patientId)
+	{
+		String encodedScope = Base64.getEncoder().encodeToString(scopes.getBytes());
+		String encodedPatientId = Base64.getEncoder().encodeToString(patientId.getBytes());
+
+		return actualCode + "." + encodedScope + "." + encodedPatientId;
 	}
 
 }

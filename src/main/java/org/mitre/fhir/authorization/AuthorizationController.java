@@ -7,7 +7,6 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -174,15 +173,14 @@ public class AuthorizationController {
 
 		JSONObject tokenJSON = new JSONObject();
 
-		Encoder encoder = Base64.getUrlEncoder();
-		String encodedScopes = encoder.encodeToString(scopes.getBytes());
+		String refreshToken = FhirReferenceServerUtils.createCode(FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN, scopes, patientId); 
 
 		List<String> scopesList = Arrays.asList(scopes.split(" "));
 
 		tokenJSON.put("access_token", FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN);
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
-		tokenJSON.put("refresh_token", FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN + "." + encodedScopes);
+		tokenJSON.put("refresh_token", refreshToken);
 		tokenJSON.put("scope", scopes);
 
 		Patient patient = getFirstPatient(client);

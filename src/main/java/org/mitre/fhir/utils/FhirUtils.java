@@ -58,7 +58,7 @@ public class FhirUtils {
 		CacheControlDirective cacheControlDirective = new CacheControlDirective();
 		cacheControlDirective.setNoCache(true);
 		
-		Bundle bundle = client.search().forResource(resourceName).returnBundle(Bundle.class).count(100).cacheControl(cacheControlDirective)
+		Bundle bundle = client.search().forResource(resourceName).returnBundle(Bundle.class).count(1000).cacheControl(cacheControlDirective)
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
 						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
 				.execute();
