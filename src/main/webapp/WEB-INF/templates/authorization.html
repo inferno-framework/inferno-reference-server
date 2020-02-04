@@ -11,9 +11,10 @@
   </head>
   <body>
   	<table id="patients" class="display" style="width:100%">
-        <thead>            
-          <th>Name</th>
-          <th>Select</th>
+        <thead>
+          <th align="left">ID</th>            
+          <th align="left">Name</th>
+          <th align="left">Select</th>
         </thead>
     </table>
     
@@ -47,7 +48,7 @@
         $.get(url, function(data, status) {
         
         	//populate patient picker with data
-    		debugger;
+
     		let patients = data.entry;
     		for (let i = 0; i < patients.length; i++)
     		{
@@ -67,9 +68,10 @@
     			};
     			
     			let buttonId = 'button-' + patientId;
-    			    			
+    			    						
     			patientsTable.row.add( [
-		            patient.resource.name[0].given[0],
+    				patient.resource.id,
+		            patient.resource.name[0].given[0] + " " + patient.resource.name[0].family,
 		            '<button id="' + buttonId + '" type="button">Select</button>'
 		        ] ).draw( false );
 		        
@@ -78,23 +80,10 @@
             		window.location.href = redirect;
 		        });
     		}
-    		    
-            //let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
-        
-            //redirect if client id is valid
-            //window.location.href = redirect;
         }).fail(function() {
             alert('Invalid Client ID: ' + clientId);
         });
-      }); 
-      
-      redirect = function(code, state) {
-      	  let urlParams = new URLSearchParams(window.location.search);
-      	  
-      	  let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state ;
-      	
-      }
-      
+      });       
     </script>
   </body>
 </html>

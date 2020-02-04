@@ -30,7 +30,6 @@ public class FhirUtils {
 	}
 	
 
-	//TODO: determine pagination
 	private static List<BundleEntryComponent> getAllResources(IGenericClient client, String resourceName) {
 		
 		Bundle bundle = getAllResourcesBundle(client, resourceName);
@@ -65,40 +64,4 @@ public class FhirUtils {
 		
 		return bundle;
 	}
-	
-	/*@SuppressWarnings("unchecked")
-	private static <T extends Resource> List<T> getAllResources(IGenericClient client, Class<T> clazz)
-	{
-		CacheControlDirective cacheControlDirective = new CacheControlDirective();
-		cacheControlDirective.setNoCache(true);
-		
-		Bundle bundle = client.search().forResource(clazz).returnBundle(Bundle.class).count(100).cacheControl(cacheControlDirective)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
-				.execute();
-
-		List<T> resources = new ArrayList<T>();
-
-		while (bundle != null) {
-			
-			//resources.addAll((Collection<? extends T>)bundle.getEntry());
-			for (BundleEntryComponent bundleComponentEntry : bundle.getEntry())
-			{
-				//Patient patient = (Patient) bundleEntryComponent.getResource();
-				T t = (T)bundleComponentEntry.getResource();
-				resources.add(t);
-			}
-			
-			if (bundle.getLink(Bundle.LINK_NEXT) != null) {
-				bundle = client.loadPage().next(bundle).execute();
-			}
-
-			else {
-				bundle = null;
-			}
-		}
-
-		return resources;
-	}*/
-
 }
