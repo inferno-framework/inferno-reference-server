@@ -56,6 +56,7 @@ public class TestUtils {
 			System.out.println("Deleting Patient " + patient.getIdElement().getIdPart());
 			ourClient.delete().resource(patient).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE).execute();
 		}
+	
 	}
 	
 	private static void clearAllEncountersFromDB(IGenericClient ourClient)
