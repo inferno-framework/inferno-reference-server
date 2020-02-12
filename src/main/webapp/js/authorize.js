@@ -31,7 +31,7 @@ window.mitre.fhirreferenceserver.authorize = {
         
             //populate patient picker with data
 
-            let patients = data.entry;
+            let patients = data.total > 0 ? data.entry : [];
             for (let i = 0; i < patients.length; i++)
             {
                 let patient = patients[i];
