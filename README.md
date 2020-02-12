@@ -37,7 +37,7 @@ Once you have done that, update the src/main/resources/hapi.properties to connec
 
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server.
 
-To populate the database with sample data, run `ruby upload.rb` *Note*: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb corresponds to your running fhir reference server.
+To populate the database with sample data, run `bundle install` then `bundle exec ruby upload.rb` *Note*: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb corresponds to your running fhir reference server.
 
 ## Using with Apps
 
@@ -46,6 +46,8 @@ Currently, there is no registration process. To use with an app, use the default
 To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id.
 
 To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret.
+
+The Authorization Bearer token is static and can be used directly by setting the `Authorization` header to `Bearer SAMPLE_ACCESS_TOKEN`.
 
 To launch an app from the EHR go to `/app-launch` 
 
