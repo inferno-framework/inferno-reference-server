@@ -5,7 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceSearchParamComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
+import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.UriType;
@@ -25,6 +28,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
 	public static final String AUTHORIZE_EXTENSION_URL = "authorize";
 	private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization"; 
+	
+	private static final String LOCATION_RESOURCE_TYPE = "Location";
+	private static final String NEAR_SEARCH_PARAM_NAME = "near";
 
 	
 	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
@@ -60,6 +66,21 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		
 		security.addExtension(oauthUris);		
 		rest.setSecurity(security);
+		
+		//Location searchParam "near" is missing type
+		for (CapabilityStatementRestResourceComponent capabilityStatementRestResourceComponent : rest.getResource())
+		{
+			if (LOCATION_RESOURCE_TYPE.equals(capabilityStatementRestResourceComponent.getType()))
+			{		
+				for (CapabilityStatementRestResourceSearchParamComponent searchParam : capabilityStatementRestResourceComponent.getSearchParam())
+				{				
+					if (NEAR_SEARCH_PARAM_NAME.equals(searchParam.getName()))
+					{
+						searchParam.setType(SearchParamType.NUMBER);
+					}
+				}
+			}
+		}
 		
 		return capabilityStatement;		
 	}
