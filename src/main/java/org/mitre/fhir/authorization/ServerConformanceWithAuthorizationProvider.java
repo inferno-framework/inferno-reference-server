@@ -67,7 +67,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		security.addExtension(oauthUris);		
 		rest.setSecurity(security);
 		
-		//Location searchParam "near" is missing type
+		//Location searchParam "near" is missing type, need to add it
+		//https://www.hl7.org/fhir/location.html
 		for (CapabilityStatementRestResourceComponent capabilityStatementRestResourceComponent : rest.getResource())
 		{
 			if (LOCATION_RESOURCE_TYPE.equals(capabilityStatementRestResourceComponent.getType()))
@@ -76,7 +77,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 				{				
 					if (NEAR_SEARCH_PARAM_NAME.equals(searchParam.getName()))
 					{
-						searchParam.setType(SearchParamType.NUMBER);
+						searchParam.setType(SearchParamType.SPECIAL);
 					}
 				}
 			}
