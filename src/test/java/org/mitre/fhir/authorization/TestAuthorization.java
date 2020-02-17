@@ -10,8 +10,11 @@ import org.mitre.fhir.authorization.TestUtils;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RSAUtils;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
@@ -37,6 +40,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class TestAuthorization {
 
@@ -529,7 +533,16 @@ public class TestAuthorization {
 
 		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
 	}
+	
+	@Test
+	public void testGetAllPatientsBundle()
+	{
+		Bundle bundle = FhirUtils.getPatientsBundle(ourClient);
+		List<BundleEntryComponent> bundleEntryComponents = bundle.getEntry();
 
+		Assert.assertEquals(1, bundleEntryComponents.size());
+	}
+	
 	@AfterClass
 	public static void afterClass() throws Exception {
 
