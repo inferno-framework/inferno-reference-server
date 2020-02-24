@@ -17,6 +17,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
@@ -72,11 +73,12 @@ public class AuthorizationController {
 	 * 
 	 * @param code
 	 * @return bearer token to be used for authorization
+	 * @throws JSONException 
 	 */
 	@PostMapping(path = "/token", produces = { "application/json" })
 	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
 			@RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) {
+			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) throws JSONException {
 
 		Log.info("code is " + code);
 
@@ -147,7 +149,7 @@ public class AuthorizationController {
 	}
 
 	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId,
-			String scopes, String patientId) {
+			String scopes, String patientId) throws JSONException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noStore());
 		headers.setPragma("no-cache");
@@ -163,8 +165,9 @@ public class AuthorizationController {
 	 * Generates Token in Oauth2 expected format
 	 * 
 	 * @return token JSON String
+	 * @throws JSONException 
 	 */
-	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) {
+	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws JSONException {
 
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;

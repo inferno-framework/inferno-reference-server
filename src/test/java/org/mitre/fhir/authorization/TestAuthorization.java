@@ -11,6 +11,7 @@ import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Encounter;
@@ -429,7 +430,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenGivesValidOpenId() {
+	public void testGetTokenGivesValidOpenId() throws IllegalArgumentException, RSAKeyException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();

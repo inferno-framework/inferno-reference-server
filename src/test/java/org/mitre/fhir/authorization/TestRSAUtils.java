@@ -9,6 +9,7 @@ import java.security.interfaces.RSAPublicKey;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -22,7 +23,7 @@ public class TestRSAUtils {
 	private static final String INCORRECT_TEST_PUBLIC_KEY_PATH = "/incorrect_test_key.pub";
 
 	@Test
-	public void testRSAPublicAndPrivateKey() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+	public void testRSAPublicAndPrivateKey() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, RSAKeyException {
 		// create a challenge
 		byte[] challenge = new byte[10000];
 		ThreadLocalRandom.current().nextBytes(challenge);
@@ -42,7 +43,7 @@ public class TestRSAUtils {
 	}
 
 	@Test
-	public void testReadingWithPublicKey() {
+	public void testReadingWithPublicKey() throws RSAKeyException {
 
 		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
 		Algorithm algorithm = Algorithm.RSA256(publicKey, RSAUtils.getRSAPrivateKey());
@@ -55,7 +56,7 @@ public class TestRSAUtils {
 	}
 
 	@Test(expected = SignatureVerificationException.class)
-	public void testWrongPublicKey() {
+	public void testWrongPublicKey() throws RSAKeyException {
 		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
 		Algorithm algorithm = Algorithm.RSA256(publicKey, RSAUtils.getRSAPrivateKey());
 		String token = JWT.create().withIssuer("issuer").sign(algorithm);
