@@ -7,14 +7,20 @@ import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 
 import org.mitre.fhir.authorization.TestUtils;
+import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -37,6 +43,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class TestAuthorization {
 
@@ -86,7 +93,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testTestAuthorizationWithInvalidCode() {
+	public void testTestAuthorizationWithInvalidCode() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 
 		try {
@@ -108,7 +115,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testTestAuthorizationWithNullCode() {
+	public void testTestAuthorizationWithNullCode() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 
 		try {
@@ -130,7 +137,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testTestAuthorizationWithValidCode() throws IOException {
+	public void testTestAuthorizationWithValidCode() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -156,7 +163,7 @@ public class TestAuthorization {
 	}
 		
 	@Test
-	public void testReadScopeNoScopeProvided() throws IOException {
+	public void testReadScopeNoScopeProvided() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -179,7 +186,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testReadScope() throws IOException {
+	public void testReadScope() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -209,7 +216,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenWithoutBasicAuth() {
+	public void testGetTokenWithoutBasicAuth() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -224,7 +231,7 @@ public class TestAuthorization {
 	}
 
 	@Test(expected = InvalidClientIdException.class)
-	public void testGetTokenWithoutBasicAuthAndInvalidClientId() {
+	public void testGetTokenWithoutBasicAuthAndInvalidClientId() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -236,7 +243,7 @@ public class TestAuthorization {
 	}
 
 	@Test(expected = InvalidClientIdException.class)
-	public void testGetTokenWithoutBasicAuthAndNullClientId() {
+	public void testGetTokenWithoutBasicAuthAndNullClientId() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -248,7 +255,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenWithBasicAuth() {
+	public void testGetTokenWithBasicAuth() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -261,7 +268,7 @@ public class TestAuthorization {
 	}
 
 	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoPatientScopeProvided() {
+	public void testGetTokenNoPatientScopeProvided() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -275,7 +282,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenNoEncounterScopeProvided() throws IOException {
+	public void testGetTokenNoEncounterScopeProvided() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -303,7 +310,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenNoPatientOrEncounterScopeProvided() throws IOException {
+	public void testGetTokenNoPatientOrEncounterScopeProvided() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -331,7 +338,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testPatientAndEncounterScopeProvided() throws IOException {
+	public void testPatientAndEncounterScopeProvided() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -357,7 +364,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testNoPatientScopeButEncounterScopeProvided() throws IOException {
+	public void testNoPatientScopeButEncounterScopeProvided() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -383,7 +390,7 @@ public class TestAuthorization {
 	}
 
 	@Test(expected = InvalidClientIdException.class)
-	public void testGetTokenWithBasicAuthWithInvalidClientId() {
+	public void testGetTokenWithBasicAuthWithInvalidClientId() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -398,7 +405,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenWithBasicAuthWithConfidentialClientId() {
+	public void testGetTokenWithBasicAuthWithConfidentialClientId() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -415,7 +422,7 @@ public class TestAuthorization {
 	}
 
 	@Test(expected = InvalidClientSecretException.class)
-	public void testGetTokenWithBasicAuthWithInvalidClientSecret() {
+	public void testGetTokenWithBasicAuthWithInvalidClientSecret() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -429,7 +436,7 @@ public class TestAuthorization {
 	}
 
 	@Test
-	public void testGetTokenGivesValidOpenId() {
+	public void testGetTokenGivesValidOpenId() throws IllegalArgumentException, RSAKeyException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -456,7 +463,7 @@ public class TestAuthorization {
 	}
 	
 	@Test
-	public void testTestAuthorizationWithRefreshToken() throws IOException {
+	public void testTestAuthorizationWithRefreshToken() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -482,7 +489,7 @@ public class TestAuthorization {
 	}
 	
 	@Test(expected = ResponseStatusException.class)
-	public void testTestAuthorizationNoCodeAndNoRefreshToken() throws IOException {
+	public void testTestAuthorizationNoCodeAndNoRefreshToken() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -505,7 +512,7 @@ public class TestAuthorization {
 	}
 	
 	@Test(expected = ResponseStatusException.class)
-	public void testTestAuthorizationInvalidRefreshToken() throws IOException {
+	public void testTestAuthorizationInvalidRefreshToken() throws IOException, JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -529,7 +536,16 @@ public class TestAuthorization {
 
 		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
 	}
+	
+	@Test
+	public void testGetAllPatientsBundle()
+	{
+		Bundle bundle = FhirUtils.getPatientsBundle(ourClient);
+		List<BundleEntryComponent> bundleEntryComponents = bundle.getEntry();
 
+		Assert.assertEquals(1, bundleEntryComponents.size());
+	}
+	
 	@AfterClass
 	public static void afterClass() throws Exception {
 

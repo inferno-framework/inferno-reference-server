@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 
 @RestController
 public class WellKnownAuthorizationEndpointController {
@@ -84,7 +85,7 @@ public class WellKnownAuthorizationEndpointController {
 	}
 
 	@GetMapping(path = "/jwk", produces = { "application/json" })
-	public String getJWK(HttpServletRequest theRequest) {
+	public String getJWK(HttpServletRequest theRequest) throws RSAKeyException {
 
 		Base64.Encoder encoder = Base64.getUrlEncoder();
 

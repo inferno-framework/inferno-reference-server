@@ -50,10 +50,17 @@ window.mitre.fhirreferenceserver.authorize = {
                 };
                 
                 let buttonId = 'button-' + patientId;
+                
+                let id = patient.resource.id;
+                let givenName = patient.resource.name[0].given ? patient.resource.name[0].given[0] : "";
+                let familyName = patient.resource.name[0].family || "";
+                let name = givenName + " " + familyName;
+                name = name.trim();
+                
                                             
                 patientsTable.row.add( [
-                    patient.resource.id,
-                    patient.resource.name[0].given[0] + " " + patient.resource.name[0].family,
+                    id,
+                    name,
                     '<button id="' + buttonId + '" type="button">Select</button>'
                 ] ).draw( false );
                 
