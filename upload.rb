@@ -13,7 +13,8 @@ def upload_us_core_resources
     filenames_to_retry = []
     filenames.each do |filename|
       resource = JSON.parse(File.read(filename), symbolize_names: true)
-      if filename.end_with? ".transaction.json"
+      puts "Uploading #{filename} (#{resource[:resourceType]})"
+      if resource[:resourceType] == 'Bundle' && resource[:type] == 'transaction'
 
         patient_identifier = patient_identifier_in_transaction(resource)
         record_exists = record_exists_on_server?(patient_identifier)
@@ -26,7 +27,10 @@ def upload_us_core_resources
         end
       else
         response = upload_resource(resource)
-        filenames_to_retry << filename unless response.success?
+        if !response.success?
+          puts "Error uploading #{filename}: #{response.body}"
+          filenames_to_retry << filename
+        end
       end
 
     end
@@ -83,7 +87,8 @@ def execute_transaction(transaction)
     body: transaction.to_json,
     headers: { 'Content-Type': 'application/json',
 'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
-     }
+     },
+     timeout: 300
   )
 end
 
