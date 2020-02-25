@@ -17,13 +17,15 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
+import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,12 +75,12 @@ public class AuthorizationController {
 	 * 
 	 * @param code
 	 * @return bearer token to be used for authorization
-	 * @throws JSONException 
+	 * @throws BearerTokenException 
 	 */
 	@PostMapping(path = "/token", produces = { "application/json" })
 	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
 			@RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) throws JSONException {
+			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) throws BearerTokenException {
 
 		Log.info("code is " + code);
 
@@ -149,7 +151,7 @@ public class AuthorizationController {
 	}
 
 	private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId,
-			String scopes, String patientId) throws JSONException {
+			String scopes, String patientId) throws BearerTokenException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noStore());
 		headers.setPragma("no-cache");
@@ -165,9 +167,9 @@ public class AuthorizationController {
 	 * Generates Token in Oauth2 expected format
 	 * 
 	 * @return token JSON String
-	 * @throws JSONException 
+	 * @throws BearerTokenException 
 	 */
-	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws JSONException {
+	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws BearerTokenException {
 
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
@@ -210,8 +212,15 @@ public class AuthorizationController {
 			tokenJSON.put("encounter", encounterId);
 		}
 
-		tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
-
+		try
+		{
+			tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
+		}
+		
+		catch (OpenIdTokenGenerationException openIdTokenGenerationException)
+		{
+			throw new BearerTokenException(openIdTokenGenerationException);
+		}
 		return tokenJSON.toString();
 	}
 
@@ -220,35 +229,45 @@ public class AuthorizationController {
 	 * https://openid.net/specs/openid-connect-core-1_0.html
 	 * 
 	 * @return token JSON String representing the open id token
+	 * @throws OpenIdTokenGenerationException 
 	 */
-	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, Patient patient) {
-		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
-		RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
-
-		String patientId = patient.getIdElement().getIdPart();
-
-		// for now hard coding as a Patient
-		// http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
-		String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
-
-		Calendar calendar = Calendar.getInstance();
+	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, Patient patient) throws OpenIdTokenGenerationException {
 		
-		Date issuedAt = calendar.getTime();
-		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
-		Date expiresAt = calendar.getTime();
+		try
+		{
+			RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
+			RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
+	
+			String patientId = patient.getIdElement().getIdPart();
+	
+			// for now hard coding as a Patient
+			// http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
+			String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
+	
+			Calendar calendar = Calendar.getInstance();
+			
+			Date issuedAt = calendar.getTime();
+			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+			Date expiresAt = calendar.getTime();
+			
+			
+			
+			Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
+			String token = JWT.create()
+					.withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
+					.withSubject("")
+					.withAudience(clientId)
+					.withExpiresAt(expiresAt)
+					.withIssuedAt(issuedAt)
+					.withClaim("fhirUser", fhirUserURL).sign(algorithm);
+			
+			return token;
+		}
 		
-		
-		
-		Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
-		String token = JWT.create()
-				.withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-				.withSubject("")
-				.withAudience(clientId)
-				.withExpiresAt(expiresAt)
-				.withIssuedAt(issuedAt)
-				.withClaim("fhirUser", fhirUserURL).sign(algorithm);
-		
-		return token;
+		catch (RSAKeyException rsaKeyException)
+		{
+			throw new OpenIdTokenGenerationException(rsaKeyException);
+		}
 	}
 
 	private Patient getFirstPatient(IGenericClient client) {

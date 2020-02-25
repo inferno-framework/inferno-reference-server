@@ -9,11 +9,13 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
+import org.json.JSONException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,7 +41,7 @@ public class TestAuthorizationWithNoData {
 	private static String ourServerBase;
 
 	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoEncounterProvided() throws IOException {
+	public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
 		// add a patient
 		Patient pt = new Patient();
 		pt.addName().setFamily("Test");
@@ -68,7 +70,7 @@ public class TestAuthorizationWithNoData {
 	}
 
 	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoPatientProvided() throws IOException {
+	public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
 
 		Encounter encounter = new Encounter();
 		IIdType encounterId = ourClient.create().resource(encounter)
@@ -95,7 +97,7 @@ public class TestAuthorizationWithNoData {
 	}
 
 	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoPatientOrEncounter() throws IOException {
+	public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
 
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
