@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ca.uhn.fhir.jpa.dao.DaoConfig;
 import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.r4.JpaConformanceProviderR4;
+import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 
 public class ServerConformanceWithAuthorizationProvider extends JpaConformanceProviderR4 {
@@ -36,12 +37,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
 			IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
 		super(theRestfulServer, theSystemDao, theDaoConfig);
+		
 		setCache(false); //set cache to false to prevent caching and readding elements in getServerConformance
+	
 	}
 	
 	@Override
-	public CapabilityStatement getServerConformance(HttpServletRequest theRequest) {
-		CapabilityStatement capabilityStatement = super.getServerConformance(theRequest);
+	public CapabilityStatement getServerConformance(HttpServletRequest theRequest, RequestDetails theRequestDetails) {
+		CapabilityStatement capabilityStatement = super.getServerConformance(theRequest, theRequestDetails);
 				
 		CapabilityStatementRestComponent rest = capabilityStatement.getRest().get(0);
 		
