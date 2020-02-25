@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.mitre.fhir.wellknown.WellKnownAuthorizationEndpointController;
 
 public class TestWellKnownEndpoint {
@@ -45,7 +46,7 @@ public class TestWellKnownEndpoint {
 	}
 	
 	@Test 
-	public void testGetJWKModulusAndExponent()
+	public void testGetJWKModulusAndExponent() throws IllegalArgumentException, RSAKeyException
 	{
 		WellKnownAuthorizationEndpointController wellKnownEndpoint = new WellKnownAuthorizationEndpointController();
 		MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
