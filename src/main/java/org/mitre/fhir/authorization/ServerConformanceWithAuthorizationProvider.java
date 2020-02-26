@@ -36,10 +36,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	
 	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
 			IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
-		super(theRestfulServer, theSystemDao, theDaoConfig);
-		
-		setCache(false); //set cache to false to prevent caching and readding elements in getServerConformance
-	
+		super(theRestfulServer, theSystemDao, theDaoConfig);	
 	}
 	
 	@Override

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mitre.fhir</groupId>
-    <artifactId>inferno-fhir-reference-server</artifactId>
+    <artifactId>inferno-reference-server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
