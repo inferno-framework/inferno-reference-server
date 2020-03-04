@@ -32,6 +32,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	
 	private static final String LOCATION_RESOURCE_TYPE = "Location";
 	private static final String NEAR_SEARCH_PARAM_NAME = "near";
+	
+	private static final String SEARCH_REV_INCLUDE = "Provenance:target";
 
 	
 	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
@@ -71,6 +73,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		//https://www.hl7.org/fhir/location.html
 		for (CapabilityStatementRestResourceComponent capabilityStatementRestResourceComponent : rest.getResource())
 		{
+			capabilityStatementRestResourceComponent.addSearchRevInclude(SEARCH_REV_INCLUDE);
+
 			if (LOCATION_RESOURCE_TYPE.equals(capabilityStatementRestResourceComponent.getType()))
 			{		
 				for (CapabilityStatementRestResourceSearchParamComponent searchParam : capabilityStatementRestResourceComponent.getSearchParam())
