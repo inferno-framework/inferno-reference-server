@@ -4,8 +4,8 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.dao.DaoConfig;
 import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
+import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
-import ca.uhn.fhir.jpa.provider.r4.TerminologyUploaderProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
 import ca.uhn.fhir.jpa.subscription.SubscriptionInterceptorLoader;
 import ca.uhn.fhir.jpa.util.ResourceProviderFactory;
@@ -77,7 +77,7 @@ public class MitreJpaServer extends RestfulServer {
         // This allows uploading of external terminologies such as Snomed CT.
         // It does not have any security attached (any anonymous user may use it by default).
         // Consider using an AuthorizationInterceptor with this feature.
-        registerProvider(appContext.getBean(TerminologyUploaderProviderR4.class));
+        registerProvider(appContext.getBean(TerminologyUploaderProvider.class));
 
         // Add logging interceptor.
         LoggingInterceptor loggingInterceptor = new LoggingInterceptor();

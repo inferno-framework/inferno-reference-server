@@ -9,7 +9,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
-import org.json.JSONException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
