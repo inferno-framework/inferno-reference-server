@@ -23,7 +23,10 @@ def upload_us_core_resources
           puts "Patient with identifier #{patient_identifier} already exists, skipping."
         else
           response = execute_transaction(resource)
-          filenames_to_retry << filename unless response.success?
+          if !response.success?
+            puts "Error uploading #{filename}: #{response.body}"
+            filenames_to_retry << filename
+          end
         end
       else
         response = upload_resource(resource)
@@ -53,7 +56,7 @@ def upload_resource(resource)
   HTTParty.put(
     "#{FHIR_SERVER}/#{resource_type}/#{id}",
     body: resource.to_json,
-    headers: { 
+    headers: {
     	'Content-Type': 'application/json',
     	'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
     }
@@ -88,7 +91,7 @@ def execute_transaction(transaction)
     headers: { 'Content-Type': 'application/json',
 'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
      },
-     timeout: 300
+     timeout: 600
   )
 end
 
