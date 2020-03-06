@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
-import org.hl7.fhir.r4.model.Patient;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
@@ -188,8 +187,6 @@ public class AuthorizationController {
 		tokenJSON.put("refresh_token", refreshToken);
 		tokenJSON.put("scope", scopes);
 
-		Patient patient = getFirstPatient(client);
-
 		if ("".equals(patientId)) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
 		}
@@ -202,7 +199,7 @@ public class AuthorizationController {
 		}
 
 		if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
-			Encounter encounter = getFirstEncounter(client);
+			Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
 			if (encounter == null) {
 				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
@@ -214,7 +211,7 @@ public class AuthorizationController {
 
 		try
 		{
-			tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patient));
+			tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
 		}
 		
 		catch (OpenIdTokenGenerationException openIdTokenGenerationException)
@@ -231,15 +228,13 @@ public class AuthorizationController {
 	 * @return token JSON String representing the open id token
 	 * @throws OpenIdTokenGenerationException 
 	 */
-	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, Patient patient) throws OpenIdTokenGenerationException {
+	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, String patientId) throws OpenIdTokenGenerationException {
 		
 		try
 		{
 			RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
 			RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
-	
-			String patientId = patient.getIdElement().getIdPart();
-	
+		
 			// for now hard coding as a Patient
 			// http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
 			String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
@@ -270,30 +265,10 @@ public class AuthorizationController {
 		}
 	}
 
-	private Patient getFirstPatient(IGenericClient client) {
-
-		Patient patient = null;
-
-		Bundle patientsBundle = client.search().forResource(Patient.class).returnBundle(Bundle.class)
-				.cacheControl(new CacheControlDirective().setNoCache(true))
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
-				.execute();
-		List<BundleEntryComponent> patients = patientsBundle.getEntry();
-		for (BundleEntryComponent bundleEntryComponent : patients) {
-			if (bundleEntryComponent.getResource().fhirType().equals("Patient")) {
-				patient = (Patient) bundleEntryComponent.getResource();
-				break;
-			}
-		}
-
-		return patient;
-	}
-
-	private Encounter getFirstEncounter(IGenericClient client) {
+	private Encounter getFirstEncounterByPatientId(IGenericClient client, String patientId) {
 		Encounter encounter = null;
 
-		Bundle encountersBundle = client.search().forResource(Encounter.class).returnBundle(Bundle.class)
+		Bundle encountersBundle = client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId)).returnBundle(Bundle.class)
 				.cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
 						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
