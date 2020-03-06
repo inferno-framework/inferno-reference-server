@@ -187,7 +187,10 @@ public class AuthorizationController {
 		tokenJSON.put("expires_in", 3600);
 		tokenJSON.put("refresh_token", refreshToken);
 		tokenJSON.put("scope", scopes);
+		tokenJSON.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
+		tokenJSON.put("need_patient_banner", false);
 
+		
 		Patient patient = getFirstPatient(client);
 
 		if ("".equals(patientId)) {
