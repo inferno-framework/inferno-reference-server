@@ -20,6 +20,7 @@ import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Reference;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.AfterClass;
@@ -550,13 +551,15 @@ public class TestAuthorization {
 	public static void afterClass() throws Exception {
 
 		// delete test patient and encounter
-		ourClient.delete().resourceById(testPatientId)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
-				.execute();
 
 		ourClient.delete().resourceById(testEncounterId)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute();
+		
+		ourClient.delete().resourceById(testPatientId)
+				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.execute();
+
 
 		testPatientId = null;
 		testEncounterId = null;
@@ -603,8 +606,10 @@ public class TestAuthorization {
 		testPatientId = ourClient.create().resource(pt)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute().getId();
-
+		
+		
 		Encounter encounter = new Encounter();
+		encounter.setSubject(new Reference().setReference("Patient/" + testPatientId.getIdPart()));
 		testEncounterId = ourClient.create().resource(encounter)
 				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
 				.execute().getId();
