@@ -28,6 +28,10 @@ public class FhirReferenceServerUtils {
 		return getServerBaseUrl(request) + FHIR_SERVER_PATH;
 	}
 	
+	public static String getSmartStyleUrl(HttpServletRequest request) {
+		return getServerBaseUrl(request) + "/smart-style-url";
+	}
+	
 	public static String createCode(String actualCode, String scopes, String patientId)
 	{
 		String encodedScope = Base64.getEncoder().encodeToString(scopes.getBytes());
