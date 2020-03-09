@@ -17,11 +17,11 @@ run both containers with `docker-compose up`.
 - Use `docker-compose up` to run the server. The database has to initialize its data
   directory the first time it runs (or if its data has been deleted). If an error occurs on the initial `docker-compose up`, shut it down with `docker-compose down` and restart the server with `docker-compose up` again.  This is a known issue that occurs when the server attempts to connect to the database before it it finished initializing. 
 - `gem install httparty` to install the upload scripts dependencies.
-- `ruby upload.rb` will upload the US Core resources.
+- `bundle exec ruby upload.rb` will upload the US Core resources.
 
 ## Resetting the server
 
-You can delete the server's data with `rm -rf fhir-pgdata`. The server must be
+You can delete the server's data with `docker volume rm inferno-reference-server_fhir-pgdata`. The server must be
 restarted after this.
 
 ## Creating Final Docker Images
