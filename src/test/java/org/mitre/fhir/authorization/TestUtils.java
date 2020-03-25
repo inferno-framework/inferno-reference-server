@@ -14,9 +14,8 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 public class TestUtils {
 
-	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	public static final String AUTHORIZATION_HEADER_BEARER_VALUE = "Bearer SAMPLE_ACCESS_TOKEN";
-
+	public static final String BEARER_TOKEN_PREFIX = "Bearer";
+	
 	public static final int TEST_PORT = 1234;
 	
 	public static String getBasicAuthorizationString(String clientId, String clientSecret) {
@@ -54,7 +53,7 @@ public class TestUtils {
 		for (BundleEntryComponent bundleEntryComponent : patients) {
 			Patient patient = (Patient) bundleEntryComponent.getResource();
 			System.out.println("Deleting Patient " + patient.getIdElement().getIdPart());
-			ourClient.delete().resource(patient).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE).execute();
+			ourClient.delete().resource(patient).withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, TestUtils.getAuthorizationHeaderBearerValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE)).execute();
 		}
 	
 	}
@@ -66,8 +65,14 @@ public class TestUtils {
 		for (BundleEntryComponent bundleEntryComponent : encounters) {
 			Encounter encounter = (Encounter) bundleEntryComponent.getResource();
 			System.out.println("Deleting Encounter " + encounter.getIdElement().getIdPart());
-			ourClient.delete().resource(encounter).withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE).execute();
+			ourClient.delete().resource(encounter).withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, TestUtils.getAuthorizationHeaderBearerValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE)).execute();
 		}			
+	}
+	
+	public static String getAuthorizationHeaderBearerValue(String accessToken, String scopes)
+	{
+		String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
+		return BEARER_TOKEN_PREFIX + " " + accessToken + "." + encodedScopes;
 	}
 
 }
