@@ -180,8 +180,12 @@ public class AuthorizationController {
 		String refreshToken = FhirReferenceServerUtils.createCode(FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN, scopes, patientId); 
 
 		List<String> scopesList = Arrays.asList(scopes.split(" "));
+		
+		String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
+		
+		String accessToken = FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN + "." + encodedScopes;
 
-		tokenJSON.put("access_token", FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN);
+		tokenJSON.put("access_token", accessToken);
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
 		tokenJSON.put("refresh_token", refreshToken);
@@ -273,7 +277,7 @@ public class AuthorizationController {
 		Bundle encountersBundle = client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId)).returnBundle(Bundle.class)
 				.cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 

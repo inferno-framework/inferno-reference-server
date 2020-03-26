@@ -9,7 +9,10 @@ import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
+
+
 public class FhirUtils {
+	
 
 	public static List<BundleEntryComponent> getAllPatients(IGenericClient client) {
 		return getAllResources(client, "Patient");
@@ -59,7 +62,7 @@ public class FhirUtils {
 		
 		Bundle bundle = client.search().forResource(resourceName).returnBundle(Bundle.class).count(1000).cacheControl(cacheControlDirective)
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.AUTHORIZATION_HEADER_VALUE)
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		
 		return bundle;

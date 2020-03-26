@@ -67,17 +67,17 @@ public class TestAuthorization {
 		Patient pt = new Patient();
 		pt.addName().setFamily(methodName);
 		IIdType id = ourClient.create().resource(pt)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE) )
 				.execute().getId();
 		
 		Patient pt2 = ourClient.read().resource(Patient.class).withId(id)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		assertEquals(methodName, pt2.getName().get(0).getFamily());
 
 		// delete the new entry so the db won't have a leftover artifact
 		ourClient.delete().resourceById(id)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}
@@ -91,6 +91,42 @@ public class TestAuthorization {
 		pt.addName().setFamily(methodName);
 
 		ourClient.create().resource(pt).execute();
+	}
+	
+	@Test
+	public void testInterceptorScopes() {
+		
+		String scope = "launch/patient patient/Patient.read patient/Condition patient/Observation.read";		
+		
+		ourClient.search().forResource("Patient").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+	
+		ourClient.search().forResource("Condition").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+
+		ourClient.search().forResource("Observation").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+
+		try
+		{
+			ourClient.search().forResource("AllergyIntolerance").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+			Assert.fail();
+		}
+		
+		catch (AuthenticationException ae)
+		{
+			
+		}
+	}
+	
+	@Test
+	public void testInterceptorWithStarScopes()
+	{
+		String scope = "patient/*.*";		
+		
+		ourClient.search().forResource("Patient").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+	
+		ourClient.search().forResource("Condition").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+
+		ourClient.search().forResource("Observation").withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, scope)).execute();
+
 	}
 
 	@Test
@@ -160,7 +196,7 @@ public class TestAuthorization {
 		JsonNode jsonNode = mapper.readTree(jSONString);
 		String accessToken = jsonNode.get("access_token").asText();
 
-		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+		Assert.assertTrue(accessToken.startsWith("SAMPLE_ACCESS_TOKEN"));
 	}
 		
 	@Test
@@ -486,7 +522,8 @@ public class TestAuthorization {
 		JsonNode jsonNode = mapper.readTree(jSONString);
 		String accessToken = jsonNode.get("access_token").asText();
 
-		Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+		Assert.assertTrue(accessToken.startsWith("SAMPLE_ACCESS_TOKEN"));
+		
 	}
 	
 	@Test(expected = ResponseStatusException.class)
@@ -553,11 +590,11 @@ public class TestAuthorization {
 		// delete test patient and encounter
 
 		ourClient.delete().resourceById(testEncounterId)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		
 		ourClient.delete().resourceById(testPatientId)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 
@@ -604,14 +641,14 @@ public class TestAuthorization {
 		Patient pt = new Patient();
 		pt.addName().setFamily("Test");
 		testPatientId = ourClient.create().resource(pt)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 		
 		
 		Encounter encounter = new Encounter();
 		encounter.setSubject(new Reference().setReference("Patient/" + testPatientId.getIdPart()));
 		testEncounterId = ourClient.create().resource(encounter)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 	}

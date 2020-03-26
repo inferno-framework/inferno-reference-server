@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -44,8 +45,9 @@ public class TestAuthorizationWithNoData {
 		// add a patient
 		Patient pt = new Patient();
 		pt.addName().setFamily("Test");
+
 		IIdType patientId = ourClient.create().resource(pt)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -63,7 +65,7 @@ public class TestAuthorizationWithNoData {
 
 				
 		ourClient.delete().resourceById(patientId)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}
@@ -73,7 +75,7 @@ public class TestAuthorizationWithNoData {
 
 		Encounter encounter = new Encounter();
 		IIdType encounterId = ourClient.create().resource(encounter)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -90,7 +92,7 @@ public class TestAuthorizationWithNoData {
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 		
 		ourClient.delete().resourceById(encounterId)
-				.withAdditionalHeader(TestUtils.AUTHORIZATION_HEADER_NAME, TestUtils.AUTHORIZATION_HEADER_BEARER_VALUE)
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}
