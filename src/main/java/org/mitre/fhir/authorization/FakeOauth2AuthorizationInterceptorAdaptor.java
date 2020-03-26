@@ -85,7 +85,6 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 			
 		}				
 		
-		//break bear token into scopes
 		String resource = requestDetails.getResourceName();
 		
 		if (!validResources.contains("*") && !validResources.contains(resource) && !("Patient".equals(resource)))
