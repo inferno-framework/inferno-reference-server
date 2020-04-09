@@ -1,5 +1,6 @@
 *
-!/src
+!src
 !pom.xml
-!/fhir-pgdata
+!fhir-pgdata
 !initdb.sql
+
