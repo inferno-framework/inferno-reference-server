@@ -2,6 +2,7 @@ require 'httparty'
 require 'pry'
 
 FHIR_SERVER = 'http://localhost:8080/r4'
+TOKEN = 'SAMPLE_ACCESS_TOKEN.cGF0aWVudC8qLio='
 
 def upload_us_core_resources
   file_path = File.join(__dir__, 'us-core-r4-resources', '*.json')
@@ -57,8 +58,8 @@ def upload_resource(resource)
     "#{FHIR_SERVER}/#{resource_type}/#{id}",
     body: resource.to_json,
     headers: {
-    	'Content-Type': 'application/json',
-    	'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
+     'Content-Type': 'application/json',
+     'Authorization': "Bearer #{TOKEN}"
     }
   )
 end
@@ -75,8 +76,9 @@ def record_exists_on_server?(patient_identifier)
   response = HTTParty.get(
     "#{FHIR_SERVER}/Patient",
     query: { identifier: patient_identifier },
-    headers: { 'Content-Type': 'application/json',
-    	'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer #{TOKEN}"
      }
   )
   JSON.parse(response.body)['entry']&.any?
@@ -88,8 +90,9 @@ def execute_transaction(transaction)
   HTTParty.post(
     FHIR_SERVER,
     body: transaction.to_json,
-    headers: { 'Content-Type': 'application/json',
-'Authorization': 'Bearer SAMPLE_ACCESS_TOKEN'
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer #{TOKEN}"
      },
      timeout: 600
   )
