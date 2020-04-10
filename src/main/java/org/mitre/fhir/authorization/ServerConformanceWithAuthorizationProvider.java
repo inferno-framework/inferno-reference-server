@@ -12,7 +12,7 @@ import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.UriType;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 import ca.uhn.fhir.jpa.dao.DaoConfig;
 import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
@@ -55,14 +55,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		Extension tokenExtension = new Extension();
 		tokenExtension.setUrl(TOKEN_EXTENSION_URL);
 		UriType tokenValue = new UriType();
-		tokenValue.setValue(getTokenExtensionURI(theRequest));		
+		tokenValue.setValue(getTokenExtensionURI());		
 		tokenExtension.setValue(tokenValue);//valueUri
 		oauthUris.addExtension(tokenExtension);
 
 		Extension authorizeExtension = new Extension();
 		authorizeExtension.setUrl(AUTHORIZE_EXTENSION_URL);
 		UriType authorizeValue = new UriType();
-		authorizeValue.setValue(getAuthorizationExtensionURI(theRequest));		
+		authorizeValue.setValue(getAuthorizationExtensionURI());		
 		authorizeExtension.setValue(authorizeValue);//valueUri
 		oauthUris.addExtension(authorizeExtension);
 		
@@ -90,20 +90,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		return capabilityStatement;		
 	}
 	
-	public static String getTokenExtensionURI(HttpServletRequest theRequest)
+	public static String getTokenExtensionURI()
 	{
-		return getBaseURL(theRequest) + theRequest.getContextPath() + TOKEN_EXTENSION_VALUE_URI;
+		return FhirReferenceServerUtils.getServerBaseUrl() + TOKEN_EXTENSION_VALUE_URI;
 	}
 	
-	public static String getAuthorizationExtensionURI(HttpServletRequest theRequest)
+	public static String getAuthorizationExtensionURI()
 	{
-		return getBaseURL(theRequest) + theRequest.getContextPath() + AUTHORIZE_EXTENSION_VALUE_URI;
-	}
-	
-	private static String getBaseURL(HttpServletRequest theRequest)
-	{
-		String baseUrl = ServletUriComponentsBuilder.fromRequestUri(theRequest).replacePath(null).build().toUriString();
-		return baseUrl;
+		return FhirReferenceServerUtils.getServerBaseUrl() + AUTHORIZE_EXTENSION_VALUE_URI;
 	}
 
 }

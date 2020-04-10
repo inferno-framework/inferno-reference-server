@@ -30,7 +30,7 @@ public class TestWellKnownEndpoint {
 
 		mockHttpServletRequest.setScheme("http");
 		mockHttpServletRequest.setServerName("www.example.org");
-		mockHttpServletRequest.setServerPort(123);
+		mockHttpServletRequest.setServerPort(1234);
 		mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 
 		String jSONString = wellKnownEndpoint.getWellKnownJSON(mockHttpServletRequest);
@@ -39,10 +39,10 @@ public class TestWellKnownEndpoint {
 		JsonNode jsonNode = mapper.readTree(jSONString);
 
 		String authorizationEndpoint = jsonNode.get("authorization_endpoint").asText();
-		Assert.assertEquals("http://www.example.org:123/oauth/authorization", authorizationEndpoint);
+		Assert.assertEquals("http://localhost:1234/oauth/authorization", authorizationEndpoint);
 
 		String tokenEndpoint = jsonNode.get("token_endpoint").asText();
-		Assert.assertEquals("http://www.example.org:123/oauth/token", tokenEndpoint);
+		Assert.assertEquals("http://localhost:1234/oauth/token", tokenEndpoint);
 	}
 	
 	@Test 

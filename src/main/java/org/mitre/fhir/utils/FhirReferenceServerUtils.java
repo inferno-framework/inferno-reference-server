@@ -4,6 +4,8 @@ import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mitre.fhir.HapiReferenceServerProperties;
+
 public class FhirReferenceServerUtils {
 
 	public static final String SAMPLE_CODE = "SAMPLE_CODE";
@@ -21,19 +23,17 @@ public class FhirReferenceServerUtils {
 	
 	public static final String DEFAULT_SCOPE = "launch/patient patient/*";
 
-
-
-	public static String getServerBaseUrl(HttpServletRequest request) {
-		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-		return serverBaseUrl;
+	public static String getServerBaseUrl() {
+		HapiReferenceServerProperties hapiReferenceServerProperties = new HapiReferenceServerProperties();
+		return hapiReferenceServerProperties.getBaseUrl();		
 	}
 
-	public static String getFhirServerBaseUrl(HttpServletRequest request) {
-		return getServerBaseUrl(request) + FHIR_SERVER_PATH;
+	public static String getFhirServerBaseUrl() {
+		return getServerBaseUrl() + FHIR_SERVER_PATH;
 	}
 	
-	public static String getSmartStyleUrl(HttpServletRequest request) {
-		return getServerBaseUrl(request) + "/smart-style-url";
+	public static String getSmartStyleUrl() {
+		return getServerBaseUrl() + "/smart-style-url";
 	}
 	
 	public static String createCode(String actualCode, String scopes, String patientId)

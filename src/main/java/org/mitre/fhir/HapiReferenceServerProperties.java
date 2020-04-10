@@ -27,7 +27,10 @@ public class HapiReferenceServerProperties {
 	private static final String HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER_KEY = "hibernate.search.default.directory_provider";
 	private static final String HIBERNATE_SEARCH_DEFAULT_INDEX_BASE_KEY = "hibernate.search.default.indexBase";
 	private static final String HIBERNATE_SEARCH_LUCENE_VERSION_KEY = "hibernate.search.lucene_version";
+	
+	private static final String BASE_URL_KEY = "base.url";
 
+	
     private Properties properties;
     
     
@@ -160,9 +163,17 @@ public class HapiReferenceServerProperties {
     	return hibernateSearchLuceneVersion;
     }
     
+    public String getBaseUrl()
+    {
+    	String baseUrl = properties.getProperty(BASE_URL_KEY);
+    	return baseUrl;
+    }
+    
     public Properties getProperties()
     {
     	return properties;
     }
+    
+    
 
 }

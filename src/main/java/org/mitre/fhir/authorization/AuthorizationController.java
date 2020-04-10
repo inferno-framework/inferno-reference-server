@@ -55,7 +55,7 @@ public class AuthorizationController {
 	@GetMapping(path = "authorizeClientId/{clientId}", produces = { "application/json" })
 	public String validateClientId(@PathVariable String clientId, HttpServletRequest request) {
 		authorizeClientId(clientId);
-		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
+		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl()
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
 		FhirContext fhirContext = FhirContext.forR4();
 		IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
@@ -170,7 +170,7 @@ public class AuthorizationController {
 	 */
 	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws BearerTokenException {
 
-		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
+		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl()
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
 		FhirContext fhirContext = FhirContext.forR4();
 		IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
@@ -190,7 +190,7 @@ public class AuthorizationController {
 		tokenJSON.put("expires_in", 3600);
 		tokenJSON.put("refresh_token", refreshToken);
 		tokenJSON.put("scope", scopes);
-		tokenJSON.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
+		tokenJSON.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl());
 		tokenJSON.put("need_patient_banner", false);
 
 		if ("".equals(patientId)) {
@@ -243,7 +243,7 @@ public class AuthorizationController {
 		
 			// for now hard coding as a Patient
 			// http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
-			String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
+			String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl() + "/Patient/" + patientId;
 	
 			Calendar calendar = Calendar.getInstance();
 			
@@ -255,7 +255,7 @@ public class AuthorizationController {
 			
 			Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
 			String token = JWT.create()
-					.withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
+					.withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl())
 					.withSubject("")
 					.withAudience(clientId)
 					.withExpiresAt(expiresAt)
