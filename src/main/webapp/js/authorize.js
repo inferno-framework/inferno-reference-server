@@ -25,8 +25,8 @@ window.mitre.fhirreferenceserver.authorize = {
 
         //http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization?response_type=code&client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A4567%2Finferno%2Foauth2%2Fstatic%2Fredirect&scope=launch%2Fpatient+patient%2F%2A.read+openid+fhirUser+offline_access&state=ddc2657d-7146-418b-8b4e-64e3f8e92eb0&aud=http%3A%2F%2Flocalhost%3A8080%2Fhapi-fhir-jpaserver%2Ffhir
 
-
-        const url = '/oauth/authorizeClientId/' + clientId;
+        let base_url = window.mitre.fhirreferenceserver.utils.getBaseURL('authorization');
+        const url = base_url + 'authorizeClientId/' + clientId; //will be oauth/authorizeClientId
         $.get(url, function(data, status) {
         
             //populate patient picker with data

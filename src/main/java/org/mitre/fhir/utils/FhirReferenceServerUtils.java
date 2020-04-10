@@ -21,11 +21,19 @@ public class FhirReferenceServerUtils {
 	public static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
 	public static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET = "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
 	
+	private static final String DEFAULT_SERVER_BASE_URL = "http://localhost:1234";
+	
 	public static final String DEFAULT_SCOPE = "launch/patient patient/*";
 
 	public static String getServerBaseUrl() {
-		HapiReferenceServerProperties hapiReferenceServerProperties = new HapiReferenceServerProperties();
-		return hapiReferenceServerProperties.getBaseUrl();		
+		String serverBaseURL = System.getenv("SERVER_BASE_URL");
+		if (serverBaseURL == null || serverBaseURL.equals(""))
+		{
+			//use default value
+			return DEFAULT_SERVER_BASE_URL;
+		}
+		
+		return serverBaseURL;
 	}
 
 	public static String getFhirServerBaseUrl() {

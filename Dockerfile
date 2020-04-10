@@ -17,7 +17,7 @@ USER jetty:jetty
 
 COPY --from=mavenbuild /home/app/target/inferno-fhir-reference-server.war /var/lib/jetty/webapps/root.war
 
-RUN java -jar "$JETTY_HOME/start.jar" --create-startd --add-to-start=http-forwarded
+RUN java -jar "$JETTY_HOME/start.jar" --create-startd --add-to-start=http-forwarded 
 
 EXPOSE 8080
 

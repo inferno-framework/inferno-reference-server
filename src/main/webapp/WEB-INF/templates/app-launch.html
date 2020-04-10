@@ -15,12 +15,19 @@
   	<input id="appURI" type="text"/> <button id="launchAppButton">Launch App</button>
   
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="../js/utils.js"></script>
+
    <script>
       $(document).ready(function() {
 
 
       	$('#launchAppButton').click(function() {
-      		const url = '/fhir-server-path'
+
+
+      		//need to get base url of the path 
+      		let base_url = window.mitre.fhirreferenceserver.utils.getBaseURL('app-launch');
+      		const url = base_url + 'fhir-server-path';
+
 	        $.get(url, function(data, status) {
 	            let issParam = encodeURIComponent(data);
 	            let launchParam = "123"; //for now just static, but should be communicated back to fhir reference server and stored http://www.hl7.org/fhir/smart-app-launch/
