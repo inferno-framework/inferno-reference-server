@@ -52,7 +52,7 @@ The Authorization Bearer token can be used directly by setting the `Authorizatio
 To launch an app from the EHR go to `/app-launch` 
 
 ## Deploying
-If you are deploying this application anywhere, be sure to update the `base.url` property in src/main/resources/hapi.properties file to match the server's actual base url.
+If you are deploying this application anywhere, be sure to update the `SERVER_BASE_URL` environment variable in docker-compose.yml to match the server's actual base url.
 
 ## Contact Us
 The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
