@@ -14,6 +14,7 @@ public class FhirReferenceServerUtils {
 	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
 	public static final String BEARER_TOKEN_PREFIX = "Bearer";
 	public static final String FHIR_SERVER_PATH = "/r4";
+	public static final String REFERENCE_SERVER_PATH = "/reference-server";
 
 	public static final String SAMPLE_PUBLIC_CLIENT_ID = "SAMPLE_PUBLIC_CLIENT_ID";
 	public static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
@@ -33,7 +34,7 @@ public class FhirReferenceServerUtils {
 	}
 	
 	public static String getSmartStyleUrl(HttpServletRequest request) {
-		return getServerBaseUrl(request) + "/smart-style-url";
+		return getServerBaseUrl(request) + REFERENCE_SERVER_PATH + "/smart-style-url";
 	}
 	
 	public static String createCode(String actualCode, String scopes, String patientId)

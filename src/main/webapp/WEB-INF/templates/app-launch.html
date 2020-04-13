@@ -20,7 +20,7 @@
 
 
       	$('#launchAppButton').click(function() {
-      		const url = '/fhir-server-path'
+      		const url = '/reference-server/fhir-server-path'
 	        $.get(url, function(data, status) {
 	            let issParam = encodeURIComponent(data);
 	            let launchParam = "123"; //for now just static, but should be communicated back to fhir reference server and stored http://www.hl7.org/fhir/smart-app-launch/
