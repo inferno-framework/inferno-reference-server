@@ -44,6 +44,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	@Override
 	public CapabilityStatement getServerConformance(HttpServletRequest theRequest, RequestDetails theRequestDetails) {
 		CapabilityStatement capabilityStatement = super.getServerConformance(theRequest, theRequestDetails);
+		
+		capabilityStatement.setUrl(FhirReferenceServerUtils.getFhirServerBaseUrl());
 				
 		CapabilityStatementRestComponent rest = capabilityStatement.getRest().get(0);
 		

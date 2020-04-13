@@ -2,9 +2,6 @@ package org.mitre.fhir.utils;
 
 import java.util.Base64;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.mitre.fhir.HapiReferenceServerProperties;
 
 public class FhirReferenceServerUtils {
 
