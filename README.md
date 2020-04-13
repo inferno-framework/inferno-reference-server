@@ -49,7 +49,7 @@ To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the clie
 
 The Authorization Bearer token can be used directly by setting the `Authorization` header to `Bearer SAMPLE_ACCESS_TOKEN.<SCOPES_ENCODED_IN_BASE_64>`. For example, a token with the `patient/*.*` scope should be set to `Bearer SAMPLE_ACCESS_TOKEN.cGF0aWVudC8qLio=`.  Note that as this server is primarily for demo, this token is not secure.
 
-To launch an app from the EHR go to `/app-launch` 
+To launch an app from the EHR go to `reference-server/app-launch` 
 
 ## Deploying
 If you are deploying this application anywhere, be sure to update the `SERVER_BASE_URL` environment variable in docker-compose.yml to match the server's actual base url.
