@@ -12,7 +12,7 @@ The server runs using two containers, one for the server, and one for the
 database. You can build the containers with `docker-compose build` and 
 run both containers with `docker-compose up`.
 
-Note that sometimes on the initial start up, the database initialization might cause the inferno reference server container to not start correctly, so you may need to stop the container with `docker-compose down` and restart it with `docker-compose up` 
+Note that sometimes on the initial start up, the database initialization might cause the inferno reference server container to not start correctly, so you may need to stop the container with `docker-compose down` and restart it with `docker-compose up` .
 
 ## Resetting the server
 
@@ -39,6 +39,10 @@ To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the clie
 The Authorization Bearer token can be used directly by setting the `Authorization` header to `Bearer SAMPLE_ACCESS_TOKEN.<SCOPES_ENCODED_IN_BASE_64>`. For example, a token with the `patient/*.*` scope should be set to `Bearer SAMPLE_ACCESS_TOKEN.cGF0aWVudC8qLio=`.  Note that as this server is primarily for demo, this token is not secure.
 
 To launch an app from the EHR go to `/app-launch` 
+
+## Deploying the Server
+
+If you plan on deploying this server for actual use, please remember to change the database password for the database docker container, and update `hapi.properties` with the new connection information.
 
 ## Contact Us
 The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
