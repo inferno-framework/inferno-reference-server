@@ -44,7 +44,7 @@
 
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/reference-server/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
