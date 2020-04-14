@@ -42,7 +42,7 @@ To launch an app from the EHR go to `/app-launch`
 
 ## Deploying the Server
 
-If you plan on deploying this server for actual use, please remember to change the database password for the database docker container, and update `hapi.properties` with the new connection information.
+If you plan on deploying this server, please remember to update POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB in Dockerfile.database and update `hapi.properties` with the new connection information.
 
 ## Contact Us
 The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
