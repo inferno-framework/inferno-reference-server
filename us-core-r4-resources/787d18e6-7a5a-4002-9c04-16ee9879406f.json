@@ -628,6 +628,94 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:52abff2d-1686-4b19-9a9b-5aaa3d80ef1c",
+      "resource": {
+        "id": "52abff2d-1686-4b19-9a9b-5aaa3d80ef1c",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+          ]
+        },
+        "status": "active",
+        "subject": {
+          "reference": "urn:uuid:787d18e6-7a5a-4002-9c04-16ee9879406f"
+        },
+        "encounter": {
+          "reference": "urn:uuid:e30bf1df-8c2f-47c8-8b86-42adf47062be"
+        },
+        "period": {
+          "start": "1941-06-14T05:57:57-04:00"
+        },
+        "participant": [
+          {
+            "role": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "116153009",
+                    "display": "Patient"
+                  }
+                ],
+                "text": "Patient"
+              }
+            ],
+            "member": {
+              "reference": "urn:uuid:787d18e6-7a5a-4002-9c04-16ee9879406f",
+              "display": "Fermin479 Kilback373"
+            }
+          },
+          {
+            "role": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "223366009",
+                    "display": "Healthcare professional (occupation)"
+                  }
+                ],
+                "text": "Healthcare professional (occupation)"
+              }
+            ],
+            "member": {
+              "reference": "urn:uuid:55f46949-8ef5-375c-8d62-e3aa05c9bf7e",
+              "display": "Dr. Neely59 Auer97"
+            }
+          },
+          {
+            "role": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "224891009",
+                    "display": "Healthcare services (qualifier value)"
+                  }
+                ],
+                "text": "Healthcare services (qualifier value)"
+              }
+            ],
+            "member": {
+              "reference": "urn:uuid:6f122869-a856-3d65-8db9-099bf4f5bbb8",
+              "display": "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON"
+            }
+          }
+        ],
+        "managingOrganization": [
+          {
+            "reference": "urn:uuid:6f122869-a856-3d65-8db9-099bf4f5bbb8",
+            "display": "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON"
+          }
+        ],
+        "resourceType": "CareTeam"
+      },
+      "request": {
+        "method": "POST",
+        "url": "CareTeam"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:841a44b5-df17-41ae-bc48-0746e3b4f71e",
       "resource": {
         "id": "841a44b5-df17-41ae-bc48-0746e3b4f71e",
