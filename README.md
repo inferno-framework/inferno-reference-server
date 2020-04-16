@@ -18,6 +18,9 @@ Note that sometimes on the initial start up, the database initialization might c
 
 You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.
 
+
+The database will be initially populated by the default initdb.sql script. To update the default initial data with the data in the current db container, run `docker-compose exec db pg_dump -U postgres postgres  > initdb.sql`
+
 ## Running without Docker
 
 If you cannot run docker, you will need to create a postgres database.
