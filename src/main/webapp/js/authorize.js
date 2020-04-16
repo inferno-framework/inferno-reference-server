@@ -56,6 +56,10 @@ window.mitre.fhirreferenceserver.authorize = {
                 let familyName = patient.resource.name[0].family || "";
                 let name = givenName + " " + familyName;
                 name = name.trim();
+
+                if (name.length === 0){
+                    name = "&lt; <em>Patient Name Absent</em> &gt;"
+                }
                 
                                             
                 patientsTable.row.add( [
