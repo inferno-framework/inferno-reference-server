@@ -2,15 +2,18 @@ version: '3'
 
 services:
   db:
-    image: postgres:9.6-alpine
+    
+    build:
+      context: .
+      dockerfile: Dockerfile.database
     ports:
       - '5432:5432'
-    environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
     networks:
       - fhirnet
     volumes:
       - fhir-pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
   fhir:
     build: .
     ports:

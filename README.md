@@ -12,22 +12,14 @@ The server runs using two containers, one for the server, and one for the
 database. You can build the containers with `docker-compose build` and 
 run both containers with `docker-compose up`.
 
-## Loading US Core
-- For this step, you will need Ruby installed to run the data upload scripts.
-- Use `docker-compose up` to run the server. The database has to initialize its data
-  directory the first time it runs (or if its data has been deleted). If an error occurs on the initial `docker-compose up`, shut it down with `docker-compose down` and restart the server with `docker-compose up` again.  This is a known issue that occurs when the server attempts to connect to the database before it it finished initializing. 
-- `gem install httparty` to install the upload scripts dependencies.
-- `bundle exec ruby upload.rb` will upload the US Core resources.
+Note that sometimes on the initial start up, the database initialization might cause the inferno reference server container to not start correctly, so you may need to stop the container with `docker-compose down` and restart it with `docker-compose up` .
 
 ## Resetting the server
 
-You can delete the server's data with `docker volume rm inferno-reference-server_fhir-pgdata`. The server must be
-restarted after this.
+You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.
 
-## Creating Final Docker Images
 
-- Once data has been loaded into the server, `./build-docker-images.sh` will
-  create docker images for a FHIR server containing the loaded data.
+The database will be initially populated by the default initdb.sql script. To update the default initial data with the data in the current db container, run `docker-compose exec db pg_dump -U postgres postgres  > initdb.sql`
 
 ## Running without Docker
 
@@ -55,7 +47,7 @@ To launch an app from the EHR go to `reference-server/app-launch`
 The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
 
 ## License
-Copyright 2019 The MITRE Corporation
+Copyright 2020 The MITRE Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 

@@ -1,7 +1,6 @@
 FROM maven:3.6-jdk-11 AS mavenbuild
 
 COPY pom.xml /home/app/
-#RUN mvn -f /home/app/pom.xml verify --fail-never
 COPY src /home/app/src
 RUN mvn -f /home/app/pom.xml package
 
