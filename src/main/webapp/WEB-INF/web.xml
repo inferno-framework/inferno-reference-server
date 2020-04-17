@@ -23,7 +23,7 @@
 
     <servlet-mapping>
         <servlet-name>fhirServlet</servlet-name>
-        <url-pattern>/r4/*</url-pattern>
+        <url-pattern>/reference-server/r4/*</url-pattern>
     </servlet-mapping>
 
     <!-- Tester Overlay Servlet -->
@@ -44,7 +44,7 @@
 
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
-        <url-pattern>/reference-server/*</url-pattern>
+        <url-pattern>/reference-server/app/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -64,7 +64,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>wellknown</servlet-name>
-		<url-pattern>/r4/.well-known/*</url-pattern>
+		<url-pattern>/reference-server/r4/.well-known/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>	
@@ -85,7 +85,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>authorization</servlet-name>
-		<url-pattern>/oauth/*</url-pattern>
+		<url-pattern>/reference-server/oauth/*</url-pattern>
 	</servlet-mapping>
 
     <!-- This filters provide support for Cross Origin Resource Sharing (CORS) -->

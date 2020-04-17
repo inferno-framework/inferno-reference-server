@@ -19,7 +19,7 @@ public class TestFhirReferenceServerUtils {
 		mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 		
 		String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(mockHttpServletRequest);
-		Assert.assertEquals("http://www.example.org:123", baseUrl);
+		Assert.assertEquals("http://www.example.org:123/reference-server", baseUrl);
 	}
 	
 	@Test
@@ -33,7 +33,7 @@ public class TestFhirReferenceServerUtils {
 		mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 		
 		String baseUrl = FhirReferenceServerUtils.getFhirServerBaseUrl(mockHttpServletRequest);
-		Assert.assertEquals("http://www.example.org:123/r4", baseUrl);
+		Assert.assertEquals("http://www.example.org:123/reference-server/r4", baseUrl);
 	}
 
 }

@@ -631,7 +631,7 @@ public class TestAuthorization {
 
 		ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
 		ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
-		ourServerBase = "http://localhost:" + ourPort + "/r4/";
+		ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
 
 		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
 		ourClient.registerInterceptor(new LoggingInterceptor(true));

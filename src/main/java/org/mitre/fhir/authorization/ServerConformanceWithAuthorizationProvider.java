@@ -12,7 +12,7 @@ import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.UriType;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 import ca.uhn.fhir.jpa.dao.DaoConfig;
 import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
@@ -92,18 +92,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	
 	public static String getTokenExtensionURI(HttpServletRequest theRequest)
 	{
-		return getBaseURL(theRequest) + theRequest.getContextPath() + TOKEN_EXTENSION_VALUE_URI;
+		return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + TOKEN_EXTENSION_VALUE_URI;
 	}
 	
 	public static String getAuthorizationExtensionURI(HttpServletRequest theRequest)
 	{
-		return getBaseURL(theRequest) + theRequest.getContextPath() + AUTHORIZE_EXTENSION_VALUE_URI;
+		return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + AUTHORIZE_EXTENSION_VALUE_URI;
 	}
-	
-	private static String getBaseURL(HttpServletRequest theRequest)
-	{
-		String baseUrl = ServletUriComponentsBuilder.fromRequestUri(theRequest).replacePath(null).build().toUriString();
-		return baseUrl;
-	}
-
 }
