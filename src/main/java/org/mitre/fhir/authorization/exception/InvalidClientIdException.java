@@ -10,6 +10,6 @@ public class InvalidClientIdException extends ResponseStatusException {
 	private static final long serialVersionUID = 1L;
 
 	public InvalidClientIdException(String clientId) {
-		super(HttpStatus.UNAUTHORIZED, ERROR_MESSAGE + " Supplied Client ID: " + clientId);
+		super(HttpStatus.UNAUTHORIZED, ERROR_MESSAGE + " Supplied Client ID: \"" + clientId + "\"");
 	}
 }
