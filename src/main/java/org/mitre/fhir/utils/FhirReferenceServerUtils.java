@@ -21,11 +21,26 @@ public class FhirReferenceServerUtils {
 	public static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET = "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
 	
 	public static final String DEFAULT_SCOPE = "launch/patient patient/*";
+	
+	private static final String HTTP = "http";
+	private static final String HTTPS = "https";
+	private static final int HTTP_DEFAULT_PORT = 80;
+	private static final int HTTPS_DEFAULT_PORT = 443;
 
 
 
 	public static String getServerBaseUrl(HttpServletRequest request) {
-		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/reference-server";
+		String scheme = request.getScheme();
+		int portNumber = request.getServerPort();
+		String port = ":" + portNumber;
+		
+		//if default port, remove the port
+		if ((HTTP.equals(scheme) && portNumber == HTTP_DEFAULT_PORT) || (HTTPS.equals(scheme) && portNumber == HTTPS_DEFAULT_PORT))
+		{
+			port = "";
+		}
+		
+		String serverBaseUrl = request.getScheme() + "://" + request.getServerName() + port + "/reference-server";
 		return serverBaseUrl;
 	}
 
