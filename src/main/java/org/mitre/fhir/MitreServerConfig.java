@@ -107,12 +107,12 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
 
     Properties properties = new Properties();
     properties.put("hibernate.dialect", hapiReferenceServerProperties.getHibernateDialect());
-    properties.put("hibernate.format_sql", hapiReferenceServerProperties.getHibernateFormatSQL());
-    properties.put("hibernate.show_sql", hapiReferenceServerProperties.getHibernateShowSQL());
+    properties.put("hibernate.format_sql", hapiReferenceServerProperties.getHibernateFormatSql());
+    properties.put("hibernate.show_sql", hapiReferenceServerProperties.getHibernateShowSql());
     properties.put("hibernate.hbm2ddl.auto",
-        hapiReferenceServerProperties.getHibernateHBM2DDLAuto());
+        hapiReferenceServerProperties.getHibernateHbdm2ddlAuto());
     properties.put("hibernate.jdbc.batch_size",
-        hapiReferenceServerProperties.getHibernateJDBCBatchSize());
+        hapiReferenceServerProperties.getHibernateJdbcBatchSize());
     properties.put("hibernate.cache.use_query_cache",
         hapiReferenceServerProperties.getHibernateCacheUseQueryCache());
     properties.put("hibernate.cache.use_second_level_cache",
