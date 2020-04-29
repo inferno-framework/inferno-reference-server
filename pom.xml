@@ -14,7 +14,10 @@
         <maven.compiler.target>11</maven.compiler.target>
         <hapi.version>4.2.0</hapi.version>
         <jetty_version>9.4.14.v20181114</jetty_version>
-        
+        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
+        <checkstyle.version>8.32</checkstyle.version>
+        <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
+        <sevntu.checkstyle.plugin.version>1.37.1</sevntu.checkstyle.plugin.version>
     </properties>
 
     <dependencies>
@@ -252,7 +255,38 @@
 		            <rules><dependencyConvergence/></rules>
 		        </configuration>
 		    </plugin>
-            
+
+            <!-- Configure Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <configLocation>${checkstyle.config}</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+<!--                    <violationSeverity>warning</violationSeverity>-->
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
