@@ -1,4 +1,5 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0"
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee" version="3.0"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee ./xsd/web-app_3_0.xsd">
 
     <listener>
@@ -6,7 +7,8 @@
     </listener>
     <context-param>
         <param-name>contextClass</param-name>
-        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+        </param-value>
     </context-param>
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -33,7 +35,9 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextClass</param-name>
-            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+            <param-value>
+                org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+            </param-value>
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -48,45 +52,49 @@
     </servlet-mapping>
 
     <servlet>
-		<servlet-name>wellknown</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextClass</param-name>
-			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-		</init-param>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>
-				org.mitre.fhir.wellknown.WellKnownAuthorizationEndpointController
-			</param-value>
-		</init-param>
-		<load-on-startup>3</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>wellknown</servlet-name>
-		<url-pattern>/reference-server/r4/.well-known/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>	
-		<servlet-name>authorization</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextClass</param-name>
-			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-		</init-param>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>
-				 org.mitre.fhir.authorization.AuthorizationConfig				
-			</param-value>
-		</init-param>
-		
-		<load-on-startup>4</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>authorization</servlet-name>
-		<url-pattern>/reference-server/oauth/*</url-pattern>
-	</servlet-mapping>
+        <servlet-name>wellknown</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>
+                org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                org.mitre.fhir.wellknown.WellKnownAuthorizationEndpointController
+            </param-value>
+        </init-param>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wellknown</servlet-name>
+        <url-pattern>/reference-server/r4/.well-known/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>authorization</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>
+                org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                org.mitre.fhir.authorization.AuthorizationConfig
+            </param-value>
+        </init-param>
+
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authorization</servlet-name>
+        <url-pattern>/reference-server/oauth/*</url-pattern>
+    </servlet-mapping>
 
     <!-- This filters provide support for Cross Origin Resource Sharing (CORS) -->
 
@@ -119,7 +127,8 @@
         </init-param>
         <init-param>
             <description>
-                A comma separated list non-standard response headers that will be exposed to XHR2 object.
+                A comma separated list non-standard response headers that will be exposed to XHR2
+                object.
             </description>
             <param-name>cors.exposed.headers</param-name>
             <param-value>Location,Content-Location</param-value>
