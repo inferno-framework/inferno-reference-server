@@ -13,15 +13,16 @@ import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
+import javax.servlet.ServletException;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.springframework.context.ApplicationContext;
 
-import javax.servlet.ServletException;
-
 /**
+ * MitreJpaServer configures the server.
+ *
  * @author Tim Shaffer
  */
 public class MitreJpaServer extends RestfulServer {
@@ -36,24 +37,33 @@ public class MitreJpaServer extends RestfulServer {
     setFhirContext(new FhirContext(fhirVersion));
 
     // Get the Spring context from the web container (it's declared in web.xml)
-    ApplicationContext appContext = (ApplicationContext) getServletContext().getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
+    ApplicationContext appContext = (ApplicationContext) getServletContext()
+        .getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
 
     // myResourceProvidersR4 is generated as a part of hapi-fhir-jpaserver-base.
     // It contains bean definitions for a resource provider for each resource type.
-    ResourceProviderFactory resourceProviders = appContext.getBean("myResourceProvidersR4", ResourceProviderFactory.class);
+    ResourceProviderFactory resourceProviders = appContext
+        .getBean("myResourceProvidersR4", ResourceProviderFactory.class);
     registerProviders(resourceProviders.createProviders());
 
     // mySystemProviderR4 is generated as a part of hapi-fhir-jpaserver-base.
-    // The system provider implements non-resource-type methods, such as transaction, and global history.
-    JpaSystemProviderR4 systemProvider = appContext.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
+    // The system provider implements non-resource-type methods,
+    // such as transaction, and global history.
+    JpaSystemProviderR4 systemProvider = appContext.getBean("mySystemProviderR4",
+        JpaSystemProviderR4.class);
     registerProvider(systemProvider);
 
     // mySystemDaoR4 is generated as a part of hapi-fhir-jpaserver-base.
-    // The conformance provider exports the supported resources, search parameters, etc for this server.
+    // The conformance provider exports the supported resources,
+    // search parameters, etc for this server.
     // The JPA version adds resource counts to the exported statement, so it is a nice addition.
     @SuppressWarnings("unchecked")
-    IFhirSystemDao<Bundle, Meta> systemDao = appContext.getBean("mySystemDaoR4", IFhirSystemDao.class);
-    ServerConformanceWithAuthorizationProvider confProvider = new ServerConformanceWithAuthorizationProvider(this, systemDao, appContext.getBean(DaoConfig.class));
+    IFhirSystemDao<Bundle, Meta> systemDao = appContext.getBean("mySystemDaoR4",
+        IFhirSystemDao.class);
+    ServerConformanceWithAuthorizationProvider confProvider =
+        new ServerConformanceWithAuthorizationProvider(this,
+            systemDao,
+            appContext.getBean(DaoConfig.class));
     confProvider.setImplementationDescription("HAPI FHIR R4 Server");
     setServerConformanceProvider(confProvider);
 
@@ -64,13 +74,15 @@ public class MitreJpaServer extends RestfulServer {
     setDefaultPrettyPrint(true);
     setDefaultResponseEncoding(EncodingEnum.JSON);
 
-    // This configures the server to page search results to and from the database, instead of only to memory.
+    // This configures the server to page search results to
+    // and from the database, instead of only to memory.
     // This may mean a performance hit when performing searches that return lots of results,
     // but makes the server much more scalable.
     setPagingProvider(appContext.getBean(DatabaseBackedPagingProvider.class));
 
     // Register interceptors for the server based on DaoConfig.getSupportedSubscriptionTypes()
-    SubscriptionInterceptorLoader subscriptionInterceptorLoader = appContext.getBean(SubscriptionInterceptorLoader.class);
+    SubscriptionInterceptorLoader subscriptionInterceptorLoader = appContext
+        .getBean(SubscriptionInterceptorLoader.class);
     subscriptionInterceptorLoader.registerInterceptors();
 
     // If you are using DSTU3+, you may want to add a terminology uploader.
@@ -82,7 +94,12 @@ public class MitreJpaServer extends RestfulServer {
     // Add logging interceptor.
     LoggingInterceptor loggingInterceptor = new LoggingInterceptor();
     loggingInterceptor.setLoggerName("fhir.access");
-    loggingInterceptor.setMessageFormat("Path[${servletPath}] Source[${requestHeader.x-forwarded-for}] Operation[${operationType} ${operationName} ${idOrResourceName}] UA[${requestHeader.user-agent}] Params[${requestParameters}] ResponseEncoding[${responseEncodingNoDefault}]");
+    loggingInterceptor.setMessageFormat("Path[${servletPath}] "
+        + "Source[${requestHeader.x-forwarded-for}] "
+        + "Operation[${operationType} ${operationName} ${idOrResourceName}] "
+        + "UA[${requestHeader.user-agent}] "
+        + "Params[${requestParameters}] "
+        + "ResponseEncoding[${responseEncodingNoDefault}]");
     registerInterceptor(loggingInterceptor);
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
