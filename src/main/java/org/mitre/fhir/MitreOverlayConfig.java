@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * Server Configuration
+ * Server Configuration.
  * @author Tim Shaffer
  */
 @Configuration
@@ -17,6 +17,10 @@ import org.springframework.context.annotation.Import;
 @ComponentScan(basePackages = {"org.mitre.fhir.app.launch"})
 public class MitreOverlayConfig {
 
+  /**
+   * Returns the testing configuration.
+   * @return the testing config
+   */
   @Bean
   public TesterConfig testerConfig() {
     TesterConfig config = new TesterConfig();
