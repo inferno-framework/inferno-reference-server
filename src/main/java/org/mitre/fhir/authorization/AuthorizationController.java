@@ -21,6 +21,8 @@ import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RSAUtils;
@@ -183,7 +185,11 @@ public class AuthorizationController {
 		
 		String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
 		
-		String accessToken = FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN + "." + encodedScopes;
+		TokenManager tokenManager = TokenManager.getInstance();
+		Token token = tokenManager.createToken();
+		
+		
+		String accessToken = token.getTokenValue() + "." + encodedScopes;
 
 		tokenJSON.put("access_token", accessToken);
 		tokenJSON.put("token_type", "bearer");
@@ -273,11 +279,13 @@ public class AuthorizationController {
 
 	private Encounter getFirstEncounterByPatientId(IGenericClient client, String patientId) {
 		Encounter encounter = null;
+		
+		Token token = TokenManager.getInstance().getServerToken();
 
 		Bundle encountersBundle = client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId)).returnBundle(Bundle.class)
 				.cacheControl(new CacheControlDirective().setNoCache(true))
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 

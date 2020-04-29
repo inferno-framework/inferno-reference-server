@@ -7,11 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 public class FhirReferenceServerUtils {
 
 	public static final String SAMPLE_CODE = "SAMPLE_CODE";
-	public static final String SAMPLE_ACCESS_TOKEN = "SAMPLE_ACCESS_TOKEN";
 	public static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-	public static final String AUTHORIZATION_HEADER_VALUE = "Bearer " + SAMPLE_ACCESS_TOKEN;
 	public static final String BEARER_TOKEN_PREFIX = "Bearer";
 	public static final String FHIR_SERVER_PATH = "/r4";
 	public static final String REFERENCE_SERVER_PATH = "/app";

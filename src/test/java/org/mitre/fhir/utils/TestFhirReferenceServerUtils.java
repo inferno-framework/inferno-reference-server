@@ -1,4 +1,4 @@
-package org.mitre.fhir.authorization;
+package org.mitre.fhir.utils;
 
 import org.junit.Assert;
 import org.junit.Test;

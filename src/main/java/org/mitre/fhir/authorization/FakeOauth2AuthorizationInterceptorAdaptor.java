@@ -11,6 +11,8 @@ import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
+import org.mitre.fhir.authorization.token.TokenManager;
+import org.mitre.fhir.authorization.token.TokenNotFoundException;
 import org.postgresql.util.Base64;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
@@ -97,7 +99,19 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 	}
 
 	private boolean isBearerTokenValid(String bearerToken) {
-		return EXPECTED_BEARER_TOKEN.equals(bearerToken);
+		
+		try
+		{
+			TokenManager tokenManager = TokenManager.getInstance();
+			return tokenManager.authenticateToken(bearerToken);
+		
+		}
+		
+		catch (TokenNotFoundException tokenNotFoundException)
+		{
+			return false;
+		}
+		
 	}
 
 }

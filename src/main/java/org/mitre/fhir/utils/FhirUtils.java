@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 
 import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
@@ -60,9 +62,11 @@ public class FhirUtils {
 		CacheControlDirective cacheControlDirective = new CacheControlDirective();
 		cacheControlDirective.setNoCache(true);
 		
+		Token token = TokenManager.getInstance().getServerToken();
+		
 		Bundle bundle = client.search().forResource(resourceName).returnBundle(Bundle.class).count(1000).cacheControl(cacheControlDirective)
 				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		
 		return bundle;

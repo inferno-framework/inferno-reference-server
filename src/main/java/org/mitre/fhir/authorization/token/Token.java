@@ -1,4 +1,4 @@
-package org.mitre.fhir.token;
+package org.mitre.fhir.authorization.token;
 
 import java.util.UUID;
 

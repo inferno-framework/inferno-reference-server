@@ -1,0 +1,40 @@
+<!doctype html>
+<!-- Normally this will be a site to accept a user name and password and log in to determine which code to send, for now it'll just redirect-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Revoke Token</title>
+  <meta name="description" content="Authorize Cindehr">
+</head>
+
+<body>
+
+	<label>Token</label>
+
+  	<input id="revokeToken" type="text"/> <button id="revokeTokenButton">Revoke</button>
+  
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script>
+      $(document).ready(function() {
+
+
+      	$('#revokeTokenButton').click(function() {
+      		const url = '/reference-ser/token/revoke';
+      		const data = $('#revokeToken').val();
+	        $.post(url, data, function(data, status) {
+	            
+	            alert("Token successfully revoked.")
+
+	        }).fail(function() {
+	            alert("Error revoking token");
+	        });
+	    });
+
+
+
+      });
+
+  </script>
+</body>
+</html>

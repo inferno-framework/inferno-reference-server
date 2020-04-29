@@ -15,7 +15,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.TestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -42,12 +45,15 @@ public class TestAuthorizationWithNoData {
 
 	@Test(expected = ResponseStatusException.class)
 	public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
+		
+		Token testToken = TokenManager.getInstance().getServerToken();
+
 		// add a patient
 		Patient pt = new Patient();
 		pt.addName().setFamily("Test");
 
 		IIdType patientId = ourClient.create().resource(pt)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -65,17 +71,20 @@ public class TestAuthorizationWithNoData {
 
 				
 		ourClient.delete().resourceById(patientId)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}
 
 	@Test(expected = ResponseStatusException.class)
 	public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
+		
+		Token testToken = TokenManager.getInstance().getServerToken();
+
 
 		Encounter encounter = new Encounter();
 		IIdType encounterId = ourClient.create().resource(encounter)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -92,7 +101,7 @@ public class TestAuthorizationWithNoData {
 				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
 		
 		ourClient.delete().resourceById(encounterId)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}

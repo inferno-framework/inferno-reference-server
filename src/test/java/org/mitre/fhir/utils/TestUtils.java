@@ -1,4 +1,4 @@
-package org.mitre.fhir.authorization;
+package org.mitre.fhir.utils;
 
 import java.util.Base64;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Base64.Encoder;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 
@@ -48,24 +50,28 @@ public class TestUtils {
 	
 	private static void clearAllPatientsFromDB(IGenericClient ourClient)
 	{
+		Token token = TokenManager.getInstance().getServerToken();
+		
 		List<BundleEntryComponent> patients = FhirUtils.getAllPatients(ourClient);
 								
 		for (BundleEntryComponent bundleEntryComponent : patients) {
 			Patient patient = (Patient) bundleEntryComponent.getResource();
 			System.out.println("Deleting Patient " + patient.getIdElement().getIdPart());
-			ourClient.delete().resource(patient).withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, TestUtils.getAuthorizationHeaderBearerValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE)).execute();
+			ourClient.delete().resource(patient).withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE)).execute();
 		}
 	
 	}
 	
 	private static void clearAllEncountersFromDB(IGenericClient ourClient)
 	{
-			List<BundleEntryComponent> encounters = FhirUtils.getAllEncounters(ourClient);
+		Token token = TokenManager.getInstance().getServerToken();
+
+		List<BundleEntryComponent> encounters = FhirUtils.getAllEncounters(ourClient);
 		
 		for (BundleEntryComponent bundleEntryComponent : encounters) {
 			Encounter encounter = (Encounter) bundleEntryComponent.getResource();
 			System.out.println("Deleting Encounter " + encounter.getIdElement().getIdPart());
-			ourClient.delete().resource(encounter).withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, TestUtils.getAuthorizationHeaderBearerValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE)).execute();
+			ourClient.delete().resource(encounter).withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE)).execute();
 		}			
 	}
 	

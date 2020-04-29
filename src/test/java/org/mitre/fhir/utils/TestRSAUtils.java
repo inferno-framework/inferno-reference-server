@@ -1,4 +1,4 @@
-package org.mitre.fhir.authorization;
+package org.mitre.fhir.utils;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

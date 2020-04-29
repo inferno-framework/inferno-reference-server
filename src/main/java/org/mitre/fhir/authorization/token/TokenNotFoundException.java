@@ -1,4 +1,4 @@
-package org.mitre.fhir.token;
+package org.mitre.fhir.authorization.token;
 
 public class TokenNotFoundException extends Exception {
 	

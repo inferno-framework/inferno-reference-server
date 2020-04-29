@@ -1,11 +1,30 @@
-package org.mitre.fhir.token;
+package org.mitre.fhir.authorization.token;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TokenManager {
 	
-	private static Map<String, Token> tokenMap = new HashMap<String, Token>();
+	private static TokenManager instance;
+		
+	private Map<String, Token> tokenMap = new HashMap<String, Token>();
+	
+	private Token serverToken;
+	
+	private TokenManager()
+	{
+		
+	}
+	
+	public static TokenManager getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new TokenManager();
+		}
+		
+		return instance;
+	}
 	
 	public Token createToken()
 	{
@@ -23,7 +42,10 @@ public class TokenManager {
 			token.revokeToken();
 		}
 		
-		throw new TokenNotFoundException(tokenValue);
+		else
+		{
+			throw new TokenNotFoundException(tokenValue);
+		}
 	}
 	
 	public boolean authenticateToken(String tokenValue) throws TokenNotFoundException
@@ -38,6 +60,21 @@ public class TokenManager {
 		throw new TokenNotFoundException(tokenValue);
 
 
+	}
+	
+	
+	public void clearAllTokens()
+	{
+		tokenMap.clear();
+	}
+
+	public Token getServerToken() {
+		if (serverToken == null)
+		{
+			serverToken = createToken();
+		}
+		
+		return serverToken;
 	}
 	
 	

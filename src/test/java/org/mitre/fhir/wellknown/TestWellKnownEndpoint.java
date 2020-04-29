@@ -1,4 +1,4 @@
-package org.mitre.fhir.authorization;
+package org.mitre.fhir.wellknown;
 
 import java.io.IOException;
 import java.math.BigInteger;
