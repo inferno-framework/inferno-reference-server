@@ -2,15 +2,13 @@ package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
 import org.postgresql.util.Base64;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
 
@@ -19,7 +17,8 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
   private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
   @Override
-  public boolean incomingRequestPostProcessed(RequestDetails requestDetails, HttpServletRequest request,
+  public boolean incomingRequestPostProcessed(RequestDetails requestDetails,
+                                              HttpServletRequest request,
                                               HttpServletResponse response) {
 
     // exempt the capability statement from requiring the token
@@ -78,7 +77,9 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     String resource = requestDetails.getResourceName();
 
-    if (!validResources.contains("*") && !validResources.contains(resource) && !("Patient".equals(resource))) {
+    if (!validResources.contains("*")
+        && !validResources.contains(resource)
+        && !("Patient".equals(resource))) {
       throw new InvalidScopesException(resource);
     }
 
