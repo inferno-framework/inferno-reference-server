@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.mitre.fhir.wellknown.WellKnownAuthorizationEndpointController;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -64,7 +64,7 @@ public class TestWellKnownEndpoint {
     BigInteger exponent = new BigInteger(decoder.decode(exponentString));
 
     //sign a jwt with the rsa public key
-    Algorithm algorithm = Algorithm.RSA256(RSAUtils.getRSAPublicKey(), RSAUtils.getRSAPrivateKey());
+    Algorithm algorithm = Algorithm.RSA256(RsaUtils.getRsaPublicKey(), RsaUtils.getRsaPrivateKey());
     String token = JWT.create().withIssuer("issuer").sign(algorithm);
 
     RSAPublicKey publicKeyFromJWK = new RSAPublicKey() {

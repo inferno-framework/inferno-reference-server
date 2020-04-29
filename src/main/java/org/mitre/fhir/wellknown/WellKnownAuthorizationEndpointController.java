@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
-import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -114,7 +114,7 @@ public class WellKnownAuthorizationEndpointController {
 
     Base64.Encoder encoder = Base64.getUrlEncoder();
 
-    RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
+    RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
     byte[] modulus = publicKey.getModulus().toByteArray();
     byte[] exponent = publicKey.getPublicExponent().toByteArray();
 

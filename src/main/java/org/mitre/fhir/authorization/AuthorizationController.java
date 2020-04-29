@@ -16,7 +16,7 @@ import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
-import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
@@ -249,8 +249,8 @@ public class AuthorizationController {
   private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, String patientId) throws OpenIdTokenGenerationException {
 
     try {
-      RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
-      RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
+      RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
+      RSAPrivateKey privateKey = RsaUtils.getRsaPrivateKey();
 
       // for now hard coding as a Patient
       // http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT

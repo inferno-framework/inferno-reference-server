@@ -1,7 +1,5 @@
 package org.mitre.fhir.utils;
 
-import org.mitre.fhir.utils.exception.RSAKeyException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyFactory;
@@ -14,33 +12,45 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import org.mitre.fhir.utils.exception.RSAKeyException;
 
-public class RSAUtils {
+public class RsaUtils {
 
   private static final String RSA_PUBLIC_KEY_RESOURCE_PATH = "/rsa_key.pub";
   private static final String RSA_PRIVATE_KEY_RESOURCE_PATH = "/rsa_key.key";
   private static final String ALGORITHM = "RSA";
 
-  public static RSAPublicKey getRSAPublicKey() throws RSAKeyException {
-    return getRSAPublicKey(RSA_PUBLIC_KEY_RESOURCE_PATH);
+  /**
+   * Returns the RSA public key.
+   * @return the RSA public key
+   * @throws RSAKeyException error with generating the public key
+   */
+  public static RSAPublicKey getRsaPublicKey() throws RSAKeyException {
+    return getRsaPublicKey(RSA_PUBLIC_KEY_RESOURCE_PATH);
   }
 
-  public static RSAPublicKey getRSAPublicKey(String publicKeyResourcePath) throws RSAKeyException {
+  /**
+   * Returns the RSA public key from the provided file.
+   * @param publicKeyResourcePath the location of the public key
+   * @return the RSA public key
+   * @throws RSAKeyException  error with generating the public key
+   */
+  public static RSAPublicKey getRsaPublicKey(String publicKeyResourcePath) throws RSAKeyException {
     byte[] publicBytes;
     try {
 
-      InputStream in = RSAUtils.class.getResourceAsStream(publicKeyResourcePath);
+      InputStream in = RsaUtils.class.getResourceAsStream(publicKeyResourcePath);
 
       publicBytes = in.readAllBytes();
 
       String temp = new String(publicBytes);
-      String publicKeyPEM = temp.replace("-----BEGIN RSA PUBLIC KEY-----", "");
-      publicKeyPEM = publicKeyPEM.replace("-----END RSA PUBLIC KEY-----", "");
+      String publicKeyPem = temp.replace("-----BEGIN RSA PUBLIC KEY-----", "");
+      publicKeyPem = publicKeyPem.replace("-----END RSA PUBLIC KEY-----", "");
 
-      publicKeyPEM = stripNewlineCharacters(publicKeyPEM);
+      publicKeyPem = stripNewlineCharacters(publicKeyPem);
 
       Decoder decoder = Base64.getDecoder();
-      byte[] decoded = decoder.decode(publicKeyPEM);
+      byte[] decoded = decoder.decode(publicKeyPem);
 
       EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(decoded);
       KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
@@ -52,26 +62,38 @@ public class RSAUtils {
     }
   }
 
-  public static RSAPrivateKey getRSAPrivateKey() throws RSAKeyException {
-    return getRSAPrivateKey(RSA_PRIVATE_KEY_RESOURCE_PATH);
+  /**
+   * Returns the RSA private key.
+   * @return the RSA private key
+   * @throws RSAKeyException error with generating the private key
+   */
+  public static RSAPrivateKey getRsaPrivateKey() throws RSAKeyException {
+    return getRsaPrivateKey(RSA_PRIVATE_KEY_RESOURCE_PATH);
   }
 
-  public static RSAPrivateKey getRSAPrivateKey(String privateKeyResourcePath) throws RSAKeyException {
+  /**
+   * Returns the RSA private key from the provided file.
+   * @param privateKeyResourcePath the location of the private key
+   * @return the RSA private key
+   * @throws RSAKeyException error with generating the private key
+   */
+  public static RSAPrivateKey getRsaPrivateKey(String privateKeyResourcePath)
+      throws RSAKeyException {
     byte[] privateBytes;
     try {
 
-      InputStream in = RSAUtils.class.getResourceAsStream(privateKeyResourcePath);
+      InputStream in = RsaUtils.class.getResourceAsStream(privateKeyResourcePath);
 
       privateBytes = in.readAllBytes();
 
       String temp = new String(privateBytes);
-      String privateKeyPEM = temp.replace("-----BEGIN RSA PRIVATE KEY-----", "");
-      privateKeyPEM = privateKeyPEM.replace("-----END RSA PRIVATE KEY-----", "");
+      String privateKeyPem = temp.replace("-----BEGIN RSA PRIVATE KEY-----", "");
+      privateKeyPem = privateKeyPem.replace("-----END RSA PRIVATE KEY-----", "");
 
-      privateKeyPEM = stripNewlineCharacters(privateKeyPEM);
+      privateKeyPem = stripNewlineCharacters(privateKeyPem);
 
       Decoder decoder = Base64.getDecoder();
-      byte[] decoded = decoder.decode(privateKeyPEM);
+      byte[] decoded = decoder.decode(privateKeyPem);
 
       EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(decoded);
       KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
@@ -84,7 +106,7 @@ public class RSAUtils {
 
   }
 
-  /***
+  /**
    * Strips newline characters. This will usually be \r\n in Windows and \n in UNIX
    *
    * @param s - string to strip

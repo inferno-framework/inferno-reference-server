@@ -26,7 +26,7 @@ import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
-import org.mitre.fhir.utils.RSAUtils;
+import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -554,7 +554,7 @@ public class TestAuthorization {
 
     // will throw an exception if invalid
     DecodedJWT decoded = JWT.decode(idToken);
-    Algorithm algorithm = Algorithm.RSA256(RSAUtils.getRSAPublicKey(), null);
+    Algorithm algorithm = Algorithm.RSA256(RsaUtils.getRsaPublicKey(), null);
 
     JWT.require(algorithm).build().verify(decoded);
 
