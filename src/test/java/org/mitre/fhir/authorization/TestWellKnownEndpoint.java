@@ -31,7 +31,7 @@ public class TestWellKnownEndpoint {
     mockHttpServletRequest.setServerPort(123);
     mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 
-    String jSONString = wellKnownEndpoint.getWellKnownJSON(mockHttpServletRequest);
+    String jSONString = wellKnownEndpoint.getWellKnownJson(mockHttpServletRequest);
 
     ObjectMapper mapper = new ObjectMapper();
     JsonNode jsonNode = mapper.readTree(jSONString);
@@ -53,7 +53,7 @@ public class TestWellKnownEndpoint {
     mockHttpServletRequest.setServerPort(123);
     mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 
-    String jSONString = wellKnownEndpoint.getJWK(mockHttpServletRequest);
+    String jSONString = wellKnownEndpoint.getJwk(mockHttpServletRequest);
     JSONObject jsonObject = new JSONObject(jSONString);
     JSONArray keys = (JSONArray) jsonObject.get("keys");
     JSONObject firstKey = ((JSONObject) (keys.get(0)));
