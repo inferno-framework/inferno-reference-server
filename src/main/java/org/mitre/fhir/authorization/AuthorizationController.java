@@ -6,6 +6,17 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.github.dnault.xmlpatch.internal.Log;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
@@ -22,15 +33,13 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.*;
-import java.util.Base64.Decoder;
 
 @RestController
 public class AuthorizationController {
@@ -79,6 +88,12 @@ public class AuthorizationController {
     Log.info("Authorization Controller added");
   }
 
+  /**
+   * Validat the client Id and return the json result.
+   * @param clientId The client id to validate
+   * @param request The incoming HTTP request
+   * @return the result of the validation
+   */
   @GetMapping(path = "authorizeClientId/{clientId}", produces = {"application/json"})
   public String validateClientId(@PathVariable String clientId, HttpServletRequest request) {
     authorizeClientId(clientId);
@@ -95,16 +110,20 @@ public class AuthorizationController {
   }
 
   /**
-   * Provide a code to get a bearer token for authorization
+   * Provide a code to get a bearer token for authorization.
    *
-   * @param code
+   * @param code the code
    * @return bearer token to be used for authorization
-   * @throws BearerTokenException
+   * @throws BearerTokenException An error with the Bearer Token
    */
   @PostMapping(path = "/token", produces = {"application/json"})
   public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
-                                         @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-                                         @RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) throws BearerTokenException {
+                                         @RequestParam(name = "client_id",
+                                             required = false) String clientIdRequestParam,
+                                         @RequestParam(name = "refresh_token",
+                                             required = false) String refreshToken,
+                                         HttpServletRequest request)
+      throws BearerTokenException {
 
     Log.info("code is " + code);
 
@@ -117,12 +136,15 @@ public class AuthorizationController {
     // if basic header exists, extract clientId and clientSecret from basic header
     if (basicHeader != null) {
       String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
-      clientId = decodedValue.split(":")[0]; // client id is user name, and should be before ':'
-      clientSecret = decodedValue.split(":")[1]; // client secret is password, and should be after ':'
-    }
 
-    // if no basic auth, client id should be supplied as request param
-    else {
+      // client id is user name, and should be before ':'
+      clientId = decodedValue.split(":")[0];
+
+      // client secret is password, and should be after ':'
+      clientSecret = decodedValue.split(":")[1];
+
+      // if no basic auth, client id should be supplied as request param
+    } else {
       clientId = clientIdRequestParam;
     }
 
@@ -157,7 +179,10 @@ public class AuthorizationController {
       patientId = new String(Base64.getDecoder().decode(encodedPatientId));
     }
 
-    if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken)) || (refreshToken != null && FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualCodeOrRefreshToken))) {
+    if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken))
+        || (refreshToken != null && FhirReferenceServerUtils
+        .SAMPLE_REFRESH_TOKEN
+        .equals(actualCodeOrRefreshToken))) {
       return generateBearerTokenResponse(request, clientId, scopes, patientId);
     }
 
@@ -165,49 +190,57 @@ public class AuthorizationController {
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
   }
 
-  private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request, String clientId,
-                                                             String scopes, String patientId) throws BearerTokenException {
+  private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request,
+                                                             String clientId,
+                                                             String scopes,
+                                                             String patientId)
+      throws BearerTokenException {
     HttpHeaders headers = new HttpHeaders();
     headers.setCacheControl(CacheControl.noStore());
     headers.setPragma("no-cache");
 
-    String tokenJSONString = generateBearerToken(request, clientId, scopes, patientId);
+    String tokenJsonString = generateBearerToken(request, clientId, scopes, patientId);
 
-    ResponseEntity<String> responseEntity = new ResponseEntity<String>(tokenJSONString, headers, HttpStatus.OK);
+    ResponseEntity<String> responseEntity = new ResponseEntity<String>(tokenJsonString,
+        headers,
+        HttpStatus.OK);
 
     return responseEntity;
   }
 
   /**
-   * Generates Token in Oauth2 expected format
+   * Generates Token in Oauth2 expected format.
    *
    * @return token JSON String
-   * @throws BearerTokenException
+   * @throws BearerTokenException An error with processing the bearer token
    */
-  private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws BearerTokenException {
+  private String generateBearerToken(HttpServletRequest request,
+                                     String clientId,
+                                     String scopes,
+                                     String patientId) throws BearerTokenException {
 
     String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
         + FhirReferenceServerUtils.FHIR_SERVER_PATH;
     FhirContext fhirContext = FhirContext.forR4();
     IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
 
-    JSONObject tokenJSON = new JSONObject();
+    JSONObject tokenJson = new JSONObject();
 
-    String refreshToken = FhirReferenceServerUtils.createCode(FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN, scopes, patientId);
+    String refreshToken = FhirReferenceServerUtils
+        .createCode(FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN, scopes, patientId);
 
-    List<String> scopesList = Arrays.asList(scopes.split(" "));
 
     String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
 
     String accessToken = FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN + "." + encodedScopes;
 
-    tokenJSON.put("access_token", accessToken);
-    tokenJSON.put("token_type", "bearer");
-    tokenJSON.put("expires_in", 3600);
-    tokenJSON.put("refresh_token", refreshToken);
-    tokenJSON.put("scope", scopes);
-    tokenJSON.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
-    tokenJSON.put("need_patient_banner", false);
+    tokenJson.put("access_token", accessToken);
+    tokenJson.put("token_type", "bearer");
+    tokenJson.put("expires_in", 3600);
+    tokenJson.put("refresh_token", refreshToken);
+    tokenJson.put("scope", scopes);
+    tokenJson.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
+    tokenJson.put("need_patient_banner", false);
 
     if ("".equals(patientId)) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
@@ -215,9 +248,9 @@ public class AuthorizationController {
 
     // get their id
     //String patientId = patient.getIdElement().getIdPart();
-
+    List<String> scopesList = Arrays.asList(scopes.split(" "));
     if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
-      tokenJSON.put("patient", patientId);
+      tokenJson.put("patient", patientId);
     }
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
@@ -228,15 +261,15 @@ public class AuthorizationController {
       }
 
       String encounterId = encounter.getIdElement().getIdPart();
-      tokenJSON.put("encounter", encounterId);
+      tokenJson.put("encounter", encounterId);
     }
 
     try {
-      tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
+      tokenJson.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
     } catch (OpenIdTokenGenerationException openIdTokenGenerationException) {
       throw new BearerTokenException(openIdTokenGenerationException);
     }
-    return tokenJSON.toString();
+    return tokenJson.toString();
   }
 
   /**
@@ -244,17 +277,20 @@ public class AuthorizationController {
    * https://openid.net/specs/openid-connect-core-1_0.html
    *
    * @return token JSON String representing the open id token
-   * @throws OpenIdTokenGenerationException
+   * @throws OpenIdTokenGenerationException An error with processing the OpenID token
    */
-  private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, String patientId) throws OpenIdTokenGenerationException {
+  private String generateSampleOpenIdToken(HttpServletRequest request,
+                                           String clientId,
+                                           String patientId) throws OpenIdTokenGenerationException {
 
     try {
       RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
       RSAPrivateKey privateKey = RsaUtils.getRsaPrivateKey();
 
       // for now hard coding as a Patient
-      // http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
-      String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
+      //http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
+      String fhirUserUrl = FhirReferenceServerUtils
+          .getFhirServerBaseUrl(request) + "/Patient/" + patientId;
 
       Calendar calendar = Calendar.getInstance();
 
@@ -270,7 +306,7 @@ public class AuthorizationController {
           .withAudience(clientId)
           .withExpiresAt(expiresAt)
           .withIssuedAt(issuedAt)
-          .withClaim("fhirUser", fhirUserURL).sign(algorithm);
+          .withClaim("fhirUser", fhirUserUrl).sign(algorithm);
 
       return token;
     } catch (RsaKeyException rsaKeyException) {
@@ -281,10 +317,16 @@ public class AuthorizationController {
   private Encounter getFirstEncounterByPatientId(IGenericClient client, String patientId) {
     Encounter encounter = null;
 
-    Bundle encountersBundle = client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId)).returnBundle(Bundle.class)
+    Bundle encountersBundle = client
+        .search()
+        .forResource(Encounter.class)
+        .where(Encounter.PATIENT.hasId(patientId))
+        .returnBundle(Bundle.class)
         .cacheControl(new CacheControlDirective().setNoCache(true))
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils
+                .createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN,
+                    FhirReferenceServerUtils.DEFAULT_SCOPE))
         .execute();
     List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 
