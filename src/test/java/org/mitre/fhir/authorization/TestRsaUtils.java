@@ -8,7 +8,7 @@ import net.sf.ehcache.util.concurrent.ThreadLocalRandom;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.RsaUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -21,7 +21,7 @@ public class TestRsaUtils {
   private static final String INCORRECT_TEST_PUBLIC_KEY_PATH = "/incorrect_test_key.pub";
 
   @Test
-  public void testRSAPublicAndPrivateKey() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, RSAKeyException {
+  public void testRSAPublicAndPrivateKey() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, RsaKeyException {
     // create a challenge
     byte[] challenge = new byte[10000];
     ThreadLocalRandom.current().nextBytes(challenge);
@@ -41,7 +41,7 @@ public class TestRsaUtils {
   }
 
   @Test
-  public void testReadingWithPublicKey() throws RSAKeyException {
+  public void testReadingWithPublicKey() throws RsaKeyException {
 
     RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
     Algorithm algorithm = Algorithm.RSA256(publicKey, RsaUtils.getRsaPrivateKey());
@@ -54,7 +54,7 @@ public class TestRsaUtils {
   }
 
   @Test(expected = SignatureVerificationException.class)
-  public void testWrongPublicKey() throws RSAKeyException {
+  public void testWrongPublicKey() throws RsaKeyException {
     RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
     Algorithm algorithm = Algorithm.RSA256(publicKey, RsaUtils.getRsaPrivateKey());
     String token = JWT.create().withIssuer("issuer").sign(algorithm);

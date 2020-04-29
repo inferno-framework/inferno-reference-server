@@ -17,7 +17,7 @@ import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RsaUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -273,7 +273,7 @@ public class AuthorizationController {
           .withClaim("fhirUser", fhirUserURL).sign(algorithm);
 
       return token;
-    } catch (RSAKeyException rsaKeyException) {
+    } catch (RsaKeyException rsaKeyException) {
       throw new OpenIdTokenGenerationException(rsaKeyException);
     }
   }

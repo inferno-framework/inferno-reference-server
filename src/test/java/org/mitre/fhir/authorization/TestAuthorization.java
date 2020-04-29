@@ -27,7 +27,7 @@ import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RsaUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -536,7 +536,7 @@ public class TestAuthorization {
   }
 
   @Test
-  public void testGetTokenGivesValidOpenId() throws IllegalArgumentException, RSAKeyException, JSONException, BearerTokenException {
+  public void testGetTokenGivesValidOpenId() throws IllegalArgumentException, RsaKeyException, JSONException, BearerTokenException {
     AuthorizationController authorizationController = new AuthorizationController();
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();

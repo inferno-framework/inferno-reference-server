@@ -12,7 +12,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Base64.Decoder;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 
 public class RsaUtils {
 
@@ -23,9 +23,9 @@ public class RsaUtils {
   /**
    * Returns the RSA public key.
    * @return the RSA public key
-   * @throws RSAKeyException error with generating the public key
+   * @throws RsaKeyException error with generating the public key
    */
-  public static RSAPublicKey getRsaPublicKey() throws RSAKeyException {
+  public static RSAPublicKey getRsaPublicKey() throws RsaKeyException {
     return getRsaPublicKey(RSA_PUBLIC_KEY_RESOURCE_PATH);
   }
 
@@ -33,9 +33,9 @@ public class RsaUtils {
    * Returns the RSA public key from the provided file.
    * @param publicKeyResourcePath the location of the public key
    * @return the RSA public key
-   * @throws RSAKeyException  error with generating the public key
+   * @throws RsaKeyException  error with generating the public key
    */
-  public static RSAPublicKey getRsaPublicKey(String publicKeyResourcePath) throws RSAKeyException {
+  public static RSAPublicKey getRsaPublicKey(String publicKeyResourcePath) throws RsaKeyException {
     byte[] publicBytes;
     try {
 
@@ -58,16 +58,16 @@ public class RsaUtils {
 
       return publicKey;
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-      throw new RSAKeyException("Error getting RSA Public Key", e);
+      throw new RsaKeyException("Error getting RSA Public Key", e);
     }
   }
 
   /**
    * Returns the RSA private key.
    * @return the RSA private key
-   * @throws RSAKeyException error with generating the private key
+   * @throws RsaKeyException error with generating the private key
    */
-  public static RSAPrivateKey getRsaPrivateKey() throws RSAKeyException {
+  public static RSAPrivateKey getRsaPrivateKey() throws RsaKeyException {
     return getRsaPrivateKey(RSA_PRIVATE_KEY_RESOURCE_PATH);
   }
 
@@ -75,10 +75,10 @@ public class RsaUtils {
    * Returns the RSA private key from the provided file.
    * @param privateKeyResourcePath the location of the private key
    * @return the RSA private key
-   * @throws RSAKeyException error with generating the private key
+   * @throws RsaKeyException error with generating the private key
    */
   public static RSAPrivateKey getRsaPrivateKey(String privateKeyResourcePath)
-      throws RSAKeyException {
+      throws RsaKeyException {
     byte[] privateBytes;
     try {
 
@@ -101,7 +101,7 @@ public class RsaUtils {
 
       return privateKey;
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-      throw new RSAKeyException("Error getting RSA Private Key", e);
+      throw new RsaKeyException("Error getting RSA Private Key", e);
     }
 
   }

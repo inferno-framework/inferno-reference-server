@@ -3,7 +3,6 @@ package org.mitre.fhir.app.launch;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

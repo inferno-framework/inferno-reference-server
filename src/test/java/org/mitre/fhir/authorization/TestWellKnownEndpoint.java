@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.RsaUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.mitre.fhir.wellknown.WellKnownAuthorizationEndpointController;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -44,7 +44,7 @@ public class TestWellKnownEndpoint {
   }
 
   @Test
-  public void testGetJWKModulusAndExponent() throws IllegalArgumentException, RSAKeyException {
+  public void testGetJWKModulusAndExponent() throws IllegalArgumentException, RsaKeyException {
     WellKnownAuthorizationEndpointController wellKnownEndpoint = new WellKnownAuthorizationEndpointController();
     MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 

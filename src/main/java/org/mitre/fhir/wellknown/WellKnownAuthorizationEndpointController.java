@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RsaUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -107,10 +107,10 @@ public class WellKnownAuthorizationEndpointController {
    * Returns the JWK for bulk data tests.
    * @param theRequest the incoming HTTP request
    * @return String representing the JWK
-   * @throws RSAKeyException When a key creation failure happens
+   * @throws RsaKeyException When a key creation failure happens
    */
   @GetMapping(path = "/jwk", produces = {"application/json"})
-  public String getJwk(HttpServletRequest theRequest) throws RSAKeyException {
+  public String getJwk(HttpServletRequest theRequest) throws RsaKeyException {
 
     Base64.Encoder encoder = Base64.getUrlEncoder();
 
