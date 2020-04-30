@@ -7,12 +7,12 @@ jobs:
         - mvn test
 
     - name: "Build"
-        script:
-          - mvn compile
+      script:
+        - mvn compile
 
     - name: "Checkstyle"
-        script:
-          - mvn checkstyle:check
+      script:
+        - mvn checkstyle:check
 
     - name: "Docker Build"
       services:
