@@ -7,7 +7,7 @@ public class TokenManager {
 	
 	private static TokenManager instance;
 		
-	private Map<String, Token> tokenMap = new HashMap<String, Token>();
+	private final Map<String, Token> tokenMap = new HashMap<String, Token>();
 	
 	private Token serverToken;
 	
@@ -29,17 +29,29 @@ public class TokenManager {
 	public Token createToken()
 	{
 		Token token = new Token();
+				
 		tokenMap.put(token.getTokenValue(), token);
+		
 		return token;
 	}
 	
-	public void revokeToken(String tokenValue) throws TokenNotFoundException
+	public void revokeToken(String tokenValue) throws TokenNotFoundException, InactiveTokenException
 	{
 		Token token = tokenMap.get(tokenValue);
 		
+
+		
 		if (token != null)
 		{
-			token.revokeToken();
+			if (token.isActive())
+			{
+				token.revokeToken();
+			}
+			
+			else
+			{
+				throw new InactiveTokenException(token);
+			}
 		}
 		
 		else
@@ -58,17 +70,17 @@ public class TokenManager {
 		}
 		
 		throw new TokenNotFoundException(tokenValue);
-
-
 	}
 	
 	
 	public void clearAllTokens()
 	{
 		tokenMap.clear();
+		serverToken = null;
 	}
 
 	public Token getServerToken() {
+		
 		if (serverToken == null)
 		{
 			serverToken = createToken();

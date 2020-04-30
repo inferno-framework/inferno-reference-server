@@ -40,7 +40,7 @@ public class TestTokenManager {
 	}
 	
 	@Test
-	public void testRevokeToken() throws TokenNotFoundException
+	public void testRevokeToken() throws TokenNotFoundException, InactiveTokenException
 	{
 		TokenManager tokenManager = TokenManager.getInstance();
 		Token token = tokenManager.createToken();

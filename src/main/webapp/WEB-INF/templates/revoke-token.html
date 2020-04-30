@@ -20,8 +20,8 @@
 
 
       	$('#revokeTokenButton').click(function() {
-      		const url = '/reference-ser/token/revoke';
-      		const data = $('#revokeToken').val();
+      		const url = '/reference-server/oauth/token/revoke';
+      		const data = { "token" : $('#revokeToken').val() || "" };
 	        $.post(url, data, function(data, status) {
 	            
 	            alert("Token successfully revoked.")

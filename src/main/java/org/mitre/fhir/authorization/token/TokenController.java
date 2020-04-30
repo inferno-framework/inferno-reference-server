@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/token")
 public class TokenController {	
 	@PostMapping(path = "/revoke")
-	public void revoke(@RequestParam(name = "token", required = true) String tokenString, HttpServletRequest request)
+	public void revoke(@RequestParam(name = "token", required = true) String tokenString, HttpServletRequest request) throws InactiveTokenException
 	{
 		TokenManager tokenManager = TokenManager.getInstance();
 		try
