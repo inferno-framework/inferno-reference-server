@@ -13,9 +13,3 @@ jobs:
     - name: "Checkstyle"
       script:
         - mvn checkstyle:check
-
-    - name: "Docker Build"
-      services:
-        - docker
-      script:
-        - docker build -t fhir-reference-server .
