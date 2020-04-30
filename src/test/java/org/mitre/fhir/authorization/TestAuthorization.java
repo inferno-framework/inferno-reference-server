@@ -256,6 +256,18 @@ public class TestAuthorization {
 	}
 
 	@Test
+	public void testCapabilityStatementListResourceIsCorrect() {
+		//Get the CapabilityStatement
+		CapabilityStatement capabilityStatement = ourClient.capabilities().ofType(CapabilityStatement.class).execute();
+		capabilityStatement
+				.getRest().get(0).getResource()
+				.stream()
+				.filter(restResource -> "List".equals(restResource.getType()))
+				.findFirst()
+				.ifPresent(listResource -> Assert.assertEquals(listResource.getProfile(), "http://hl7.org/fhir/StructureDefinition/List"));
+	}
+
+	@Test
 	public void testGetTokenWithoutBasicAuth() throws JSONException, BearerTokenException {
 		AuthorizationController authorizationController = new AuthorizationController();
 		String serverBaseUrl = "";
