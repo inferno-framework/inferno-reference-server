@@ -61,9 +61,9 @@ public class WellKnownAuthorizationEndpointController {
 
     JSONObject wellKnownJson = new JSONObject();
     wellKnownJson.put(WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY,
-        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionURI(theRequest));
+        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_TOKEN_ENDPOINT_KEY,
-        ServerConformanceWithAuthorizationProvider.getTokenExtensionURI(theRequest));
+        ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
 
     return wellKnownJson.toString();
@@ -84,9 +84,9 @@ public class WellKnownAuthorizationEndpointController {
 
     openIdConfigJson.put("issuer", FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest));
     openIdConfigJson.put("authorization_endpoint",
-        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionURI(theRequest));
+        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(theRequest));
     openIdConfigJson.put("token_endpoint",
-        ServerConformanceWithAuthorizationProvider.getTokenExtensionURI(theRequest));
+        ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(theRequest));
     openIdConfigJson.put(WELL_KNOWN_JWK_URI_KEY, uri);
 
     String[] responseTypesSupported = {"code", "id_token", "token id_token"};
