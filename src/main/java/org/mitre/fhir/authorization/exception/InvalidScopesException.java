@@ -8,7 +8,13 @@ public class InvalidScopesException extends BaseServerResponseException {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The Exception thrown when clients attempt to access resources not provisioned in their scopes.
+   * @param resource the resource which the client tried to access.
+   */
   public InvalidScopesException(String resource) {
-    super(HTTP_RESPONSE_CODE_UNAUTHORIZED, "Access to Resource " + resource + " is restricted due to invalid scopes");
+    super(HTTP_RESPONSE_CODE_UNAUTHORIZED, "Access to Resource "
+        + resource
+        + " is restricted due to invalid scopes");
   }
 }
