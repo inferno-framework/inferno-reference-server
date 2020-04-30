@@ -20,6 +20,8 @@ import ca.uhn.fhir.jpa.provider.r4.JpaConformanceProviderR4;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 
+import java.util.Optional;
+
 public class ServerConformanceWithAuthorizationProvider extends JpaConformanceProviderR4 {
 	
 	private static final String OAUTH_URL = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
@@ -32,13 +34,22 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 	
 	private static final String LOCATION_RESOURCE_TYPE = "Location";
 	private static final String NEAR_SEARCH_PARAM_NAME = "near";
-	
+
 	private static final String SEARCH_REV_INCLUDE = "Provenance:target";
 
 	
 	public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
 			IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
 		super(theRestfulServer, theSystemDao, theDaoConfig);	
+	}
+
+	private void fixListResource(CapabilityStatementRestComponent restComponents) {
+		restComponents
+				.getResource()
+				.stream()
+				.filter(restResource -> "List".equals(restResource.getType()))
+				.findFirst()
+				.ifPresent(listResource -> listResource.setProfile("http://hl7.org/fhir/StructureDefinition/List"));
 	}
 	
 	@Override
@@ -62,12 +73,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 		Extension authorizeExtension = new Extension();
 		authorizeExtension.setUrl(AUTHORIZE_EXTENSION_URL);
 		UriType authorizeValue = new UriType();
-		authorizeValue.setValue(getAuthorizationExtensionURI(theRequest));		
+		authorizeValue.setValue(getAuthorizationExtensionURI(theRequest));
 		authorizeExtension.setValue(authorizeValue);//valueUri
 		oauthUris.addExtension(authorizeExtension);
 		
 		security.addExtension(oauthUris);		
 		rest.setSecurity(security);
+
+		fixListResource(rest);
 		
 		//Location searchParam "near" is missing type, need to add it
 		//https://www.hl7.org/fhir/location.html
