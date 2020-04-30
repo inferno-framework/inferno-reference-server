@@ -51,6 +51,14 @@ Tests can be run with:
 mvn test
 ```
 
+## Running Checkstyle
+
+Checkstyle can be run with:
+
+```shell
+mvn checkstyle:check
+```
+
 ## Contact Us
 The Inferno development team can be reached by email at inferno@groups.mitre.org. Inferno also has a dedicated [HL7 FHIR chat channel](https://chat.fhir.org/#narrow/stream/153-inferno).
 
