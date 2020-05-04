@@ -1,117 +1,144 @@
 package org.mitre.fhir.wellknown;
 
+import com.github.dnault.xmlpatch.internal.Log;
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.github.dnault.xmlpatch.internal.Log;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
-import org.mitre.fhir.utils.RSAUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.RsaUtils;
+import org.mitre.fhir.utils.exception.RsaKeyException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WellKnownAuthorizationEndpointController {
 
-	private static final String WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY = "authorization_endpoint";
-	private static final String WELL_KNOWN_TOKEN_ENDPOINT_KEY = "token_endpoint";
-	private static final String WELL_KNOWN_CAPABILITIES_KEY = "capabilities";
-	private static final String WELL_KNOWN_JWK_URI_KEY = "jwks_uri";
+  private static final String WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY = "authorization_endpoint";
+  private static final String WELL_KNOWN_TOKEN_ENDPOINT_KEY = "token_endpoint";
+  private static final String WELL_KNOWN_CAPABILITIES_KEY = "capabilities";
+  private static final String WELL_KNOWN_JWK_URI_KEY = "jwks_uri";
 
-	// 2.1 on
-	// http://hl7.org/fhir/smart-app-launch/conformance/index.html#core-capabilities
-	private static final String[] capabilityValues = { "launch-ehr", "launch-standalone", "client-public",
-			"client-confidential-symmetric", "sso-openid-connect", "context-banner", "context-style",
-			"context-ehr-patient", "context-ehr-encounter", "context-standalone-patient",
-			"context-standalone-encounter", "permission-offline", "permission-patient", "permission-user" };
-	private static final JSONArray WELL_KNOWN_CAPABILITIES_VALUES = new JSONArray(capabilityValues);
+  // 2.1 on
+  // http://hl7.org/fhir/smart-app-launch/conformance/index.html#core-capabilities
+  private static final String[] capabilityValues = {
+      "launch-ehr",
+      "launch-standalone",
+      "client-public",
+      "client-confidential-symmetric",
+      "sso-openid-connect",
+      "context-banner",
+      "context-style",
+      "context-ehr-patient",
+      "context-ehr-encounter",
+      "context-standalone-patient",
+      "context-standalone-encounter",
+      "permission-offline",
+      "permission-patient",
+      "permission-user"
+      };
 
-	@PostConstruct
-	protected void postConstruct() {
-		Log.info("Well Known Authorization Controller added.");
-	}
+  private static final JSONArray WELL_KNOWN_CAPABILITIES_VALUES = new JSONArray(capabilityValues);
 
-	/**
-	 * Get request to support well-known endpoints for authorization metadata. See
-	 * http://www.hl7.org/fhir/smart-app-launch/conformance/index.html#using-well-known
-	 * 
-	 * @return String representing json object of metadata returned at this url
-	 * @throws IOException
-	 */
-	@GetMapping(path = "/smart-configuration", produces = { "application/json" })
-	public String getWellKnownJSON(HttpServletRequest theRequest) {
+  @PostConstruct
+  protected void postConstruct() {
+    Log.info("Well Known Authorization Controller added.");
+  }
 
-		JSONObject wellKnownJSON = new JSONObject();
-		wellKnownJSON.put(WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY,
-				ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionURI(theRequest));
-		wellKnownJSON.put(WELL_KNOWN_TOKEN_ENDPOINT_KEY,
-				ServerConformanceWithAuthorizationProvider.getTokenExtensionURI(theRequest));
-		wellKnownJSON.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
+  /**
+   * Get request to support well-known endpoints for authorization metadata. See
+   * http://www.hl7.org/fhir/smart-app-launch/conformance/index.html#using-well-known
+   *
+   * @return String representing json object of metadata returned at this url
+   * @throws IOException when the request fails
+   */
+  @GetMapping(path = "/smart-configuration", produces = {"application/json"})
+  public String getWellKnownJson(HttpServletRequest theRequest) {
 
-		return wellKnownJSON.toString();
-	}
+    JSONObject wellKnownJson = new JSONObject();
+    wellKnownJson.put(WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY,
+        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(theRequest));
+    wellKnownJson.put(WELL_KNOWN_TOKEN_ENDPOINT_KEY,
+        ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(theRequest));
+    wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
 
-	@GetMapping(path = "/openid-configuration", produces = { "application/json" })
-	public String getOpenIdConfiguration(HttpServletRequest theRequest) {
+    return wellKnownJson.toString();
+  }
 
-		String uri = FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest) + "/.well-known/jwk";
+  /**
+   * Supports retrieval of the opopenid configuration for authorization and authentication.
+   *
+   * @param theRequest the incoming HTTP request
+   * @return String representing the JSON object of the OpenID configuration
+   */
+  @GetMapping(path = "/openid-configuration", produces = {"application/json"})
+  public String getOpenIdConfiguration(HttpServletRequest theRequest) {
 
-		JSONObject openIdConfigJSON = new JSONObject();
+    String uri = FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest) + "/.well-known/jwk";
 
-		openIdConfigJSON.put("issuer", FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest));
-		openIdConfigJSON.put("authorization_endpoint", ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionURI(theRequest));
-		openIdConfigJSON.put("token_endpoint", ServerConformanceWithAuthorizationProvider.getTokenExtensionURI(theRequest));
-		openIdConfigJSON.put(WELL_KNOWN_JWK_URI_KEY, uri);
-		
-		String[] responseTypesSupported = {"code","id_token","token id_token"};
-		openIdConfigJSON.put("response_types_supported", new JSONArray(responseTypesSupported));
-		
-		String[] subjectTypesSupported = {"pairwise","public"};
-		openIdConfigJSON.put("subject_types_supported", new JSONArray(subjectTypesSupported));
+    JSONObject openIdConfigJson = new JSONObject();
 
-		String[] idTokenSigningAlgorithmValuesSupported = {"RS256"};
-		openIdConfigJSON.put("id_token_signing_alg_values_supported", new JSONArray(idTokenSigningAlgorithmValuesSupported));
-		
-		return openIdConfigJSON.toString();
+    openIdConfigJson.put("issuer", FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest));
+    openIdConfigJson.put("authorization_endpoint",
+        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(theRequest));
+    openIdConfigJson.put("token_endpoint",
+        ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(theRequest));
+    openIdConfigJson.put(WELL_KNOWN_JWK_URI_KEY, uri);
 
-	}
+    String[] responseTypesSupported = {"code", "id_token", "token id_token"};
+    openIdConfigJson.put("response_types_supported", new JSONArray(responseTypesSupported));
 
-	@GetMapping(path = "/jwk", produces = { "application/json" })
-	public String getJWK(HttpServletRequest theRequest) throws RSAKeyException {
+    String[] subjectTypesSupported = {"pairwise", "public"};
+    openIdConfigJson.put("subject_types_supported", new JSONArray(subjectTypesSupported));
 
-		Base64.Encoder encoder = Base64.getUrlEncoder();
+    String[] idTokenSigningAlgorithmValuesSupported = {"RS256"};
+    openIdConfigJson.put("id_token_signing_alg_values_supported",
+        new JSONArray(idTokenSigningAlgorithmValuesSupported));
 
-		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
-		byte[] modulus = publicKey.getModulus().toByteArray();
-		byte[] exponent = publicKey.getPublicExponent().toByteArray();
+    return openIdConfigJson.toString();
 
-		String algorithm = "RS256";
-		String kty = "RSA";
-		String use = "sig";
+  }
 
-		String encodedModulus = encoder.encodeToString(modulus);
-		String encodedExponent = encoder.encodeToString(exponent);
+  /**
+   * Returns the JWK for bulk data tests.
+   * @param theRequest the incoming HTTP request
+   * @return String representing the JWK
+   * @throws RsaKeyException When a key creation failure happens
+   */
+  @GetMapping(path = "/jwk", produces = {"application/json"})
+  public String getJwk(HttpServletRequest theRequest) throws RsaKeyException {
 
-		JSONObject jwk = new JSONObject();
-		JSONArray keys = new JSONArray();
-		JSONObject firstKeyEntry = new JSONObject();
-		firstKeyEntry.put("alg", algorithm);
-		firstKeyEntry.put("kty", kty);
-		firstKeyEntry.put("use", use);
-		firstKeyEntry.put("n", encodedModulus);
-		firstKeyEntry.put("e", encodedExponent);
-		keys.put(firstKeyEntry);
-		jwk.put("keys", keys);
+    Base64.Encoder encoder = Base64.getUrlEncoder();
 
-		return jwk.toString();
+    RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
+    byte[] modulus = publicKey.getModulus().toByteArray();
+    byte[] exponent = publicKey.getPublicExponent().toByteArray();
 
-	}
+    String algorithm = "RS256";
+    String kty = "RSA";
+    String use = "sig";
+
+    String encodedModulus = encoder.encodeToString(modulus);
+    String encodedExponent = encoder.encodeToString(exponent);
+
+    JSONObject firstKeyEntry = new JSONObject();
+    firstKeyEntry.put("alg", algorithm);
+    firstKeyEntry.put("kty", kty);
+    firstKeyEntry.put("use", use);
+    firstKeyEntry.put("n", encodedModulus);
+    firstKeyEntry.put("e", encodedExponent);
+
+    JSONArray keys = new JSONArray();
+    keys.put(firstKeyEntry);
+
+    JSONObject jwk = new JSONObject();
+    jwk.put("keys", keys);
+
+    return jwk.toString();
+
+  }
 }
