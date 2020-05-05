@@ -23,6 +23,7 @@ import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
+import org.mitre.fhir.authorization.token.TokenNotFoundException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RSAUtils;
@@ -77,6 +78,7 @@ public class AuthorizationController {
 	 * @param code
 	 * @return bearer token to be used for authorization
 	 * @throws BearerTokenException 
+	 * @throws TokenNotFoundException 
 	 */
 	@PostMapping(path = "/token", produces = { "application/json" })
 	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
@@ -142,11 +144,25 @@ public class AuthorizationController {
 			patientId = new String(Base64.getDecoder().decode(encodedPatientId));
 		}
 		
-		if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken) ) || (refreshToken != null && FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN.equals(actualCodeOrRefreshToken)))
+		
+		
+		if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken) ))
 		{
 			return generateBearerTokenResponse(request, clientId, scopes, patientId);
 		}
 		
+		try
+		{
+			if (refreshToken != null && TokenManager.getInstance().authenticateRefreshToken(actualCodeOrRefreshToken))
+			{
+				return generateBearerTokenResponse(request, clientId, scopes, patientId); 
+			}
+		}
+		
+		catch (TokenNotFoundException tokenNotFoundException)
+		{
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Refresh Token " + refreshToken + " was not found");
+		}
 
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
 	}
@@ -169,6 +185,7 @@ public class AuthorizationController {
 	 * 
 	 * @return token JSON String
 	 * @throws BearerTokenException 
+	 * @throws TokenNotFoundException 
 	 */
 	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws BearerTokenException {
 
@@ -179,7 +196,6 @@ public class AuthorizationController {
 
 		JSONObject tokenJSON = new JSONObject();
 
-		String refreshToken = FhirReferenceServerUtils.createCode(FhirReferenceServerUtils.SAMPLE_REFRESH_TOKEN, scopes, patientId); 
 
 		List<String> scopesList = Arrays.asList(scopes.split(" "));
 		
@@ -188,13 +204,24 @@ public class AuthorizationController {
 		TokenManager tokenManager = TokenManager.getInstance();
 		Token token = tokenManager.createToken();
 		
+		String refreshTokenValue = "";
+		try
+		{
+			Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
+			refreshTokenValue = FhirReferenceServerUtils.createCode(refreshToken.getTokenValue(), scopes, patientId); 
+		}
 		
+		catch (Exception exception)
+		{
+			throw new BearerTokenException(exception);
+		}
+				
 		String accessToken = token.getTokenValue() + "." + encodedScopes;
 
 		tokenJSON.put("access_token", accessToken);
 		tokenJSON.put("token_type", "bearer");
 		tokenJSON.put("expires_in", 3600);
-		tokenJSON.put("refresh_token", refreshToken);
+		tokenJSON.put("refresh_token", refreshTokenValue);
 		tokenJSON.put("scope", scopes);
 		tokenJSON.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
 		tokenJSON.put("need_patient_banner", false);

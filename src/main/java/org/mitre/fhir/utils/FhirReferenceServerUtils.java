@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FhirReferenceServerUtils {
 
 	public static final String SAMPLE_CODE = "SAMPLE_CODE";
-	public static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
+	//public static final String SAMPLE_REFRESH_TOKEN = "SAMPLE_REFRESH_TOKEN";
 
 	public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 	public static final String BEARER_TOKEN_PREFIX = "Bearer";

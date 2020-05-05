@@ -28,7 +28,5 @@ public class Token {
 	{
 		return tokenValue;
 	}
-	
-	
 
 }
