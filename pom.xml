@@ -222,72 +222,70 @@
                         </webApp>
                     </configuration>
                 </plugin>
-            </plugins>
-        </pluginManagement>
 
-        <plugins>
-            <!-- Overlay tells the WAR plugin to include the FHIR Tester overlay. -->
-            <!-- You can omit it if you are not using that feature. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Build-Time>${maven.build.timestamp}</Build-Time>
-                        </manifestEntries>
-                    </archive>
-                    <overlays>
-                        <overlay>
-                            <groupId>ca.uhn.hapi.fhir</groupId>
-                            <artifactId>hapi-fhir-testpage-overlay</artifactId>
-                        </overlay>
-                    </overlays>
-                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-                </configuration>
-            </plugin>
-            <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-enforcer-plugin</artifactId>
-		        <version>1.4.1</version>
-		        <configuration>
-		            <rules><dependencyConvergence/></rules>
-		        </configuration>
-		    </plugin>
-
-            <!-- Configure Checkstyle -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${checkstyle.plugin.version}</version>
-                <configuration>
-                    <configLocation>${checkstyle.config}</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <violationSeverity>warning</violationSeverity>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>${checkstyle.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
+	            <!-- Overlay tells the WAR plugin to include the FHIR Tester overlay. -->
+	            <!-- You can omit it if you are not using that feature. -->
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-war-plugin</artifactId>
+	                <version>3.2.0</version>
+	                <configuration>
+	                    <archive>
+	                        <manifestEntries>
+	                            <Build-Time>${maven.build.timestamp}</Build-Time>
+	                        </manifestEntries>
+	                    </archive>
+	                    <overlays>
+	                        <overlay>
+	                            <groupId>ca.uhn.hapi.fhir</groupId>
+	                            <artifactId>hapi-fhir-testpage-overlay</artifactId>
+	                        </overlay>
+	                    </overlays>
+	                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+	                </configuration>
+	            </plugin>
+	            <plugin>
+			        <groupId>org.apache.maven.plugins</groupId>
+			        <artifactId>maven-enforcer-plugin</artifactId>
+			        <version>1.4.1</version>
+			        <configuration>
+			            <rules><dependencyConvergence/></rules>
+			        </configuration>
+			    </plugin>
+	
+	            <!-- Configure Checkstyle -->
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-checkstyle-plugin</artifactId>
+	                <version>${checkstyle.plugin.version}</version>
+	                <configuration>
+	                    <configLocation>${checkstyle.config}</configLocation>
+	                    <encoding>UTF-8</encoding>
+	                    <consoleOutput>true</consoleOutput>
+	                    <failsOnError>true</failsOnError>
+	                    <violationSeverity>warning</violationSeverity>
+	                    <linkXRef>false</linkXRef>
+	                </configuration>
+	                <dependencies>
+	                    <dependency>
+	                        <groupId>com.puppycrawl.tools</groupId>
+	                        <artifactId>checkstyle</artifactId>
+	                        <version>${checkstyle.version}</version>
+	                    </dependency>
+	                </dependencies>
+	                <executions>
+	                    <execution>
+	                        <id>validate</id>
+	                        <phase>validate</phase>
+	                        <goals>
+	                            <goal>check</goal>
+	                        </goals>
+	                    </execution>
+	                </executions>
+	            </plugin>
+        	</plugins>
+      </pluginManagement>
+        
     </build>
 
 </project>
