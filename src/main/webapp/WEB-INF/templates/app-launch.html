@@ -2,42 +2,42 @@
 <!-- Normally this will be a site to accept a user name and password and log in to determine which code to send, for now it'll just redirect-->
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <title>App Launch</title>
-  <meta name="description" content="Authorize Cindehr">
+    <title>App Launch</title>
+    <meta content="Authorize Cindehr" name="description">
 </head>
 
 <body>
 
-	<label>App Launch URI</label>
+<label>App Launch URI</label>
 
-  	<input id="appURI" type="text"/> <button id="launchAppButton">Launch App</button>
-  
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   <script>
-      $(document).ready(function() {
+<input id="appURI" type="text"/>
+<button id="launchAppButton">Launch App</button>
 
-
-      	$('#launchAppButton').click(function() {
-      		const url = '/reference-server/app/fhir-server-path'
-	        $.get(url, function(data, status) {
-	            let issParam = encodeURIComponent(data);
-	            let launchParam = "123"; //for now just static, but should be communicated back to fhir reference server and stored http://www.hl7.org/fhir/smart-app-launch/
-	            let appURI = $('#appURI').val(); 
-	            let launchLinkHref = appURI + '?' + 'launch=' + launchParam + '&' + 'iss=' + issParam; 
-
-	            window.location.href = launchLinkHref;
-
-	        }).fail(function() {
-	            alert("Error getting ISS");
-	        });
-	    });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
 
 
+        $('#launchAppButton').click(function () {
+            const url = '/reference-server/app/fhir-server-path'
+            $.get(url, function (data, status) {
+                let issParam = encodeURIComponent(data);
+                let launchParam = "123"; //for now just static, but should be communicated back to fhir reference server and stored http://www.hl7.org/fhir/smart-app-launch/
+                let appURI = $('#appURI').val();
+                let launchLinkHref = appURI + '?' + 'launch=' + launchParam + '&' + 'iss=' + issParam;
 
-      });
+                window.location.href = launchLinkHref;
 
-  </script>
+            }).fail(function () {
+                alert("Error getting ISS");
+            });
+        });
+
+
+    });
+
+</script>
 </body>
 </html>

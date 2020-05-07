@@ -26,8 +26,8 @@ import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.authorization.token.TokenNotFoundException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
-import org.mitre.fhir.utils.RSAUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.RsaUtils;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -65,25 +65,23 @@ public class AuthorizationController {
 
 		Bundle patientsBundle = FhirUtils.getPatientsBundle(client);
 		String json = fhirContext.newJsonParser().encodeResourceToString(patientsBundle);
-		
-		
+
 		return json;
 	}
-	
-	
 
 	/**
 	 * Provide a code to get a bearer token for authorization
 	 * 
 	 * @param code
 	 * @return bearer token to be used for authorization
-	 * @throws BearerTokenException 
-	 * @throws TokenNotFoundException 
+	 * @throws BearerTokenException
+	 * @throws TokenNotFoundException
 	 */
 	@PostMapping(path = "/token", produces = { "application/json" })
 	public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
 			@RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request) throws BearerTokenException {
+			@RequestParam(name = "refresh_token", required = false) String refreshToken, HttpServletRequest request)
+			throws BearerTokenException {
 
 		Log.info("code is " + code);
 
@@ -109,27 +107,24 @@ public class AuthorizationController {
 
 		String scopes = "";
 		String patientId = "";
-						
+
 		String fullCodeString;
-		
-		if (code != null)
-		{
+
+		if (code != null) {
 			fullCodeString = code;
 		}
-		
-		else if (refreshToken != null)
-		{
+
+		else if (refreshToken != null) {
 			fullCodeString = refreshToken;
 		}
-		
-		else
-		{
+
+		else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
 		}
-				
+
 		// the provided code is actualcode.scopes
 		String[] fullCode = fullCodeString.split("\\.");
-		
+
 		String actualCodeOrRefreshToken = fullCode[0];
 
 		// if scope was included
@@ -137,31 +132,25 @@ public class AuthorizationController {
 			String encodedScopes = fullCode[1];
 			scopes = new String(Base64.getDecoder().decode(encodedScopes));
 		}
-		
-		if (fullCode.length >= 3)
-		{
+
+		if (fullCode.length >= 3) {
 			String encodedPatientId = fullCode[2];
 			patientId = new String(Base64.getDecoder().decode(encodedPatientId));
 		}
-		
-		
-		
-		if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken) ))
-		{
+
+		if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken))) {
 			return generateBearerTokenResponse(request, clientId, scopes, patientId);
 		}
-		
-		try
-		{
-			if (refreshToken != null && TokenManager.getInstance().authenticateRefreshToken(actualCodeOrRefreshToken))
-			{
-				return generateBearerTokenResponse(request, clientId, scopes, patientId); 
+
+		try {
+			if (refreshToken != null && TokenManager.getInstance().authenticateRefreshToken(actualCodeOrRefreshToken)) {
+				return generateBearerTokenResponse(request, clientId, scopes, patientId);
 			}
 		}
-		
-		catch (TokenNotFoundException tokenNotFoundException)
-		{
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Refresh Token " + refreshToken + " was not found");
+
+		catch (TokenNotFoundException tokenNotFoundException) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Refresh Token " + refreshToken + " was not found");
 		}
 
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
@@ -184,10 +173,11 @@ public class AuthorizationController {
 	 * Generates Token in Oauth2 expected format
 	 * 
 	 * @return token JSON String
-	 * @throws BearerTokenException 
-	 * @throws TokenNotFoundException 
+	 * @throws BearerTokenException
+	 * @throws TokenNotFoundException
 	 */
-	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId) throws BearerTokenException {
+	private String generateBearerToken(HttpServletRequest request, String clientId, String scopes, String patientId)
+			throws BearerTokenException {
 
 		String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
 				+ FhirReferenceServerUtils.FHIR_SERVER_PATH;
@@ -196,26 +186,23 @@ public class AuthorizationController {
 
 		JSONObject tokenJSON = new JSONObject();
 
-
 		List<String> scopesList = Arrays.asList(scopes.split(" "));
-		
+
 		String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
-		
+
 		TokenManager tokenManager = TokenManager.getInstance();
 		Token token = tokenManager.createToken();
-		
+
 		String refreshTokenValue = "";
-		try
-		{
+		try {
 			Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
-			refreshTokenValue = FhirReferenceServerUtils.createCode(refreshToken.getTokenValue(), scopes, patientId); 
+			refreshTokenValue = FhirReferenceServerUtils.createCode(refreshToken.getTokenValue(), scopes, patientId);
 		}
-		
-		catch (Exception exception)
-		{
+
+		catch (Exception exception) {
 			throw new BearerTokenException(exception);
 		}
-				
+
 		String accessToken = token.getTokenValue() + "." + encodedScopes;
 
 		tokenJSON.put("access_token", accessToken);
@@ -231,7 +218,7 @@ public class AuthorizationController {
 		}
 
 		// get their id
-		//String patientId = patient.getIdElement().getIdPart();
+		// String patientId = patient.getIdElement().getIdPart();
 
 		if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
 			tokenJSON.put("patient", patientId);
@@ -248,13 +235,11 @@ public class AuthorizationController {
 			tokenJSON.put("encounter", encounterId);
 		}
 
-		try
-		{
+		try {
 			tokenJSON.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
 		}
-		
-		catch (OpenIdTokenGenerationException openIdTokenGenerationException)
-		{
+
+		catch (OpenIdTokenGenerationException openIdTokenGenerationException) {
 			throw new BearerTokenException(openIdTokenGenerationException);
 		}
 		return tokenJSON.toString();
@@ -265,54 +250,47 @@ public class AuthorizationController {
 	 * https://openid.net/specs/openid-connect-core-1_0.html
 	 * 
 	 * @return token JSON String representing the open id token
-	 * @throws OpenIdTokenGenerationException 
+	 * @throws OpenIdTokenGenerationException
 	 */
-	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, String patientId) throws OpenIdTokenGenerationException {
-		
-		try
-		{
-			RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
-			RSAPrivateKey privateKey = RSAUtils.getRSAPrivateKey();
-		
+	private String generateSampleOpenIdToken(HttpServletRequest request, String clientId, String patientId)
+			throws OpenIdTokenGenerationException {
+
+		try {
+			RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
+			RSAPrivateKey privateKey = RsaUtils.getRsaPrivateKey();
+
 			// for now hard coding as a Patient
 			// http://hl7.org/fhir/smart-app-launch/worked_example_id_token/index.html#Encode-them-in-a-JWT
 			String fhirUserURL = FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + patientId;
-	
+
 			Calendar calendar = Calendar.getInstance();
-			
+
 			Date issuedAt = calendar.getTime();
 			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
 			Date expiresAt = calendar.getTime();
-			
-			
-			
+
 			Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
-			String token = JWT.create()
-					.withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-					.withSubject("")
-					.withAudience(clientId)
-					.withExpiresAt(expiresAt)
-					.withIssuedAt(issuedAt)
+			String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
+					.withSubject("").withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
 					.withClaim("fhirUser", fhirUserURL).sign(algorithm);
-			
+
 			return token;
 		}
-		
-		catch (RSAKeyException rsaKeyException)
-		{
+
+		catch (RsaKeyException rsaKeyException) {
 			throw new OpenIdTokenGenerationException(rsaKeyException);
 		}
 	}
 
 	private Encounter getFirstEncounterByPatientId(IGenericClient client, String patientId) {
 		Encounter encounter = null;
-		
+
 		Token token = TokenManager.getInstance().getServerToken();
 
-		Bundle encountersBundle = client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId)).returnBundle(Bundle.class)
-				.cacheControl(new CacheControlDirective().setNoCache(true))
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
+		Bundle encountersBundle = client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId))
+				.returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils
+						.createAuthorizationHeaderValue(token.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 		List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 

@@ -1,19 +1,16 @@
 package org.mitre.fhir.authorization;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Base64;
-
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
+import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
+import com.github.dnault.xmlpatch.internal.Log;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
@@ -22,16 +19,13 @@ import org.mitre.fhir.utils.TestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.github.dnault.xmlpatch.internal.Log;
-
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Base64;
 
 /***
  * Test cases without preinserting any data for testing things like missing data
- * 
+ *
  * @author HERSHIL
  *
  */
@@ -45,7 +39,7 @@ public class TestAuthorizationWithNoData {
 
 	@Test(expected = ResponseStatusException.class)
 	public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
-		
+
 		Token testToken = TokenManager.getInstance().getServerToken();
 
 		// add a patient
@@ -53,7 +47,9 @@ public class TestAuthorizationWithNoData {
 		pt.addName().setFamily("Test");
 
 		IIdType patientId = ourClient.create().resource(pt)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+								FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -66,25 +62,26 @@ public class TestAuthorizationWithNoData {
 		String scope = "launch/patient launch/encounter";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		authorizationController.getToken("SAMPLE_CODE." + encodedScope,
-				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+		authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
 
-				
 		ourClient.delete().resourceById(patientId)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+								FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}
 
 	@Test(expected = ResponseStatusException.class)
 	public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
-		
-		Token testToken = TokenManager.getInstance().getServerToken();
 
+		Token testToken = TokenManager.getInstance().getServerToken();
 
 		Encounter encounter = new Encounter();
 		IIdType encounterId = ourClient.create().resource(encounter)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+								FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute().getId();
 
 		AuthorizationController authorizationController = new AuthorizationController();
@@ -97,11 +94,12 @@ public class TestAuthorizationWithNoData {
 		String scope = "launch/patient launch/encounter";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		authorizationController.getToken("SAMPLE_CODE." + encodedScope,
-				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
-		
+		authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
 		ourClient.delete().resourceById(encounterId)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(), FhirReferenceServerUtils.DEFAULT_SCOPE))
+				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+								FhirReferenceServerUtils.DEFAULT_SCOPE))
 				.execute();
 
 	}
@@ -119,8 +117,7 @@ public class TestAuthorizationWithNoData {
 		String scope = "launch/patient launch/encounter";
 		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		authorizationController.getToken("SAMPLE_CODE." + encodedScope,
-				"SAMPLE_PUBLIC_CLIENT_ID", null, request);
+		authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
 	}
 
 	@BeforeClass
@@ -154,12 +151,11 @@ public class TestAuthorizationWithNoData {
 		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
 		ourClient.registerInterceptor(new LoggingInterceptor(true));
 		ourClient.capabilities();
-		
+
 	}
-	
+
 	@AfterClass
-	public static void afterClass() throws Exception
-	{
+	public static void afterClass() throws Exception {
 		ourServer.stop();
 
 	}

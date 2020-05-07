@@ -8,8 +8,8 @@ import java.security.interfaces.RSAPublicKey;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mitre.fhir.utils.RSAUtils;
-import org.mitre.fhir.utils.exception.RSAKeyException;
+import org.mitre.fhir.utils.RsaUtils;
+import org.mitre.fhir.utils.exception.RsaKeyException;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -23,19 +23,20 @@ public class TestRSAUtils {
 	private static final String INCORRECT_TEST_PUBLIC_KEY_PATH = "/incorrect_test_key.pub";
 
 	@Test
-	public void testRSAPublicAndPrivateKey() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, RSAKeyException {
+	public void testRSAPublicAndPrivateKey()
+			throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, RsaKeyException {
 		// create a challenge
 		byte[] challenge = new byte[10000];
 		ThreadLocalRandom.current().nextBytes(challenge);
 
 		// sign using the private key
 		Signature signature = Signature.getInstance("SHA256withRSA");
-		signature.initSign(RSAUtils.getRSAPrivateKey());
+		signature.initSign(RsaUtils.getRsaPrivateKey());
 		signature.update(challenge);
 		byte[] signatureByteArray = signature.sign();
 
 		// verify signature using the public key
-		signature.initVerify(RSAUtils.getRSAPublicKey());
+		signature.initVerify(RsaUtils.getRsaPublicKey());
 		signature.update(challenge);
 
 		Assert.assertTrue(signature.verify(signatureByteArray));
@@ -43,10 +44,10 @@ public class TestRSAUtils {
 	}
 
 	@Test
-	public void testReadingWithPublicKey() throws RSAKeyException {
+	public void testReadingWithPublicKey() throws RsaKeyException {
 
-		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
-		Algorithm algorithm = Algorithm.RSA256(publicKey, RSAUtils.getRSAPrivateKey());
+		RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
+		Algorithm algorithm = Algorithm.RSA256(publicKey, RsaUtils.getRsaPrivateKey());
 		String token = JWT.create().withIssuer("issuer").sign(algorithm);
 
 		Algorithm algorithm2 = Algorithm.RSA256(publicKey, null);
@@ -56,12 +57,12 @@ public class TestRSAUtils {
 	}
 
 	@Test(expected = SignatureVerificationException.class)
-	public void testWrongPublicKey() throws RSAKeyException {
-		RSAPublicKey publicKey = RSAUtils.getRSAPublicKey();
-		Algorithm algorithm = Algorithm.RSA256(publicKey, RSAUtils.getRSAPrivateKey());
+	public void testWrongPublicKey() throws RsaKeyException {
+		RSAPublicKey publicKey = RsaUtils.getRsaPublicKey();
+		Algorithm algorithm = Algorithm.RSA256(publicKey, RsaUtils.getRsaPrivateKey());
 		String token = JWT.create().withIssuer("issuer").sign(algorithm);
 
-		RSAPublicKey newKey = RSAUtils.getRSAPublicKey(INCORRECT_TEST_PUBLIC_KEY_PATH);
+		RSAPublicKey newKey = RsaUtils.getRsaPublicKey(INCORRECT_TEST_PUBLIC_KEY_PATH);
 
 		Algorithm algorithm2 = Algorithm.RSA256(newKey, null);
 
