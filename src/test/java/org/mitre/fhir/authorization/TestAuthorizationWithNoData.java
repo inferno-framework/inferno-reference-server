@@ -31,147 +31,150 @@ import java.util.Base64;
  */
 public class TestAuthorizationWithNoData {
 
-	private static IGenericClient ourClient;
-	private static FhirContext ourCtx;
-	private static int ourPort;
-	private static Server ourServer;
-	private static String ourServerBase;
+  private static IGenericClient ourClient;
+  private static FhirContext ourCtx;
+  private static int ourPort;
+  private static Server ourServer;
+  private static String ourServerBase;
 
-	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
+  @Test(expected = ResponseStatusException.class)
+  public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
 
-		Token testToken = TokenManager.getInstance().getServerToken();
+    Token testToken = TokenManager.getInstance().getServerToken();
 
-		// add a patient
-		Patient pt = new Patient();
-		pt.addName().setFamily("Test");
+    // add a patient
+    Patient pt = new Patient();
+    pt.addName().setFamily("Test");
 
-		IIdType patientId = ourClient.create().resource(pt)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-								FhirReferenceServerUtils.DEFAULT_SCOPE))
-				.execute().getId();
+    IIdType patientId = ourClient.create().resource(pt)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute().getId();
 
-		AuthorizationController authorizationController = new AuthorizationController();
-		String serverBaseUrl = "";
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.setLocalAddr("localhost");
-		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(1234);
 
-		String scope = "launch/patient launch/encounter";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+    String scope = "launch/patient launch/encounter";
+    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+        request);
 
-		ourClient.delete().resourceById(patientId)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-								FhirReferenceServerUtils.DEFAULT_SCOPE))
-				.execute();
+    ourClient.delete().resourceById(patientId)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute();
 
-	}
+  }
 
-	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
+  @Test(expected = ResponseStatusException.class)
+  public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
 
-		Token testToken = TokenManager.getInstance().getServerToken();
+    Token testToken = TokenManager.getInstance().getServerToken();
 
-		Encounter encounter = new Encounter();
-		IIdType encounterId = ourClient.create().resource(encounter)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-								FhirReferenceServerUtils.DEFAULT_SCOPE))
-				.execute().getId();
+    Encounter encounter = new Encounter();
+    IIdType encounterId = ourClient.create().resource(encounter)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute().getId();
 
-		AuthorizationController authorizationController = new AuthorizationController();
-		String serverBaseUrl = "";
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.setLocalAddr("localhost");
-		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(1234);
 
-		String scope = "launch/patient launch/encounter";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+    String scope = "launch/patient launch/encounter";
+    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+        request);
 
-		ourClient.delete().resourceById(encounterId)
-				.withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-						FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-								FhirReferenceServerUtils.DEFAULT_SCOPE))
-				.execute();
+    ourClient.delete().resourceById(encounterId)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute();
 
-	}
+  }
 
-	@Test(expected = ResponseStatusException.class)
-	public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
+  @Test(expected = ResponseStatusException.class)
+  public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
 
-		AuthorizationController authorizationController = new AuthorizationController();
-		String serverBaseUrl = "";
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.setLocalAddr("localhost");
-		request.setRequestURI(serverBaseUrl);
-		request.setServerPort(1234);
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(1234);
 
-		String scope = "launch/patient launch/encounter";
-		String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+    String scope = "launch/patient launch/encounter";
+    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
-		authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
-	}
+    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+        request);
+  }
 
-	@BeforeClass
-	public static void beforeClass() throws Exception {
+  @BeforeClass
+  public static void beforeClass() throws Exception {
 
-		ourCtx = FhirContext.forR4();
+    ourCtx = FhirContext.forR4();
 
-		String path = Paths.get("").toAbsolutePath().toString();
+    String path = Paths.get("").toAbsolutePath().toString();
 
-		Log.info("Project base path is: " + path + " is our port " + ourPort);
+    Log.info("Project base path is: " + path + " is our port " + ourPort);
 
-		if (ourPort == 0) {
-			ourPort = 1234;
-		}
-		ourServer = new Server(ourPort);
+    if (ourPort == 0) {
+      ourPort = 1234;
+    }
+    ourServer = new Server(ourPort);
 
-		WebAppContext webAppContext = new WebAppContext();
-		webAppContext.setContextPath("");
-		webAppContext.setDisplayName("HAPI FHIR");
-		webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-		webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
-		webAppContext.setParentLoaderPriority(true);
+    WebAppContext webAppContext = new WebAppContext();
+    webAppContext.setContextPath("");
+    webAppContext.setDisplayName("HAPI FHIR");
+    webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
+    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setParentLoaderPriority(true);
 
-		ourServer.setHandler(webAppContext);
-		ourServer.start();
+    ourServer.setHandler(webAppContext);
+    ourServer.start();
 
-		ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
-		ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
-		ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
+    ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
+    ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
+    ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
 
-		ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
-		ourClient.registerInterceptor(new LoggingInterceptor(true));
-		ourClient.capabilities();
+    ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
+    ourClient.registerInterceptor(new LoggingInterceptor(true));
+    ourClient.capabilities();
 
-	}
+  }
 
-	@AfterClass
-	public static void afterClass() throws Exception {
-		ourServer.stop();
+  @AfterClass
+  public static void afterClass() throws Exception {
+    ourServer.stop();
 
-	}
+  }
 
-	@Before
-	public void cleanUpBefore() {
-		cleanUp();
-	}
+  @Before
+  public void cleanUpBefore() {
+    cleanUp();
+  }
 
-	@After
-	public void cleanUpAfter() {
-		cleanUp();
-	}
+  @After
+  public void cleanUpAfter() {
+    cleanUp();
+  }
 
-	public void cleanUp() {
-		TestUtils.clearDB(ourClient);
-	}
+  public void cleanUp() {
+    TestUtils.clearDB(ourClient);
+  }
 
 }

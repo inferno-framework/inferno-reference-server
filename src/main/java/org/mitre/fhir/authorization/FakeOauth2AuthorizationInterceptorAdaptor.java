@@ -1,3 +1,4 @@
+
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
@@ -15,87 +16,84 @@ import org.postgresql.util.Base64;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
 
-	private static final String CONFORMANCE_PATH = "/metadata";
-	private static final String BEARER_TOKEN_PREFIX = "Bearer ";
+  private static final String CONFORMANCE_PATH = "/metadata";
+  private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
-	@Override
-	public boolean incomingRequestPostProcessed(RequestDetails requestDetails, HttpServletRequest request,
-			HttpServletResponse response) {
+  @Override
+  public boolean incomingRequestPostProcessed(RequestDetails requestDetails,
+      HttpServletRequest request, HttpServletResponse response) {
 
-		// exempt the capability statement from requiring the token
-		if (CONFORMANCE_PATH.equals(request.getPathInfo())) {
-			return true;
-		}
+    // exempt the capability statement from requiring the token
+    if (CONFORMANCE_PATH.equals(request.getPathInfo())) {
+      return true;
+    }
 
-		String bearerToken = requestDetails.getHeader("Authorization");
+    String bearerToken = requestDetails.getHeader("Authorization");
 
-		if (bearerToken == null) {
-			throw new InvalidBearerTokenException(bearerToken);
-		}
+    if (bearerToken == null) {
+      throw new InvalidBearerTokenException(bearerToken);
+    }
 
-		bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
+    bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
 
-		String[] splitBearerTokenParts = bearerToken.split("\\.");
+    String[] splitBearerTokenParts = bearerToken.split("\\.");
 
-		if (splitBearerTokenParts.length != 2) {
-			throw new InvalidBearerTokenException(bearerToken);
-		}
+    if (splitBearerTokenParts.length != 2) {
+      throw new InvalidBearerTokenException(bearerToken);
+    }
 
-		String actualBearerToken = splitBearerTokenParts[0];
+    String actualBearerToken = splitBearerTokenParts[0];
 
-		if (!isBearerTokenValid(actualBearerToken)) {
-			throw new InvalidBearerTokenException(bearerToken);
-		}
+    if (!isBearerTokenValid(actualBearerToken)) {
+      throw new InvalidBearerTokenException(bearerToken);
+    }
 
-		String encodedScopes = splitBearerTokenParts[1];
+    String encodedScopes = splitBearerTokenParts[1];
 
-		String scopes = new String(Base64.decode(encodedScopes));
+    String scopes = new String(Base64.decode(encodedScopes));
 
-		List<String> scopesArray = Arrays.asList(scopes.split(" "));
-		List<String> validResources = new ArrayList<String>();
+    List<String> scopesArray = Arrays.asList(scopes.split(" "));
+    List<String> validResources = new ArrayList<String>();
 
-		for (String currentScope : scopesArray) {
-			// strip off user or patient part of scope
-			String[] scopeParts = currentScope.split("/");
-			if (scopeParts.length == 2) {
-				// for now strip off operation part of scope
+    for (String currentScope : scopesArray) {
+      // strip off user or patient part of scope
+      String[] scopeParts = currentScope.split("/");
+      if (scopeParts.length == 2) {
+        // for now strip off operation part of scope
 
-				String scopeAfterSlash = scopeParts[1];
-				String[] scopeAfterSlashParts = scopeAfterSlash.split("\\.");
+        String scopeAfterSlash = scopeParts[1];
+        String[] scopeAfterSlashParts = scopeAfterSlash.split("\\.");
 
-				if (scopeAfterSlashParts.length == 2) {
-					validResources.add(scopeAfterSlashParts[0]);
-				}
+        if (scopeAfterSlashParts.length == 2) {
+          validResources.add(scopeAfterSlashParts[0]);
+        } else {
+          validResources.add(scopeAfterSlash);
+        }
+      }
 
-				else {
-					validResources.add(scopeAfterSlash);
-				}
-			}
+    }
 
-		}
+    String resource = requestDetails.getResourceName();
 
-		String resource = requestDetails.getResourceName();
+    if (!validResources.contains("*") && !validResources.contains(resource)
+        && !("Patient".equals(resource))) {
+      throw new InvalidScopesException(resource);
+    }
 
-		if (!validResources.contains("*") && !validResources.contains(resource) && !("Patient".equals(resource))) {
-			throw new InvalidScopesException(resource);
-		}
+    return true;
 
-		return true;
+  }
 
-	}
+  private boolean isBearerTokenValid(String bearerToken) {
 
-	private boolean isBearerTokenValid(String bearerToken) {
+    try {
+      TokenManager tokenManager = TokenManager.getInstance();
+      return tokenManager.authenticateToken(bearerToken);
 
-		try {
-			TokenManager tokenManager = TokenManager.getInstance();
-			return tokenManager.authenticateToken(bearerToken);
+    } catch (TokenNotFoundException tokenNotFoundException) {
+      return false;
+    }
 
-		}
-
-		catch (TokenNotFoundException tokenNotFoundException) {
-			return false;
-		}
-
-	}
+  }
 
 }
