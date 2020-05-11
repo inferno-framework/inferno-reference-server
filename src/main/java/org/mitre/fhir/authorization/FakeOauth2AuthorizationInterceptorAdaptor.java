@@ -2,6 +2,7 @@ package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
+import com.github.dnault.xmlpatch.internal.Log;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
   @Override
   public boolean incomingRequestPostProcessed(RequestDetails requestDetails,
-                                              HttpServletRequest request,
-                                              HttpServletResponse response) {
+      HttpServletRequest request, HttpServletResponse response) {
 
     // exempt the capability statement from requiring the token
     if (CONFORMANCE_PATH.equals(request.getPathInfo())) {
@@ -57,10 +57,10 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
 
     for (String currentScope : scopesArray) {
-      //strip off user or patient part of scope
+      // strip off user or patient part of scope
       String[] scopeParts = currentScope.split("/");
       if (scopeParts.length == 2) {
-        //for now strip off operation part of scope
+        // for now strip off operation part of scope
 
         String scopeAfterSlash = scopeParts[1];
         String[] scopeAfterSlashParts = scopeAfterSlash.split("\\.");
@@ -77,10 +77,13 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     String resource = requestDetails.getResourceName();
 
-    if (!validResources.contains("*")
-        && !validResources.contains(resource)
+    if (!validResources.contains("*") && !validResources.contains(resource)
         && !("Patient".equals(resource))) {
-      throw new InvalidScopesException(resource);
+      if (resource != null) {
+        throw new InvalidScopesException(resource);
+      } else {
+        Log.error("No Resource was provided");
+      }
     }
 
     return true;
