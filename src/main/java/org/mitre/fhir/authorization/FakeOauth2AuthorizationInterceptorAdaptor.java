@@ -53,7 +53,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
 
     String[] scopesArray = scopes.split(" ");
-    List<String> validResources = new ArrayList<String>();
+    List<String> grantedResources = new ArrayList<String>();
 
 
     for (String currentScope : scopesArray) {
@@ -67,9 +67,9 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
 
         if (scopeAfterSlashParts.length == 2) {
-          validResources.add(scopeAfterSlashParts[0]);
+          grantedResources.add(scopeAfterSlashParts[0]);
         } else {
-          validResources.add(scopeAfterSlash);
+          grantedResources.add(scopeAfterSlash);
         }
       }
 
@@ -77,12 +77,10 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     String resource = requestDetails.getResourceName();
 
-    if (!validResources.contains("*") && !validResources.contains(resource)
+    if (!grantedResources.contains("*") && !grantedResources.contains(resource)
         && !("Patient".equals(resource))) {
       if (resource != null) {
         throw new InvalidScopesException(resource);
-      } else {
-        Log.error("No Resource was provided");
       }
     }
 

@@ -153,7 +153,6 @@ public class TestAuthorization {
     ourClient.create().resource(pt).execute();
   }
 
-  //TODO Readd this test when support for scope checking is readded
   @Test
   public void testInterceptorScopes() {
 
