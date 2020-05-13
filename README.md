@@ -3,6 +3,7 @@
 This is a FHIR reference implementation server supporting the US Core R4 IG and SMART Launches.
 
 By default, you can browse the server at
+
 [http://localhost:8080/reference-server](http://localhost:8080/reference-server), and the FHIR endpoint is at
 [http://localhost:8080/reference-server/r4](http://localhost:8080/reference-server/r4)
 
@@ -38,8 +39,6 @@ Currently, there is no registration process. To use with an app, use the default
 To use as a public client, use `SAMPLE_PUBLIC_CLIENT_ID` as the client id.
 
 To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the client id, and `SAMPLE_CONFIDENTIAL_CLIENT_SECRET` as the client secret.
-
-The Authorization Bearer token can be used directly by setting the `Authorization` header to `Bearer SAMPLE_ACCESS_TOKEN.<SCOPES_ENCODED_IN_BASE_64>`. For example, a token with the `patient/*.*` scope should be set to `Bearer SAMPLE_ACCESS_TOKEN.cGF0aWVudC8qLio=`.  Note that as this server is primarily for demo, this token is not secure.
 
 To launch an app from the EHR go to `reference-server/app/app-launch`
 

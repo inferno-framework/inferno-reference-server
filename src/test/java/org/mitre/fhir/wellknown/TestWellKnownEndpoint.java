@@ -1,4 +1,4 @@
-package org.mitre.fhir.authorization;
+package org.mitre.fhir.wellknown;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

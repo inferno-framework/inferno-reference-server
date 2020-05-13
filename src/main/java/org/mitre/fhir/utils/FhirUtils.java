@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 
 public class FhirUtils {
-
 
   public static List<BundleEntryComponent> getAllPatients(IGenericClient client) {
     return getAllResources(client, "Patient");
@@ -18,19 +19,16 @@ public class FhirUtils {
     return getAllResourcesBundle(client, "Patient");
   }
 
-
   public static List<BundleEntryComponent> getAllEncounters(IGenericClient client) {
     return getAllResources(client, "Encounter");
   }
-
 
   public static Bundle getEncountersBundle(IGenericClient client) {
     return getAllResourcesBundle(client, "Encounter");
   }
 
-
   private static List<BundleEntryComponent> getAllResources(IGenericClient client,
-                                                            String resourceName) {
+      String resourceName) {
 
     Bundle bundle = getAllResourcesBundle(client, resourceName);
 
@@ -54,19 +52,16 @@ public class FhirUtils {
     CacheControlDirective cacheControlDirective = new CacheControlDirective();
     cacheControlDirective.setNoCache(true);
 
-    Bundle bundle = client
-        .search()
-        .forResource(resourceName)
-        .returnBundle(Bundle.class)
-        .count(1000)
+    Token token = TokenManager.getInstance().getServerToken();
+
+    Bundle bundle = client.search().forResource(resourceName).returnBundle(Bundle.class).count(1000)
         .cacheControl(cacheControlDirective)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils
-                .createAuthorizationHeaderValue(
-                    FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN,
-                    FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
         .execute();
 
     return bundle;
   }
+
 }

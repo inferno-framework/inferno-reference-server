@@ -1,20 +1,23 @@
+
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
 import com.github.dnault.xmlpatch.internal.Log;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
+import org.mitre.fhir.authorization.token.TokenManager;
+import org.mitre.fhir.authorization.token.TokenNotFoundException;
 import org.postgresql.util.Base64;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
 
   private static final String CONFORMANCE_PATH = "/metadata";
-  private static final String EXPECTED_BEARER_TOKEN = "SAMPLE_ACCESS_TOKEN";
   private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
   @Override
@@ -42,7 +45,6 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     String actualBearerToken = splitBearerTokenParts[0];
 
-
     if (!isBearerTokenValid(actualBearerToken)) {
       throw new InvalidBearerTokenException(bearerToken);
     }
@@ -51,10 +53,8 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     String scopes = new String(Base64.decode(encodedScopes));
 
-
-    String[] scopesArray = scopes.split(" ");
+    List<String> scopesArray = Arrays.asList(scopes.split(" "));
     List<String> grantedResources = new ArrayList<String>();
-
 
     for (String currentScope : scopesArray) {
       // strip off user or patient part of scope
@@ -64,7 +64,6 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
         String scopeAfterSlash = scopeParts[1];
         String[] scopeAfterSlashParts = scopeAfterSlash.split("\\.");
-
 
         if (scopeAfterSlashParts.length == 2) {
           grantedResources.add(scopeAfterSlashParts[0]);
@@ -89,7 +88,15 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
   }
 
   private boolean isBearerTokenValid(String bearerToken) {
-    return EXPECTED_BEARER_TOKEN.equals(bearerToken);
+
+    try {
+      TokenManager tokenManager = TokenManager.getInstance();
+      return tokenManager.authenticateToken(bearerToken);
+
+    } catch (TokenNotFoundException tokenNotFoundException) {
+      return false;
+    }
+
   }
 
 }

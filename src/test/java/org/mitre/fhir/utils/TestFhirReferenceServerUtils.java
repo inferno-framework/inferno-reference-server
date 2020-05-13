@@ -1,10 +1,9 @@
-package org.mitre.fhir.authorization;
+package org.mitre.fhir.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
-
 
 public class TestFhirReferenceServerUtils {
 
@@ -19,6 +18,7 @@ public class TestFhirReferenceServerUtils {
 
     String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(mockHttpServletRequest);
     Assert.assertEquals("http://www.example.org:123/reference-server", baseUrl);
+
   }
 
   @Test

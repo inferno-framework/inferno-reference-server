@@ -12,7 +12,10 @@ import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
 import org.junit.*;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.TestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,6 +36,92 @@ public class TestAuthorizationWithNoData {
   private static int ourPort;
   private static Server ourServer;
   private static String ourServerBase;
+
+  @Test(expected = ResponseStatusException.class)
+  public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
+
+    Token testToken = TokenManager.getInstance().getServerToken();
+
+    // add a patient
+    Patient pt = new Patient();
+    pt.addName().setFamily("Test");
+
+    IIdType patientId = ourClient.create().resource(pt)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute().getId();
+
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(1234);
+
+    String scope = "launch/patient launch/encounter";
+    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+        request);
+
+    ourClient.delete().resourceById(patientId)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute();
+
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
+
+    Token testToken = TokenManager.getInstance().getServerToken();
+
+    Encounter encounter = new Encounter();
+    IIdType encounterId = ourClient.create().resource(encounter)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute().getId();
+
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(1234);
+
+    String scope = "launch/patient launch/encounter";
+    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+        request);
+
+    ourClient.delete().resourceById(encounterId)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
+                FhirReferenceServerUtils.DEFAULT_SCOPE))
+        .execute();
+
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
+
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(1234);
+
+    String scope = "launch/patient launch/encounter";
+    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+
+    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+        request);
+  }
 
   @BeforeClass
   public static void beforeClass() throws Exception {
@@ -72,80 +161,6 @@ public class TestAuthorizationWithNoData {
   public static void afterClass() throws Exception {
     ourServer.stop();
 
-  }
-
-  @Test(expected = ResponseStatusException.class)
-  public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
-    // add a patient
-    Patient pt = new Patient();
-    pt.addName().setFamily("Test");
-
-    IIdType patientId = ourClient.create().resource(pt)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
-        .execute().getId();
-
-    AuthorizationController authorizationController = new AuthorizationController();
-    String serverBaseUrl = "";
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    request.setLocalAddr("localhost");
-    request.setRequestURI(serverBaseUrl);
-    request.setServerPort(1234);
-
-    String scope = "launch/patient launch/encounter";
-    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
-
-    authorizationController.getToken("SAMPLE_CODE." + encodedScope,
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
-
-
-    ourClient.delete().resourceById(patientId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
-        .execute();
-
-  }
-
-  @Test(expected = ResponseStatusException.class)
-  public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
-
-    Encounter encounter = new Encounter();
-    IIdType encounterId = ourClient.create().resource(encounter)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
-        .execute().getId();
-
-    AuthorizationController authorizationController = new AuthorizationController();
-    String serverBaseUrl = "";
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    request.setLocalAddr("localhost");
-    request.setRequestURI(serverBaseUrl);
-    request.setServerPort(1234);
-
-    String scope = "launch/patient launch/encounter";
-    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
-
-    authorizationController.getToken("SAMPLE_CODE." + encodedScope,
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
-
-    ourClient.delete().resourceById(encounterId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME, FhirReferenceServerUtils.createAuthorizationHeaderValue(FhirReferenceServerUtils.SAMPLE_ACCESS_TOKEN, FhirReferenceServerUtils.DEFAULT_SCOPE))
-        .execute();
-
-  }
-
-  @Test(expected = ResponseStatusException.class)
-  public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
-
-    AuthorizationController authorizationController = new AuthorizationController();
-    String serverBaseUrl = "";
-    MockHttpServletRequest request = new MockHttpServletRequest();
-    request.setLocalAddr("localhost");
-    request.setRequestURI(serverBaseUrl);
-    request.setServerPort(1234);
-
-    String scope = "launch/patient launch/encounter";
-    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
-
-    authorizationController.getToken("SAMPLE_CODE." + encodedScope,
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
   }
 
   @Before
