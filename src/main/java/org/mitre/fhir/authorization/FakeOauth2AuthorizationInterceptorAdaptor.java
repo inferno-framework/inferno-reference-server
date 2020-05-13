@@ -3,6 +3,7 @@ package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
+import com.github.dnault.xmlpatch.internal.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +54,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
     String scopes = new String(Base64.decode(encodedScopes));
 
     List<String> scopesArray = Arrays.asList(scopes.split(" "));
-    List<String> validResources = new ArrayList<String>();
+    List<String> grantedResources = new ArrayList<String>();
 
     for (String currentScope : scopesArray) {
       // strip off user or patient part of scope
@@ -65,9 +66,9 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
         String[] scopeAfterSlashParts = scopeAfterSlash.split("\\.");
 
         if (scopeAfterSlashParts.length == 2) {
-          validResources.add(scopeAfterSlashParts[0]);
+          grantedResources.add(scopeAfterSlashParts[0]);
         } else {
-          validResources.add(scopeAfterSlash);
+          grantedResources.add(scopeAfterSlash);
         }
       }
 
@@ -75,9 +76,11 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     String resource = requestDetails.getResourceName();
 
-    if (!validResources.contains("*") && !validResources.contains(resource)
+    if (!grantedResources.contains("*") && !grantedResources.contains(resource)
         && !("Patient".equals(resource))) {
-      throw new InvalidScopesException(resource);
+      if (resource != null) {
+        throw new InvalidScopesException(resource);
+      }
     }
 
     return true;
