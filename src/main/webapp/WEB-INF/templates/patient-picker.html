@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Normally this will be a site to accept a user name and password and log in to determine which code to send, for now it'll just redirect-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Patient Picker</title>
+    <meta content="Authorize Cindehr" name="description">
+    <link href="js/lib/DataTables-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+
+</head>
+<body>
+<table class="display" id="patients" style="width:100%">
+    <thead>
+    <th align="left">ID</th>
+    <th align="left">Name</th>
+    <th align="left">Select</th>
+    </thead>
+</table>
+
+<script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="js/lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="js/patient-picker.js"></script>
+
+<script>
+    $(document).ready(function () {
+        window.mitre.fhirreferenceserver.patientPicker.init();
+    });
+</script>
+</body>
+</html>

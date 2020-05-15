@@ -13,5 +13,10 @@ public class AuthorizationViewController {
   public String showAuthorizationView() {
     return "authorization"; // String will be mapped to corresponding template html file
   }
+  
+  @RequestMapping("/patient-picker")
+  public String showPatientPickerView() {
+    return "patient-picker"; // String will be mapped to corresponding template html file
+  }
 
 }
