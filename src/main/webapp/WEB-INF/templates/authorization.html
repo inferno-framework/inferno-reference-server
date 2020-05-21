@@ -10,22 +10,25 @@
 
 </head>
 <body>
-<table class="display" id="patients" style="width:100%">
-    <thead>
-    <th align="left">ID</th>
-    <th align="left">Name</th>
-    <th align="left">Select</th>
-    </thead>
-</table>
 
-<script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-<script src="js/lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="js/authorize.js"></script>
+    <div>Please select which scopes you would like to authorize:</div>
 
-<script>
-    $(document).ready(function () {
-        window.mitre.fhirreferenceserver.authorize.init();
-    });
-</script>
+    <br>
+
+    <div id="scopes"></div>
+
+    <br>
+
+    <button id="submit" type="button">Authorize</button>
+
+    <script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="js/lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="js/authorize.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            window.mitre.fhirreferenceserver.authorize.init();
+        });
+    </script>
 </body>
 </html>
