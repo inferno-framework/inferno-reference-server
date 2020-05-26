@@ -24,8 +24,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   public static final String AUTHORIZE_EXTENSION_URL = "authorize";
   private static final String OAUTH_URL = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
   private static final String TOKEN_EXTENSION_VALUE_URI = "/oauth/token";
-  //private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization";
-  private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/patient-picker";
+  private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization";
 
 
   private static final String LOCATION_RESOURCE_TYPE = "Location";
