@@ -37,8 +37,7 @@ public class TestWellKnownEndpoint {
     JsonNode jsonNode = mapper.readTree(jSONString);
 
     String authorizationEndpoint = jsonNode.get("authorization_endpoint").asText();
-    //Assert.assertEquals("http://www.example.org:123/reference-server/oauth/authorization", authorizationEndpoint);
-    Assert.assertEquals("http://www.example.org:123/reference-server/oauth/patient-picker", authorizationEndpoint);
+    Assert.assertEquals("http://www.example.org:123/reference-server/oauth/authorization", authorizationEndpoint);
 
 
     String tokenEndpoint = jsonNode.get("token_endpoint").asText();

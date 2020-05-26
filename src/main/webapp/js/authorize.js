@@ -10,17 +10,52 @@ window.mitre.fhirreferenceserver.authorize = {
         //static code that the HAPI interceptor will look for to return token
         let urlParams = new URLSearchParams(window.location.search);
 
-        let state = urlParams.get('state') || '';
+        let aud = urlParams.get('aud');
+
+        const expectedAud = window.location.origin + "/reference-server/r4"
+
+        if (aud !== expectedAud)
+        {
+            alert("Audience " + aud + " is invalid"); 
+            $("#pageContent").hide();
+            return;
+        }
+
+        if (urlParams.has('launch'))
+        {
+            let launch = urlParams.get('launch');
+
+            const expectedLaunch = "123";
+
+            //if launch is provided
+            if (launch !== expectedLaunch)
+            {
+                alert("Launch " + launch + " is invalid"); 
+                $("#pageContent").hide();
+                return;
+            }
+        }
 
         let clientId = urlParams.get('client_id') || '';
+
+        //check for a patient id, if no one exists redirect to patient picker
+        if (!urlParams.has('patient_id'))
+        {
+            let this_uri = window.location;
+            let this_url_encoded = encodeURIComponent(this_uri);
+            let redirect = "../oauth/patient-picker?client_id=" + clientId + "&redirect_uri=" + this_url_encoded;  
+            window.location.href = redirect;
+        }
+
+        let state = urlParams.get('state') || '';
+
 
         //static code that the HAPI interceptor will look for to return token
         let sampleCode = "SAMPLE_CODE";
 
-        let scopes = urlParams.get('scopes') || '';
+        let scopes = urlParams.get('scope') || '';
 
         let scopesList = scopes.split(' ');
-        //http://localhost:8080/hapi-fhir-jpaserver/oauth/authorization?response_type=code&client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A4567%2Finferno%2Foauth2%2Fstatic%2Fredirect&scope=launch%2Fpatient+patient%2F%2A.read+openid+fhirUser+offline_access&state=ddc2657d-7146-418b-8b4e-64e3f8e92eb0&aud=http%3A%2F%2Flocalhost%3A8080%2Fhapi-fhir-jpaserver%2Ffhir
 
         //load scopes
         let checkBoxesHtml = '';
