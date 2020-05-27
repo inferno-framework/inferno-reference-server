@@ -59,7 +59,7 @@ public class TestTokenManager {
     Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
     Assert.assertTrue(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
 
-    tokenManager.revokeToken(token.getTokenValue());
+    tokenManager.revokeToken(token.getTokenValue() + ".SCOPES");
 
     Assert.assertFalse(tokenManager.authenticateToken(token.getTokenValue())); // should fail
                                                                                // because token was

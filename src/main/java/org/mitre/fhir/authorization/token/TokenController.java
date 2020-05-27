@@ -25,6 +25,7 @@ public class TokenController {
     try {
       tokenManager.revokeToken(tokenString);
     } catch (TokenNotFoundException tokenNotFoundException) {
+      tokenNotFoundException.printStackTrace();
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
           "Token " + tokenString + " not found");
 
