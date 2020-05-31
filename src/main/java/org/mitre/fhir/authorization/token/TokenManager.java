@@ -77,13 +77,16 @@ public class TokenManager {
    * @throws InactiveTokenException the token has already been revoked.
    */
   public void revokeToken(String tokenValue) throws TokenNotFoundException, InactiveTokenException {
-    Token token = tokenMap.get(tokenValue);
+    
+    String truncatedToken = tokenValue.split("\\.")[0]; //remove any scopes
+    
+    Token token = tokenMap.get(truncatedToken);
 
     if (token != null) {
       if (token.isActive()) {
         token.revokeToken();
         // revoke the refresh token
-        Token refreshToken = getCorrespondingRefreshToken(tokenValue);
+        Token refreshToken = getCorrespondingRefreshToken(truncatedToken);
         refreshToken.revokeToken();
       } else {
         throw new InactiveTokenException(token);
