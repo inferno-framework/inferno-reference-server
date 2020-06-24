@@ -1,8 +1,11 @@
 
 package org.mitre.fhir.authorization.token;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class TokenManager {
 
@@ -30,21 +33,52 @@ public class TokenManager {
 
     return instance;
   }
+  
+  /**
+   * Creates a token.
+   * 
+   * @return the created token
+   */
+  public Token createToken(String scopesString) {
+    String[] splitString = scopesString != null ? scopesString.split(" ") : new String[0];
+    List<String> scopes = Arrays.asList(splitString);
+    return createToken(scopes);
+  }
 
   /**
    * Creates a token.
    * 
    * @return the created token
    */
-  public Token createToken() {
-    Token token = new Token();
+  public Token createToken(List<String> scopes) {
+    Token token = new Token(scopes);
     tokenMap.put(token.getTokenValue(), token);
 
-    Token refreshToken = new Token();
+    Token refreshToken = new Token(scopes);
     tokenToCorrespondingRefreshToken.put(token.getTokenValue(), refreshToken.getTokenValue());
     refreshTokenMap.put(refreshToken.getTokenValue(), refreshToken);
 
     return token;
+  }
+  
+  public Token getToken(String tokenValue) throws TokenNotFoundException {
+    // confirm we were passed a valid token value
+    if (!tokenMap.containsKey(tokenValue)) {
+      throw new TokenNotFoundException(tokenValue);
+    } 
+    
+    return tokenMap.get(tokenValue);
+  }
+  
+  public Token getRefreshToken(String refreshTokenValue) throws TokenNotFoundException
+  {
+ // confirm we were passed a valid token value
+    if (!refreshTokenMap.containsKey(refreshTokenValue)) {
+      throw new TokenNotFoundException(refreshTokenValue);
+    } 
+    
+    return refreshTokenMap.get(refreshTokenValue);
+
   }
 
   /**
@@ -143,7 +177,7 @@ public class TokenManager {
   public Token getServerToken() {
 
     if (serverToken == null) {
-      serverToken = createToken();
+      serverToken = createToken(FhirReferenceServerUtils.DEFAULT_SCOPE);
     }
 
     return serverToken;

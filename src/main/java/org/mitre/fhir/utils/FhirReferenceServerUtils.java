@@ -77,10 +77,8 @@ public class FhirReferenceServerUtils {
    * @param scopes the selected fhir scopes
    * @return
    */
-  public static String createAuthorizationHeaderValue(String accessToken, String scopes) {
-    String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
-    return BEARER_TOKEN_PREFIX + " " + accessToken + "." + encodedScopes;
-
+  public static String createAuthorizationHeaderValue(String accessToken) {
+    return BEARER_TOKEN_PREFIX + " " + accessToken;
   }
 
 }

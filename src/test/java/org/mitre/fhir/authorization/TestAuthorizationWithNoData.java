@@ -48,8 +48,7 @@ public class TestAuthorizationWithNoData {
 
     IIdType patientId = ourClient.create().resource(pt)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-                FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
 
     AuthorizationController authorizationController = new AuthorizationController();
@@ -67,8 +66,7 @@ public class TestAuthorizationWithNoData {
 
     ourClient.delete().resourceById(patientId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-                FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
 
   }
@@ -81,8 +79,7 @@ public class TestAuthorizationWithNoData {
     Encounter encounter = new Encounter();
     IIdType encounterId = ourClient.create().resource(encounter)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-                FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
 
     AuthorizationController authorizationController = new AuthorizationController();
@@ -100,8 +97,7 @@ public class TestAuthorizationWithNoData {
 
     ourClient.delete().resourceById(encounterId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue(),
-                FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
 
   }

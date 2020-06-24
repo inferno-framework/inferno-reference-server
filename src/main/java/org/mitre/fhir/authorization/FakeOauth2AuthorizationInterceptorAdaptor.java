@@ -3,9 +3,7 @@ package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
-import com.github.dnault.xmlpatch.internal.Log;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +11,6 @@ import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.authorization.token.TokenNotFoundException;
-import org.postgresql.util.Base64;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
 
@@ -37,23 +34,34 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
 
-    String[] splitBearerTokenParts = bearerToken.split("\\.");
+    //String[] splitBearerTokenParts = bearerToken.split("\\.");
 
-    if (splitBearerTokenParts.length != 2) {
+    /*if (splitBearerTokenParts.length != 2) {
       throw new InvalidBearerTokenException(bearerToken);
     }
 
-    String actualBearerToken = splitBearerTokenParts[0];
+    String actualBearerToken = splitBearerTokenParts[0];*/
 
-    if (!isBearerTokenValid(actualBearerToken)) {
+    if (!isBearerTokenValid(bearerToken)) {
       throw new InvalidBearerTokenException(bearerToken);
     }
 
-    String encodedScopes = splitBearerTokenParts[1];
+    //String encodedScopes = splitBearerTokenParts[1];
 
-    String scopes = new String(Base64.decode(encodedScopes));
-
-    List<String> scopesArray = Arrays.asList(scopes.split(" "));
+    //String scopes = new String(Base64.decode(encodedScopes));
+    
+    List<String> scopesArray;
+    try
+    {
+      scopesArray = TokenManager.getInstance().getToken(bearerToken).getScopes();
+    }
+    
+    catch (TokenNotFoundException tokenNotFoundException)
+    {
+      throw new InvalidBearerTokenException(bearerToken);      
+    }
+    
+    //List<String> scopesArray = Arrays.asList(scopes.split(" "));
     List<String> grantedResources = new ArrayList<String>();
 
     for (String currentScope : scopesArray) {

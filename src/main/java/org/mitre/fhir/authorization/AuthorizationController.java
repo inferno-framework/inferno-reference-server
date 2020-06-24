@@ -84,7 +84,7 @@ public class AuthorizationController {
   @PostMapping(path = "/token", produces = {"application/json"})
   public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
       @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-      @RequestParam(name = "refresh_token", required = false) String refreshToken,
+      @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
       HttpServletRequest request) throws BearerTokenException {
 
     Log.info("code is " + code);
@@ -99,9 +99,9 @@ public class AuthorizationController {
     if (basicHeader != null) {
       String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
       // client id is user name, and should be before ':'
-      clientId = decodedValue.split(":")[0]; 
+      clientId = decodedValue.split(":")[0];
       // client secret is password, and should be after ':'
-      clientSecret = decodedValue.split(":")[1]; 
+      clientSecret = decodedValue.split(":")[1];
     } else {
       // if no basic auth, client id should be supplied as request param
       clientId = clientIdRequestParam;
@@ -116,41 +116,48 @@ public class AuthorizationController {
 
     if (code != null) {
       fullCodeString = code;
-    } else if (refreshToken != null) {
-      fullCodeString = refreshToken;
+
+
+      // the provided code is actualcode.scopes
+      String[] fullCode = fullCodeString.split("\\.");
+
+      String actualCodeOrRefreshToken = fullCode[0];
+
+      // if scope was included
+      if (fullCode.length >= 2) {
+        String encodedScopes = fullCode[1];
+        scopes = new String(Base64.getDecoder().decode(encodedScopes));
+      }
+
+      if (fullCode.length >= 3) {
+        String encodedPatientId = fullCode[2];
+        patientId = new String(Base64.getDecoder().decode(encodedPatientId));
+      }
+
+      if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken))) {
+        return generateBearerTokenResponse(request, clientId, scopes, patientId);
+      }
+
+    } else if (refreshTokenValue != null) {
+      // fullCodeString = refreshToken;
+
+      try {
+        if (refreshTokenValue != null
+            && TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
+          Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
+          patientId = refreshToken.getPatientId();
+          String refreshTokenScopes = refreshToken.getScopesString();
+          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId);
+        }
+      } catch (TokenNotFoundException tokenNotFoundException) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            "Refresh Token " + refreshTokenValue + " was not found");
+      }
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
     }
 
-    // the provided code is actualcode.scopes
-    String[] fullCode = fullCodeString.split("\\.");
 
-    String actualCodeOrRefreshToken = fullCode[0];
-
-    // if scope was included
-    if (fullCode.length >= 2) {
-      String encodedScopes = fullCode[1];
-      scopes = new String(Base64.getDecoder().decode(encodedScopes));
-    }
-
-    if (fullCode.length >= 3) {
-      String encodedPatientId = fullCode[2];
-      patientId = new String(Base64.getDecoder().decode(encodedPatientId));
-    }
-
-    if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken))) {
-      return generateBearerTokenResponse(request, clientId, scopes, patientId);
-    }
-
-    try {
-      if (refreshToken != null
-          && TokenManager.getInstance().authenticateRefreshToken(actualCodeOrRefreshToken)) {
-        return generateBearerTokenResponse(request, clientId, scopes, patientId);
-      }
-    } catch (TokenNotFoundException tokenNotFoundException) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Refresh Token " + refreshToken + " was not found");
-    }
 
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
   }
@@ -186,21 +193,23 @@ public class AuthorizationController {
     JSONObject tokenJson = new JSONObject();
 
 
-    String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
+    // String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
 
     TokenManager tokenManager = TokenManager.getInstance();
-    Token token = tokenManager.createToken();
+    Token token = tokenManager.createToken(scopes);
 
     String refreshTokenValue = "";
     try {
       Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
-      refreshTokenValue =
-          FhirReferenceServerUtils.createCode(refreshToken.getTokenValue(), scopes, patientId);
+      refreshToken.setPatientId(patientId);
+      refreshTokenValue = refreshToken.getTokenValue();
+
+      // FhirReferenceServerUtils.createCode(refreshToken.getTokenValue(), scopes, patientId);
     } catch (Exception exception) {
       throw new BearerTokenException(exception);
     }
 
-    String accessToken = token.getTokenValue() + "." + encodedScopes;
+    String accessToken = token.getTokenValue(); // + "." + encodedScopes;
 
     tokenJson.put("access_token", accessToken);
     tokenJson.put("token_type", "bearer");
@@ -285,8 +294,7 @@ public class AuthorizationController {
         client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId))
             .returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
             .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue(),
-                    FhirReferenceServerUtils.DEFAULT_SCOPE))
+                FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
             .execute();
     List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 

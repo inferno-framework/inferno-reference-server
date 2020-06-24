@@ -57,8 +57,7 @@ public class FhirUtils {
     Bundle bundle = client.search().forResource(resourceName).returnBundle(Bundle.class).count(1000)
         .cacheControl(cacheControlDirective)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue(),
-                FhirReferenceServerUtils.DEFAULT_SCOPE))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
         .execute();
 
     return bundle;
