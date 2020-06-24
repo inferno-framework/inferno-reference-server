@@ -139,7 +139,6 @@ public class AuthorizationController {
       }
 
     } else if (refreshTokenValue != null) {
-      // fullCodeString = refreshToken;
 
       try {
         if (refreshTokenValue != null
@@ -192,9 +191,6 @@ public class AuthorizationController {
 
     JSONObject tokenJson = new JSONObject();
 
-
-    // String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
-
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken(scopes);
 
@@ -203,13 +199,11 @@ public class AuthorizationController {
       Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
       refreshToken.setPatientId(patientId);
       refreshTokenValue = refreshToken.getTokenValue();
-
-      // FhirReferenceServerUtils.createCode(refreshToken.getTokenValue(), scopes, patientId);
     } catch (Exception exception) {
       throw new BearerTokenException(exception);
     }
 
-    String accessToken = token.getTokenValue(); // + "." + encodedScopes;
+    String accessToken = token.getTokenValue();
 
     tokenJson.put("access_token", accessToken);
     tokenJson.put("token_type", "bearer");
@@ -224,7 +218,6 @@ public class AuthorizationController {
     }
 
     // get their id
-    // String patientId = patient.getIdElement().getIdPart();
     List<String> scopesList = Arrays.asList(scopes.split(" "));
 
     if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
