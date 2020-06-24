@@ -58,8 +58,7 @@ public class TestUtils {
       System.out.println("Deleting Patient " + patient.getIdElement().getIdPart());
       ourClient.delete().resource(patient)
           .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-              TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue(),
-                  FhirReferenceServerUtils.DEFAULT_SCOPE))
+              TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue()))
           .execute();
     }
 
@@ -75,15 +74,13 @@ public class TestUtils {
       System.out.println("Deleting Encounter " + encounter.getIdElement().getIdPart());
       ourClient.delete().resource(encounter)
           .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-              TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue(),
-                  FhirReferenceServerUtils.DEFAULT_SCOPE))
+              TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue()))
           .execute();
     }
   }
 
-  public static String getAuthorizationHeaderBearerValue(String accessToken, String scopes) {
-    String encodedScopes = Base64.getEncoder().encodeToString(scopes.getBytes());
-    return BEARER_TOKEN_PREFIX + " " + accessToken + "." + encodedScopes;
+  public static String getAuthorizationHeaderBearerValue(String accessToken) {
+    return BEARER_TOKEN_PREFIX + " " + accessToken;
   }
 
 }

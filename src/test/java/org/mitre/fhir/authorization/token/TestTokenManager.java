@@ -25,7 +25,7 @@ public class TestTokenManager {
   @Test
   public void testCreateToken() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
-    Token token = tokenManager.createToken();
+    Token token = tokenManager.createToken("");
 
     Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
 
@@ -52,7 +52,7 @@ public class TestTokenManager {
   @Test
   public void testRevokeToken() throws TokenNotFoundException, InactiveTokenException {
     TokenManager tokenManager = TokenManager.getInstance();
-    Token token = tokenManager.createToken();
+    Token token = tokenManager.createToken("");
 
     Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
 
@@ -79,7 +79,7 @@ public class TestTokenManager {
   @Test(expected = InactiveTokenException.class)
   public void testRevokingInactiveToken() throws TokenNotFoundException, InactiveTokenException {
     TokenManager tokenManager = TokenManager.getInstance();
-    Token token = tokenManager.createToken();
+    Token token = tokenManager.createToken("");
 
     tokenManager.revokeToken(token.getTokenValue());
     // token should be revoked, so inactive
