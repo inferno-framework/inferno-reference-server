@@ -74,7 +74,6 @@ public class FhirReferenceServerUtils {
    * Create the Authorizartion Header value.
    * 
    * @param accessToken the access token value
-   * @param scopes the selected fhir scopes
    * @return
    */
   public static String createAuthorizationHeaderValue(String accessToken) {

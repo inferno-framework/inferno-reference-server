@@ -34,34 +34,31 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
 
-    //String[] splitBearerTokenParts = bearerToken.split("\\.");
+    // String[] splitBearerTokenParts = bearerToken.split("\\.");
 
-    /*if (splitBearerTokenParts.length != 2) {
-      throw new InvalidBearerTokenException(bearerToken);
-    }
-
-    String actualBearerToken = splitBearerTokenParts[0];*/
+    /*
+     * if (splitBearerTokenParts.length != 2) { throw new InvalidBearerTokenException(bearerToken);
+     * }
+     * 
+     * String actualBearerToken = splitBearerTokenParts[0];
+     */
 
     if (!isBearerTokenValid(bearerToken)) {
       throw new InvalidBearerTokenException(bearerToken);
     }
 
-    //String encodedScopes = splitBearerTokenParts[1];
+    // String encodedScopes = splitBearerTokenParts[1];
 
-    //String scopes = new String(Base64.decode(encodedScopes));
-    
+    // String scopes = new String(Base64.decode(encodedScopes));
+
     List<String> scopesArray;
-    try
-    {
+    try {
       scopesArray = TokenManager.getInstance().getToken(bearerToken).getScopes();
+    } catch (TokenNotFoundException tokenNotFoundException) {
+      throw new InvalidBearerTokenException(bearerToken);
     }
-    
-    catch (TokenNotFoundException tokenNotFoundException)
-    {
-      throw new InvalidBearerTokenException(bearerToken);      
-    }
-    
-    //List<String> scopesArray = Arrays.asList(scopes.split(" "));
+
+    // List<String> scopesArray = Arrays.asList(scopes.split(" "));
     List<String> grantedResources = new ArrayList<String>();
 
     for (String currentScope : scopesArray) {

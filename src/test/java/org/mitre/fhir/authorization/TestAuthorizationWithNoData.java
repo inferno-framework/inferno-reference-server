@@ -1,16 +1,24 @@
 package org.mitre.fhir.authorization;
 
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import com.github.dnault.xmlpatch.internal.Log;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Base64;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
@@ -19,12 +27,10 @@ import org.mitre.fhir.utils.TestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Base64;
 
-/***
- * Test cases without preinserting any data for testing things like missing data
+
+/**
+ * Test cases without preinserting any data for testing things like missing data.
  *
  * @author HERSHIL
  *
@@ -40,18 +46,13 @@ public class TestAuthorizationWithNoData {
   @Test(expected = ResponseStatusException.class)
   public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
 
-    Token testToken = TokenManager.getInstance().getServerToken();
 
     // add a patient
     Patient pt = new Patient();
     pt.addName().setFamily("Test");
 
-    IIdType patientId = ourClient.create().resource(pt)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute().getId();
 
-    AuthorizationController authorizationController = new AuthorizationController();
+
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.setLocalAddr("localhost");
@@ -60,9 +61,18 @@ public class TestAuthorizationWithNoData {
 
     String scope = "launch/patient launch/encounter";
     String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
+    
+    AuthorizationController authorizationController = new AuthorizationController();
 
     authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
         request);
+    
+    Token testToken = TokenManager.getInstance().getServerToken();
+    
+    IIdType patientId = ourClient.create().resource(pt)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+        .execute().getId();
 
     ourClient.delete().resourceById(patientId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
@@ -74,15 +84,8 @@ public class TestAuthorizationWithNoData {
   @Test(expected = ResponseStatusException.class)
   public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
 
-    Token testToken = TokenManager.getInstance().getServerToken();
 
-    Encounter encounter = new Encounter();
-    IIdType encounterId = ourClient.create().resource(encounter)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute().getId();
-
-    AuthorizationController authorizationController = new AuthorizationController();
+    
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.setLocalAddr("localhost");
@@ -92,8 +95,18 @@ public class TestAuthorizationWithNoData {
     String scope = "launch/patient launch/encounter";
     String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
+    AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
         request);
+    
+    Token testToken = TokenManager.getInstance().getServerToken();
+
+    Encounter encounter = new Encounter();
+
+    IIdType encounterId = ourClient.create().resource(encounter)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+        .execute().getId();
 
     ourClient.delete().resourceById(encounterId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
@@ -105,7 +118,6 @@ public class TestAuthorizationWithNoData {
   @Test(expected = ResponseStatusException.class)
   public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
 
-    AuthorizationController authorizationController = new AuthorizationController();
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.setLocalAddr("localhost");
@@ -115,10 +127,15 @@ public class TestAuthorizationWithNoData {
     String scope = "launch/patient launch/encounter";
     String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
+    AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
         request);
   }
 
+  /**
+   * Sets up test server with test data.
+   * @throws Exception if server starts incorrectly
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
 
