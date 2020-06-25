@@ -11,6 +11,10 @@ public class Token {
 
   private String tokenValue;
 
+  /**
+   * Token constructor.
+   * @param scopes scopes this token is authorized to access
+   */
   public Token(List<String> scopes) {
     UUID uuid = UUID.randomUUID();
     this.tokenValue = uuid.toString();
@@ -28,33 +32,32 @@ public class Token {
   public String getTokenValue() {
     return tokenValue;
   }
-  
-  public List<String> getScopes()
-  {
+
+  public List<String> getScopes() {
     return scopes;
   }
-  
-  public String getScopesString()
-  {
+
+  /**
+   * Gets the list of scopes as a string.
+   * @return a string of each scope separated by a space
+   */
+  public String getScopesString() {
     String scopesString = "";
-    for (String scope : scopes)
-    {
+    for (String scope : scopes) {
       scopesString += scope + " ";
     }
-    
+
     scopesString = scopesString.strip();
-    
+
     return scopesString;
-    
+
   }
-  
-  public void setPatientId(String patientId)
-  {
+
+  public void setPatientId(String patientId) {
     this.patientId = patientId;
   }
-  
-  public String getPatientId()
-  {
+
+  public String getPatientId() {
     return patientId;
   }
 

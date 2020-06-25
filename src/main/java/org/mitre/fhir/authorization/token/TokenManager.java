@@ -61,6 +61,13 @@ public class TokenManager {
     return token;
   }
   
+  /**
+   * Gets a Token based on the token value.
+   * 
+   * @param tokenValue the token's key value
+   * @return the corresponding token
+   * @throws TokenNotFoundException if no token with tokenValue exists
+   */
   public Token getToken(String tokenValue) throws TokenNotFoundException {
     // confirm we were passed a valid token value
     if (!tokenMap.containsKey(tokenValue)) {
@@ -70,9 +77,14 @@ public class TokenManager {
     return tokenMap.get(tokenValue);
   }
   
-  public Token getRefreshToken(String refreshTokenValue) throws TokenNotFoundException
-  {
- // confirm we were passed a valid token value
+  /**
+   * Get the corresponding Token for a refresh token.
+   * @param refreshTokenValue the refresh token's key value
+   * @return the corresponding refresh token
+   * @throws TokenNotFoundException if no refresh token with refreshTokenValue exists
+   */
+  public Token getRefreshToken(String refreshTokenValue) throws TokenNotFoundException {
+    // confirm we were passed a valid token value
     if (!refreshTokenMap.containsKey(refreshTokenValue)) {
       throw new TokenNotFoundException(refreshTokenValue);
     } 
