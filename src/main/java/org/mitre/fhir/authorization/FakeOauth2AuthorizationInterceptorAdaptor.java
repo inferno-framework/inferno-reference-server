@@ -34,22 +34,9 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
 
-    // String[] splitBearerTokenParts = bearerToken.split("\\.");
-
-    /*
-     * if (splitBearerTokenParts.length != 2) { throw new InvalidBearerTokenException(bearerToken);
-     * }
-     * 
-     * String actualBearerToken = splitBearerTokenParts[0];
-     */
-
     if (!isBearerTokenValid(bearerToken)) {
       throw new InvalidBearerTokenException(bearerToken);
     }
-
-    // String encodedScopes = splitBearerTokenParts[1];
-
-    // String scopes = new String(Base64.decode(encodedScopes));
 
     List<String> scopesArray;
     try {
