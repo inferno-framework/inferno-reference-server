@@ -20,6 +20,7 @@ public class WellKnownAuthorizationEndpointController {
 
   private static final String WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY = "authorization_endpoint";
   private static final String WELL_KNOWN_TOKEN_ENDPOINT_KEY = "token_endpoint";
+  private static final String WELL_KNOWN_REVOCATION_ENDPOINT_KEY = "revocation_endpoint";
   private static final String WELL_KNOWN_CAPABILITIES_KEY = "capabilities";
   private static final String WELL_KNOWN_JWK_URI_KEY = "jwks_uri";
 
@@ -64,6 +65,8 @@ public class WellKnownAuthorizationEndpointController {
         ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_TOKEN_ENDPOINT_KEY,
         ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(theRequest));
+    wellKnownJson.put(WELL_KNOWN_REVOCATION_ENDPOINT_KEY,
+        ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
 
     return wellKnownJson.toString();

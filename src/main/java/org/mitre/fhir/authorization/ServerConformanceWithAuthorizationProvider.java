@@ -12,6 +12,8 @@ import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponen
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceSearchParamComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
@@ -22,9 +24,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
   public static final String TOKEN_EXTENSION_URL = "token";
   public static final String AUTHORIZE_EXTENSION_URL = "authorize";
+  public static final String REVOKE_EXTENSION_URL = "revoke";
   private static final String OAUTH_URL = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
   private static final String TOKEN_EXTENSION_VALUE_URI = "/oauth/token";
   private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization";
+  private static final String REVOKE_EXTENSION_VALUE_URI = "/oauth/token/revoke-token";
 
 
   private static final String LOCATION_RESOURCE_TYPE = "Location";
@@ -46,6 +50,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
   public static String getAuthorizationExtensionUri(HttpServletRequest theRequest) {
     return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + AUTHORIZE_EXTENSION_VALUE_URI;
+  }
+  
+  public static String getRevokeExtensionUri(HttpServletRequest theRequest) {
+    return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + REVOKE_EXTENSION_VALUE_URI;
   }
 
   private void fixListResource(CapabilityStatementRestComponent restComponents) {
@@ -76,10 +84,26 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     authorizeValue.setValue(getAuthorizationExtensionUri(theRequest));
     authorizeExtension.setValue(authorizeValue); //valueUri
     oauthUris.addExtension(authorizeExtension);
+    
+    Extension revokeExtension = new Extension();
+    revokeExtension.setUrl(REVOKE_EXTENSION_URL);
+    UriType revokeValue = new UriType();
+    revokeValue.setValue(getRevokeExtensionUri(theRequest));
+    revokeExtension.setValue(revokeValue);
+    oauthUris.addExtension(revokeExtension);
+    
 
     CapabilityStatementRestSecurityComponent security =
         new CapabilityStatementRestSecurityComponent();
     security.addExtension(oauthUris);
+    
+    CodeableConcept service = security.addService();
+    Coding coding = service.addCoding();
+    coding.setSystem("http://hl7.org/fhir/restful-security-service");
+    coding.setCode("SMART-on-FHIR");
+
+    service.setText("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)");
+    
 
     CapabilityStatement capabilityStatement = super.getServerConformance(theRequest,
         theRequestDetails);
