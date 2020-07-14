@@ -44,7 +44,7 @@ To launch an app from the EHR go to `reference-server/app/app-launch`
 
 ## Revoking a token
 
-To revoke a token, go to `reference-server/token/revoke-token`
+To revoke a token, go to `reference-server/oauth/token/revoke-token`
 
 The tokens are currently saved in memory, so if the reference server is restarted, all existing tokens will be invalid
 
