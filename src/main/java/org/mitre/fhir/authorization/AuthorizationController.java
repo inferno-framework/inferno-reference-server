@@ -99,9 +99,9 @@ public class AuthorizationController {
     if (basicHeader != null) {
       String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
       // client id is user name, and should be before ':'
-      clientId = decodedValue.split(":")[0]; 
+      clientId = decodedValue.split(":")[0];
       // client secret is password, and should be after ':'
-      clientSecret = decodedValue.split(":")[1]; 
+      clientSecret = decodedValue.split(":")[1];
     } else {
       // if no basic auth, client id should be supplied as request param
       clientId = clientIdRequestParam;
