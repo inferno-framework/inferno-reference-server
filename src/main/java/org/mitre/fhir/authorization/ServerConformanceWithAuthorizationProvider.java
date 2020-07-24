@@ -71,27 +71,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     Extension oauthUris = new Extension();
     oauthUris.setUrl(OAUTH_URL); //url
 
-    Extension tokenExtension = new Extension();
-    tokenExtension.setUrl(TOKEN_EXTENSION_URL);
-    UriType tokenValue = new UriType();
-    tokenValue.setValue(getTokenExtensionUri(theRequest));
-    tokenExtension.setValue(tokenValue); //valueUri
-    oauthUris.addExtension(tokenExtension);
+    oauthUris.addExtension(createOAuthUriExtension(TOKEN_EXTENSION_URL, getTokenExtensionUri(theRequest)));
 
-    Extension authorizeExtension = new Extension();
-    authorizeExtension.setUrl(AUTHORIZE_EXTENSION_URL);
-    UriType authorizeValue = new UriType();
-    authorizeValue.setValue(getAuthorizationExtensionUri(theRequest));
-    authorizeExtension.setValue(authorizeValue); //valueUri
-    oauthUris.addExtension(authorizeExtension);
-    
-    Extension revokeExtension = new Extension();
-    revokeExtension.setUrl(REVOKE_EXTENSION_URL);
-    UriType revokeValue = new UriType();
-    revokeValue.setValue(getRevokeExtensionUri(theRequest));
-    revokeExtension.setValue(revokeValue);
-    oauthUris.addExtension(revokeExtension);
-    
+    oauthUris.addExtension(createOAuthUriExtension(AUTHORIZE_EXTENSION_URL, getAuthorizationExtensionUri(theRequest)));
+
+    oauthUris.addExtension(createOAuthUriExtension(REVOKE_EXTENSION_URL, getRevokeExtensionUri(theRequest)));
 
     CapabilityStatementRestSecurityComponent security =
         new CapabilityStatementRestSecurityComponent();
@@ -129,5 +113,16 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     }
 
     return capabilityStatement;
+  }
+  
+  private Extension createOAuthUriExtension(String extensionUrl, String extensionValue)
+  {
+    Extension extension = new Extension();
+    extension.setUrl(extensionUrl);
+    UriType value = new UriType();
+    value.setValue(extensionValue);
+    extension.setValue(value);
+    
+    return extension;
   }
 }

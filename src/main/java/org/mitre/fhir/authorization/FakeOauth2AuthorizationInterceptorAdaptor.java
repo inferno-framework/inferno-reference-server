@@ -3,7 +3,6 @@ package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
-import com.github.dnault.xmlpatch.internal.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
