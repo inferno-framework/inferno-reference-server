@@ -9,7 +9,7 @@ public class Token {
   private final List<String> scopes;
   private String patientId;
 
-  private String tokenValue;
+  private final String tokenValue;
 
   /**
    * Token constructor.
