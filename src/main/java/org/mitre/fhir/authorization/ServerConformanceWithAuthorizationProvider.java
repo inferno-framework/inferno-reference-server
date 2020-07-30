@@ -5,6 +5,7 @@ import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.r4.JpaConformanceProviderR4;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CapabilityStatement;
@@ -68,14 +69,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     Extension oauthUris = new Extension();
     oauthUris.setUrl(OAUTH_URL); // url
 
-    oauthUris.addExtension(
-        createOAuthUriExtension(TOKEN_EXTENSION_URL, getTokenExtensionUri(theRequest)));
+    oauthUris.addExtension(new Extension(TOKEN_EXTENSION_URL,
+        new UriType().setValue(getTokenExtensionUri(theRequest))));
 
-    oauthUris.addExtension(
-        createOAuthUriExtension(AUTHORIZE_EXTENSION_URL, getAuthorizationExtensionUri(theRequest)));
+    oauthUris.addExtension(new Extension(AUTHORIZE_EXTENSION_URL,
+        new UriType().setValue(getAuthorizationExtensionUri(theRequest))));
 
-    oauthUris.addExtension(
-        createOAuthUriExtension(REVOKE_EXTENSION_URL, getRevokeExtensionUri(theRequest)));
+    oauthUris.addExtension(new Extension(REVOKE_EXTENSION_URL,
+        new UriType().setValue(getRevokeExtensionUri(theRequest))));
 
     CapabilityStatementRestSecurityComponent security =
         new CapabilityStatementRestSecurityComponent();
@@ -103,8 +104,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
       capabilityStatementRestResourceComponent.addSearchRevInclude(SEARCH_REV_INCLUDE);
 
       if (LOCATION_RESOURCE_TYPE.equals(capabilityStatementRestResourceComponent.getType())) {
-        for (CapabilityStatementRestResourceSearchParamComponent searchParam : capabilityStatementRestResourceComponent
-            .getSearchParam()) {
+        List<CapabilityStatementRestResourceSearchParamComponent> searchParams =
+            capabilityStatementRestResourceComponent.getSearchParam();
+        for (CapabilityStatementRestResourceSearchParamComponent searchParam : searchParams) {
           if (NEAR_SEARCH_PARAM_NAME.equals(searchParam.getName())) {
             searchParam.setType(SearchParamType.SPECIAL);
           }
@@ -113,11 +115,5 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     }
 
     return capabilityStatement;
-  }
-
-  private Extension createOAuthUriExtension(String extensionUrl, String extensionValue) {
-    Extension extension = new Extension(extensionUrl, new UriType().setValue(extensionValue));
-
-    return extension;
   }
 }
