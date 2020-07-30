@@ -134,7 +134,7 @@ public class AuthorizationController {
         patientId = new String(Base64.getDecoder().decode(encodedPatientId));
       }
 
-      if ((code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken))) {
+      if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken)) {
         return generateBearerTokenResponse(request, clientId, scopes, patientId);
       }
 
