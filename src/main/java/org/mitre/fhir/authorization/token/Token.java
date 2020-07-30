@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Token {
 
   private boolean active = true;
-  private List<String> scopes;
+  private final List<String> scopes;
   private String patientId;
 
   private String tokenValue;
