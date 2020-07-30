@@ -45,7 +45,6 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
       throw new InvalidBearerTokenException(bearerToken);
     }
 
-    // List<String> scopesArray = Arrays.asList(scopes.split(" "));
     List<String> grantedResources = new ArrayList<String>();
 
     for (String currentScope : scopesArray) {
