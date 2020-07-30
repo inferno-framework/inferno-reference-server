@@ -151,8 +151,6 @@ public class AuthorizationController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
             "Refresh Token " + refreshTokenValue + " was not found");
       }
-    } else {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
     }
 
 
