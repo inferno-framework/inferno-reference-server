@@ -48,6 +48,7 @@ public class Token {
     }
 
     return scopesString.toString().strip();
+  }
 
   public void setPatientId(String patientId) {
     this.patientId = patientId;
