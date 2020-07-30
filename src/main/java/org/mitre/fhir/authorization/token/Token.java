@@ -42,16 +42,12 @@ public class Token {
    * @return a string of each scope separated by a space
    */
   public String getScopesString() {
-    String scopesString = "";
+    StringBuilder scopesString = new StringBuilder();
     for (String scope : scopes) {
-      scopesString += scope + " ";
+      scopesString.append(scope).append(" ");
     }
 
-    scopesString = scopesString.strip();
-
-    return scopesString;
-
-  }
+    return scopesString.toString().strip();
 
   public void setPatientId(String patientId) {
     this.patientId = patientId;
