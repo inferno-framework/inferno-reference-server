@@ -26,6 +26,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.AfterClass;
@@ -39,8 +41,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class TestAuthorization {
@@ -288,6 +292,41 @@ public class TestAuthorization {
   }
 
   @Test
+  public void testCapabilityStatementOauthUris() {
+    CapabilityStatement capabilityStatement =
+        ourClient.capabilities().ofType(CapabilityStatement.class).execute();
+    CapabilityStatementRestComponent rest = capabilityStatement.getRest().get(0);
+    CapabilityStatementRestSecurityComponent security = rest.getSecurity();
+    List<Extension> extensions = security.getExtension();
+    
+    Extension oauthUrisExtension = extensions.get(0);
+    
+    List<Extension> oauthUrisExtensionExtensions = oauthUrisExtension.getExtension();
+
+    Map<String, String> oauthUriMap = new HashMap<>();
+    for (Extension extension : oauthUrisExtensionExtensions)
+    {
+      oauthUriMap.put(extension.getUrl(), extension.getValue().primitiveValue());
+    }
+
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    
+    String authorizeUri = oauthUriMap.get(ServerConformanceWithAuthorizationProvider.AUTHORIZE_EXTENSION_URL);
+    String revokeUri = oauthUriMap.get(ServerConformanceWithAuthorizationProvider.REVOKE_EXTENSION_URL);
+    String tokenUri = oauthUriMap.get(ServerConformanceWithAuthorizationProvider.TOKEN_EXTENSION_URL);
+    
+    Assert.assertEquals(authorizeUri, ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(request));
+    Assert.assertEquals(revokeUri, ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(request));
+    Assert.assertEquals(tokenUri, ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(request));
+
+  }
+
+
+  @Test
   public void testGetTokenWithoutBasicAuth()
       throws JSONException, BearerTokenException, TokenNotFoundException {
     String serverBaseUrl = "";
@@ -489,7 +528,7 @@ public class TestAuthorization {
         "INVALID_CLIENT_ID", FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
     String encodedScopes = "";
     String code = FhirReferenceServerUtils.SAMPLE_CODE + encodedScopes;
-    
+
     AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken(code, null, null, request);
   }
