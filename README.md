@@ -30,7 +30,8 @@ Once you have done that, update the `src/main/resources/hapi.properties` to conn
 
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server.
 
-Note: Java 11 is required to compile and run the server (as specified in the `pom.xml`)
+**System Requirements:**
+The reference server requires Java 11 or above.
 
 To populate the database with sample data, run `bundle install` then `bundle exec ruby upload.rb` *Note*: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb corresponds to your running fhir reference server.
 
