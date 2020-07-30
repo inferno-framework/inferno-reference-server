@@ -141,8 +141,7 @@ public class AuthorizationController {
     } else if (refreshTokenValue != null) {
 
       try {
-        if (refreshTokenValue != null
-            && TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
+        if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
           Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
           patientId = refreshToken.getPatientId();
           String refreshTokenScopes = refreshToken.getScopesString();
