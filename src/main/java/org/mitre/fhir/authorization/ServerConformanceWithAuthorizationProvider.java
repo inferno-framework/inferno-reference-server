@@ -116,11 +116,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   }
 
   private Extension createOAuthUriExtension(String extensionUrl, String extensionValue) {
-    Extension extension = new Extension();
-    extension.setUrl(extensionUrl);
-    UriType value = new UriType();
-    value.setValue(extensionValue);
-    extension.setValue(value);
+    Extension extension = new Extension(extensionUrl, new UriType().setValue(extensionValue));
 
     return extension;
   }
