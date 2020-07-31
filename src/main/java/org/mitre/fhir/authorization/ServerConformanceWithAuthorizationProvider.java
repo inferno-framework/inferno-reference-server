@@ -76,7 +76,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
         new UriType(getAuthorizationExtensionUri(theRequest))));
 
     oauthUris.addExtension(new Extension(REVOKE_EXTENSION_URL,
-        new UriType().setValue(getRevokeExtensionUri(theRequest))));
+        new UriType(getRevokeExtensionUri(theRequest))));
 
     CapabilityStatementRestSecurityComponent security =
         new CapabilityStatementRestSecurityComponent();
