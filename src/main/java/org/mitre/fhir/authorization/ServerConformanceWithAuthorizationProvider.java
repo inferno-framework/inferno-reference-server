@@ -70,7 +70,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     oauthUris.setUrl(OAUTH_URL); // url
 
     oauthUris.addExtension(new Extension(TOKEN_EXTENSION_URL,
-        new UriType().setValue(getTokenExtensionUri(theRequest))));
+        new UriType(getTokenExtensionUri(theRequest))));
 
     oauthUris.addExtension(new Extension(AUTHORIZE_EXTENSION_URL,
         new UriType(getAuthorizationExtensionUri(theRequest))));
