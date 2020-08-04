@@ -5,6 +5,7 @@ import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.r4.JpaConformanceProviderR4;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CapabilityStatement;
@@ -12,6 +13,8 @@ import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponen
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceSearchParamComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
@@ -22,9 +25,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
   public static final String TOKEN_EXTENSION_URL = "token";
   public static final String AUTHORIZE_EXTENSION_URL = "authorize";
-  private static final String OAUTH_URL = "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
+  public static final String REVOKE_EXTENSION_URL = "revoke";
+  private static final String OAUTH_URL =
+      "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris";
   private static final String TOKEN_EXTENSION_VALUE_URI = "/oauth/token";
   private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization";
+  private static final String REVOKE_EXTENSION_VALUE_URI = "/oauth/token/revoke-token";
 
 
   private static final String LOCATION_RESOURCE_TYPE = "Location";
@@ -34,9 +40,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
 
   public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
-                                                    IFhirSystemDao<Bundle,
-                                                        Meta> theSystemDao,
-                                                    DaoConfig theDaoConfig) {
+      IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig) {
     super(theRestfulServer, theSystemDao, theDaoConfig);
   }
 
@@ -48,55 +52,61 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + AUTHORIZE_EXTENSION_VALUE_URI;
   }
 
+  public static String getRevokeExtensionUri(HttpServletRequest theRequest) {
+    return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + REVOKE_EXTENSION_VALUE_URI;
+  }
+
   private void fixListResource(CapabilityStatementRestComponent restComponents) {
-    restComponents
-        .getResource()
-        .stream()
-        .filter(restResource -> "List".equals(restResource.getType()))
-        .findFirst()
-        .ifPresent(listResource -> listResource.setProfile("http://hl7.org/fhir/StructureDefinition/List"));
+    restComponents.getResource().stream()
+        .filter(restResource -> "List".equals(restResource.getType())).findFirst()
+        .ifPresent(listResource -> listResource
+            .setProfile("http://hl7.org/fhir/StructureDefinition/List"));
   }
 
   @Override
   public CapabilityStatement getServerConformance(HttpServletRequest theRequest,
-                                                  RequestDetails theRequestDetails) {
+      RequestDetails theRequestDetails) {
     Extension oauthUris = new Extension();
-    oauthUris.setUrl(OAUTH_URL); //url
+    oauthUris.setUrl(OAUTH_URL); // url
 
-    Extension tokenExtension = new Extension();
-    tokenExtension.setUrl(TOKEN_EXTENSION_URL);
-    UriType tokenValue = new UriType();
-    tokenValue.setValue(getTokenExtensionUri(theRequest));
-    tokenExtension.setValue(tokenValue); //valueUri
-    oauthUris.addExtension(tokenExtension);
+    oauthUris.addExtension(new Extension(TOKEN_EXTENSION_URL,
+        new UriType(getTokenExtensionUri(theRequest))));
 
-    Extension authorizeExtension = new Extension();
-    authorizeExtension.setUrl(AUTHORIZE_EXTENSION_URL);
-    UriType authorizeValue = new UriType();
-    authorizeValue.setValue(getAuthorizationExtensionUri(theRequest));
-    authorizeExtension.setValue(authorizeValue); //valueUri
-    oauthUris.addExtension(authorizeExtension);
+    oauthUris.addExtension(new Extension(AUTHORIZE_EXTENSION_URL,
+        new UriType(getAuthorizationExtensionUri(theRequest))));
+
+    oauthUris.addExtension(new Extension(REVOKE_EXTENSION_URL,
+        new UriType(getRevokeExtensionUri(theRequest))));
 
     CapabilityStatementRestSecurityComponent security =
         new CapabilityStatementRestSecurityComponent();
     security.addExtension(oauthUris);
 
-    CapabilityStatement capabilityStatement = super.getServerConformance(theRequest,
-        theRequestDetails);
+    CodeableConcept service = security.addService();
+    Coding coding = service.addCoding();
+    coding.setSystem("http://hl7.org/fhir/restful-security-service");
+    coding.setCode("SMART-on-FHIR");
+
+    service.setText("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)");
+
+
+    CapabilityStatement capabilityStatement =
+        super.getServerConformance(theRequest, theRequestDetails);
     CapabilityStatementRestComponent rest = capabilityStatement.getRest().get(0);
     rest.setSecurity(security);
 
     fixListResource(rest);
 
-    //Location searchParam "near" is missing type, need to add it
-    //https://www.hl7.org/fhir/location.html
-    for (CapabilityStatementRestResourceComponent capabilityStatementRestResourceComponent :
-        rest.getResource()) {
+    // Location searchParam "near" is missing type, need to add it
+    // https://www.hl7.org/fhir/location.html
+    for (CapabilityStatementRestResourceComponent capabilityStatementRestResourceComponent : rest
+        .getResource()) {
       capabilityStatementRestResourceComponent.addSearchRevInclude(SEARCH_REV_INCLUDE);
 
       if (LOCATION_RESOURCE_TYPE.equals(capabilityStatementRestResourceComponent.getType())) {
-        for (CapabilityStatementRestResourceSearchParamComponent searchParam :
-            capabilityStatementRestResourceComponent.getSearchParam()) {
+        List<CapabilityStatementRestResourceSearchParamComponent> searchParams =
+            capabilityStatementRestResourceComponent.getSearchParam();
+        for (CapabilityStatementRestResourceSearchParamComponent searchParam : searchParams) {
           if (NEAR_SEARCH_PARAM_NAME.equals(searchParam.getName())) {
             searchParam.setType(SearchParamType.SPECIAL);
           }
