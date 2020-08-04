@@ -24,9 +24,12 @@ The database will be initially populated by the default initdb.sql script. To up
 
 ## Running without Docker
 
+**System Requirements:**
+The reference server requires Java 11 or above.
+
 If you cannot run docker, you will need to create a postgres database.
 
-Once you have done that, update the src/main/resources/hapi.properties to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have the provided values).
+Once you have done that, update the `src/main/resources/hapi.properties` to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have the provided values).
 
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server.
 
