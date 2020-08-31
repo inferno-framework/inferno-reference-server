@@ -116,7 +116,6 @@ public class AuthorizationController {
 
     if (code != null) {
       fullCodeString = code;
-
       // the provided code is in the format <ACTUAL_CODE>.<SCOPES>
       String[] fullCode = fullCodeString.split("\\.");
 
