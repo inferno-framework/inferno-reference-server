@@ -117,8 +117,7 @@ public class AuthorizationController {
     if (code != null) {
       fullCodeString = code;
 
-
-      // the provided code is actualcode.scopes
+      // the provided code is in the format <ACTUAL_CODE>.<SCOPES>
       String[] fullCode = fullCodeString.split("\\.");
 
       String actualCodeOrRefreshToken = fullCode[0];
@@ -152,8 +151,6 @@ public class AuthorizationController {
             "Refresh Token " + refreshTokenValue + " was not found");
       }
     }
-
-
 
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
   }
@@ -214,7 +211,6 @@ public class AuthorizationController {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
     }
 
-    // get their id
     List<String> scopesList = Arrays.asList(scopes.split(" "));
 
     if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
