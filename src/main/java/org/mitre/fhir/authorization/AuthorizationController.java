@@ -210,7 +210,7 @@ public class AuthorizationController {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
     }
 
-    List<String> scopesList = Arrays.asList(scopes.split(" "));
+    List<String> scopesList = Arrays.asList(scopes.split(" +"));
 
     if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
       tokenJson.put("patient", patientId);
