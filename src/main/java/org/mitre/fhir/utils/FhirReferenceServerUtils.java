@@ -1,7 +1,9 @@
 
 package org.mitre.fhir.utils;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 public class FhirReferenceServerUtils {
@@ -71,7 +73,7 @@ public class FhirReferenceServerUtils {
   }
 
   /**
-   * Create the Authorizartion Header value.
+   * Create the Authorization Header value.
    * 
    * @param accessToken the access token value
    * @return
@@ -79,5 +81,55 @@ public class FhirReferenceServerUtils {
   public static String createAuthorizationHeaderValue(String accessToken) {
     return BEARER_TOKEN_PREFIX + " " + accessToken;
   }
+
+  /**
+   * converts scope string to scope list.
+   * 
+   * @param scopesString scopes separated by a space
+   * @return
+   */
+  public static List<String> getScopesListByScopeString(String scopesString) {
+
+    if (scopesString == null) {
+      return new ArrayList<String>();
+    }
+
+    String trimmedScopesString = scopesString.trim();
+
+    String[] scopesArray = trimmedScopesString.split("\\s+");
+
+    List<String> scopesList = new ArrayList<>();
+
+    for (String scope : scopesArray) {
+      if (!scope.equals("")) {
+        scopesList.add(scope);
+      }
+    }
+
+    return scopesList;
+  }
+
+  /**
+   * converts scope list to scope string.
+   * 
+   * @param scopesList List with each scope String
+   * @return
+   */
+  public static String getScopesStringFromScopesList(List<String> scopesList) {
+    if (scopesList == null) {
+      return "";
+    }
+
+    String scopesString = "";
+
+    for (String scope : scopesList) {
+      scopesString += scope + " ";
+    }
+
+    scopesString = scopesString.trim();
+
+    return scopesString;
+  }
+
 
 }

@@ -40,8 +40,7 @@ public class TokenManager {
    * @return the created token
    */
   public Token createToken(String scopesString) {
-    String[] splitString = scopesString != null ? scopesString.split(" +") : new String[0];
-    List<String> scopes = Arrays.asList(splitString);
+    List<String> scopes = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
     return createToken(scopes);
   }
 
