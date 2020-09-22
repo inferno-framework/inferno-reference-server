@@ -43,7 +43,7 @@ window.mitre.fhirreferenceserver.patientPicker = {
                 patientsTable.row.add([
                     id,
                     name,
-                    '<button id="' + buttonId + '" type="button">Select</button>'
+                    '<button id="' + buttonId + '" class="btn btn-info" type="button">Select</button>'
                 ]).draw(false);
 
                 $('#' + buttonId).click(function () {
