@@ -1,7 +1,6 @@
 
 package org.mitre.fhir.authorization.token;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class TokenManager {
   /**
    * Gets instance of the TokenManager singleton.
    * 
-   * @return 
+   * @return
    */
   public static TokenManager getInstance() {
     if (instance == null) {
@@ -33,7 +32,7 @@ public class TokenManager {
 
     return instance;
   }
-  
+
   /**
    * Creates a token.
    * 
@@ -59,7 +58,7 @@ public class TokenManager {
 
     return token;
   }
-  
+
   /**
    * Gets a Token based on the token value.
    * 
@@ -71,13 +70,14 @@ public class TokenManager {
     // confirm we were passed a valid token value
     if (!tokenMap.containsKey(tokenValue)) {
       throw new TokenNotFoundException(tokenValue);
-    } 
-    
+    }
+
     return tokenMap.get(tokenValue);
   }
-  
+
   /**
    * Get the corresponding Token for a refresh token.
+   * 
    * @param refreshTokenValue the refresh token's key value
    * @return the corresponding refresh token
    * @throws TokenNotFoundException if no refresh token with refreshTokenValue exists
@@ -86,8 +86,8 @@ public class TokenManager {
     // confirm we were passed a valid token value
     if (!refreshTokenMap.containsKey(refreshTokenValue)) {
       throw new TokenNotFoundException(refreshTokenValue);
-    } 
-    
+    }
+
     return refreshTokenMap.get(refreshTokenValue);
 
   }
@@ -122,7 +122,7 @@ public class TokenManager {
    * @throws InactiveTokenException the token has already been revoked.
    */
   public void revokeToken(String tokenValue) throws TokenNotFoundException, InactiveTokenException {
-        
+
     Token token = tokenMap.get(tokenValue);
 
     if (token != null) {
@@ -179,7 +179,7 @@ public class TokenManager {
   }
 
   /**
-   * Gets a preadded token for calls in the java code. 
+   * Gets a preadded token for calls in the java code.
    * 
    * @return a Token
    */

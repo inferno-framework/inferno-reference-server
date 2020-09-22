@@ -9,7 +9,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.github.dnault.xmlpatch.internal.Log;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Calendar;
