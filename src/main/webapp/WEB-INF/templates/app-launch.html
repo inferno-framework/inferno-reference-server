@@ -6,16 +6,37 @@
 
     <title>App Launch</title>
     <meta content="Authorize Cindehr" name="description">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="css/site.css" rel="stylesheet">
 </head>
 
 <body>
 
-<label>App Launch URI</label>
+	<div th:replace="tmpl-banner :: banner"></div>
+	
+	<br>
+	<br>
+	
+    <div id="pageContent" class="container">
+    	<form>
+			<div class="form-row">
+				<div class="col-3 text-right">
+					<label for="appURI">App Launch URI</label>				
+				</div>
+				<div class="form-group col-6">
+					<input id="appURI" type="text" class="form-control"/>
+				</div>
+				<div class="form-group col-3">
+					<button id="launchAppButton" class="btn btn-info">Launch App</button>
+				</div>
+			</div>
+		</form>
+	</div>
 
-<input id="appURI" type="text"/>
-<button id="launchAppButton">Launch App</button>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+ 
 <script>
     $(document).ready(function () {
 
