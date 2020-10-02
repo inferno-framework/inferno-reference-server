@@ -793,7 +793,7 @@ public class TestAuthorization {
       ourPort = TestUtils.TEST_PORT;
     }
     ourServer = new Server(ourPort);
-
+    
     String path = Paths.get("").toAbsolutePath().toString();
 
     WebAppContext webAppContext = new WebAppContext();
