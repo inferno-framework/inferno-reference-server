@@ -45,6 +45,10 @@ To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the clie
 
 To launch an app from the EHR go to `reference-server/app/app-launch`
 
+## Run without an Authentication Token
+
+If you would like to execute requests without a valid bearer token, you can set the environment variable `SKIP_TOKEN_AUTHENTICATION` to `true` 
+
 ## Revoking a token
 
 To revoke a token, go to `reference-server/oauth/token/revoke-token`
