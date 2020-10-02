@@ -1,12 +1,10 @@
 package org.mitre.fhir.authorization.token;
 
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mitre.fhir.authorization.token.Token;
-import org.mitre.fhir.authorization.token.TokenManager;
-import org.mitre.fhir.authorization.token.TokenNotFoundException;
 
 public class TestTokenManager {
 
@@ -23,13 +21,26 @@ public class TestTokenManager {
   }
 
   @Test
+  public void testSkipTokenAuthenticationEnvironmentVariable() throws Exception {
+    boolean auth = SystemLambda.withEnvironmentVariable("SKIP_TOKEN_AUTHENTICATION", "true")
+        .execute(() -> TokenManager.getInstance().authenticateToken(null));
+    Assert.assertTrue(auth);
+  }
+  
+
+
+  @Test
   public void testCreateToken() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken("");
 
     Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
+    
+    Assert.assertNotNull(tokenManager.getToken(token.getTokenValue()));
 
     Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
+    
+    Assert.assertNotNull(tokenManager.getRefreshToken(refreshToken.getTokenValue()));
 
     Assert.assertTrue(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
   }
@@ -61,8 +72,8 @@ public class TestTokenManager {
 
     tokenManager.revokeToken(token.getTokenValue());
 
-    //should fail because token was revoked
-    Assert.assertFalse(tokenManager.authenticateToken(token.getTokenValue())); 
+    // should fail because token was revoked
+    Assert.assertFalse(tokenManager.authenticateToken(token.getTokenValue()));
     Assert.assertFalse(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
   }
 
