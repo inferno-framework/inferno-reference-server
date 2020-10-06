@@ -26,23 +26,35 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
       return true;
     }
 
-    String bearerToken = requestDetails.getHeader("Authorization");
-
-    if (bearerToken == null) {
-      throw new InvalidBearerTokenException(bearerToken);
-    }
-
-    bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
-
-    if (!isBearerTokenValid(bearerToken)) {
-      throw new InvalidBearerTokenException(bearerToken);
-    }
-
     List<String> scopesArray;
-    try {
-      scopesArray = TokenManager.getInstance().getToken(bearerToken).getScopes();
-    } catch (TokenNotFoundException tokenNotFoundException) {
-      throw new InvalidBearerTokenException(bearerToken);
+    TokenManager tokenManager = TokenManager.getInstance();
+
+    if (tokenManager.shouldSkipTokenAuthentication()) {
+      scopesArray = new ArrayList<>();
+      scopesArray.add("system/*");
+
+    } else {
+
+      String bearerToken = requestDetails.getHeader("Authorization");
+
+      if (bearerToken == null) {
+        throw new InvalidBearerTokenException(bearerToken);
+      }
+
+      bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
+
+      try {
+        tokenManager.authenticateToken(bearerToken);
+      } catch (TokenNotFoundException e) {
+        throw new InvalidBearerTokenException(bearerToken);
+      }
+
+      try {
+        scopesArray = tokenManager.getToken(bearerToken).getScopes();
+      } catch (TokenNotFoundException tokenNotFoundException) {
+        throw new InvalidBearerTokenException(bearerToken);
+
+      }
     }
 
     List<String> grantedResources = new ArrayList<String>();
@@ -75,19 +87,5 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
     }
 
     return true;
-
   }
-
-  private boolean isBearerTokenValid(String bearerToken) {
-
-    try {
-      TokenManager tokenManager = TokenManager.getInstance();
-      return tokenManager.authenticateToken(bearerToken);
-
-    } catch (TokenNotFoundException tokenNotFoundException) {
-      return false;
-    }
-
-  }
-
 }
