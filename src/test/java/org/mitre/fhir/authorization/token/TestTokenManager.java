@@ -21,13 +21,6 @@ public class TestTokenManager {
   }
   
   @Test
-  public void testSkipTokenAuthenticationEnvironmentVariable() throws Exception {
-    boolean auth = SystemLambda.withEnvironmentVariable("SKIP_TOKEN_AUTHENTICATION", "true")
-        .execute(() -> TokenManager.getInstance().authenticateToken(null));
-    Assert.assertTrue(auth);
-  }
-  
-  @Test
   public void testCreateToken() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken("");
