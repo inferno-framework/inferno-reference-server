@@ -27,8 +27,6 @@ public class TestTokenManager {
     Assert.assertTrue(auth);
   }
   
-
-
   @Test
   public void testCreateToken() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
