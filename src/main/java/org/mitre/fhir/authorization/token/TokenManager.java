@@ -152,12 +152,6 @@ public class TokenManager {
    */
   public boolean authenticateToken(String tokenValue) throws TokenNotFoundException {
 
-    String disableTokenAuthString = System.getenv().get(SKIP_TOKEN_AUTHENTICATION);
-    boolean disableTokenAuth = "true".equals(disableTokenAuthString);
-    if (disableTokenAuth) {
-      return true;
-    }
-
     Token token = tokenMap.get(tokenValue);
 
     if (token != null) {
@@ -201,6 +195,19 @@ public class TokenManager {
     }
 
     return serverToken;
+  }
+
+  /** 
+   * Determine if the SKIP_TOKEN_AUTHENTICATION environment variable is set.
+   * 
+   * @return if the environment variable is set
+   */
+  public boolean shouldSkipTokenAuthentication() {
+    String disableTokenAuthString = System.getenv().get(SKIP_TOKEN_AUTHENTICATION);
+
+    boolean disableTokenAuth = "true".equals(disableTokenAuthString);
+
+    return disableTokenAuth;
   }
 
 }

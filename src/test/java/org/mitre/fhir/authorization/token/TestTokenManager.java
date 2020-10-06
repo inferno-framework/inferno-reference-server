@@ -1,6 +1,5 @@
 package org.mitre.fhir.authorization.token;
 
-import com.github.stefanbirkner.systemlambda.SystemLambda;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,16 +18,7 @@ public class TestTokenManager {
     TokenManager tokenManager = TokenManager.getInstance();
     tokenManager.clearAllTokens();
   }
-
-  @Test
-  public void testSkipTokenAuthenticationEnvironmentVariable() throws Exception {
-    boolean auth = SystemLambda.withEnvironmentVariable("SKIP_TOKEN_AUTHENTICATION", "true")
-        .execute(() -> TokenManager.getInstance().authenticateToken(null));
-    Assert.assertTrue(auth);
-  }
   
-
-
   @Test
   public void testCreateToken() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
