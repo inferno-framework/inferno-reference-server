@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -154,6 +155,18 @@ public class TestAuthorization {
   }
 
   @Test
+  public void testInterceptorWithSkipTokenAuthenticationEnvironmentVariable() throws Exception {
+
+    SystemLambda.withEnvironmentVariable("SKIP_TOKEN_AUTHENTICATION", "true")
+        .execute(() -> ourClient.search().forResource("Patient").execute());
+  }
+
+  @Test(expected = AuthenticationException.class)
+  public void testIntercepterWithoutToken() {
+    ourClient.search().forResource("Patient").execute();
+  }
+
+  @Test
   public void testTestAuthorizationWithInvalidCode()
       throws JSONException, BearerTokenException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -167,9 +180,7 @@ public class TestAuthorization {
 
       authorizationController.getToken("INVALID_CODE", null, null, request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
-    }
-
-    catch (ResponseStatusException rse) {
+    } catch (ResponseStatusException rse) {
       if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
         throw rse;
       }
@@ -190,9 +201,7 @@ public class TestAuthorization {
 
       authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
-    }
-
-    catch (ResponseStatusException rse) {
+    } catch (ResponseStatusException rse) {
       if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
         throw rse;
       }
@@ -784,7 +793,7 @@ public class TestAuthorization {
       ourPort = TestUtils.TEST_PORT;
     }
     ourServer = new Server(ourPort);
-    
+
     String path = Paths.get("").toAbsolutePath().toString();
 
     WebAppContext webAppContext = new WebAppContext();
