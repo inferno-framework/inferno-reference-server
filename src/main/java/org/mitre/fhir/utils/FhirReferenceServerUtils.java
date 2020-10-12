@@ -45,7 +45,7 @@ public class FhirReferenceServerUtils {
     try {
       customPortNumber = Integer.parseInt(customPortString);
     } catch (NumberFormatException numberFormatException) {
-      Log.info("No curstom port found");
+      Log.info("No custom port found");
     }
 
     // if default port, remove the port
