@@ -1,9 +1,9 @@
 
 package org.mitre.fhir.utils;
 
+import com.github.dnault.xmlpatch.internal.Log;
 import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
-import com.github.dnault.xmlpatch.internal.Log;
 
 public class FhirReferenceServerUtils {
 
