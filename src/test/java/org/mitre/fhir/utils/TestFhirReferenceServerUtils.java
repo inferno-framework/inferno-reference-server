@@ -23,7 +23,7 @@ public class TestFhirReferenceServerUtils {
 
   @Test
   public void testGetServerBaseUrlWithEnvVar() throws Exception {
-    SystemLambda.withEnvironmentVariable("CUSTOM_PORT", "8443").execute(() -> {
+    SystemLambda.withEnvironmentVariable("CUSTOM_DEPLOYMENT_PORT", "8443").execute(() -> {
       MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
       mockHttpServletRequest.setScheme("http");
@@ -40,7 +40,7 @@ public class TestFhirReferenceServerUtils {
   
   @Test
   public void testGetServerBaseUrlWithEnvVarInvalidValue() throws Exception {
-    SystemLambda.withEnvironmentVariable("CUSTOM_PORT", "TEST").execute(() -> {
+    SystemLambda.withEnvironmentVariable("CUSTOM_DEPLOYMENT_PORT", "TEST").execute(() -> {
       MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
       mockHttpServletRequest.setScheme("http");

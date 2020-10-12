@@ -21,8 +21,10 @@ public class FhirReferenceServerUtils {
 
   public static final String DEFAULT_SCOPE = "launch/patient patient/*";
 
-  public static final String CUSTOM_PORT_KEY = "CUSTOM_PORT";
-  
+  // an environment variable that indicates if the deploying server deploys the reference server on
+  // a custom port
+  public static final String CUSTOM_DEPLOYMENT_PORT_ENV_VAR_NAME = "CUSTOM_DEPLOYMENT_PORT";
+
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final int HTTP_DEFAULT_PORT = 80;
@@ -39,7 +41,7 @@ public class FhirReferenceServerUtils {
     int portNumber = request.getServerPort();
     String port = ":" + portNumber;
 
-    String customPortString = System.getenv(CUSTOM_PORT_KEY);
+    String customPortString = System.getenv(CUSTOM_DEPLOYMENT_PORT_ENV_VAR_NAME);
 
     int customPortNumber = -1;
     try {
