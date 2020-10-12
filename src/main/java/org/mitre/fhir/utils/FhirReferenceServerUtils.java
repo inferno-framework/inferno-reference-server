@@ -3,6 +3,7 @@ package org.mitre.fhir.utils;
 
 import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
+import com.github.dnault.xmlpatch.internal.Log;
 
 public class FhirReferenceServerUtils {
 
@@ -44,7 +45,7 @@ public class FhirReferenceServerUtils {
     try {
       customPortNumber = Integer.parseInt(customPortString);
     } catch (NumberFormatException numberFormatException) {
-
+      Log.info("No curstom port found");
     }
 
     // if default port, remove the port
