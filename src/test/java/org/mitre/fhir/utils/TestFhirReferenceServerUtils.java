@@ -78,6 +78,15 @@ public class TestFhirReferenceServerUtils {
   }
 
   @Test
+  public void testGetScopesListByScopesString3() {
+    String scopesString =
+        " launch launch/patient    offline_access openid profile  user/*.* patient/*.*   ";
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
+    Assert.assertEquals(scopesList.size(), 7);
+
+  }
+
+  @Test
   public void testGetScopesListByScopesStringWithNull() {
     String scopesString = null;
     List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
