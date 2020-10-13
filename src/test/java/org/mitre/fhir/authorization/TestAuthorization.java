@@ -5,7 +5,37 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
-import org.mitre.fhir.utils.TestUtils;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
+import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Extension;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Reference;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
@@ -15,38 +45,12 @@ import org.mitre.fhir.authorization.token.TokenNotFoundException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.FhirUtils;
 import org.mitre.fhir.utils.RsaUtils;
+import org.mitre.fhir.utils.TestUtils;
 import org.mitre.fhir.utils.exception.RsaKeyException;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r4.model.*;
-import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
-import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static org.junit.Assert.assertEquals;
 
 public class TestAuthorization {
 
@@ -79,7 +83,7 @@ public class TestAuthorization {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-    assertEquals(methodName, pt2.getName().get(0).getFamily());
+    Assert.assertEquals(methodName, pt2.getName().get(0).getFamily());
 
     // delete the new entry so the db won't have a leftover artifact
     ourClient.delete().resourceById(id)
@@ -151,6 +155,18 @@ public class TestAuthorization {
   }
 
   @Test
+  public void testInterceptorWithSkipTokenAuthenticationEnvironmentVariable() throws Exception {
+
+    SystemLambda.withEnvironmentVariable("SKIP_TOKEN_AUTHENTICATION", "true")
+        .execute(() -> ourClient.search().forResource("Patient").execute());
+  }
+
+  @Test(expected = AuthenticationException.class)
+  public void testIntercepterWithoutToken() {
+    ourClient.search().forResource("Patient").execute();
+  }
+
+  @Test
   public void testTestAuthorizationWithInvalidCode()
       throws JSONException, BearerTokenException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -164,9 +180,7 @@ public class TestAuthorization {
 
       authorizationController.getToken("INVALID_CODE", null, null, request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
-    }
-
-    catch (ResponseStatusException rse) {
+    } catch (ResponseStatusException rse) {
       if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
         throw rse;
       }
@@ -187,9 +201,7 @@ public class TestAuthorization {
 
       authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
-    }
-
-    catch (ResponseStatusException rse) {
+    } catch (ResponseStatusException rse) {
       if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
         throw rse;
       }
@@ -298,14 +310,13 @@ public class TestAuthorization {
     CapabilityStatementRestComponent rest = capabilityStatement.getRest().get(0);
     CapabilityStatementRestSecurityComponent security = rest.getSecurity();
     List<Extension> extensions = security.getExtension();
-    
+
     Extension oauthUrisExtension = extensions.get(0);
-    
+
     List<Extension> oauthUrisExtensionExtensions = oauthUrisExtension.getExtension();
 
     Map<String, String> oauthUriMap = new HashMap<>();
-    for (Extension extension : oauthUrisExtensionExtensions)
-    {
+    for (Extension extension : oauthUrisExtensionExtensions) {
       oauthUriMap.put(extension.getUrl(), extension.getValue().primitiveValue());
     }
 
@@ -314,14 +325,20 @@ public class TestAuthorization {
     request.setLocalAddr("localhost");
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
-    
-    String authorizeUri = oauthUriMap.get(ServerConformanceWithAuthorizationProvider.AUTHORIZE_EXTENSION_URL);
-    String revokeUri = oauthUriMap.get(ServerConformanceWithAuthorizationProvider.REVOKE_EXTENSION_URL);
-    String tokenUri = oauthUriMap.get(ServerConformanceWithAuthorizationProvider.TOKEN_EXTENSION_URL);
-    
-    Assert.assertEquals(authorizeUri, ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(request));
-    Assert.assertEquals(revokeUri, ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(request));
-    Assert.assertEquals(tokenUri, ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(request));
+
+    String authorizeUri =
+        oauthUriMap.get(ServerConformanceWithAuthorizationProvider.AUTHORIZE_EXTENSION_URL);
+    String revokeUri =
+        oauthUriMap.get(ServerConformanceWithAuthorizationProvider.REVOKE_EXTENSION_URL);
+    String tokenUri =
+        oauthUriMap.get(ServerConformanceWithAuthorizationProvider.TOKEN_EXTENSION_URL);
+
+    Assert.assertEquals(authorizeUri,
+        ServerConformanceWithAuthorizationProvider.getAuthorizationExtensionUri(request));
+    Assert.assertEquals(revokeUri,
+        ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(request));
+    Assert.assertEquals(tokenUri,
+        ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(request));
 
   }
 
@@ -767,7 +784,6 @@ public class TestAuthorization {
   @BeforeClass
   public static void beforeClass() throws Exception {
 
-    String path = Paths.get("").toAbsolutePath().toString();
 
     testToken = TokenManager.getInstance().getServerToken();
 
@@ -777,6 +793,8 @@ public class TestAuthorization {
       ourPort = TestUtils.TEST_PORT;
     }
     ourServer = new Server(ourPort);
+
+    String path = Paths.get("").toAbsolutePath().toString();
 
     WebAppContext webAppContext = new WebAppContext();
     webAppContext.setContextPath("");

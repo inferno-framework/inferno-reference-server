@@ -1,0 +1,27 @@
+{
+  "id": "ca0dc351-d013-4273-a485-69093572bd36",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:uuid:ca0dc351-d013-4273-a485-69093572bd36"
+    }
+  ],
+  "active": true,
+  "type": "person",
+  "actual": true,
+  "name": "Synthea US Core Patients",
+  "quantity": 2,
+  "member": [
+    {
+      "entity": {
+        "reference": "urn:uuid:905d582b-bf07-778c-f6d2-c78c5e30b750"
+      }
+    },
+    {
+      "entity": {
+        "reference": "urn:uuid:dbf26072-4a43-ed65-bff4-c241aa29c7db"
+      }
+    }
+  ],
+  "resourceType": "Group"
+}

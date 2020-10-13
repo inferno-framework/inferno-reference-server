@@ -202,6 +202,12 @@
 			<version>2.15.1</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>com.github.stefanbirkner</groupId>
+		    <artifactId>system-lambda</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		
     </dependencies>
 
     <build>

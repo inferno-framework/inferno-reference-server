@@ -8,6 +8,8 @@ import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class TokenManager {
 
+  private static final String SKIP_TOKEN_AUTHENTICATION = "SKIP_TOKEN_AUTHENTICATION";
+
   private static TokenManager instance;
 
   private final Map<String, Token> tokenMap = new HashMap<>();
@@ -147,6 +149,7 @@ public class TokenManager {
    * @throws TokenNotFoundException if the supplied token is not found.
    */
   public boolean authenticateToken(String tokenValue) throws TokenNotFoundException {
+
     Token token = tokenMap.get(tokenValue);
 
     if (token != null) {
@@ -190,6 +193,19 @@ public class TokenManager {
     }
 
     return serverToken;
+  }
+
+  /** 
+   * Determine if the SKIP_TOKEN_AUTHENTICATION environment variable is set.
+   * 
+   * @return if the environment variable is set
+   */
+  public boolean shouldSkipTokenAuthentication() {
+    String disableTokenAuthString = System.getenv().get(SKIP_TOKEN_AUTHENTICATION);
+
+    boolean disableTokenAuth = "true".equals(disableTokenAuthString);
+
+    return disableTokenAuth;
   }
 
 }
