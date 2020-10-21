@@ -91,7 +91,7 @@ public class FhirReferenceServerUtils {
   public static List<String> getScopesListByScopeString(String scopesString) {
 
     if (scopesString == null) {
-      return new ArrayList<String>();
+      return new ArrayList<>();
     }
 
     String trimmedScopesString = scopesString.trim();
