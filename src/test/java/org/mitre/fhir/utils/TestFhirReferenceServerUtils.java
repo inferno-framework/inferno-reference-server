@@ -116,7 +116,7 @@ public class TestFhirReferenceServerUtils {
 
   @Test
   public void testGetScopesStringFromScopesListEmptyList() {
-    List<String> scopesList = new ArrayList<String>();
+    List<String> scopesList = new ArrayList<>();
 
     String scopesString = FhirReferenceServerUtils.getScopesStringFromScopesList(scopesList);
 
