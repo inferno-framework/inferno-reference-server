@@ -104,7 +104,7 @@ public class TestFhirReferenceServerUtils {
 
   @Test
   public void testGetScopesStringFromScopesList() {
-    List<String> scopesList = new ArrayList<String>();
+    List<String> scopesList = new ArrayList<>();
     scopesList.add("scope1");
     scopesList.add("scope2");
     scopesList.add("scope3");
