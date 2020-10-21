@@ -2,7 +2,6 @@ package org.mitre.fhir.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 public class TestFhirReferenceServerUtils {
