@@ -120,15 +120,7 @@ public class FhirReferenceServerUtils {
       return "";
     }
 
-    String scopesString = "";
-
-    for (String scope : scopesList) {
-      scopesString += scope + " ";
-    }
-
-    scopesString = scopesString.trim();
-
-    return scopesString;
+    return String.join(" ", scopesList);
   }
 
 
