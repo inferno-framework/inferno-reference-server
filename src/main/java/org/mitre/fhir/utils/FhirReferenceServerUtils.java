@@ -1,7 +1,6 @@
 
 package org.mitre.fhir.utils;
 
-import com.github.dnault.xmlpatch.internal.Log;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -23,10 +22,6 @@ public class FhirReferenceServerUtils {
 
   public static final String DEFAULT_SCOPE = "launch/patient patient/*";
 
-  // an environment variable that indicates if the deploying server deploys the reference server on
-  // a custom port
-  public static final String CUSTOM_DEPLOYMENT_PORT_ENV_VAR_NAME = "CUSTOM_DEPLOYMENT_PORT";
-
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final int HTTP_DEFAULT_PORT = 80;
@@ -43,19 +38,9 @@ public class FhirReferenceServerUtils {
     int portNumber = request.getServerPort();
     String port = ":" + portNumber;
 
-    String customPortString = System.getenv(CUSTOM_DEPLOYMENT_PORT_ENV_VAR_NAME);
-
-    int customPortNumber = -1;
-    try {
-      customPortNumber = Integer.parseInt(customPortString);
-    } catch (NumberFormatException numberFormatException) {
-      Log.info("No custom deployment port found");
-    }
-
     // if default port, remove the port
     if ((HTTP.equals(scheme) && portNumber == HTTP_DEFAULT_PORT)
-        || (HTTPS.equals(scheme) && portNumber == HTTPS_DEFAULT_PORT)
-        || portNumber == customPortNumber) {
+        || (HTTPS.equals(scheme) && portNumber == HTTPS_DEFAULT_PORT)) {
       port = "";
     }
 
