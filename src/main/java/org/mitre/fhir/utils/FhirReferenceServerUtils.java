@@ -94,19 +94,14 @@ public class FhirReferenceServerUtils {
       return new ArrayList<>();
     }
 
-    String trimmedScopesString = scopesString.trim();
+    String[] scopesArray = scopesString
+        .trim()
+        .split("\\s+");
 
-    String[] scopesArray = trimmedScopesString.split("\\s+");
-
-    List<String> scopesList = new ArrayList<>();
-
-    for (String scope : scopesArray) {
-      if (!scope.equals("")) {
-        scopesList.add(scope);
-      }
-    }
-
-    return scopesList;
+    return Arrays
+        .stream(scopesArray)
+        .filter(scope -> !scope.equals(""))
+        .collect(Collectors.toList());
   }
 
   /**
