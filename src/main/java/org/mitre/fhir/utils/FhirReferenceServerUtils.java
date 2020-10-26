@@ -2,8 +2,10 @@
 package org.mitre.fhir.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 public class FhirReferenceServerUtils {
@@ -94,13 +96,9 @@ public class FhirReferenceServerUtils {
       return new ArrayList<>();
     }
 
-    String[] scopesArray = scopesString
-        .trim()
-        .split("\\s+");
+    String[] scopesArray = scopesString.trim().split("\\s+");
 
-    return Arrays
-        .stream(scopesArray)
-        .filter(scope -> !scope.equals(""))
+    return Arrays.stream(scopesArray).filter(scope -> !scope.equals(""))
         .collect(Collectors.toList());
   }
 
