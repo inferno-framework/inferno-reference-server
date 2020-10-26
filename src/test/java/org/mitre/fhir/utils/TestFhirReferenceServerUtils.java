@@ -1,5 +1,7 @@
 package org.mitre.fhir.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -59,4 +61,74 @@ public class TestFhirReferenceServerUtils {
     Assert.assertEquals("http://www.example.org:123/reference-server/r4", baseUrl);
   }
 
+  @Test
+  public void testGetScopesListByScopesString() {
+    String scopesString = " scope1 scope2  scope3        scope4  ";
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
+
+    Assert.assertEquals(scopesList.size(), 4);
+  }
+
+  @Test
+  public void testGetScopesListByScopesString2() {
+    String scopesString = "scope1 scope2  scope3        scope4";
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
+
+    Assert.assertEquals(scopesList.size(), 4);
+  }
+
+  @Test
+  public void testGetScopesListByScopesString3() {
+    String scopesString =
+        " launch launch/patient    offline_access openid profile  user/*.* patient/*.*   ";
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
+    Assert.assertEquals(scopesList.size(), 7);
+
+  }
+
+  @Test
+  public void testGetScopesListByScopesStringWithNull() {
+    String scopesString = null;
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
+
+    Assert.assertEquals(scopesList.size(), 0);
+  }
+
+  @Test
+  public void testGetScopesListByScopesStringWithEmptyString() {
+    String scopesString = "";
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
+
+    Assert.assertEquals(scopesList.size(), 0);
+  }
+
+  @Test
+  public void testGetScopesStringFromScopesList() {
+    List<String> scopesList = new ArrayList<>();
+    scopesList.add("scope1");
+    scopesList.add("scope2");
+    scopesList.add("scope3");
+
+    String scopesString = FhirReferenceServerUtils.getScopesStringFromScopesList(scopesList);
+
+    Assert.assertEquals("scope1 scope2 scope3", scopesString);
+  }
+
+  @Test
+  public void testGetScopesStringFromScopesListEmptyList() {
+    List<String> scopesList = new ArrayList<>();
+
+    String scopesString = FhirReferenceServerUtils.getScopesStringFromScopesList(scopesList);
+
+    Assert.assertEquals("", scopesString);
+
+  }
+
+  @Test
+  public void testGetScopesStringFromScopesListNullList() {
+    String scopesString = FhirReferenceServerUtils.getScopesStringFromScopesList(null);
+
+    Assert.assertEquals("", scopesString);
+
+  }
 }
