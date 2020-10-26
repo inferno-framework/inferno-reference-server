@@ -1,7 +1,6 @@
 
 package org.mitre.fhir.authorization.token;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +41,7 @@ public class TokenManager {
    * @return the created token
    */
   public Token createToken(String scopesString) {
-    String[] splitString = scopesString != null ? scopesString.split(" +") : new String[0];
-    List<String> scopes = Arrays.asList(splitString);
+    List<String> scopes = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
     return createToken(scopes);
   }
 

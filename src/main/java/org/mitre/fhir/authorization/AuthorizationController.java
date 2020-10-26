@@ -9,7 +9,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.github.dnault.xmlpatch.internal.Log;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Calendar;
@@ -210,7 +209,7 @@ public class AuthorizationController {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
     }
 
-    List<String> scopesList = Arrays.asList(scopes.split(" +"));
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopes);
 
     if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
       tokenJson.put("patient", patientId);
