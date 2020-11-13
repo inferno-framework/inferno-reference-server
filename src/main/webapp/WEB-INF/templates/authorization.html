@@ -6,26 +6,32 @@
 
     <title>Authorize</title>
     <meta content="Authorize Cindehr" name="description">
-    <link href="js/lib/DataTables-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
 
+    <link href="js/lib/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="css/site.css" rel="stylesheet">
 </head>
 <body>
-
-    <div id="pageContent">
+	<div th:replace="tmpl-banner :: banner"></div>
+	
+	<br>
+	<br>
+	
+    <div id="pageContent" class="container">
         <div>Please select which scopes you would like to authorize:</div>
 
         <br>
 
-        <div id="scopes"></div>
+        <div id="scopes" class="well"></div>
 
         <br>
 
-        <button id="submit" type="button">Authorize</button>
+        <button id="submit" type="button" class="btn btn-info">Authorize</button>
     </div>
     
     <script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-    <script src="js/lib/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="js/authorize.js?s=v2"></script>
+	<script src="js/lib/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+    
 
     <script>
         $(document).ready(function () {
