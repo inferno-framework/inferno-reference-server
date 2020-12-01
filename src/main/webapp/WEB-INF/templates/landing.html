@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- Normally this will be a site to accept a user name and password and log in to determine which code to send, for now it'll just redirect-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Inferno Reference Server</title>
+  <meta name="description" content="Authorize Cindehr">
+  
+  <link href="../js/lib/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet"> 
+  <link href="../css/site.css" rel="stylesheet">
+</head>
+
+<body>
+	<div th:replace="tmpl-banner :: banner"></div>
+	
+	<br>
+	<br>
+	
+    <div id="pageContent" class="container">
+   		
+   		This server is designed to meet the Inferno Program Certification Tests.
+This includes:
+
+		Support for SMART-on-FHIR, including:
+		<ul>
+			<li>Public and Confidential Clients</li>
+			<li>Standalone and EHR Launch</li>
+			<li>Token Refresh</li>
+			<li>Token Revocation</li>
+			<li>.well-known URL</li>
+		</ul>
+		
+		Support for US Core v3.1.0, including:
+		<ul>
+			<li>Support for required API interactions</li>
+			<li>Example resources and patients</li>
+		</ul>   
+				
+   		Links:
+   		<div class="card card-body bg-light">	   		
+	   		<ul class="list-unstyled">
+	   			<li><a href="/reference-server/r4/metadata">Conformance</a></li>
+	   			<li><a href="/reference-server/app/app-launch">App Launch</a></li>
+	   			<li><a href="/reference-server/oauth/token/revoke-token">Revoke Token</a></li>
+	   		</ul>
+	   	</div>
+  	
+  	</div>
+  
+   	<script src="../js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+	<script src="../js/lib/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+ 
+
+</body>
+</html>
