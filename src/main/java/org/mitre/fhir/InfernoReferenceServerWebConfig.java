@@ -12,6 +12,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+// Based off of ca.uhn.fhir.to.FhirTesterMvcConfig
 @Configuration
 @EnableWebMvc
 public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
@@ -34,6 +35,12 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
     theRegistry.addResourceHandler("/js/**").addResourceLocations("/js/");
   }
 
+  /**
+   * 
+   * Configuration for the templateResolver.
+   * 
+   * @return SpringResourceTemplateResolver
+   */
   @Bean
   public SpringResourceTemplateResolver templateResolver() {
     SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -44,11 +51,22 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
     return resolver;
   }
 
+  /**
+   * 
+   * Configuration for AnnotationMethodHandlerAdapterConfigurer.
+   * 
+   * @return AnnotationMethodHandlerAdapterConfigurer
+   */
   @Bean
   public AnnotationMethodHandlerAdapterConfigurer annotationMethodHandlerAdapterConfigurer() {
     return new AnnotationMethodHandlerAdapterConfigurer();
   }
 
+  /**
+   * Configuration of ThymeleafViewResolver.
+   * 
+   * @return ThymeleafViewResolver
+   */
   @Bean
   public ThymeleafViewResolver viewResolver() {
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -57,6 +75,11 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
     return viewResolver;
   }
 
+  /**
+   * Configuration of SpringTemplateEngine.
+   * 
+   * @return SpringTemplateEngine.
+   */
   @Bean
   public SpringTemplateEngine templateEngine() {
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
