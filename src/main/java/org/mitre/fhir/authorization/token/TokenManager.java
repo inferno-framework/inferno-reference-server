@@ -149,7 +149,7 @@ public class TokenManager {
    * @return it token is active
    * @throws TokenNotFoundException if the supplied token is not found.
    */
-  public boolean authenticateToken(String tokenValue) throws TokenNotFoundException {
+  public boolean authenticateBearerToken(String tokenValue) throws TokenNotFoundException {
 
     Token token = tokenMap.get(tokenValue);
 

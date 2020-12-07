@@ -25,7 +25,7 @@ public class TestTokenManager {
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken("");
 
-    Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
+    Assert.assertTrue(tokenManager.authenticateBearerToken(token.getTokenValue()));
     
     Assert.assertNotNull(tokenManager.getToken(token.getTokenValue()));
 
@@ -39,7 +39,7 @@ public class TestTokenManager {
   @Test(expected = TokenNotFoundException.class)
   public void testTokenNotFound() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
-    tokenManager.authenticateToken("INVALID_VALUE");
+    tokenManager.authenticateBearerToken("INVALID_VALUE");
 
     tokenManager.authenticateRefreshToken("INVALID_VALUE");
   }
@@ -58,7 +58,7 @@ public class TestTokenManager {
 
     Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
 
-    Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
+    Assert.assertTrue(tokenManager.authenticateBearerToken(token.getTokenValue()));
     Assert.assertTrue(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
 
     tokenManager.revokeToken(token.getTokenValue());
@@ -66,7 +66,7 @@ public class TestTokenManager {
     // should fail because token was revoked
     try
     {
-      tokenManager.authenticateToken(token.getTokenValue());
+      tokenManager.authenticateBearerToken(token.getTokenValue());
       Assert.fail();
     }
     
