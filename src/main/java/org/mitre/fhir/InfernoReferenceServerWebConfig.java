@@ -36,7 +36,6 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
   }
 
   /**
-   * 
    * Configuration for the templateResolver.
    * 
    * @return SpringResourceTemplateResolver
@@ -52,7 +51,6 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
   }
 
   /**
-   * 
    * Configuration for AnnotationMethodHandlerAdapterConfigurer.
    * 
    * @return AnnotationMethodHandlerAdapterConfigurer
