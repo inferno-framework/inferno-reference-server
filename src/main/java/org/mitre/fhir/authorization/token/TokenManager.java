@@ -195,7 +195,7 @@ public class TokenManager {
     return serverToken;
   }
 
-  /** 
+  /**
    * Determine if the SKIP_TOKEN_AUTHENTICATION environment variable is set.
    * 
    * @return if the environment variable is set
