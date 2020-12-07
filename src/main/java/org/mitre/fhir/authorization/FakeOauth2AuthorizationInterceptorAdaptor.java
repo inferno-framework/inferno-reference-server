@@ -45,9 +45,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
       try {
 
-        if (!tokenManager.authenticateToken(bearerToken)) {
-          throw new InvalidBearerTokenException(bearerToken);
-        }
+        tokenManager.authenticateToken(bearerToken);
 
 
       } catch (TokenNotFoundException e) {

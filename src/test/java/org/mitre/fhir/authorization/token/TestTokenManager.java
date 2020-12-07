@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 
 public class TestTokenManager {
 
@@ -63,8 +64,28 @@ public class TestTokenManager {
     tokenManager.revokeToken(token.getTokenValue());
 
     // should fail because token was revoked
-    Assert.assertFalse(tokenManager.authenticateToken(token.getTokenValue()));
-    Assert.assertFalse(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
+    try
+    {
+      tokenManager.authenticateToken(token.getTokenValue());
+      Assert.fail();
+    }
+    
+    catch (InvalidBearerTokenException invalidBearerTokenException)
+    {
+     
+    }
+    
+    
+    try
+    {
+      tokenManager.authenticateRefreshToken(refreshToken.getTokenValue());
+      Assert.fail();
+    }
+    
+    catch (InvalidBearerTokenException invalidBearerTokenException)
+    {
+      
+    }
   }
 
   @Test(expected = TokenNotFoundException.class)
