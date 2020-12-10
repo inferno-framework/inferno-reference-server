@@ -71,9 +71,10 @@ window.mitre.fhirreferenceserver.authorize = {
         		continue;
         	}        	
 
+        	let scopeId = "scope-" + i;
             let scopeCheckboxHtml = '<div class="form-check">'
-            scopeCheckboxHtml += '<input class="form-check-input" name="scopeCheckbox" type="checkbox" value="' + scope + '" checked>'
-            scopeCheckboxHtml += '<label class="form-check-label" for="defaultCheck1">' + scope + '</label>'
+            scopeCheckboxHtml += '<input class="form-check-input" id="' + scopeId + '" name="scopeCheckbox" type="checkbox" value="' + scope + '" checked>'
+            scopeCheckboxHtml += '<label class="form-check-label" for="' + scopeId + '">' + scope + '</label>'
             scopeCheckboxHtml += '</div>';
 
             checkBoxesHtml += scopeCheckboxHtml;
