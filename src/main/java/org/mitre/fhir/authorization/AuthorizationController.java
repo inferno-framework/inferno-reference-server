@@ -148,9 +148,7 @@ public class AuthorizationController {
       } catch (TokenNotFoundException tokenNotFoundException) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
             "Refresh Token " + refreshTokenValue + " was not found");
-      }
-
-      catch (InvalidBearerTokenException invalidBearerTokenException) {
+      } catch (InvalidBearerTokenException invalidBearerTokenException) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
             "Refresh Token " + refreshTokenValue + " was not found");
       }
