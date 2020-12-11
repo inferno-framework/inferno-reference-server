@@ -4,6 +4,7 @@ package org.mitre.fhir.authorization.token;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class TokenManager {
@@ -148,15 +149,11 @@ public class TokenManager {
    * @return it token is active
    * @throws TokenNotFoundException if the supplied token is not found.
    */
-  public boolean authenticateToken(String tokenValue) throws TokenNotFoundException {
+  public boolean authenticateBearerToken(String tokenValue) throws TokenNotFoundException {
 
     Token token = tokenMap.get(tokenValue);
 
-    if (token != null) {
-      return token.isActive();
-    }
-
-    throw new TokenNotFoundException(tokenValue);
+    return authenticateToken(token, tokenValue);
   }
 
   /**
@@ -169,11 +166,20 @@ public class TokenManager {
   public boolean authenticateRefreshToken(String refreshTokenValue) throws TokenNotFoundException {
     Token refreshToken = refreshTokenMap.get(refreshTokenValue);
 
-    if (refreshToken != null) {
-      return refreshToken.isActive();
+    return authenticateToken(refreshToken, refreshTokenValue);
+  }
+
+  private boolean authenticateToken(Token token, String tokenValue) throws TokenNotFoundException {
+    if (token != null) {
+      if (token.isActive()) {
+        return true;
+      }
+
+      throw new InvalidBearerTokenException(tokenValue);
+
     }
 
-    throw new TokenNotFoundException(refreshTokenValue);
+    throw new TokenNotFoundException(tokenValue);
   }
 
   public void clearAllTokens() {
@@ -195,7 +201,7 @@ public class TokenManager {
     return serverToken;
   }
 
-  /** 
+  /**
    * Determine if the SKIP_TOKEN_AUTHENTICATION environment variable is set.
    * 
    * @return if the environment variable is set
