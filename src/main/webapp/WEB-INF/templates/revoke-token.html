@@ -15,9 +15,14 @@
 	<div th:replace="tmpl-banner :: banner"></div>
 	
 	<br>
-	<br>
 	
     <div id="pageContent" class="container">
+    	<div hidden="hidden" class="card card-body bg-danger text-white" id="errorMessage">
+             
+        </div>
+    	
+    	<br>
+    	
    		<form>
 			<div class="form-row">
 				<div class="form-group col-3  text-right">
@@ -42,14 +47,22 @@
 
 
       	$('#revokeTokenButton').click(function() {
+      		$('#errorMessage').hide();
+      		$('#errorMessage').removeClass('bg-danger');
+      		$('#errorMessage').removeClass('bg-info');    		
+
       		const url = '/reference-server/oauth/token/revoke';
       		const data = { "token" : $('#revokeToken').val() || "" };
 	        $.post(url, data, function(data, status) {
-	            
-	            alert("Token successfully revoked.")
+	            $('#errorMessage').addClass('bg-danger');
+	            $('#errorMessage').text("Token successfully revoked.");
+	            $('#errorMessage').show();
 
 	        }).fail(function() {
-	            alert("Error revoking token");
+	        	$('#errorMessage').addClass('bg-info');
+	            $('#errorMessage').text("Error revoking token.");
+	            $('#errorMessage').show();
+
 	        });
 	    });
 
