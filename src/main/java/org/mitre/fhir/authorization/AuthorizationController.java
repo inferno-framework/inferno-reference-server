@@ -22,6 +22,7 @@ import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
+import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
@@ -145,6 +146,11 @@ public class AuthorizationController {
           return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId);
         }
       } catch (TokenNotFoundException tokenNotFoundException) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            "Refresh Token " + refreshTokenValue + " was not found");
+      }
+
+      catch (InvalidBearerTokenException invalidBearerTokenException) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
             "Refresh Token " + refreshTokenValue + " was not found");
       }
