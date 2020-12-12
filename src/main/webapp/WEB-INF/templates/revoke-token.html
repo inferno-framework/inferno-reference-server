@@ -23,7 +23,8 @@
     	
     	<br>
     	
-   		<form>
+   		<div>
+
 			<div class="form-row">
 				<div class="form-group col-3  text-right">
 					<label for="revokeToken">Token</label>
@@ -35,7 +36,7 @@
   					<button id="revokeTokenButton" class = "btn btn-info">Revoke</button>
   				</div>
   			</div>
-  		</form>
+  		</div>
   	
   	</div>
   
@@ -45,29 +46,31 @@
     <script>
       $(document).ready(function() {
 
-
-      	$('#revokeTokenButton').click(function() {
-      		$('#errorMessage').hide();
-      		$('#errorMessage').removeClass('bg-danger');
-      		$('#errorMessage').removeClass('bg-info');    		
-
+      	$('#revokeTokenButton').click(function() {      	
+			$('#errorMessage').hide();
+			$('#errorMessage').removeClass('bg-danger');
+			$('#errorMessage').removeClass('bg-info');
+	
       		const url = '/reference-server/oauth/token/revoke';
       		const data = { "token" : $('#revokeToken').val() || "" };
-	        $.post(url, data, function(data, status) {
-	            $('#errorMessage').addClass('bg-danger');
+	        
+      		$.ajax({
+      		  type:    "POST",
+      		  url:     url,
+      		  data:    data,
+      		  success: function(data) {
+  	            $('#errorMessage').addClass('bg-danger');
 	            $('#errorMessage').text("Token successfully revoked.");
 	            $('#errorMessage').show();
-
-	        }).fail(function() {
-	        	$('#errorMessage').addClass('bg-info');
+      		  },
+      		  error:   function(jqXHR, textStatus, errorThrown) {
+  	        	$('#errorMessage').addClass('bg-info');
 	            $('#errorMessage').text("Error revoking token.");
 	            $('#errorMessage').show();
-
-	        });
+      		  }
+      		});
+	        
 	    });
-
-
-
       });
 
   </script>

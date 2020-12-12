@@ -44,7 +44,10 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
       bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
 
       try {
-        tokenManager.authenticateToken(bearerToken);
+
+        tokenManager.authenticateBearerToken(bearerToken);
+
+
       } catch (TokenNotFoundException e) {
         throw new InvalidBearerTokenException(bearerToken);
       }
