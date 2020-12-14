@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 
 public class TestTokenManager {
 
@@ -24,7 +25,7 @@ public class TestTokenManager {
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken("");
 
-    Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
+    Assert.assertTrue(tokenManager.authenticateBearerToken(token.getTokenValue()));
     
     Assert.assertNotNull(tokenManager.getToken(token.getTokenValue()));
 
@@ -38,7 +39,7 @@ public class TestTokenManager {
   @Test(expected = TokenNotFoundException.class)
   public void testTokenNotFound() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
-    tokenManager.authenticateToken("INVALID_VALUE");
+    tokenManager.authenticateBearerToken("INVALID_VALUE");
 
     tokenManager.authenticateRefreshToken("INVALID_VALUE");
   }
@@ -57,14 +58,34 @@ public class TestTokenManager {
 
     Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
 
-    Assert.assertTrue(tokenManager.authenticateToken(token.getTokenValue()));
+    Assert.assertTrue(tokenManager.authenticateBearerToken(token.getTokenValue()));
     Assert.assertTrue(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
 
     tokenManager.revokeToken(token.getTokenValue());
 
     // should fail because token was revoked
-    Assert.assertFalse(tokenManager.authenticateToken(token.getTokenValue()));
-    Assert.assertFalse(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
+    try
+    {
+      tokenManager.authenticateBearerToken(token.getTokenValue());
+      Assert.fail();
+    }
+    
+    catch (InvalidBearerTokenException invalidBearerTokenException)
+    {
+     
+    }
+    
+    
+    try
+    {
+      tokenManager.authenticateRefreshToken(refreshToken.getTokenValue());
+      Assert.fail();
+    }
+    
+    catch (InvalidBearerTokenException invalidBearerTokenException)
+    {
+      
+    }
   }
 
   @Test(expected = TokenNotFoundException.class)
