@@ -17,7 +17,7 @@
 	<br>
 	
     <div id="pageContent" class="container">
-    	<div hidden="hidden" class="card card-body bg-danger text-white" id="errorMessage">
+    	<div style="display: none" class="card card-body bg-danger text-white" id="errorMessage">
              
         </div>
     	
@@ -59,12 +59,12 @@
       		  url:     url,
       		  data:    data,
       		  success: function(data) {
-  	            $('#errorMessage').addClass('bg-danger');
+  	            $('#errorMessage').addClass('bg-info');
 	            $('#errorMessage').text("Token successfully revoked.");
 	            $('#errorMessage').show();
       		  },
       		  error:   function(jqXHR, textStatus, errorThrown) {
-  	        	$('#errorMessage').addClass('bg-info');
+  	        	$('#errorMessage').addClass('bg-danger');
 	            $('#errorMessage').text("Error revoking token.");
 	            $('#errorMessage').show();
       		  }
