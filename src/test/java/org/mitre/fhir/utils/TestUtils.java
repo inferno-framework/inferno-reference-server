@@ -7,8 +7,7 @@ import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
-import org.mitre.fhir.utils.FhirReferenceServerUtils;
-import org.mitre.fhir.utils.FhirUtils;
+
 
 import java.util.Base64;
 import java.util.Base64.Encoder;
@@ -19,15 +18,26 @@ public class TestUtils {
   public static final String BEARER_TOKEN_PREFIX = "Bearer";
 
   public static final int TEST_PORT = 1234;
+  
+  private static final String SAMPLE_PUBLIC_CLIENT_ID = "SAMPLE_PUBLIC_CLIENT_ID";
+  private static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
+  private static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET =
+      "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
 
   public static String getBasicAuthorizationString(String clientId, String clientSecret) {
     return clientId + ":" + clientSecret;
   }
 
+  public static String getEncodedBasicAuthorizationHeaderWithPublicClient() {
+    return getEncodedBasicAuthorizationHeader(
+        SAMPLE_PUBLIC_CLIENT_ID,
+        "");
+  }
+  
   public static String getEncodedBasicAuthorizationHeader() {
     return getEncodedBasicAuthorizationHeader(
-        FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID,
-        FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET);
+        SAMPLE_CONFIDENTIAL_CLIENT_ID,
+        SAMPLE_CONFIDENTIAL_CLIENT_SECRET);
   }
 
   public static String getEncodedBasicAuthorizationHeader(String clientId, String clientSecret) {

@@ -17,6 +17,8 @@
 	<br>
 	
     <div id="pageContent" class="container">
+    
+    
    		
    		<p>This server is designed to meet the requirements of the Inferno Program Certification Tests.  This includes:</p>
 
@@ -42,18 +44,26 @@
 		      <input type="text" readonly class="form-control-plaintext" id="fhirEndpoint" value="https://inferno.healthit.gov/reference-server/r4">
 		    </div>
 		  </div>
-
+		  
 		  <div class="form-group row">
-		    <label for="clientId" class="col-sm-2 col-form-label">Client ID:</label>
+		    <label for="clientId" class="col-sm-2 col-form-label">Public Client ID:</label>
 		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="clientId" value="SAMPLE_CONFIDENTIAL_CLIENT_ID">
+		      <input type="text" readonly class="form-control-plaintext" id="publicClientId" th:value="${publicClientId}">	    	
 		    </div>
 		  </div>
 
 		  <div class="form-group row">
-		    <label for="clientSecret" class="col-sm-2 col-form-label">Client Secret:</label>
+		    <label for="clientId" class="col-sm-2 col-form-label">Confidential Client ID:</label>
 		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="clientSecret" value="SAMPLE_CONFIDENTIAL_CLIENT_SECRET">
+		      <input type="text" readonly class="form-control-plaintext" id="confidentialClientId" th:value="${confidentialClientId}">	    	
+		      
+		    </div>
+		  </div>
+
+		  <div class="form-group row">
+		    <label for="clientSecret" class="col-sm-2 col-form-label">Confidential Client Secret:</label>
+		    <div class="col-sm-10">
+		      <input type="text" readonly class="form-control-plaintext" id="confidentialClientId" th:value="${confidentialClientSecret}">	    	
 		    </div>
 		  </div>
 

@@ -8,7 +8,6 @@ import java.security.interfaces.RSAPublicKey;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RsaKeyException;
 
 import com.auth0.jwt.JWT;
