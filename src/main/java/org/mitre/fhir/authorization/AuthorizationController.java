@@ -21,6 +21,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
 import org.json.JSONObject;
+import org.mitre.fhir.HapiReferenceServerProperties;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
@@ -98,10 +99,12 @@ public class AuthorizationController {
     // if basic header exists, extract clientId and clientSecret from basic header
     if (basicHeader != null) {
       String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
+      String[] splitDecodedValue = decodedValue.split(":");
       // client id is user name, and should be before ':'
-      clientId = decodedValue.split(":")[0];
+      clientId = splitDecodedValue[0];
       // client secret is password, and should be after ':'
-      clientSecret = decodedValue.split(":")[1];
+
+      clientSecret = splitDecodedValue.length >= 2 ? splitDecodedValue[1] : "";
     } else {
       // if no basic auth, client id should be supplied as request param
       clientId = clientIdRequestParam;
@@ -319,18 +322,21 @@ public class AuthorizationController {
   }
 
   private static void authorizeClientId(String clientId) {
-    if (!FhirReferenceServerUtils.SAMPLE_PUBLIC_CLIENT_ID.equals(clientId)
-        && !FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID.equals(clientId)) {
+    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
+    if (!properties.getPublicClientId().equals(clientId)
+        && !properties.getConfidentialClientId().equals(clientId)) {
       throw new InvalidClientIdException(clientId);
     }
   }
 
   private static void authenticateClientIdAndClientSecret(String clientId, String clientSecret) {
 
+    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
+
     authorizeClientId(clientId);
 
-    if (FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID.equals(clientId)
-        && !FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET.equals(clientSecret)) {
+    if (properties.getConfidentialClientId().equals(clientId)
+        && !properties.getConfidentialClientSecret().equals(clientSecret)) {
       throw new InvalidClientSecretException();
     }
   }

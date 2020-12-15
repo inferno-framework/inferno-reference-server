@@ -67,6 +67,11 @@ public class TestAuthorization {
 
   private static final String SAMPLE_CODE = "SAMPLE_CODE";
 
+  private static final String SAMPLE_PUBLIC_CLIENT_ID = "SAMPLE_PUBLIC_CLIENT_ID";
+  private static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
+  private static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET =
+      "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
+
   @Test
   public void testCreateAndRead() {
 
@@ -206,6 +211,33 @@ public class TestAuthorization {
         throw rse;
       }
     }
+  }
+  
+  @Test
+  public void testTestAuthorizationWithPublicClient() throws IOException, JSONException,
+      BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeaderWithPublicClient());
+
+    String scopes = "launch/patient openId ";
+    String code =
+        FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
+
+    ResponseEntity<String> tokenResponseEntity =
+        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+
+    ObjectMapper mapper = new ObjectMapper();
+
+    String jsonString = tokenResponseEntity.getBody();
+
+    JsonNode jsonNode = mapper.readTree(jsonString);
+    Assert.assertNotNull(jsonNode.get("access_token"));
+
   }
 
   @Test
@@ -357,7 +389,7 @@ public class TestAuthorization {
     // shouldn't throw an exception
     authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
-        FhirReferenceServerUtils.SAMPLE_PUBLIC_CLIENT_ID, null, request);
+        SAMPLE_PUBLIC_CLIENT_ID, null, request);
   }
 
   @Test(expected = InvalidClientIdException.class)
@@ -542,7 +574,7 @@ public class TestAuthorization {
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
     request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
-        "INVALID_CLIENT_ID", FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
+        "INVALID_CLIENT_ID", SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
     String encodedScopes = "";
     String code = FhirReferenceServerUtils.SAMPLE_CODE + encodedScopes;
 
@@ -558,10 +590,8 @@ public class TestAuthorization {
     request.setLocalAddr("localhost");
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
-    request.addHeader("Authorization",
-        TestUtils.getEncodedBasicAuthorizationHeader(
-            FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID,
-            FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
+        SAMPLE_CONFIDENTIAL_CLIENT_ID, SAMPLE_CONFIDENTIAL_CLIENT_SECRET));
     String scopes = "";
 
     AuthorizationController authorizationController = new AuthorizationController();
@@ -580,7 +610,7 @@ public class TestAuthorization {
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
     request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader(
-        FhirReferenceServerUtils.SAMPLE_CONFIDENTIAL_CLIENT_ID, "Invalid Client Secret"));
+        SAMPLE_CONFIDENTIAL_CLIENT_ID, "Invalid Client Secret"));
 
     AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
