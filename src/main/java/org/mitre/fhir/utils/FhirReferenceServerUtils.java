@@ -17,11 +17,6 @@ public class FhirReferenceServerUtils {
   public static final String FHIR_SERVER_PATH = "/r4";
   public static final String REFERENCE_SERVER_PATH = "/app";
 
-  //public static final String SAMPLE_PUBLIC_CLIENT_ID = "SAMPLE_PUBLIC_CLIENT_ID";
-  //public static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
-  //public static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET =
-  //    "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
-
   public static final String DEFAULT_SCOPE = "launch/patient patient/*";
 
   private static final String HTTP = "http";
