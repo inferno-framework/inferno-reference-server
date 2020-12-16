@@ -16,16 +16,20 @@
 	<br>
 	<br>
 	
-    <div id="pageContent" class="container">
-        <div>Please select which scopes you would like to authorize:</div>
-
-        <br>
-
-        <div id="scopes" class="well"></div>
-
-        <br>
-
-        <button id="submit" type="button" class="btn btn-info">Authorize</button>
+    <div class="container">
+        <div style="display: none" class="card card-body bg-danger text-white" id="errorMessage"> </div>
+        
+        <div id="pageContent">
+	        <div>Please select which scopes you would like to authorize:</div>
+	
+	        <br>
+	
+	        <div id="scopes" class="well"></div>
+	
+	        <br>
+	
+	        <button id="submit" type="button" class="btn btn-info">Authorize</button>
+	   </div>
     </div>
     
     <script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>

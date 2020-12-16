@@ -16,7 +16,8 @@ window.mitre.fhirreferenceserver.authorize = {
 
         if (aud !== expectedAud)
         {
-            alert("Audience " + aud + " is invalid"); 
+            const launchAudError = "Audience " + aud + " is invalid"; 
+            window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchAudError);
             $("#pageContent").hide();
             return;
         }
@@ -30,7 +31,8 @@ window.mitre.fhirreferenceserver.authorize = {
             //if launch is provided
             if (launch !== expectedLaunch)
             {
-                alert("Launch " + launch + " is invalid"); 
+                const launchError = "Launch " + launch + " is invalid"
+                window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
                 $("#pageContent").hide();
                 return;
             }
@@ -112,7 +114,15 @@ window.mitre.fhirreferenceserver.authorize = {
             
             
 
+    },
+    
+    showErrorMessage(errorMessage)
+    {
+        $('#errorMessage').text(errorMessage);
+        $('#errorMessage').show();
     }
+
+
 
 }
 
