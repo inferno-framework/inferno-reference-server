@@ -16,13 +16,11 @@ window.mitre.fhirreferenceserver.authorize = {
         
         const appLaunchUrl = window.location.origin + "/reference-server/app/app-launch";
         const appLaunchUrlLink = '<a class="text-white" href="' + appLaunchUrl + '">' + appLaunchUrl + '</a>'
-
         
         if (aud !== expectedAud)
         {
             let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
             const launchAudError = "<div>The Audience value " + htmlSafeAud + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"; 
-            console.log(launchAudError);
             window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchAudError);
             $("#pageContent").hide();
             return;
@@ -39,7 +37,6 @@ window.mitre.fhirreferenceserver.authorize = {
             {
                 let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
                 const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
-                console.log(launchError);
                 window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
                 $("#pageContent").hide();
                 return;
@@ -106,14 +103,13 @@ window.mitre.fhirreferenceserver.authorize = {
             });
 
             let patientId = urlParams.get('patient_id');
-            console.log("patientId is :" + patientId);
+
             let base64URLEncodedPatientId = btoa(patientId);
 
             // base64 encoding that is escaped so it can be used in a url
             let base64URLEncodedScopes = btoa(selectedScopes);
 
             let code = sampleCode + "." + base64URLEncodedScopes + "." + base64URLEncodedPatientId;
-            console.log("code is " + code);
 
             let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state;
 
