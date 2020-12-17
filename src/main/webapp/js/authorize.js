@@ -12,11 +12,17 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let aud = urlParams.get('aud');
 
-        const expectedAud = window.location.origin + "/reference-server/r4"
+        const expectedAud = window.location.origin + "/reference-server/r4";
+        
+        const appLaunchUrl = window.location.origin + "/reference-server/app/app-launch";
+        const appLaunchUrlLink = '<a class="text-white" href="' + appLaunchUrl + '">' + appLaunchUrl + '</a>'
 
+        
         if (aud !== expectedAud)
         {
-            const launchAudError = "Audience " + aud + " is invalid"; 
+            let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
+            const launchAudError = "<div>The Audience value " + htmlSafeAud + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"; 
+            console.log(launchAudError);
             window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchAudError);
             $("#pageContent").hide();
             return;
@@ -31,7 +37,9 @@ window.mitre.fhirreferenceserver.authorize = {
             //if launch is provided
             if (launch !== expectedLaunch)
             {
-                const launchError = "Launch " + launch + " is invalid"
+                let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
+                const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
+                console.log(launchError);
                 window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
                 $("#pageContent").hide();
                 return;
@@ -118,7 +126,7 @@ window.mitre.fhirreferenceserver.authorize = {
     
     showErrorMessage(errorMessage)
     {
-        $('#errorMessage').text(errorMessage);
+        $('#errorMessage').html(errorMessage);
         $('#errorMessage').show();
     }
 
