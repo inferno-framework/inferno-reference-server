@@ -239,7 +239,7 @@ public class HapiReferenceServerProperties {
   }
   
   /**
-   * Returns the Hibernate Property.
+   * Returns the public Client ID Property.
    * @return the property
    */ 
   public String getPublicClientId() {
