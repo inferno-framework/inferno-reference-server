@@ -3,11 +3,11 @@ window.mitre.fhirreferenceserver = window.mitre.fhirreferenceserver || {};
 window.mitre.fhirreferenceserver.authorize = {
 
     /**
-     * initializes the page and all html components including actions
-     */
+	 * initializes the page and all html components including actions
+	 */
     init: function () {
 
-        //static code that the HAPI interceptor will look for to return token
+        // static code that the HAPI interceptor will look for to return token
         let urlParams = new URLSearchParams(window.location.search);
 
         let aud = urlParams.get('aud');
@@ -32,7 +32,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
             const expectedLaunch = "123";
 
-            //if launch is provided
+            // if launch is provided
             if (launch !== expectedLaunch)
             {
                 let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
@@ -45,7 +45,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let clientId = urlParams.get('client_id') || '';
 
-        //check for a patient id, if no one exists redirect to patient picker
+        // check for a patient id, if no one exists redirect to patient picker
         if (!urlParams.has('patient_id'))
         {
             let this_uri = window.location;
@@ -56,8 +56,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let state = urlParams.get('state') || '';
 
-
-        //static code that the HAPI interceptor will look for to return token
+        // static code that the HAPI interceptor will look for to return token
         let sampleCode = "SAMPLE_CODE";
 
         let scopes = urlParams.get('scope') || '';
@@ -66,7 +65,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let scopesList = scopes.split(' ');
 
-        //load scopes
+        // load scopes
         let checkBoxesHtml = '';
 
         for (let i = 0; i < scopesList.length; i++)
@@ -89,14 +88,9 @@ window.mitre.fhirreferenceserver.authorize = {
 
         $('#scopes').append(checkBoxesHtml);
 
-
-
-        //populate patient picker with data
-
- 
         $('#submit').click(function(){
 
-            //get checked scopes
+            // get checked scopes
             let selectedScopes = "";
             $('#scopes [name="scopeCheckbox"]:checked').each(function(index, checkbox) {
                 selectedScopes += checkbox.value + " ";
@@ -114,10 +108,7 @@ window.mitre.fhirreferenceserver.authorize = {
             let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state;
 
             window.location.href = redirect;
-        });
-            
-            
-
+        });            
     },
     
     showErrorMessage(errorMessage)
@@ -125,8 +116,5 @@ window.mitre.fhirreferenceserver.authorize = {
         $('#errorMessage').html(errorMessage);
         $('#errorMessage').show();
     }
-
-
-
 }
 
