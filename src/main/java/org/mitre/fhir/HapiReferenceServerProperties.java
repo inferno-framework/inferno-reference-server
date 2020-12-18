@@ -249,7 +249,7 @@ public class HapiReferenceServerProperties {
   }
 
   /**
-   * Returns the Hibernate Property.
+   * Returns the Confidential Client ID Property.
    * @return the property
    */ 
   public String getConfidentialClientId() {
