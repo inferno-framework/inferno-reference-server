@@ -22,16 +22,16 @@ public class TokenManager {
   private Token serverToken;
 
   private TokenManager() {
-    //add default token from settings
+    // add default token from settings
     String customBearerTokenString = System.getenv().get(CUSTOM_BEARER_TOKEN_ENV_KEY);
-    
-    if (customBearerTokenString != null)
-    {
-      Token customBearerToken = new Token(customBearerTokenString, FhirReferenceServerUtils.getScopesListByScopeString(CUSTOM_BEARER_TOKEN_SCOPE_STRING));
+
+    if (customBearerTokenString != null) {
+      Token customBearerToken = new Token(customBearerTokenString,
+          FhirReferenceServerUtils.getScopesListByScopeString(CUSTOM_BEARER_TOKEN_SCOPE_STRING));
       addTokenToTokenMap(customBearerToken);
       createCorrespondingRefreshToken(customBearerToken);
     }
-      
+
   }
 
   /**
@@ -68,15 +68,13 @@ public class TokenManager {
     createCorrespondingRefreshToken(token);
     return token;
   }
-  
-  private void addTokenToTokenMap(Token token)
-  {
+
+  private void addTokenToTokenMap(Token token) {
     tokenMap.put(token.getTokenValue(), token);
   }
-  
-  private void createCorrespondingRefreshToken(Token token)
-  {
-    
+
+  private void createCorrespondingRefreshToken(Token token) {
+
     Token refreshToken = new Token(token.getScopes());
     tokenToCorrespondingRefreshToken.put(token.getTokenValue(), refreshToken.getTokenValue());
     refreshTokenMap.put(refreshToken.getTokenValue(), refreshToken);
