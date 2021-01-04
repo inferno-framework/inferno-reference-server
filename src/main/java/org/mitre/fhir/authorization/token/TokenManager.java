@@ -9,7 +9,9 @@ import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class TokenManager {
 
-  private static final String SKIP_TOKEN_AUTHENTICATION = "SKIP_TOKEN_AUTHENTICATION";
+  private static final String CUSTOM_BEARER_TOKEN_ENV_KEY = "CUSTOM_BEARER_TOKEN";
+  private static final String CUSTOM_BEARER_TOKEN_SCOPE_STRING = "system/*";
+
 
   private static TokenManager instance;
 
@@ -20,7 +22,16 @@ public class TokenManager {
   private Token serverToken;
 
   private TokenManager() {
-
+    //add default token from settings
+    String customBearerTokenString = System.getenv().get(CUSTOM_BEARER_TOKEN_ENV_KEY);
+    
+    if (customBearerTokenString != null)
+    {
+      Token customBearerToken = new Token(customBearerTokenString, FhirReferenceServerUtils.getScopesListByScopeString(CUSTOM_BEARER_TOKEN_SCOPE_STRING));
+      addTokenToTokenMap(customBearerToken);
+      createCorrespondingRefreshToken(customBearerToken);
+    }
+      
   }
 
   /**
@@ -53,13 +64,22 @@ public class TokenManager {
    */
   public Token createToken(List<String> scopes) {
     Token token = new Token(scopes);
+    addTokenToTokenMap(token);
+    createCorrespondingRefreshToken(token);
+    return token;
+  }
+  
+  private void addTokenToTokenMap(Token token)
+  {
     tokenMap.put(token.getTokenValue(), token);
-
-    Token refreshToken = new Token(scopes);
+  }
+  
+  private void createCorrespondingRefreshToken(Token token)
+  {
+    
+    Token refreshToken = new Token(token.getScopes());
     tokenToCorrespondingRefreshToken.put(token.getTokenValue(), refreshToken.getTokenValue());
     refreshTokenMap.put(refreshToken.getTokenValue(), refreshToken);
-
-    return token;
   }
 
   /**
@@ -146,7 +166,7 @@ public class TokenManager {
    * authenticates if the token is active.
    * 
    * @param tokenValue the token to authenticate
-   * @return it token is active
+   * @return if the token is active
    * @throws TokenNotFoundException if the supplied token is not found.
    */
   public boolean authenticateBearerToken(String tokenValue) throws TokenNotFoundException {
@@ -200,18 +220,4 @@ public class TokenManager {
 
     return serverToken;
   }
-
-  /**
-   * Determine if the SKIP_TOKEN_AUTHENTICATION environment variable is set.
-   * 
-   * @return if the environment variable is set
-   */
-  public boolean shouldSkipTokenAuthentication() {
-    String disableTokenAuthString = System.getenv().get(SKIP_TOKEN_AUTHENTICATION);
-
-    boolean disableTokenAuth = "true".equals(disableTokenAuthString);
-
-    return disableTokenAuth;
-  }
-
 }

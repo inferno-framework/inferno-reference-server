@@ -1,10 +1,12 @@
 package org.mitre.fhir.authorization.token;
 
+import java.lang.reflect.Field;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 
 public class TestTokenManager {
 
@@ -19,18 +21,18 @@ public class TestTokenManager {
     TokenManager tokenManager = TokenManager.getInstance();
     tokenManager.clearAllTokens();
   }
-  
+
   @Test
   public void testCreateToken() throws TokenNotFoundException {
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken("");
 
     Assert.assertTrue(tokenManager.authenticateBearerToken(token.getTokenValue()));
-    
+
     Assert.assertNotNull(tokenManager.getToken(token.getTokenValue()));
 
     Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
-    
+
     Assert.assertNotNull(tokenManager.getRefreshToken(refreshToken.getTokenValue()));
 
     Assert.assertTrue(tokenManager.authenticateRefreshToken(refreshToken.getTokenValue()));
@@ -64,27 +66,23 @@ public class TestTokenManager {
     tokenManager.revokeToken(token.getTokenValue());
 
     // should fail because token was revoked
-    try
-    {
+    try {
       tokenManager.authenticateBearerToken(token.getTokenValue());
       Assert.fail();
     }
-    
-    catch (InvalidBearerTokenException invalidBearerTokenException)
-    {
-     
+
+    catch (InvalidBearerTokenException invalidBearerTokenException) {
+
     }
-    
-    
-    try
-    {
+
+
+    try {
       tokenManager.authenticateRefreshToken(refreshToken.getTokenValue());
       Assert.fail();
     }
-    
-    catch (InvalidBearerTokenException invalidBearerTokenException)
-    {
-      
+
+    catch (InvalidBearerTokenException invalidBearerTokenException) {
+
     }
   }
 
@@ -107,4 +105,24 @@ public class TestTokenManager {
 
   }
 
+  @Test
+  public void testCustomBearerToken() throws Exception {
+
+    /*
+     * Unfortunately due to it being a singleton, TokenManager if used previously will have an
+     * existing instance in memory, thus it won't read any env variable added after the first time
+     * getInstance() is called. Therefore, this test needs to use reflect to set the static field
+     * "instance" back to null
+     */
+    Field singletonInstanceField = TokenManager.class.getDeclaredField("instance");
+    singletonInstanceField.setAccessible(true);
+    singletonInstanceField.set(null, null);// set the static variable to null
+
+    String customTokenValue = "MY-CUSTOM-BEARER-TOKEN";
+
+    SystemLambda.withEnvironmentVariable("CUSTOM_BEARER_TOKEN", customTokenValue)
+        .execute(() -> Assert
+            .assertTrue(TokenManager.getInstance().authenticateBearerToken(customTokenValue)));
+
+  }
 }
