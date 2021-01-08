@@ -20,10 +20,14 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
     - name: Build with Maven
-      run: mvn compile
-    - name: Test
-      run: mvn test
+      run: mvn --batch-mode --update-snapshots verify
     - name: Checkstyle
       run: mvn checkstyle:check
       
