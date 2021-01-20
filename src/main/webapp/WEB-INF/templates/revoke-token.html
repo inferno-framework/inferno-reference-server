@@ -53,14 +53,10 @@
       		  url:     url,
       		  data:    data,
       		  success: function(data) {
-  	            $('#errorMessage').addClass('bg-info');
-              $('#errorMessage').text("Token successfully revoked.");
-              $('#errorMessage').show();
+  	         $('#errorMessage').addClass('bg-info').text("Token successfully revoked.").show();
       		  },
       		  error:   function(jqXHR, textStatus, errorThrown) {
-  	        	$('#errorMessage').addClass('bg-danger');
-              $('#errorMessage').text("Error revoking token.");
-              $('#errorMessage').show();
+  	         $('#errorMessage').addClass('bg-danger').text("Error revoking token.").show();
       		  }
       		});
               

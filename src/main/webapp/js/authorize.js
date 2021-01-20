@@ -113,8 +113,7 @@ window.mitre.fhirreferenceserver.authorize = {
     
     showErrorMessage(errorMessage)
     {
-        $('#errorMessage').html(errorMessage);
-        $('#errorMessage').show();
+        $('#errorMessage').html(errorMessage).show();
     }
 }
 
