@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Inferno Reference Server</title>
+  <meta name="description" content="Inferno Reference Server">
+  
+  <link href="/reference-server/app/js/lib/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet"> 
+  <link href="/reference-server/app/css/site.css" rel="stylesheet">
+</head>
+
+<body>
+	<div th:replace="tmpl-banner :: banner"></div>
+	
+	<br>
+	<br>
+	
+    <div id="pageContent" class="container">
+    
+    
+   		
+   		<p>This server is designed to meet the requirements of the Inferno Program Certification Tests.  This includes:</p>
+
+<p>Support for SMART-on-FHIR, including:</p>
+		<ul>
+			<li>Public and Confidential Clients</li>
+			<li>Standalone and EHR Launch</li>
+			<li>Token Refresh</li>
+			<li>Token Revocation</li>
+		</ul>
+
+<p>Support for US Core v3.1.1, including:</p>
+		<ul>
+			<li>Support for required API interactions</li>
+			<li>Example resources and patients</li>
+		</ul>
+		
+		
+		<div>
+		  <div class="form-group row">
+		    <label for="fhirEndpoint" class="col-sm-2 col-form-label">FHIR Endpoint:</label>
+		    <div class="col-sm-10">
+		      <input type="text" readonly class="form-control-plaintext" id="fhirEndpoint" value="https://inferno.healthit.gov/reference-server/r4">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group row">
+		    <label for="clientId" class="col-sm-2 col-form-label">Public Client ID:</label>
+		    <div class="col-sm-10">
+		      <input type="text" readonly class="form-control-plaintext" id="publicClientId" th:value="${publicClientId}">	    	
+		    </div>
+		  </div>
+
+		  <div class="form-group row">
+		    <label for="clientId" class="col-sm-2 col-form-label">Confidential Client ID:</label>
+		    <div class="col-sm-10">
+		      <input type="text" readonly class="form-control-plaintext" id="confidentialClientId" th:value="${confidentialClientId}">	    	
+		      
+		    </div>
+		  </div>
+
+		  <div class="form-group row">
+		    <label for="clientSecret" class="col-sm-2 col-form-label">Confidential Client Secret:</label>
+		    <div class="col-sm-10">
+		      <input type="text" readonly class="form-control-plaintext" id="confidentialClientId" th:value="${confidentialClientSecret}">	    	
+		    </div>
+		  </div>
+
+		</div>
+			
+		   
+				
+   		<p>Links:</p>
+   		<ul>
+   			<li><a href="/reference-server/r4/metadata">Capability Statement</a></li>
+   			<li><a href="/reference-server/app/app-launch">App Launch</a></li>
+   			<li><a href="/reference-server/oauth/token/revoke-token">Revoke Token</a></li>
+   		</ul>
+  	
+  	</div>
+  	
+
+  
+   	<script src="/reference-server/app/js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+	<script src="/reference-server/app/js/lib/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+	
+	<script>
+      $(document).ready(function() {
+    	let fhirEndpoint = window.location.origin + "/reference-server/r4";
+
+    	$('#fhirEndpoint').val(fhirEndpoint);	  
+      });
+      
+  	</script>
+ 
+
+</body>
+</html>

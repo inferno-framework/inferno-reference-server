@@ -34,6 +34,11 @@ public class HapiReferenceServerProperties {
   private static final String HIBERNATE_SEARCH_LUCENE_VERSION_KEY =
       "hibernate.search.lucene_version";
   private static final String HAPI_PROPERTIES = "hapi.properties";
+  private static final String PUBLIC_CLIENT_ID_KEY = "inferno.public_client_id";
+  private static final String CONFIDENTIAL_CLIENT_ID_KEY = "inferno.confidential_client_id";
+  private static final String CONFIDENTIAL_CLIENT_SECRET_KEY = "inferno.confidential_client_secret";
+
+  
   private final Properties properties;
 
   /**
@@ -232,7 +237,38 @@ public class HapiReferenceServerProperties {
         .getProperty(HIBERNATE_SEARCH_LUCENE_VERSION_KEY);
     return hibernateSearchLuceneVersion;
   }
+  
+  /**
+   * Returns the public Client ID Property.
+   * @return the property
+   */ 
+  public String getPublicClientId() {
+    String publicClientId = properties
+        .getProperty(PUBLIC_CLIENT_ID_KEY);
+    return publicClientId;
+  }
 
+  /**
+   * Returns the Confidential Client ID Property.
+   * @return the property
+   */ 
+  public String getConfidentialClientId() {
+    String confidentialClientId = properties
+        .getProperty(CONFIDENTIAL_CLIENT_ID_KEY);
+    return confidentialClientId;
+  }
+
+  /**
+   * Returns the Confidential Client Secret Property.
+   * @return the property
+   */ 
+  public String getConfidentialClientSecret() {
+    String confidentialClientSecret = properties
+        .getProperty(CONFIDENTIAL_CLIENT_SECRET_KEY);
+    return confidentialClientSecret;
+  }
+  
+  
   /**
    * Returns the properties.
    * @return the properties
