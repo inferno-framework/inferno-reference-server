@@ -40,9 +40,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   private static final String NEAR_SEARCH_PARAM_NAME = "near";
 
   private static final String SEARCH_REV_INCLUDE = "Provenance:target";
-   
+
   public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
-      IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig, ISearchParamRegistry searchParamRegistry) {
+      IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig,
+      ISearchParamRegistry searchParamRegistry) {
     super(theRestfulServer, theSystemDao, theDaoConfig, searchParamRegistry);
   }
 
