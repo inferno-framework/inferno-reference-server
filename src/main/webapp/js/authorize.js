@@ -3,20 +3,25 @@ window.mitre.fhirreferenceserver = window.mitre.fhirreferenceserver || {};
 window.mitre.fhirreferenceserver.authorize = {
 
     /**
-     * initializes the page and all html components including actions
-     */
+	 * initializes the page and all html components including actions
+	 */
     init: function () {
 
-        //static code that the HAPI interceptor will look for to return token
+        // static code that the HAPI interceptor will look for to return token
         let urlParams = new URLSearchParams(window.location.search);
 
         let aud = urlParams.get('aud');
 
-        const expectedAud = window.location.origin + "/reference-server/r4"
-
+        const expectedAud = window.location.origin + "/reference-server/r4";
+        
+        const appLaunchUrl = window.location.origin + "/reference-server/app/app-launch";
+        const appLaunchUrlLink = '<a class="text-white" href="' + appLaunchUrl + '">' + appLaunchUrl + '</a>'
+        
         if (aud !== expectedAud)
         {
-            alert("Audience " + aud + " is invalid"); 
+            let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
+            const launchAudError = "<div>The Audience value " + htmlSafeAud + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"; 
+            window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchAudError);
             $("#pageContent").hide();
             return;
         }
@@ -27,10 +32,12 @@ window.mitre.fhirreferenceserver.authorize = {
 
             const expectedLaunch = "123";
 
-            //if launch is provided
+            // if launch is provided
             if (launch !== expectedLaunch)
             {
-                alert("Launch " + launch + " is invalid"); 
+                let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
+                const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
+                window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
                 $("#pageContent").hide();
                 return;
             }
@@ -38,7 +45,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let clientId = urlParams.get('client_id') || '';
 
-        //check for a patient id, if no one exists redirect to patient picker
+        // check for a patient id, if no one exists redirect to patient picker
         if (!urlParams.has('patient_id'))
         {
             let this_uri = window.location;
@@ -49,8 +56,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let state = urlParams.get('state') || '';
 
-
-        //static code that the HAPI interceptor will look for to return token
+        // static code that the HAPI interceptor will look for to return token
         let sampleCode = "SAMPLE_CODE";
 
         let scopes = urlParams.get('scope') || '';
@@ -59,7 +65,7 @@ window.mitre.fhirreferenceserver.authorize = {
 
         let scopesList = scopes.split(' ');
 
-        //load scopes
+        // load scopes
         let checkBoxesHtml = '';
 
         for (let i = 0; i < scopesList.length; i++)
@@ -82,37 +88,32 @@ window.mitre.fhirreferenceserver.authorize = {
 
         $('#scopes').append(checkBoxesHtml);
 
-
-
-        //populate patient picker with data
-
- 
         $('#submit').click(function(){
 
-            //get checked scopes
+            // get checked scopes
             let selectedScopes = "";
             $('#scopes [name="scopeCheckbox"]:checked').each(function(index, checkbox) {
                 selectedScopes += checkbox.value + " ";
             });
 
             let patientId = urlParams.get('patient_id');
-            console.log("patientId is :" + patientId);
+
             let base64URLEncodedPatientId = btoa(patientId);
 
             // base64 encoding that is escaped so it can be used in a url
             let base64URLEncodedScopes = btoa(selectedScopes);
 
             let code = sampleCode + "." + base64URLEncodedScopes + "." + base64URLEncodedPatientId;
-            console.log("code is " + code);
 
             let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state;
 
             window.location.href = redirect;
-        });
-            
-            
-
+        });            
+    },
+    
+    showErrorMessage(errorMessage)
+    {
+        $('#errorMessage').html(errorMessage).show();
     }
-
 }
 
