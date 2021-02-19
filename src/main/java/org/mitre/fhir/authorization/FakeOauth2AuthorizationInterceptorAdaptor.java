@@ -29,35 +29,28 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
     List<String> scopesArray;
     TokenManager tokenManager = TokenManager.getInstance();
 
-    if (tokenManager.shouldSkipTokenAuthentication()) {
-      scopesArray = new ArrayList<>();
-      scopesArray.add("system/*");
+    String bearerToken = requestDetails.getHeader("Authorization");
 
-    } else {
+    if (bearerToken == null) {
+      throw new InvalidBearerTokenException(bearerToken);
+    }
 
-      String bearerToken = requestDetails.getHeader("Authorization");
+    bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
 
-      if (bearerToken == null) {
-        throw new InvalidBearerTokenException(bearerToken);
-      }
+    try {
 
-      bearerToken = bearerToken.replaceFirst(BEARER_TOKEN_PREFIX, "");
-
-      try {
-
-        tokenManager.authenticateBearerToken(bearerToken);
+      tokenManager.authenticateBearerToken(bearerToken);
 
 
-      } catch (TokenNotFoundException e) {
-        throw new InvalidBearerTokenException(bearerToken);
-      }
+    } catch (TokenNotFoundException e) {
+      throw new InvalidBearerTokenException(bearerToken);
+    }
 
-      try {
-        scopesArray = tokenManager.getToken(bearerToken).getScopes();
-      } catch (TokenNotFoundException tokenNotFoundException) {
-        throw new InvalidBearerTokenException(bearerToken);
+    try {
+      scopesArray = tokenManager.getToken(bearerToken).getScopes();
+    } catch (TokenNotFoundException tokenNotFoundException) {
+      throw new InvalidBearerTokenException(bearerToken);
 
-      }
     }
 
     List<String> grantedResources = new ArrayList<String>();

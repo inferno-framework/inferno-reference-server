@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.stefanbirkner.systemlambda.SystemLambda;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -157,13 +156,6 @@ public class TestAuthorization {
             FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
         .execute();
 
-  }
-
-  @Test
-  public void testInterceptorWithSkipTokenAuthenticationEnvironmentVariable() throws Exception {
-
-    SystemLambda.withEnvironmentVariable("SKIP_TOKEN_AUTHENTICATION", "true")
-        .execute(() -> ourClient.search().forResource("Patient").execute());
   }
 
   @Test(expected = AuthenticationException.class)

@@ -13,11 +13,15 @@ public class Token {
 
   /**
    * Token constructor.
+   * 
    * @param scopes scopes this token is authorized to access
    */
   public Token(List<String> scopes) {
-    UUID uuid = UUID.randomUUID();
-    this.tokenValue = uuid.toString();
+    this(UUID.randomUUID().toString(), scopes);
+  }
+
+  public Token(String tokenValue, List<String> scopes) {
+    this.tokenValue = tokenValue;
     this.scopes = scopes;
   }
 
@@ -39,6 +43,7 @@ public class Token {
 
   /**
    * Gets the list of scopes as a string.
+   * 
    * @return a string of each scope separated by a space
    */
   public String getScopesString() {
