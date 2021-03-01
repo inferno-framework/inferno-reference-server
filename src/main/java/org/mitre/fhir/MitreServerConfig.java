@@ -1,10 +1,12 @@
 package org.mitre.fhir;
 
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
+import ca.uhn.fhir.jpa.batch.config.NonPersistedBatchConfigurer;
 import ca.uhn.fhir.jpa.config.BaseJavaConfigR4;
 import ca.uhn.fhir.jpa.dao.DaoSearchParamProvider;
 import ca.uhn.fhir.jpa.model.config.PartitionSettings;
 import ca.uhn.fhir.jpa.model.entity.ModelConfig;
+import ca.uhn.fhir.jpa.search.HapiLuceneAnalysisConfigurer;
 import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamProvider;
 import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamRegistry;
 import ca.uhn.fhir.jpa.searchparam.registry.SearchParamRegistryImpl;
@@ -14,8 +16,14 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.search.backend.lucene.cfg.LuceneBackendSettings;
+import org.hibernate.search.backend.lucene.cfg.LuceneIndexSettings;
+import org.hibernate.search.engine.cfg.BackendSettings;
+import org.hibernate.search.mapper.orm.cfg.HibernateOrmMapperSettings;
+import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -115,7 +123,7 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     HapiReferenceServerProperties hapiReferenceServerProperties =
         new HapiReferenceServerProperties();
 
-    Properties properties = new Properties();
+    /*Properties properties = new Properties();
     properties.put("hibernate.dialect", hapiReferenceServerProperties.getHibernateDialect());
     properties.put("hibernate.format_sql", hapiReferenceServerProperties.getHibernateFormatSql());
     properties.put("hibernate.show_sql", hapiReferenceServerProperties.getHibernateShowSql());
@@ -130,9 +138,10 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     properties.put("hibernate.cache.use_structured_entries",
         hapiReferenceServerProperties.getHibernateCacheUseStructuredEntries());
     properties.put("hibernate.cache.use_minimal_puts",
-        hapiReferenceServerProperties.getHibernateCacheUseMinimalPuts());
+        hapiReferenceServerProperties.getHibernateCacheUseMinimalPuts());*/
 
-    properties.put("hibernate.search.model_mapping",
+    //outdate, was in hibernate 5
+    /*properties.put("hibernate.search.model_mapping",
         hapiReferenceServerProperties.getHibernateSearchModelMapping());
     properties.put("hibernate.search.default.directory_provider",
         hapiReferenceServerProperties.getHibernateSearchDefaultDirectoryProvider());
@@ -141,7 +150,23 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     properties.put("hibernate.search.lucene_version",
         hapiReferenceServerProperties.getHibernateSearchLuceneVersion());
 
-    return properties;
+  return properties;*/
+    
+    //https://github.com/hapifhir/hapi-fhir/blob/17d74648debd2d51945b8b7a031d12e3ab16d265/hapi-fhir-jpaserver-base/src/test/java/ca/uhn/fhir/jpa/config/TestR4Config.java#L159    
+    Properties extraProperties = new Properties();
+    extraProperties.put("hibernate.format_sql", hapiReferenceServerProperties.getHibernateFormatSql());
+    extraProperties.put("hibernate.show_sql", hapiReferenceServerProperties.getHibernateShowSql());
+    extraProperties.put("hibernate.hbm2ddl.auto", hapiReferenceServerProperties.getHibernateHbdm2ddlAuto());
+    extraProperties.put("hibernate.dialect", hapiReferenceServerProperties.getHibernateDialect());
+
+    //lucene hibernate search properties
+    extraProperties.put(BackendSettings.backendKey(BackendSettings.TYPE), "lucene");
+    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.ANALYSIS_CONFIGURER), HapiLuceneAnalysisConfigurer.class.getName());
+    extraProperties.put(BackendSettings.backendKey(LuceneIndexSettings.DIRECTORY_TYPE), "local-heap");
+    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION), "LUCENE_CURRENT");
+    extraProperties.put(HibernateOrmMapperSettings.ENABLED, "true");
+
+    return extraProperties;
 
   }
 
@@ -155,12 +180,13 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
    * 
    * @param entityManagerFactory the JpaTransactionManager
    * @return the JpaTransactionManager
-   */
+   */ 
+  @Primary
   @Bean
-  public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-    JpaTransactionManager manager = new JpaTransactionManager();
-    manager.setEntityManagerFactory(entityManagerFactory);
-    return manager;
+  public JpaTransactionManager hapiTransactionManager(EntityManagerFactory entityManagerFactory) {
+      JpaTransactionManager retVal = new JpaTransactionManager();
+      retVal.setEntityManagerFactory(entityManagerFactory);
+      return retVal;
   }
 
   // Beans that are autowired in other places
@@ -180,4 +206,10 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   public ISearchParamRegistry searchParamRegistry() {
     return new SearchParamRegistryImpl();
   }
+  
+  @Bean
+  public BatchConfigurer batchConfigurer() {
+      return new NonPersistedBatchConfigurer();
+  }
+
 }
