@@ -84,7 +84,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
     CodeableConcept service = security.addService();
     Coding coding = service.addCoding();
-    coding.setSystem("http://hl7.org/fhir/restful-security-service");
+    coding.setSystem("http://hl7.org/fhir/ValueSet/restful-security-service");
     coding.setCode("SMART-on-FHIR");
 
     service.setText("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)");
