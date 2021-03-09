@@ -5,12 +5,14 @@ import ca.uhn.fhir.jpa.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.r4.JpaConformanceProviderR4;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceComponent;
+import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceOperationComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestResourceSearchParamComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementRestSecurityComponent;
 import org.hl7.fhir.r4.model.CodeableConcept;
@@ -69,14 +71,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     Extension oauthUris = new Extension();
     oauthUris.setUrl(OAUTH_URL); // url
 
-    oauthUris.addExtension(new Extension(TOKEN_EXTENSION_URL,
-        new UriType(getTokenExtensionUri(theRequest))));
+    oauthUris.addExtension(
+        new Extension(TOKEN_EXTENSION_URL, new UriType(getTokenExtensionUri(theRequest))));
 
     oauthUris.addExtension(new Extension(AUTHORIZE_EXTENSION_URL,
         new UriType(getAuthorizationExtensionUri(theRequest))));
 
-    oauthUris.addExtension(new Extension(REVOKE_EXTENSION_URL,
-        new UriType(getRevokeExtensionUri(theRequest))));
+    oauthUris.addExtension(
+        new Extension(REVOKE_EXTENSION_URL, new UriType(getRevokeExtensionUri(theRequest))));
 
     CapabilityStatementRestSecurityComponent security =
         new CapabilityStatementRestSecurityComponent();
@@ -84,7 +86,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
     CodeableConcept service = security.addService();
     Coding coding = service.addCoding();
-    coding.setSystem("http://hl7.org/fhir/restful-security-service");
+    coding.setSystem("http://hl7.org/fhir/ValueSet/restful-security-service");
     coding.setCode("SMART-on-FHIR");
 
     service.setText("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)");
@@ -96,6 +98,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     rest.setSecurity(security);
 
     fixListResource(rest);
+    
+    rest.setOperation(new ArrayList<CapabilityStatementRestResourceOperationComponent>());
 
     // Location searchParam "near" is missing type, need to add it
     // https://www.hl7.org/fhir/location.html
