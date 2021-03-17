@@ -159,12 +159,14 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     extraProperties.put("hibernate.hbm2ddl.auto", hapiReferenceServerProperties.getHibernateHbdm2ddlAuto());
     extraProperties.put("hibernate.dialect", hapiReferenceServerProperties.getHibernateDialect());
 
+    
     //lucene hibernate search properties
     extraProperties.put(BackendSettings.backendKey(BackendSettings.TYPE), "lucene");
     extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.ANALYSIS_CONFIGURER), HapiLuceneAnalysisConfigurer.class.getName());
     extraProperties.put(BackendSettings.backendKey(LuceneIndexSettings.DIRECTORY_TYPE), "local-heap");
     extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION), "LUCENE_CURRENT");
     extraProperties.put(HibernateOrmMapperSettings.ENABLED, "true");
+    
 
     return extraProperties;
 
