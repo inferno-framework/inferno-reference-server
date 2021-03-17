@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -778,6 +780,31 @@ public class TestAuthorization {
 
     Assert.assertEquals(1, bundleEntryComponents.size());
   }
+  
+
+  @Test
+  public void testSearch()
+  {
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.YEAR, 1988);
+    cal.set(Calendar.MONTH, Calendar.JANUARY);
+    cal.set(Calendar.DAY_OF_MONTH, 13);
+    Date birthdate = cal.getTime();
+
+    Token token = TokenManager.getInstance().getServerToken();
+
+    Bundle results = ourClient
+        .search()
+        .forResource(Patient.class)
+        .where(Patient.BIRTHDATE.exactly().day(birthdate))
+        .returnBundle(Bundle.class)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
+        .execute();
+    
+    Assert.assertEquals(1, results.getTotal());
+  }
+
 
   @AfterClass
   public static void afterClass() throws Exception {
@@ -835,9 +862,16 @@ public class TestAuthorization {
     ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
     ourClient.registerInterceptor(new LoggingInterceptor(true));
     ourClient.capabilities();
-
+    
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.YEAR, 1988);
+    cal.set(Calendar.MONTH, Calendar.JANUARY);
+    cal.set(Calendar.DAY_OF_MONTH, 13);
+    Date birthdate = cal.getTime();
     // ensure that db is not empty (will be deleted @AfterClass)
     Patient pt = new Patient();
+    pt.setBirthDate(birthdate);
+    
     pt.addName().setFamily("Test");
     testPatientId = ourClient.create().resource(pt)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
