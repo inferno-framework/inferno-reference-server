@@ -74,13 +74,20 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
         new String[] {"http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"});
     usCoreProfiles.put("MedicationRequest",
         new String[] {"http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"});
-    usCoreProfiles.put("Observation",
-        new String[] {"http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
-            "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
-            "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
-            "http://hl7.org/fhir/StructureDefinition/vitalsigns"});
+    usCoreProfiles.put("Observation", new String[] {
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+        "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
+        "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+        "http://hl7.org/fhir/StructureDefinition/vitalsigns",
+        "http://hl7.org/fhir/StructureDefinition/bodyheight",
+        "http://hl7.org/fhir/StructureDefinition/heartrate",
+        "http://hl7.org/fhir/StructureDefinition/bodyweight",
+        "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
+        "http://hl7.org/fhir/StructureDefinition/resprate",
+        "http://hl7.org/fhir/StructureDefinition/bodytemp",
+        "http://hl7.org/fhir/StructureDefinition/bp"});
     usCoreProfiles.put("Organization",
         new String[] {"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"});
     usCoreProfiles.put("Patient",
