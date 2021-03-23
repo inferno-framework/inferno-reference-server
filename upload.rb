@@ -1,8 +1,8 @@
 require 'httparty'
 require 'pry'
 
-FHIR_SERVER = 'http://localhost:8080/r4'
-TOKEN = 'SAMPLE_ACCESS_TOKEN.cGF0aWVudC8qLio='
+FHIR_SERVER = 'http://localhost:8080/reference-server/r4'
+TOKEN = 'SAMPLE_TOKEN'
 
 def upload_us_core_resources
   file_path = File.join(__dir__, 'us-core-r4-resources', '*.json')
