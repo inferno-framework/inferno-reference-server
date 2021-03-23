@@ -119,57 +119,29 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   }
 
   private Properties jpaProperties() {
-
     HapiReferenceServerProperties hapiReferenceServerProperties =
         new HapiReferenceServerProperties();
 
-    /*Properties properties = new Properties();
-    properties.put("hibernate.dialect", hapiReferenceServerProperties.getHibernateDialect());
-    properties.put("hibernate.format_sql", hapiReferenceServerProperties.getHibernateFormatSql());
-    properties.put("hibernate.show_sql", hapiReferenceServerProperties.getHibernateShowSql());
-    properties.put("hibernate.hbm2ddl.auto",
-        hapiReferenceServerProperties.getHibernateHbdm2ddlAuto());
-    properties.put("hibernate.jdbc.batch_size",
-        hapiReferenceServerProperties.getHibernateJdbcBatchSize());
-    properties.put("hibernate.cache.use_query_cache",
-        hapiReferenceServerProperties.getHibernateCacheUseQueryCache());
-    properties.put("hibernate.cache.use_second_level_cache",
-        hapiReferenceServerProperties.getHibernateCacheUseSecondLevelCache());
-    properties.put("hibernate.cache.use_structured_entries",
-        hapiReferenceServerProperties.getHibernateCacheUseStructuredEntries());
-    properties.put("hibernate.cache.use_minimal_puts",
-        hapiReferenceServerProperties.getHibernateCacheUseMinimalPuts());*/
-
-    //outdate, was in hibernate 5
-    /*properties.put("hibernate.search.model_mapping",
-        hapiReferenceServerProperties.getHibernateSearchModelMapping());
-    properties.put("hibernate.search.default.directory_provider",
-        hapiReferenceServerProperties.getHibernateSearchDefaultDirectoryProvider());
-    properties.put("hibernate.search.default.indexBase",
-        hapiReferenceServerProperties.getHibernateSearchDefaultIndexBase());
-    properties.put("hibernate.search.lucene_version",
-        hapiReferenceServerProperties.getHibernateSearchLuceneVersion());
-
-  return properties;*/
-    
-    //https://github.com/hapifhir/hapi-fhir/blob/17d74648debd2d51945b8b7a031d12e3ab16d265/hapi-fhir-jpaserver-base/src/test/java/ca/uhn/fhir/jpa/config/TestR4Config.java#L159    
+    // https://github.com/hapifhir/hapi-fhir/blob/17d74648debd2d51945b8b7a031d12e3ab16d265/hapi-fhir-jpaserver-base/src/test/java/ca/uhn/fhir/jpa/config/TestR4Config.java#L159
     Properties extraProperties = new Properties();
-    extraProperties.put("hibernate.format_sql", hapiReferenceServerProperties.getHibernateFormatSql());
+    extraProperties.put("hibernate.format_sql",
+        hapiReferenceServerProperties.getHibernateFormatSql());
     extraProperties.put("hibernate.show_sql", hapiReferenceServerProperties.getHibernateShowSql());
-    extraProperties.put("hibernate.hbm2ddl.auto", hapiReferenceServerProperties.getHibernateHbdm2ddlAuto());
+    extraProperties.put("hibernate.hbm2ddl.auto",
+        hapiReferenceServerProperties.getHibernateHbdm2ddlAuto());
     extraProperties.put("hibernate.dialect", hapiReferenceServerProperties.getHibernateDialect());
 
-    
-    //lucene hibernate search properties
+    // lucene hibernate search properties
     extraProperties.put(BackendSettings.backendKey(BackendSettings.TYPE), "lucene");
-    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.ANALYSIS_CONFIGURER), HapiLuceneAnalysisConfigurer.class.getName());
-    extraProperties.put(BackendSettings.backendKey(LuceneIndexSettings.DIRECTORY_TYPE), "local-heap");
-    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION), "LUCENE_CURRENT");
+    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.ANALYSIS_CONFIGURER),
+        HapiLuceneAnalysisConfigurer.class.getName());
+    extraProperties.put(BackendSettings.backendKey(LuceneIndexSettings.DIRECTORY_TYPE),
+        "local-heap");
+    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION),
+        "LUCENE_CURRENT");
     extraProperties.put(HibernateOrmMapperSettings.ENABLED, "true");
-    
 
     return extraProperties;
-
   }
 
   @Bean
@@ -182,13 +154,13 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
    * 
    * @param entityManagerFactory the JpaTransactionManager
    * @return the JpaTransactionManager
-   */ 
+   */
   @Primary
   @Bean
   public JpaTransactionManager hapiTransactionManager(EntityManagerFactory entityManagerFactory) {
-      JpaTransactionManager retVal = new JpaTransactionManager();
-      retVal.setEntityManagerFactory(entityManagerFactory);
-      return retVal;
+    JpaTransactionManager retVal = new JpaTransactionManager();
+    retVal.setEntityManagerFactory(entityManagerFactory);
+    return retVal;
   }
 
   // Beans that are autowired in other places
@@ -208,10 +180,10 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   public ISearchParamRegistry searchParamRegistry() {
     return new SearchParamRegistryImpl();
   }
-  
+
   @Bean
   public BatchConfigurer batchConfigurer() {
-      return new NonPersistedBatchConfigurer();
+    return new NonPersistedBatchConfigurer();
   }
 
 }
