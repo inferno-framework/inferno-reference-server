@@ -21,12 +21,12 @@ import org.hl7.fhir.r4.model.CapabilityStatement.RestfulCapabilityMode;
 import org.hl7.fhir.r4.model.CapabilityStatement.TypeRestfulInteraction;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Enumerations.FHIRVersion;
 import org.hl7.fhir.r4.model.Enumerations.PublicationStatus;
 import org.hl7.fhir.r4.model.Enumerations.SearchParamType;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.UriType;
-import org.hl7.fhir.r4.model.Enumerations.FHIRVersion;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class ServerConformanceWithAuthorizationProvider extends JpaConformanceProviderR4 {
@@ -114,14 +114,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     return security;
   }
 
-  /***
-   * All resources are hardcode into this method as each has its own considerations
+  /**
+   * All resources are hardcode into this method as each has its own considerations.
    * 
-   * @return
+   * @return List of Capability Statement resources with expected attributes for Inferno Testing
    */
-
   private List<CapabilityStatementRestResourceComponent> getResources() {
-    List<CapabilityStatementRestResourceComponent> resources = new ArrayList<>();
 
     CapabilityStatementRestResourceComponent allergyIntolerance =
         new CapabilityStatementRestResourceComponent();
@@ -133,6 +131,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.READ);
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+
+    List<CapabilityStatementRestResourceComponent> resources = new ArrayList<>();
     resources.add(allergyIntolerance);
 
     CapabilityStatementRestResourceComponent carePlan =
