@@ -42,7 +42,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
   private static final String SEARCH_REV_INCLUDE = "Provenance:target";
 
-  private static final String PROFILE_PREFIX = "http://hl7.org/fhir/StructureDefinition";
+  private static final String PROFILE_PREFIX = "http://hl7.org/fhir/us/core/StructureDefinition/";
 
   private static final String ALLERGY_INTOLERANCE = "AllergyIntolerance";
   private static final String CARE_PLAN = "CarePlan";
@@ -400,6 +400,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   private static String getProfile(String profileName) {
     return PROFILE_PREFIX + "/" + profileName + "/";
   }
+
 
   @Override
   public CapabilityStatement getServerConformance(HttpServletRequest theRequest,
