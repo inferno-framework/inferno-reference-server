@@ -128,10 +128,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     allergyIntolerance.addSupportedProfile(getProfile("us-core-allergyintolerance"));
     allergyIntolerance.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     allergyIntolerance.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.READ);
-    allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
-
+    allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     List<CapabilityStatementRestResourceComponent> resources = new ArrayList<>();
     resources.add(allergyIntolerance);
 
@@ -140,30 +142,13 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     carePlan.setType(CARE_PLAN);
     carePlan.setProfile(getProfile(CARE_PLAN));
     carePlan.addSupportedProfile(getProfile("us-core-careplan"));
-    carePlan.addSearchParam().setName("activity-code").setType(SearchParamType.TOKEN);
-    carePlan.addSearchParam().setName("activity-date").setType(SearchParamType.DATE);
-    carePlan.addSearchParam().setName("activity-reference").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("based-on").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("care-team").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    carePlan.addSearchParam().setName("condition").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    carePlan.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("goal").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    carePlan.addSearchParam().setName("instantiates-canonical").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("instantiates-uri").setType(SearchParamType.URI);
-    carePlan.addSearchParam().setName("intent").setType(SearchParamType.TOKEN);
-    carePlan.addSearchParam().setName("part-of").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("performer").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("replaces").setType(SearchParamType.REFERENCE);
-    carePlan.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    carePlan.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
     carePlan.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    carePlan.addInteraction().setCode(TypeRestfulInteraction.READ);
-    carePlan.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     carePlan.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    carePlan.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    carePlan.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    carePlan.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(carePlan);
 
     CapabilityStatementRestResourceComponent careTeam =
@@ -171,18 +156,13 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     careTeam.setType(CARE_TEAM);
     careTeam.setProfile(getProfile(CARE_TEAM));
     careTeam.addSupportedProfile(getProfile("us-core-careteam"));
-    careTeam.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    careTeam.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    careTeam.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    careTeam.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    careTeam.addSearchParam().setName("participant").setType(SearchParamType.REFERENCE);
-    careTeam.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    careTeam.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    careTeam.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
     careTeam.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    careTeam.addInteraction().setCode(TypeRestfulInteraction.READ);
-    careTeam.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     careTeam.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    careTeam.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    careTeam.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    careTeam.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(careTeam);
 
     CapabilityStatementRestResourceComponent condition =
@@ -190,31 +170,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     condition.setType(CONDITION);
     condition.setProfile(getProfile(CONDITION));
     condition.addSupportedProfile(getProfile("us-core-condition"));
-    condition.addSearchParam().setName("abatement-age").setType(SearchParamType.QUANTITY);
-    condition.addSearchParam().setName("abatement-date").setType(SearchParamType.DATE);
-    condition.addSearchParam().setName("abatement-string").setType(SearchParamType.STRING);
-    condition.addSearchParam().setName("asserter").setType(SearchParamType.REFERENCE);
-    condition.addSearchParam().setName("body-site").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("clinical-status").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    condition.addSearchParam().setName("evidence").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("evidence-detail").setType(SearchParamType.REFERENCE);
-    condition.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("onset-age").setType(SearchParamType.QUANTITY);
-    condition.addSearchParam().setName("onset-date").setType(SearchParamType.DATE);
-    condition.addSearchParam().setName("onset-info").setType(SearchParamType.STRING);
     condition.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    condition.addSearchParam().setName("recorded-date").setType(SearchParamType.DATE);
-    condition.addSearchParam().setName("severity").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("stage").setType(SearchParamType.TOKEN);
-    condition.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
-    condition.addSearchParam().setName("verification-status").setType(SearchParamType.TOKEN);
     condition.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    condition.addInteraction().setCode(TypeRestfulInteraction.READ);
-    condition.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     condition.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    condition.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    condition.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    condition.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);   
     resources.add(condition);
 
     CapabilityStatementRestResourceComponent device =
@@ -222,22 +185,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     device.setType(DEVICE);
     device.setProfile(getProfile(DEVICE));
     device.addSupportedProfile(getProfile("us-core-implantable-device"));
-    device.addSearchParam().setName("device-name").setType(SearchParamType.STRING);
-    device.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    device.addSearchParam().setName("location").setType(SearchParamType.REFERENCE);
-    device.addSearchParam().setName("manufacturer").setType(SearchParamType.STRING);
-    device.addSearchParam().setName("model").setType(SearchParamType.STRING);
-    device.addSearchParam().setName("organization").setType(SearchParamType.REFERENCE);
     device.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    device.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    device.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
-    device.addSearchParam().setName("udi-carrier").setType(SearchParamType.STRING);
-    device.addSearchParam().setName("udi-di").setType(SearchParamType.STRING);
-    device.addSearchParam().setName("url").setType(SearchParamType.URI);
     device.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    device.addInteraction().setCode(TypeRestfulInteraction.READ);
-    device.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     device.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    device.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    device.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    device.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(device);
 
     CapabilityStatementRestResourceComponent diagnosticReport =
@@ -246,27 +201,15 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     diagnosticReport.setProfile(getProfile(DIAGNOSTIC_REPORT));
     diagnosticReport.addSupportedProfile(getProfile("us-core-diagnosticreport-lab"));
     diagnosticReport.addSupportedProfile(getProfile("us-core-diagnosticreport-note"));
-    diagnosticReport.addSearchParam().setName("based-on").setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    diagnosticReport.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
-    diagnosticReport.addSearchParam().setName("conclusion").setType(SearchParamType.TOKEN);
-    diagnosticReport.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    diagnosticReport.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    diagnosticReport.addSearchParam().setName("issued").setType(SearchParamType.DATE);
-    diagnosticReport.addSearchParam().setName("media").setType(SearchParamType.REFERENCE);
     diagnosticReport.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("performer").setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("result").setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("results-interpreter")
-        .setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("specimen").setType(SearchParamType.REFERENCE);
-    diagnosticReport.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    diagnosticReport.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
     diagnosticReport.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.READ);
-    diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
+    diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.CREATE);
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(diagnosticReport);
 
     CapabilityStatementRestResourceComponent documentReference =
@@ -274,34 +217,16 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     documentReference.setType(DOCUMENT_REFERENCE);
     documentReference.setProfile(getProfile(DOCUMENT_REFERENCE));
     documentReference.addSupportedProfile(getProfile("us-core-documentreference"));
-    documentReference.addSearchParam().setName("authenticator").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("author").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("contenttype").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("custodian").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    documentReference.addSearchParam().setName("description").setType(SearchParamType.STRING);
-    documentReference.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("event").setType(SearchParamType.STRING);
-    documentReference.addSearchParam().setName("facility").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("format").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("language").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("location").setType(SearchParamType.URI);
+    documentReference.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
     documentReference.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("period").setType(SearchParamType.DATE);
-    documentReference.addSearchParam().setName("related").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("relatesto").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("relationship").setType(SearchParamType.COMPOSITE);
-    documentReference.addSearchParam().setName("security-label").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("setting").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    documentReference.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
-    documentReference.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
     documentReference.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    documentReference.addInteraction().setCode(TypeRestfulInteraction.READ);
-    documentReference.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
+    documentReference.addInteraction().setCode(TypeRestfulInteraction.CREATE);
     documentReference.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    documentReference.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    documentReference.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    documentReference.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(documentReference);
 
     CapabilityStatementRestResourceComponent encounter =
@@ -309,51 +234,32 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     encounter.setType(ENCOUNTER);
     encounter.setProfile(getProfile(ENCOUNTER));
     encounter.addSupportedProfile(getProfile("us-core-encounter"));
-    encounter.addSearchParam().setName("account").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("appointment").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("based-on").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("class").setType(SearchParamType.TOKEN);
-    encounter.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    encounter.addSearchParam().setName("diagnosis").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("episode-of-care").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    encounter.addSearchParam().setName("length").setType(SearchParamType.QUANTITY);
-    encounter.addSearchParam().setName("location").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("location-period").setType(SearchParamType.DATE);
-    encounter.addSearchParam().setName("part-of").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("participant").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("participant-type").setType(SearchParamType.TOKEN);
+    //SHALL
+    encounter.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
     encounter.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("reason-code").setType(SearchParamType.TOKEN);
-    encounter.addSearchParam().setName("reason-reference").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("service-provider").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("special-arrangement").setType(SearchParamType.TOKEN);
-    encounter.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    encounter.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
-    encounter.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
+    //SHOULD
+    encounter.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);     
     encounter.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    encounter.addInteraction().setCode(TypeRestfulInteraction.READ);
-    encounter.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     encounter.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    encounter.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    encounter.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    encounter.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(encounter);
 
     CapabilityStatementRestResourceComponent goal = new CapabilityStatementRestResourceComponent();
     goal.setType(GOAL);
     goal.setProfile(getProfile(GOAL));
     goal.addSupportedProfile(getProfile("us-core-goal"));
-    goal.addSearchParam().setName("achievement-status").setType(SearchParamType.TOKEN);
-    goal.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    goal.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    goal.addSearchParam().setName("lifecycle-status").setType(SearchParamType.TOKEN);
     goal.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    goal.addSearchParam().setName("start-date").setType(SearchParamType.DATE);
-    goal.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
-    goal.addSearchParam().setName("target-date").setType(SearchParamType.DATE);
     goal.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    goal.addInteraction().setCode(TypeRestfulInteraction.READ);
-    goal.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     goal.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    goal.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    goal.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    goal.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(goal);
 
     CapabilityStatementRestResourceComponent immunization =
@@ -361,26 +267,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     immunization.setType(IMMUNIZATION);
     immunization.setProfile(getProfile(IMMUNIZATION));
     immunization.addSupportedProfile(getProfile("us-core-immunization"));
-    immunization.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    immunization.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    immunization.addSearchParam().setName("location").setType(SearchParamType.REFERENCE);
-    immunization.addSearchParam().setName("lot-number").setType(SearchParamType.STRING);
-    immunization.addSearchParam().setName("manufacturer").setType(SearchParamType.REFERENCE);
     immunization.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    immunization.addSearchParam().setName("performer").setType(SearchParamType.REFERENCE);
-    immunization.addSearchParam().setName("reaction").setType(SearchParamType.REFERENCE);
-    immunization.addSearchParam().setName("reaction-date").setType(SearchParamType.DATE);
-    immunization.addSearchParam().setName("reason-code").setType(SearchParamType.TOKEN);
-    immunization.addSearchParam().setName("reason-reference").setType(SearchParamType.REFERENCE);
-    immunization.addSearchParam().setName("series").setType(SearchParamType.STRING);
-    immunization.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    immunization.addSearchParam().setName("status-reason").setType(SearchParamType.TOKEN);
-    immunization.addSearchParam().setName("target-disease").setType(SearchParamType.TOKEN);
-    immunization.addSearchParam().setName("vaccine-code").setType(SearchParamType.TOKEN);
     immunization.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    immunization.addInteraction().setCode(TypeRestfulInteraction.READ);
-    immunization.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     immunization.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    immunization.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    immunization.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    immunization.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(immunization);
 
     CapabilityStatementRestResourceComponent location =
@@ -388,25 +282,20 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     location.setType(LOCATION);
     location.setProfile(getProfile(LOCATION));
     location.addSupportedProfile(getProfile("us-core-location"));
-    location.addSearchParam().setName("address").setType(SearchParamType.STRING);
-    location.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
-    location.addSearchParam().setName("address-country").setType(SearchParamType.STRING);
-    location.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
-    location.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
-    location.addSearchParam().setName("address-use").setType(SearchParamType.TOKEN);
-    location.addSearchParam().setName("endpoint").setType(SearchParamType.REFERENCE);
-    location.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
+    //SHALL
     location.addSearchParam().setName("name").setType(SearchParamType.STRING);
-    location.addSearchParam().setName("near").setType(SearchParamType.SPECIAL);
-    location.addSearchParam().setName("operational-status").setType(SearchParamType.TOKEN);
-    location.addSearchParam().setName("organization").setType(SearchParamType.REFERENCE);
-    location.addSearchParam().setName("partof").setType(SearchParamType.REFERENCE);
-    location.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    location.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
+    location.addSearchParam().setName("address").setType(SearchParamType.STRING);
+    //SHOULD
+    location.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
+    location.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
+    location.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
     location.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    location.addInteraction().setCode(TypeRestfulInteraction.READ);
-    location.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     location.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    location.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    location.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    location.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(location);
 
     CapabilityStatementRestResourceComponent medication =
@@ -414,19 +303,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medication.setType(MEDICATION);
     medication.setProfile(getProfile(MEDICATION));
     medication.addSupportedProfile(getProfile("us-core-medication"));
-    medication.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
-    medication.addSearchParam().setName("expiration-date").setType(SearchParamType.DATE);
-    medication.addSearchParam().setName("form").setType(SearchParamType.TOKEN);
-    medication.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    medication.addSearchParam().setName("ingredient").setType(SearchParamType.REFERENCE);
-    medication.addSearchParam().setName("ingredient-code").setType(SearchParamType.TOKEN);
-    medication.addSearchParam().setName("lot-number").setType(SearchParamType.TOKEN);
-    medication.addSearchParam().setName("manufacturer").setType(SearchParamType.REFERENCE);
-    medication.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     medication.addSearchRevInclude(SEARCH_REV_INCLUDE);
+    //SHALL
     medication.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
     medication.addInteraction().setCode(TypeRestfulInteraction.VREAD);
-    medication.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    medication.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(medication);
 
     CapabilityStatementRestResourceComponent medicationRequest =
@@ -434,96 +316,26 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medicationRequest.setType(MEDICATION_REQUEST);
     medicationRequest.setProfile(getProfile(MEDICATION_REQUEST));
     medicationRequest.addSupportedProfile(getProfile("us-core-medicationrequest"));
-    medicationRequest.addSearchParam().setName("authoredon").setType(SearchParamType.DATE);
-    medicationRequest.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    medicationRequest.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    medicationRequest.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("intended-dispenser")
-        .setType(SearchParamType.REFERENCE);
-    medicationRequest.addSearchParam().setName("intended-performer")
-        .setType(SearchParamType.REFERENCE);
-    medicationRequest.addSearchParam().setName("intended-performertype")
-        .setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("intent").setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("medication").setType(SearchParamType.REFERENCE);
-    medicationRequest.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    medicationRequest.addSearchParam().setName("priority").setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("requester").setType(SearchParamType.REFERENCE);
-    medicationRequest.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    medicationRequest.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
     medicationRequest.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    medicationRequest.addInteraction().setCode(TypeRestfulInteraction.READ);
-    medicationRequest.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    medicationRequest.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    medicationRequest.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    medicationRequest.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(medicationRequest);
 
     CapabilityStatementRestResourceComponent observation =
         new CapabilityStatementRestResourceComponent();
     observation.setType(OBSERVATION);
     observation.setProfile(getProfile(OBSERVATION));
-    observation.addSupportedProfile(getProfile("us-core-observation-lab"));
-    observation.addSupportedProfile(getProfile("pediatric-bmi-for-age"));
-    observation.addSupportedProfile(getProfile("pediatric-weight-for-height"));
-    observation.addSupportedProfile(getProfile("us-core-pulse-oximetry"));
-    observation.addSupportedProfile(getProfile("us-core-smokingstatus"));
-    observation.addSupportedProfile(getProfile("vitalsigns"));
-    observation.addSupportedProfile(getProfile("bodyheight"));
-    observation.addSupportedProfile(getProfile("heartrate"));
-    observation.addSupportedProfile(getProfile("bodyweight"));
-    observation.addSupportedProfile(getProfile("head-occipital-frontal-circumference-percentile"));
-    observation.addSupportedProfile(getProfile("resprate"));
-    observation.addSupportedProfile(getProfile("bodytemp"));
-    observation.addSupportedProfile(getProfile("bp"));
-    observation.addSearchParam().setName("based-on").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("code-value-concept").setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("code-value-date").setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("code-value-quantity").setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("code-value-string").setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("combo-code").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("combo-code-value-concept")
-        .setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("combo-code-value-quantity")
-        .setType(SearchParamType.QUANTITY);
-    observation.addSearchParam().setName("combo-data-absent-reason").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("combo-value-concept").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("combo-value-quantity").setType(SearchParamType.QUANTITY);
-    observation.addSearchParam().setName("component-code").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("component-code-value-concept")
-        .setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("component-code-value-quantity")
-        .setType(SearchParamType.COMPOSITE);
-    observation.addSearchParam().setName("component-data-absent-reason")
-        .setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("component-value-concept").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("component-value-quantity")
-        .setType(SearchParamType.QUANTITY);
-    observation.addSearchParam().setName("data-absent-reason").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    observation.addSearchParam().setName("derived-from").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("device").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("focus").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("has-member").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("method").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("part-of").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("performer").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("specimen").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("value-concept").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("value-date").setType(SearchParamType.DATE);
-    observation.addSearchParam().setName("value-quantity").setType(SearchParamType.QUANTITY);
-    observation.addSearchParam().setName("value-string").setType(SearchParamType.STRING);
     observation.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    observation.addInteraction().setCode(TypeRestfulInteraction.READ);
-    observation.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     observation.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    observation.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    observation.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    observation.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(observation);
 
     CapabilityStatementRestResourceComponent organization =
@@ -531,23 +343,15 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     organization.setType(ORGANIZATION);
     organization.setProfile(getProfile(ORGANIZATION));
     organization.addSupportedProfile(getProfile("us-core-organization"));
-    observation.addSearchParam().setName("active").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("address").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("address-country").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("address-use").setType(SearchParamType.TOKEN);
-    observation.addSearchParam().setName("endpoint").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     observation.addSearchParam().setName("name").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("partof").setType(SearchParamType.REFERENCE);
-    observation.addSearchParam().setName("phonetic").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
+    observation.addSearchParam().setName("address").setType(SearchParamType.STRING);
     organization.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    organization.addInteraction().setCode(TypeRestfulInteraction.READ);
-    organization.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     organization.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    organization.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    organization.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    organization.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(organization);
 
     CapabilityStatementRestResourceComponent patient =
@@ -555,34 +359,16 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     patient.setType(PATIENT);
     patient.setProfile(getProfile(PATIENT));
     patient.addSupportedProfile(getProfile("us-core-patient"));
-    patient.addSearchParam().setName("active").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("address").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("address-country").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("address-use").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("birthdate").setType(SearchParamType.DATE);
-    patient.addSearchParam().setName("death-date").setType(SearchParamType.DATE);
-    patient.addSearchParam().setName("deceased").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("email").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("family").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("gender").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("general-practitioner").setType(SearchParamType.REFERENCE);
-    patient.addSearchParam().setName("given").setType(SearchParamType.STRING);
     patient.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
     patient.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("language").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("link").setType(SearchParamType.REFERENCE);
     patient.addSearchParam().setName("name").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("organization").setType(SearchParamType.REFERENCE);
-    patient.addSearchParam().setName("phone").setType(SearchParamType.TOKEN);
-    patient.addSearchParam().setName("phonetic").setType(SearchParamType.STRING);
-    patient.addSearchParam().setName("telecom").setType(SearchParamType.TOKEN);
     patient.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    patient.addInteraction().setCode(TypeRestfulInteraction.READ);
-    patient.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     patient.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    patient.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    patient.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    patient.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(patient);
 
     CapabilityStatementRestResourceComponent practitioner =
@@ -590,27 +376,15 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitioner.setType(PRACTITIONER);
     practitioner.setProfile(getProfile(PRACTITIONER));
     practitioner.addSupportedProfile(getProfile("us-core-practitioner"));
-    practitioner.addSearchParam().setName("active").setType(SearchParamType.TOKEN);
-    practitioner.addSearchParam().setName("address").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("address-country").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("address-use").setType(SearchParamType.TOKEN);
-    practitioner.addSearchParam().setName("communication").setType(SearchParamType.TOKEN);
-    practitioner.addSearchParam().setName("email").setType(SearchParamType.TOKEN);
-    practitioner.addSearchParam().setName("family").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("gender").setType(SearchParamType.TOKEN);
-    practitioner.addSearchParam().setName("given").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     practitioner.addSearchParam().setName("name").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("phone").setType(SearchParamType.TOKEN);
-    practitioner.addSearchParam().setName("phonetic").setType(SearchParamType.STRING);
-    practitioner.addSearchParam().setName("telecom").setType(SearchParamType.TOKEN);
+    practitioner.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     practitioner.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    practitioner.addInteraction().setCode(TypeRestfulInteraction.READ);
-    practitioner.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     practitioner.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    practitioner.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    practitioner.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    practitioner.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(practitioner);
 
     CapabilityStatementRestResourceComponent practitionerRole =
@@ -618,23 +392,15 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitionerRole.setType(PRACTITIONER_ROLE);
     practitionerRole.setProfile(getProfile(PRACTITIONER_ROLE));
     practitionerRole.addSupportedProfile(getProfile("us-core-practitionerrole"));
-    practitionerRole.addSearchParam().setName("active").setType(SearchParamType.TOKEN);
-    practitionerRole.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    practitionerRole.addSearchParam().setName("email").setType(SearchParamType.TOKEN);
-    practitionerRole.addSearchParam().setName("endpoint").setType(SearchParamType.REFERENCE);
-    practitionerRole.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    practitionerRole.addSearchParam().setName("location").setType(SearchParamType.REFERENCE);
-    practitionerRole.addSearchParam().setName("organization").setType(SearchParamType.REFERENCE);
-    practitionerRole.addSearchParam().setName("phone").setType(SearchParamType.TOKEN);
-    practitionerRole.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
-    practitionerRole.addSearchParam().setName("role").setType(SearchParamType.TOKEN);
-    practitionerRole.addSearchParam().setName("service").setType(SearchParamType.REFERENCE);
     practitionerRole.addSearchParam().setName("specialty").setType(SearchParamType.TOKEN);
-    practitionerRole.addSearchParam().setName("telecom").setType(SearchParamType.TOKEN);
+    practitionerRole.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
     practitionerRole.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    practitionerRole.addInteraction().setCode(TypeRestfulInteraction.READ);
-    practitionerRole.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    practitionerRole.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    practitionerRole.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    practitionerRole.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(practitionerRole);
 
     CapabilityStatementRestResourceComponent procedure =
@@ -642,26 +408,14 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     procedure.setType(PROCEDURE);
     procedure.setProfile(getProfile(PROCEDURE));
     procedure.addSupportedProfile(getProfile("us-core-procedure"));
-    procedure.addSearchParam().setName("based-on").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
-    procedure.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
-    procedure.addSearchParam().setName("date").setType(SearchParamType.DATE);
-    procedure.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    procedure.addSearchParam().setName("instantiates-canonical").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("instantiates-uri").setType(SearchParamType.URI);
-    procedure.addSearchParam().setName("location").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("part-of").setType(SearchParamType.REFERENCE);
     procedure.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("performer").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("reason-code").setType(SearchParamType.TOKEN);
-    procedure.addSearchParam().setName("reason-reference").setType(SearchParamType.REFERENCE);
-    procedure.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    procedure.addSearchParam().setName("subject").setType(SearchParamType.REFERENCE);
     procedure.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    procedure.addInteraction().setCode(TypeRestfulInteraction.READ);
-    procedure.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    //SHALL
     procedure.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    procedure.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
+    procedure.addInteraction().setCode(TypeRestfulInteraction.VREAD);
+    procedure.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(procedure);
 
     CapabilityStatementRestResourceComponent provenance =
@@ -670,9 +424,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     provenance.setProfile(getProfile(PROVENANCE));
     provenance.addSupportedProfile(getProfile("us-core-provenance"));
     provenance.addSearchRevInclude(SEARCH_REV_INCLUDE);
+    //SHALL
     provenance.addInteraction().setCode(TypeRestfulInteraction.READ);
+    //SHOULD
     provenance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
-    provenance.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    provenance.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(provenance);
 
     return resources;
