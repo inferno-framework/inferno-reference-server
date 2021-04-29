@@ -126,6 +126,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     allergyIntolerance.setType(ALLERGY_INTOLERANCE);
     allergyIntolerance.setProfile(getProfile(ALLERGY_INTOLERANCE));
     allergyIntolerance.addSupportedProfile(getProfile("us-core-allergyintolerance"));
+    allergyIntolerance.addSearchParam().setName("clinical-status").setType(SearchParamType.TOKEN);
     allergyIntolerance.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     allergyIntolerance.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
@@ -142,6 +143,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     carePlan.setType(CARE_PLAN);
     carePlan.setProfile(getProfile(CARE_PLAN));
     carePlan.addSupportedProfile(getProfile("us-core-careplan"));
+    carePlan.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
+    carePlan.addSearchParam().setName("date").setType(SearchParamType.DATE);
+    carePlan.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    carePlan.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     carePlan.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     carePlan.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -156,6 +161,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     careTeam.setType(CARE_TEAM);
     careTeam.setProfile(getProfile(CARE_TEAM));
     careTeam.addSupportedProfile(getProfile("us-core-careteam"));
+    careTeam.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    careTeam.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     careTeam.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     careTeam.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -170,7 +177,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     condition.setType(CONDITION);
     condition.setProfile(getProfile(CONDITION));
     condition.addSupportedProfile(getProfile("us-core-condition"));
+    condition.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
+    condition.addSearchParam().setName("clinical-status").setType(SearchParamType.TOKEN);
     condition.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    condition.addSearchParam().setName("onset-date").setType(SearchParamType.DATE);
+    condition.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
     condition.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     condition.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -186,6 +197,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     device.setProfile(getProfile(DEVICE));
     device.addSupportedProfile(getProfile("us-core-implantable-device"));
     device.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    device.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
     device.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     device.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -201,7 +213,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     diagnosticReport.setProfile(getProfile(DIAGNOSTIC_REPORT));
     diagnosticReport.addSupportedProfile(getProfile("us-core-diagnosticreport-lab"));
     diagnosticReport.addSupportedProfile(getProfile("us-core-diagnosticreport-note"));
+    diagnosticReport.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     diagnosticReport.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    diagnosticReport.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
+    diagnosticReport.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
+    diagnosticReport.addSearchParam().setName("date").setType(SearchParamType.DATE);
     diagnosticReport.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.CREATE);
@@ -218,7 +234,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     documentReference.setProfile(getProfile(DOCUMENT_REFERENCE));
     documentReference.addSupportedProfile(getProfile("us-core-documentreference"));
     documentReference.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
+    documentReference.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     documentReference.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    documentReference.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
+    documentReference.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
+    documentReference.addSearchParam().setName("date").setType(SearchParamType.DATE);
+    documentReference.addSearchParam().setName("period").setType(SearchParamType.DATE);
     documentReference.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     documentReference.addInteraction().setCode(TypeRestfulInteraction.CREATE);
@@ -236,9 +257,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     encounter.addSupportedProfile(getProfile("us-core-encounter"));
     //SHALL
     encounter.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
+    encounter.addSearchParam().setName("class").setType(SearchParamType.TOKEN);
+    encounter.addSearchParam().setName("date").setType(SearchParamType.DATE);
+    encounter.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     encounter.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
-    //SHOULD
-    encounter.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);     
+    encounter.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
+    encounter.addSearchParam().setName("type").setType(SearchParamType.TOKEN);  
     encounter.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     encounter.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -252,7 +276,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     goal.setType(GOAL);
     goal.setProfile(getProfile(GOAL));
     goal.addSupportedProfile(getProfile("us-core-goal"));
+    goal.addSearchParam().setName("lifecycle-status").setType(SearchParamType.TOKEN);
     goal.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    goal.addSearchParam().setName("target-date").setType(SearchParamType.DATE);
     goal.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     goal.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -268,6 +294,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     immunization.setProfile(getProfile(IMMUNIZATION));
     immunization.addSupportedProfile(getProfile("us-core-immunization"));
     immunization.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    immunization.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
+    immunization.addSearchParam().setName("date").setType(SearchParamType.DATE);
     immunization.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     immunization.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -316,6 +344,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medicationRequest.setType(MEDICATION_REQUEST);
     medicationRequest.setProfile(getProfile(MEDICATION_REQUEST));
     medicationRequest.addSupportedProfile(getProfile("us-core-medicationrequest"));
+    medicationRequest.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
+    medicationRequest.addSearchParam().setName("intent").setType(SearchParamType.TOKEN);
+    medicationRequest.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    medicationRequest.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
+    medicationRequest.addSearchParam().setName("authoredon").setType(SearchParamType.DATE);
     medicationRequest.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -329,6 +362,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
         new CapabilityStatementRestResourceComponent();
     observation.setType(OBSERVATION);
     observation.setProfile(getProfile(OBSERVATION));
+    observation.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
+    observation.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
+    observation.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
+    observation.addSearchParam().setName("date").setType(SearchParamType.DATE);
+    observation.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     observation.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     observation.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -360,6 +398,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     patient.setProfile(getProfile(PATIENT));
     patient.addSupportedProfile(getProfile("us-core-patient"));
     patient.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
+    patient.addSearchParam().setName("birthdate").setType(SearchParamType.DATE);
+    patient.addSearchParam().setName("family").setType(SearchParamType.STRING);
+    patient.addSearchParam().setName("gender").setType(SearchParamType.TOKEN);
+    patient.addSearchParam().setName("given").setType(SearchParamType.STRING);
     patient.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     patient.addSearchParam().setName("name").setType(SearchParamType.STRING);
     patient.addSearchRevInclude(SEARCH_REV_INCLUDE);
@@ -408,7 +450,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     procedure.setType(PROCEDURE);
     procedure.setProfile(getProfile(PROCEDURE));
     procedure.addSupportedProfile(getProfile("us-core-procedure"));
+    procedure.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     procedure.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
+    procedure.addSearchParam().setName("date").setType(SearchParamType.DATE);
+    procedure.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
     procedure.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
     procedure.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -425,6 +470,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     provenance.addSupportedProfile(getProfile("us-core-provenance"));
     provenance.addSearchRevInclude(SEARCH_REV_INCLUDE);
     //SHALL
+    provenance.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     provenance.addInteraction().setCode(TypeRestfulInteraction.READ);
     //SHOULD
     provenance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
