@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build Reference server
-      run: docker-compose build
+      run: docker-compose up --build --detach
 
     - name: Run Reference server
       run: docker-compose start
