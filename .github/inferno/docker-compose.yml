@@ -1,0 +1,12 @@
+version: '3'
+services:
+  inferno:
+    image: onchealthit/inferno:latest
+    volumes:
+      - ./config.yml:/var/www/inferno/config.yml
+      - ./data:/var/www/inferno/data
+      - ./batch:/var/www/inferno/batch
+    depends_on:
+      - validator_service
+  validator_service:
+    image: infernocommunity/fhir-validator-service:latest
