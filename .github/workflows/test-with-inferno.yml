@@ -18,6 +18,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Build Reference server
+      run: docker-compose build
+
     - name: Run Reference server
       run: docker-compose start
 
