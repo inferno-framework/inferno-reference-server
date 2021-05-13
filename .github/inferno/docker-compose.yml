@@ -1,7 +1,7 @@
 version: '3'
 services:
   inferno:
-    image: onchealthit/inferno:latest
+    image: onchealthit/inferno-program:release-latest
     volumes:
       - ./config.yml:/var/www/inferno/config.yml
       - ./data:/var/www/inferno/data
