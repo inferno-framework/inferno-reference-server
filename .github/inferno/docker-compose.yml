@@ -4,12 +4,12 @@ services:
     image: onchealthit/inferno-program:release-latest
     volumes:
       - ./config.yml:/var/www/inferno/config.yml
-      - ./data:/var/www/inferno/data
-      - ./batch:/var/www/inferno/batch
     depends_on:
       - validator_service
+    ports:
+      - '4567:4567'
   validator_service:
-    image: infernocommunity/fhir-validator-service:latest
+    image: infernocommunity/fhir-validator-service:v1.2.0
   db:    
     build:
       context: ../../
