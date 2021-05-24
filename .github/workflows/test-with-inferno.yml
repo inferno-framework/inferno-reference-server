@@ -21,7 +21,7 @@ jobs:
     - name: Run Reference Server and Inferno Program Services
       run: docker-compose -f ./.github/inferno/docker-compose.yml up --build --detach
 
-    - name: Sleep for 30 seconds
+    - name: Sleep for 300 seconds
       uses: jakejarvis/wait-action@master
       with:
         time: '300s'
