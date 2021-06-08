@@ -348,6 +348,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medicationRequest.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     medicationRequest.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
     medicationRequest.addSearchParam().setName("authoredon").setType(SearchParamType.DATE);
+    medicationRequest.addSearchInclude("MedicationRequest:medication");
     medicationRequest.addSearchRevInclude(SEARCH_REV_INCLUDE);
     // SHALL
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
@@ -433,6 +434,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitionerRole.addSupportedProfile(getProfile("us-core-practitionerrole"));
     practitionerRole.addSearchParam().setName("specialty").setType(SearchParamType.TOKEN);
     practitionerRole.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
+    practitionerRole.addSearchInclude("PractitionerRole:endpoint");
+    practitionerRole.addSearchInclude("PractitionerRole:practitioner");
+   
     // SHALL
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.READ);
