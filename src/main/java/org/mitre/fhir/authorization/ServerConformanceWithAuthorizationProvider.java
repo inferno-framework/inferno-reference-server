@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CanonicalType;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementImplementationComponent;
 import org.hl7.fhir.r4.model.CapabilityStatement.CapabilityStatementKind;
@@ -129,10 +130,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     allergyIntolerance.addSearchParam().setName("clinical-status").setType(SearchParamType.TOKEN);
     allergyIntolerance.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     allergyIntolerance.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     allergyIntolerance.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     List<CapabilityStatementRestResourceComponent> resources = new ArrayList<>();
@@ -148,10 +149,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     carePlan.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     carePlan.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     carePlan.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     carePlan.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     carePlan.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     carePlan.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     carePlan.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(carePlan);
@@ -164,10 +165,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     careTeam.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     careTeam.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     careTeam.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     careTeam.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     careTeam.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     careTeam.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     careTeam.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(careTeam);
@@ -183,12 +184,12 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     condition.addSearchParam().setName("onset-date").setType(SearchParamType.DATE);
     condition.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
     condition.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     condition.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     condition.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     condition.addInteraction().setCode(TypeRestfulInteraction.VREAD);
-    condition.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);   
+    condition.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(condition);
 
     CapabilityStatementRestResourceComponent device =
@@ -199,10 +200,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     device.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     device.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
     device.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     device.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     device.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     device.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     device.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(device);
@@ -219,11 +220,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     diagnosticReport.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
     diagnosticReport.addSearchParam().setName("date").setType(SearchParamType.DATE);
     diagnosticReport.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.CREATE);
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     diagnosticReport.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(diagnosticReport);
@@ -241,11 +242,11 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     documentReference.addSearchParam().setName("date").setType(SearchParamType.DATE);
     documentReference.addSearchParam().setName("period").setType(SearchParamType.DATE);
     documentReference.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     documentReference.addInteraction().setCode(TypeRestfulInteraction.CREATE);
     documentReference.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     documentReference.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     documentReference.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     documentReference.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(documentReference);
@@ -255,19 +256,19 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     encounter.setType(ENCOUNTER);
     encounter.setProfile(getProfile(ENCOUNTER));
     encounter.addSupportedProfile(getProfile("us-core-encounter"));
-    //SHALL
+    // SHALL
     encounter.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
     encounter.addSearchParam().setName("class").setType(SearchParamType.TOKEN);
     encounter.addSearchParam().setName("date").setType(SearchParamType.DATE);
     encounter.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     encounter.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     encounter.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
-    encounter.addSearchParam().setName("type").setType(SearchParamType.TOKEN);  
+    encounter.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
     encounter.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     encounter.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     encounter.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     encounter.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     encounter.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(encounter);
@@ -280,10 +281,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     goal.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     goal.addSearchParam().setName("target-date").setType(SearchParamType.DATE);
     goal.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     goal.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     goal.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     goal.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     goal.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(goal);
@@ -297,10 +298,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     immunization.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     immunization.addSearchParam().setName("date").setType(SearchParamType.DATE);
     immunization.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     immunization.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     immunization.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     immunization.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     immunization.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(immunization);
@@ -310,18 +311,18 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     location.setType(LOCATION);
     location.setProfile(getProfile(LOCATION));
     location.addSupportedProfile(getProfile("us-core-location"));
-    //SHALL
+    // SHALL
     location.addSearchParam().setName("name").setType(SearchParamType.STRING);
     location.addSearchParam().setName("address").setType(SearchParamType.STRING);
-    //SHOULD
+    // SHOULD
     location.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
     location.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
     location.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
     location.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     location.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     location.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     location.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     location.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(location);
@@ -332,9 +333,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medication.setProfile(getProfile(MEDICATION));
     medication.addSupportedProfile(getProfile("us-core-medication"));
     medication.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     medication.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     medication.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     medication.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(medication);
@@ -350,10 +351,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medicationRequest.addSearchParam().setName("encounter").setType(SearchParamType.REFERENCE);
     medicationRequest.addSearchParam().setName("authoredon").setType(SearchParamType.DATE);
     medicationRequest.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     medicationRequest.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(medicationRequest);
@@ -368,10 +369,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     observation.addSearchParam().setName("date").setType(SearchParamType.DATE);
     observation.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     observation.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     observation.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     observation.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     observation.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     observation.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(observation);
@@ -384,10 +385,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     observation.addSearchParam().setName("name").setType(SearchParamType.STRING);
     observation.addSearchParam().setName("address").setType(SearchParamType.STRING);
     organization.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     organization.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     organization.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     organization.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     organization.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(organization);
@@ -405,10 +406,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     patient.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     patient.addSearchParam().setName("name").setType(SearchParamType.STRING);
     patient.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     patient.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     patient.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     patient.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     patient.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(patient);
@@ -421,10 +422,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitioner.addSearchParam().setName("name").setType(SearchParamType.STRING);
     practitioner.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
     practitioner.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     practitioner.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     practitioner.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     practitioner.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     practitioner.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(practitioner);
@@ -437,10 +438,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitionerRole.addSearchParam().setName("specialty").setType(SearchParamType.TOKEN);
     practitionerRole.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
     practitionerRole.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(practitionerRole);
@@ -455,10 +456,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     procedure.addSearchParam().setName("date").setType(SearchParamType.DATE);
     procedure.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
     procedure.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
+    // SHALL
     procedure.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     procedure.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     procedure.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     procedure.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(procedure);
@@ -469,10 +470,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     provenance.setProfile(getProfile(PROVENANCE));
     provenance.addSupportedProfile(getProfile("us-core-provenance"));
     provenance.addSearchRevInclude(SEARCH_REV_INCLUDE);
-    //SHALL
-    provenance.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
+    // SHALL
     provenance.addInteraction().setCode(TypeRestfulInteraction.READ);
-    //SHOULD
+    // SHOULD
     provenance.addInteraction().setCode(TypeRestfulInteraction.VREAD);
     provenance.addInteraction().setCode(TypeRestfulInteraction.HISTORYINSTANCE);
     resources.add(provenance);
@@ -496,7 +496,9 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
     CapabilityStatementImplementationComponent implementation =
         new CapabilityStatementImplementationComponent();
-    implementation.setDescription("HAPI FHIR R4 Server");
+    implementation.setDescription(
+        "Inferno Reference Server for US Core Implementation Guide v3.1.1 based on HAPI FHIR R4 "
+            + " Server");
     implementation.setUrl(FhirReferenceServerUtils.getServerBaseUrl(theRequest));
     capabilityStatement.setImplementation(implementation);
 
@@ -504,6 +506,15 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
     capabilityStatement.addFormat("application/fhir+xml");
     capabilityStatement.addFormat("application/fhir+json");
+
+    capabilityStatement.setPublisher("MITRE");
+
+    CanonicalType implementationGuide = new CanonicalType();
+    implementationGuide
+        .setValue("http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core|3.1.1");
+    List<CanonicalType> implementationGuides = new ArrayList<>();
+    implementationGuides.add(implementationGuide);
+    capabilityStatement.setImplementationGuide(implementationGuides);
 
     CapabilityStatementRestComponent rest = capabilityStatement.addRest();
     CapabilityStatementRestSecurityComponent security = getSecurity(theRequest);
