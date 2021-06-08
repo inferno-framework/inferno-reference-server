@@ -318,7 +318,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     location.addSearchParam().setName("address-city").setType(SearchParamType.STRING);
     location.addSearchParam().setName("address-state").setType(SearchParamType.STRING);
     location.addSearchParam().setName("address-postalcode").setType(SearchParamType.STRING);
-    location.addSearchRevInclude(SEARCH_REV_INCLUDE);
     // SHALL
     location.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     location.addInteraction().setCode(TypeRestfulInteraction.READ);
@@ -332,7 +331,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     medication.setType(MEDICATION);
     medication.setProfile(getProfile(MEDICATION));
     medication.addSupportedProfile(getProfile("us-core-medication"));
-    medication.addSearchRevInclude(SEARCH_REV_INCLUDE);
     // SHALL
     medication.addInteraction().setCode(TypeRestfulInteraction.READ);
     // SHOULD
@@ -382,9 +380,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     organization.setType(ORGANIZATION);
     organization.setProfile(getProfile(ORGANIZATION));
     organization.addSupportedProfile(getProfile("us-core-organization"));
-    observation.addSearchParam().setName("name").setType(SearchParamType.STRING);
-    observation.addSearchParam().setName("address").setType(SearchParamType.STRING);
-    organization.addSearchRevInclude(SEARCH_REV_INCLUDE);
+    organization.addSearchParam().setName("name").setType(SearchParamType.STRING);
+    organization.addSearchParam().setName("address").setType(SearchParamType.STRING);
     // SHALL
     organization.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     organization.addInteraction().setCode(TypeRestfulInteraction.READ);
@@ -421,7 +418,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitioner.addSupportedProfile(getProfile("us-core-practitioner"));
     practitioner.addSearchParam().setName("name").setType(SearchParamType.STRING);
     practitioner.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
-    practitioner.addSearchRevInclude(SEARCH_REV_INCLUDE);
     // SHALL
     practitioner.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     practitioner.addInteraction().setCode(TypeRestfulInteraction.READ);
@@ -437,7 +433,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     practitionerRole.addSupportedProfile(getProfile("us-core-practitionerrole"));
     practitionerRole.addSearchParam().setName("specialty").setType(SearchParamType.TOKEN);
     practitionerRole.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
-    practitionerRole.addSearchRevInclude(SEARCH_REV_INCLUDE);
     // SHALL
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.SEARCHTYPE);
     practitionerRole.addInteraction().setCode(TypeRestfulInteraction.READ);
@@ -469,7 +464,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     provenance.setType(PROVENANCE);
     provenance.setProfile(getProfile(PROVENANCE));
     provenance.addSupportedProfile(getProfile("us-core-provenance"));
-    provenance.addSearchRevInclude(SEARCH_REV_INCLUDE);
     // SHALL
     provenance.addInteraction().setCode(TypeRestfulInteraction.READ);
     // SHOULD
