@@ -125,7 +125,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent allergyIntolerance =
         new CapabilityStatementRestResourceComponent();
     allergyIntolerance.setType(ALLERGY_INTOLERANCE);
-    allergyIntolerance.setProfile(getProfile(ALLERGY_INTOLERANCE));
     allergyIntolerance.addSupportedProfile(getProfile("us-core-allergyintolerance"));
     allergyIntolerance.addSearchParam().setName("clinical-status").setType(SearchParamType.TOKEN);
     allergyIntolerance.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
@@ -142,7 +141,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent carePlan =
         new CapabilityStatementRestResourceComponent();
     carePlan.setType(CARE_PLAN);
-    carePlan.setProfile(getProfile(CARE_PLAN));
     carePlan.addSupportedProfile(getProfile("us-core-careplan"));
     carePlan.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
     carePlan.addSearchParam().setName("date").setType(SearchParamType.DATE);
@@ -160,7 +158,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent careTeam =
         new CapabilityStatementRestResourceComponent();
     careTeam.setType(CARE_TEAM);
-    careTeam.setProfile(getProfile(CARE_TEAM));
     careTeam.addSupportedProfile(getProfile("us-core-careteam"));
     careTeam.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     careTeam.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
@@ -176,7 +173,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent condition =
         new CapabilityStatementRestResourceComponent();
     condition.setType(CONDITION);
-    condition.setProfile(getProfile(CONDITION));
     condition.addSupportedProfile(getProfile("us-core-condition"));
     condition.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
     condition.addSearchParam().setName("clinical-status").setType(SearchParamType.TOKEN);
@@ -195,7 +191,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent device =
         new CapabilityStatementRestResourceComponent();
     device.setType(DEVICE);
-    device.setProfile(getProfile(DEVICE));
     device.addSupportedProfile(getProfile("us-core-implantable-device"));
     device.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     device.addSearchParam().setName("type").setType(SearchParamType.TOKEN);
@@ -211,7 +206,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent diagnosticReport =
         new CapabilityStatementRestResourceComponent();
     diagnosticReport.setType(DIAGNOSTIC_REPORT);
-    diagnosticReport.setProfile(getProfile(DIAGNOSTIC_REPORT));
     diagnosticReport.addSupportedProfile(getProfile("us-core-diagnosticreport-lab"));
     diagnosticReport.addSupportedProfile(getProfile("us-core-diagnosticreport-note"));
     diagnosticReport.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
@@ -232,7 +226,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent documentReference =
         new CapabilityStatementRestResourceComponent();
     documentReference.setType(DOCUMENT_REFERENCE);
-    documentReference.setProfile(getProfile(DOCUMENT_REFERENCE));
     documentReference.addSupportedProfile(getProfile("us-core-documentreference"));
     documentReference.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
     documentReference.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
@@ -254,7 +247,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent encounter =
         new CapabilityStatementRestResourceComponent();
     encounter.setType(ENCOUNTER);
-    encounter.setProfile(getProfile(ENCOUNTER));
     encounter.addSupportedProfile(getProfile("us-core-encounter"));
     // SHALL
     encounter.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
@@ -275,7 +267,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
     CapabilityStatementRestResourceComponent goal = new CapabilityStatementRestResourceComponent();
     goal.setType(GOAL);
-    goal.setProfile(getProfile(GOAL));
     goal.addSupportedProfile(getProfile("us-core-goal"));
     goal.addSearchParam().setName("lifecycle-status").setType(SearchParamType.TOKEN);
     goal.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
@@ -292,7 +283,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent immunization =
         new CapabilityStatementRestResourceComponent();
     immunization.setType(IMMUNIZATION);
-    immunization.setProfile(getProfile(IMMUNIZATION));
     immunization.addSupportedProfile(getProfile("us-core-immunization"));
     immunization.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
     immunization.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
@@ -309,7 +299,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent location =
         new CapabilityStatementRestResourceComponent();
     location.setType(LOCATION);
-    location.setProfile(getProfile(LOCATION));
     location.addSupportedProfile(getProfile("us-core-location"));
     // SHALL
     location.addSearchParam().setName("name").setType(SearchParamType.STRING);
@@ -329,7 +318,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent medication =
         new CapabilityStatementRestResourceComponent();
     medication.setType(MEDICATION);
-    medication.setProfile(getProfile(MEDICATION));
     medication.addSupportedProfile(getProfile("us-core-medication"));
     // SHALL
     medication.addInteraction().setCode(TypeRestfulInteraction.READ);
@@ -341,7 +329,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent medicationRequest =
         new CapabilityStatementRestResourceComponent();
     medicationRequest.setType(MEDICATION_REQUEST);
-    medicationRequest.setProfile(getProfile(MEDICATION_REQUEST));
     medicationRequest.addSupportedProfile(getProfile("us-core-medicationrequest"));
     medicationRequest.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     medicationRequest.addSearchParam().setName("intent").setType(SearchParamType.TOKEN);
@@ -361,7 +348,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent observation =
         new CapabilityStatementRestResourceComponent();
     observation.setType(OBSERVATION);
-    observation.setProfile(getProfile(OBSERVATION));
     observation.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     observation.addSearchParam().setName("category").setType(SearchParamType.TOKEN);
     observation.addSearchParam().setName("code").setType(SearchParamType.TOKEN);
@@ -379,7 +365,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent organization =
         new CapabilityStatementRestResourceComponent();
     organization.setType(ORGANIZATION);
-    organization.setProfile(getProfile(ORGANIZATION));
     organization.addSupportedProfile(getProfile("us-core-organization"));
     organization.addSearchParam().setName("name").setType(SearchParamType.STRING);
     organization.addSearchParam().setName("address").setType(SearchParamType.STRING);
@@ -394,7 +379,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent patient =
         new CapabilityStatementRestResourceComponent();
     patient.setType(PATIENT);
-    patient.setProfile(getProfile(PATIENT));
     patient.addSupportedProfile(getProfile("us-core-patient"));
     patient.addSearchParam().setName("_id").setType(SearchParamType.TOKEN);
     patient.addSearchParam().setName("birthdate").setType(SearchParamType.DATE);
@@ -415,7 +399,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent practitioner =
         new CapabilityStatementRestResourceComponent();
     practitioner.setType(PRACTITIONER);
-    practitioner.setProfile(getProfile(PRACTITIONER));
     practitioner.addSupportedProfile(getProfile("us-core-practitioner"));
     practitioner.addSearchParam().setName("name").setType(SearchParamType.STRING);
     practitioner.addSearchParam().setName("identifier").setType(SearchParamType.TOKEN);
@@ -430,7 +413,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent practitionerRole =
         new CapabilityStatementRestResourceComponent();
     practitionerRole.setType(PRACTITIONER_ROLE);
-    practitionerRole.setProfile(getProfile(PRACTITIONER_ROLE));
     practitionerRole.addSupportedProfile(getProfile("us-core-practitionerrole"));
     practitionerRole.addSearchParam().setName("specialty").setType(SearchParamType.TOKEN);
     practitionerRole.addSearchParam().setName("practitioner").setType(SearchParamType.REFERENCE);
@@ -448,7 +430,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent procedure =
         new CapabilityStatementRestResourceComponent();
     procedure.setType(PROCEDURE);
-    procedure.setProfile(getProfile(PROCEDURE));
     procedure.addSupportedProfile(getProfile("us-core-procedure"));
     procedure.addSearchParam().setName("status").setType(SearchParamType.TOKEN);
     procedure.addSearchParam().setName("patient").setType(SearchParamType.REFERENCE);
@@ -466,7 +447,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     CapabilityStatementRestResourceComponent provenance =
         new CapabilityStatementRestResourceComponent();
     provenance.setType(PROVENANCE);
-    provenance.setProfile(getProfile(PROVENANCE));
     provenance.addSupportedProfile(getProfile("us-core-provenance"));
     // SHALL
     provenance.addInteraction().setCode(TypeRestfulInteraction.READ);
@@ -479,7 +459,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   }
 
   private static String getProfile(String profileName) {
-    return PROFILE_PREFIX + "/" + profileName + "/";
+    return PROFILE_PREFIX + "/" + profileName;
   }
 
 
