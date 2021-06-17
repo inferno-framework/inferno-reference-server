@@ -25,6 +25,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization";
   private static final String REVOKE_EXTENSION_VALUE_URI = "/oauth/token/revoke-token";
 
+  private static final String CAPABILITY_STATEMENT_FILE_PATH = "capability-statement-template.json";
+
   public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
       IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig,
       ISearchParamRegistry searchParamRegistry) {
@@ -61,7 +63,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
     // read from file
     try {
 
-      InputStream in = getClass().getClassLoader().getResourceAsStream("capabilitystatement.json");
+      InputStream in =
+          getClass().getClassLoader().getResourceAsStream(CAPABILITY_STATEMENT_FILE_PATH);
       String capabilityStatementString = new String(in.readAllBytes());
 
       capabilityStatementString = capabilityStatementString.replaceAll("\\$HOST",
