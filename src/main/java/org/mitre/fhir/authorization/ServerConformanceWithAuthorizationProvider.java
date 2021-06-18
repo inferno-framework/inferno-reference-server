@@ -27,6 +27,8 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
 
   private static final String CAPABILITY_STATEMENT_FILE_PATH = "capability-statement-template.json";
 
+  private CapabilityStatement capabilityStatement;
+
   public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
       IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig,
       ISearchParamRegistry searchParamRegistry) {
@@ -48,13 +50,17 @@ public class ServerConformanceWithAuthorizationProvider extends JpaConformancePr
   @Override
   public CapabilityStatement getServerConformance(HttpServletRequest theRequest,
       RequestDetails theRequestDetails) {
+
+    if (capabilityStatement != null) {
+      return capabilityStatement;
+    }
+
     FhirContext context = FhirContext.forR4();
     IParser parser = context.newJsonParser();
 
     String jsonString = getCapabilityStatementJsonString(theRequest);
 
-    CapabilityStatement capabilityStatement =
-        parser.parseResource(CapabilityStatement.class, jsonString);
+    capabilityStatement = parser.parseResource(CapabilityStatement.class, jsonString);
 
     return capabilityStatement;
   }
