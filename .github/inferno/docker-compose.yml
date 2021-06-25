@@ -4,10 +4,14 @@ services:
     image: onchealthit/inferno-program:release-latest
     volumes:
       - ./config.yml:/var/www/inferno/config.yml
+      - ./wait-for-it/wait-for-it.sh:/var/www/inferno/wait-for-it.sh
     depends_on:
       - validator_service
+      - reference_server
     ports:
       - '4567:4567'
+    command: ["./wait-for-it.sh", "http://reference_server:8080/reference-server", "--", "echo", "reference server is ready"]
+
   validator_service:
     image: infernocommunity/fhir-validator-service:v1.2.0
   db:    
@@ -20,7 +24,7 @@ services:
       - fhir-pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
-  referenceserver:
+  reference_server:
     build:
       context: ../../
       dockerfile: Dockerfile
