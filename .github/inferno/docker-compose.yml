@@ -10,7 +10,6 @@ services:
       - reference_server
     ports:
       - '4567:4567'
-    command: ["./wait-for-it.sh", "http://reference_server:8080/reference-server", "--", "echo", "reference server is ready"]
 
   validator_service:
     image: infernocommunity/fhir-validator-service:v1.2.0
