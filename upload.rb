@@ -51,6 +51,63 @@ def upload_us_core_resources
   end
 end
 
+
+def combine_files_into_single_transaction_json
+    entries = []
+    exempt_resource_types = ["CapabilityStatement", "CodeSystem", "ConceptMap", "ImplementationGuide", "OperationDefinition", "SearchParameter", "StructureDefinition", "ValueSet"]
+
+    file_path = File.join(__dir__, 'us-core-r4-resources', '*.json')
+    filenames = Dir.glob(file_path)
+                .select { |filename| filename.end_with? '.json' }
+      
+    resources_to_upload_separately = []
+    filenames.each do |filename|
+      resource = JSON.parse(File.read(filename), symbolize_names: true)
+      puts "Adding #{filename} to transaction"
+
+      if resource[:type] == 'transaction'
+        entries = entries.concat(resource[:entry])
+      elsif (exempt_resource_types.include? resource[:resourceType])
+        resources_to_upload_separately.push(resource)
+      else
+        #wrap resource in entry
+        fullUrl = "urn:uuid:" + resource[:id]
+        resourceType = resource[:resourceType]
+
+        entry = {
+          "fullUrl": fullUrl,
+          "resource": resource,
+          "request": {
+            "method": "POST",
+            "url": resourceType
+          }
+
+        }
+        entries.push(entry)
+      end
+    end
+
+    transactionJson = {
+        "type": "transaction",
+        "entry": entries,
+        "resourceType": "Bundle",        
+    }
+
+    response = execute_transaction(transactionJson)
+
+    if !response.success?
+      puts "Error uploading transaction because: #{response.body}"
+    end
+
+    resources_to_upload_separately.each do |resource|
+      response = upload_resource(resource)
+      if !response.success?
+          puts "Error uploading #{resource}: #{response.body}"
+      end
+    end
+end
+
+
 def upload_resource(resource)
   resource_type = resource[:resourceType]
   id = resource[:id]
@@ -98,4 +155,4 @@ def execute_transaction(transaction)
   )
 end
 
-upload_us_core_resources
+combine_files_into_single_transaction_json
