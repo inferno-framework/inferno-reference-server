@@ -2,7 +2,6 @@ package org.mitre.fhir;
 
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
 import ca.uhn.fhir.jpa.batch.config.NonPersistedBatchConfigurer;
-import ca.uhn.fhir.jpa.bulk.export.provider.BulkDataExportProvider;
 import ca.uhn.fhir.jpa.config.BaseJavaConfigR4;
 import ca.uhn.fhir.jpa.dao.DaoSearchParamProvider;
 import ca.uhn.fhir.jpa.model.config.PartitionSettings;
@@ -189,8 +188,15 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   }
   
   @Bean
-  public BulkDataExportProvider bulkDataExportProvider() {
+  public AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider() {
     return new AuthorizationBulkDataExportProvider();
   }
+  
+  @Bean
+  public AuthorizationBulkDataExportProvider authorizationBulkDataExport()
+  {
+    return new AuthorizationBulkDataExportProvider();
+  }
+  
 
 }

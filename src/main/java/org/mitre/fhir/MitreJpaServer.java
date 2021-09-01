@@ -4,7 +4,6 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
-import ca.uhn.fhir.jpa.bulk.export.provider.BulkDataExportProvider;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
@@ -19,6 +18,8 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
+import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
+import org.mitre.fhir.bulk.BulkInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -36,7 +37,7 @@ public class MitreJpaServer extends RestfulServer {
   protected ISearchParamRegistry searchParamRegistry;
   
   @Autowired
-  BulkDataExportProvider bulkDataExportProvider;
+  AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider;
 
 
   public MitreJpaServer() {
@@ -113,11 +114,13 @@ public class MitreJpaServer extends RestfulServer {
             + "UA[${requestHeader.user-agent}] " + "Params[${requestParameters}] "
             + "ResponseEncoding[${responseEncodingNoDefault}]");
     registerInterceptor(loggingInterceptor);
+    
+    registerInterceptor(new BulkInterceptor());
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
     
     //enable Bulk Export
-    registerProvider(bulkDataExportProvider);
+    registerProvider(authorizationBulkDataExportProvider);
 
     
     

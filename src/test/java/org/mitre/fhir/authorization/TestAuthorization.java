@@ -12,7 +12,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
@@ -803,6 +808,64 @@ public class TestAuthorization {
         .execute();
     
     Assert.assertEquals(1, results.getTotal());
+  }
+  
+  @Test
+  public void testDeleteBulkRequest() throws IOException
+  {
+    //Create bulk to be deleted
+    
+    //get job id
+    
+    
+    //delete it
+    
+    TokenManager tokenManager = TokenManager.getInstance();
+    Token token = tokenManager.createToken("system/*");
+    
+    URL url = new URL(ourServerBase + "$export-poll-status");
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    conn.setRequestMethod("DELETE");
+    conn.setRequestProperty("Accept", "application/fhir+xml");
+    conn.setRequestProperty("Authorization","Bearer " + token.getTokenValue());
+    conn.setRequestProperty("prefer","respond-async");
+
+    System.out.println("Headers-----------------BEGIN");
+
+    for (String headerField : conn.getHeaderFields().keySet())
+    {
+      List<String> headers = conn.getHeaderFields().get(headerField);
+      System.out.println(headerField);
+      for (String headerValue : headers)
+      {
+        System.out.println("\t" + headerValue);
+      }
+    }
+    
+    System.out.println("Headers-----------------END");
+    
+    InputStream inputStream = null;     
+    try {
+        inputStream = conn.getInputStream();
+    } catch(IOException exception) {
+       inputStream = conn.getErrorStream();
+    }
+      
+    BufferedReader br = new BufferedReader(new InputStreamReader(
+        (inputStream)));
+    
+    String output;
+    System.out.println("--------------------------------------");
+    System.out.println("Output from Server .... \n");
+    while ((output = br.readLine()) != null) {
+        System.out.println(output);
+    }
+    System.out.println("--------------------------------------");
+
+    
+    br.close();
+  
+    conn.disconnect();
   }
 
 

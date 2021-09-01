@@ -20,7 +20,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
   @Override
   public boolean incomingRequestPostProcessed(RequestDetails requestDetails,
       HttpServletRequest request, HttpServletResponse response) {
-
+    
     // exempt the capability statement from requiring the token
     if (CONFORMANCE_PATH.equals(request.getPathInfo())) {
       return true;
@@ -81,6 +81,39 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
         throw new InvalidScopesException(resource);
       }
     }
+    
+    /*
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("======");
+    System.out.println("The PathIfno is " + request.getPathInfo());
+    System.out.println("The Method is " + request.getMethod());
+    System.out.println("======");
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    
+    if (!request.getPathInfo().startsWith("/Patient") && !request.getPathInfo().startsWith("/Encounter"))
+    {
+      throw new InvalidBearerTokenException(request.getPathInfo());
+    }
+
+    
+    //check for bulk delete
+    if (request.getPathInfo().equals("/$export-poll-status") && request.getMethod().equals("DELETE"))
+    {
+      
+      
+      //update request and request details to route to different method
+      requestDetails.setOperation("GET");
+      requestDetails.setRequestPath("/bulk-delete");
+      
+      throw new InvalidBearerTokenException("GOT HERE " + request.getPathInfo());
+
+      
+    }
+    */
 
     return true;
   }
