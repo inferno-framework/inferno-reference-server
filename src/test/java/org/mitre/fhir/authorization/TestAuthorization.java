@@ -211,7 +211,7 @@ public class TestAuthorization {
       }
     }
   }
-  
+
   @Test
   public void testTestAuthorizationWithPublicClient() throws IOException, JSONException,
       BearerTokenException, TokenNotFoundException, TokenNotFoundException {
@@ -221,7 +221,8 @@ public class TestAuthorization {
     request.setLocalAddr("localhost");
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
-    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeaderWithPublicClient());
+    request.addHeader("Authorization",
+        TestUtils.getEncodedBasicAuthorizationHeaderWithPublicClient());
 
     String scopes = "launch/patient openId ";
     String code =
@@ -785,11 +786,10 @@ public class TestAuthorization {
 
     Assert.assertEquals(1, bundleEntryComponents.size());
   }
-  
+
 
   @Test
-  public void testSearch()
-  {
+  public void testSearch() {
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.YEAR, 1988);
     cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -798,74 +798,13 @@ public class TestAuthorization {
 
     Token token = TokenManager.getInstance().getServerToken();
 
-    Bundle results = ourClient
-        .search()
-        .forResource(Patient.class)
-        .where(Patient.BIRTHDATE.exactly().day(birthdate))
-        .returnBundle(Bundle.class)
+    Bundle results = ourClient.search().forResource(Patient.class)
+        .where(Patient.BIRTHDATE.exactly().day(birthdate)).returnBundle(Bundle.class)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
         .execute();
-    
+
     Assert.assertEquals(1, results.getTotal());
-  }
-  
-  @Test
-  public void testDeleteBulkRequest() throws IOException
-  {
-    //Create bulk to be deleted
-    
-    //get job id
-    
-    
-    //delete it
-    
-    TokenManager tokenManager = TokenManager.getInstance();
-    Token token = tokenManager.createToken("system/*");
-    
-    URL url = new URL(ourServerBase + "$export-poll-status");
-    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    conn.setRequestMethod("DELETE");
-    conn.setRequestProperty("Accept", "application/fhir+xml");
-    conn.setRequestProperty("Authorization","Bearer " + token.getTokenValue());
-    conn.setRequestProperty("prefer","respond-async");
-
-    System.out.println("Headers-----------------BEGIN");
-
-    for (String headerField : conn.getHeaderFields().keySet())
-    {
-      List<String> headers = conn.getHeaderFields().get(headerField);
-      System.out.println(headerField);
-      for (String headerValue : headers)
-      {
-        System.out.println("\t" + headerValue);
-      }
-    }
-    
-    System.out.println("Headers-----------------END");
-    
-    InputStream inputStream = null;     
-    try {
-        inputStream = conn.getInputStream();
-    } catch(IOException exception) {
-       inputStream = conn.getErrorStream();
-    }
-      
-    BufferedReader br = new BufferedReader(new InputStreamReader(
-        (inputStream)));
-    
-    String output;
-    System.out.println("--------------------------------------");
-    System.out.println("Output from Server .... \n");
-    while ((output = br.readLine()) != null) {
-        System.out.println(output);
-    }
-    System.out.println("--------------------------------------");
-
-    
-    br.close();
-  
-    conn.disconnect();
   }
 
 
@@ -925,7 +864,7 @@ public class TestAuthorization {
     ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
     ourClient.registerInterceptor(new LoggingInterceptor(true));
     ourClient.capabilities();
-    
+
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.YEAR, 1988);
     cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -934,7 +873,7 @@ public class TestAuthorization {
     // ensure that db is not empty (will be deleted @AfterClass)
     Patient pt = new Patient();
     pt.setBirthDate(birthdate);
-    
+
     pt.addName().setFamily("Test");
     testPatientId = ourClient.create().resource(pt)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
