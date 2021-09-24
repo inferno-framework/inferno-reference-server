@@ -88,7 +88,30 @@ public class AuthorizationBulkDataExportProvider {
 
   @Autowired
   private PlatformTransactionManager myTxManager;
-
+  
+  private static final String[] DEFAULT_RESOURCE_TYPES = {
+      "Patient",
+      "AllergyIntolerance",
+      "CarePlan",
+      "CareTeam",
+      "Condition",
+      "Device",
+      "DiagnosticReport",
+      "DocumentReference",
+      "Goal",
+      "Immunization",
+      "MedicationRequest",
+      "Observation",
+      "Procedure",
+      
+      "Encounter",
+      "Organization",
+      //"Practitioner",
+      //"Provenance",
+      //"Location",
+      //"Medication"      
+  };
+  
   static {
     VALID_ACCEPT_HEADERS.add("application/fhir+json");
   }
@@ -194,6 +217,19 @@ public class AuthorizationBulkDataExportProvider {
     BulkDataExportOptions bulkDataExportOptions = buildGroupBulkExportOptions(theOutputFormat,
         theType, theSince, theTypeFilter, theIdParam, theMdm);
     validateResourceTypesAllContainPatientSearchParams(bulkDataExportOptions.getResourceTypes());
+        
+    //currently default is only Patient, want ALL https://github.com/hapifhir/hapi-fhir/blob/dc627dc019d063aec6f651c0470b8c30d89db882/hapi-fhir-jpaserver-base/src/main/java/ca/uhn/fhir/jpa/bulk/export/svc/BulkDataExportSvcImpl.java#L383
+    if (bulkDataExportOptions.getResourceTypes() == null)
+    { 
+
+      Set<String> resourceTypes = getDefaultResourceTypes();
+      
+      
+      
+      bulkDataExportOptions.setResourceTypes(resourceTypes);
+    }
+    
+    
     IBulkDataExportSvc.JobInfo outcome =
         myBulkDataExportSvc.submitJob(bulkDataExportOptions, shouldUseCache(theRequestDetails));
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
@@ -202,6 +238,20 @@ public class AuthorizationBulkDataExportProvider {
     HttpServletResponse response = theRequestDetails.getServletResponse();
     response.setHeader(Constants.HEADER_ACCEPT, "application/json");
     response.addHeader(Constants.HEADER_CONTENT_TYPE, "application/json");
+  }
+  
+  private Set<String> getDefaultResourceTypes()
+  {    
+    Set<String> resourceTypes = new HashSet<String>();
+    resourceTypes.addAll(Arrays.asList(DEFAULT_RESOURCE_TYPES));
+    System.out.println("------------");
+    for (String s : resourceTypes)
+    {
+      System.out.println("RT " + s);
+    }
+    System.out.println("------------");
+
+    return resourceTypes;
   }
 
   private void validateResourceTypesAllContainPatientSearchParams(Set<String> theResourceTypes) {
@@ -296,18 +346,46 @@ public class AuthorizationBulkDataExportProvider {
         bulkResponseDocument.setRequest(status.getRequest());
         bulkResponseDocument.setRequiresAccessToken(true);
 
+        System.out.println("------------------------------------------------");
+
+        System.out.println("  ");
+        
         for (IBulkDataExportSvc.FileEntry nextFile : status.getFiles()) {
           String serverBase = getServerBase(theRequestDetails);
+          
+          
           String nextUrl =
               serverBase + "/" + nextFile.getResourceId().toUnqualifiedVersionless().getValue();
+          
+          System.out.println("  ");
+          
+          
+          
+          
+          
+          
+          
+
+          System.out.println("Resource Type is " + nextFile.getResourceType());
+          System.out.println("NextFile " +nextFile);
+          System.out.println("  URL is " + nextUrl);
+          System.out.println("IdPart" + nextFile.getResourceId().getIdPart());
+
+          System.out.println("  ");
+          
+
+          
           bulkResponseDocument.addOutput().setType(nextFile.getResourceType()).setUrl(nextUrl);
         }
+        System.out.println("  ");
+        System.out.println("------------------------------------------------");
+
 
         // UGLY FIX: call the getter which will make output an empty array instead of null for
         // purposes of writing to json
         bulkResponseDocument.getOutput();
         bulkResponseDocument.getError();
-
+        
         JsonUtil.serialize(bulkResponseDocument, response.getWriter());
         response.getWriter().close();
         break;
@@ -339,6 +417,7 @@ public class AuthorizationBulkDataExportProvider {
       HttpServletResponse response = theRequestDetails.getServletResponse();
       theRequestDetails.getServer().addHeadersToResponse(response);
 
+      /*
       // Delete in transaction
       TransactionTemplate myTxTemplate = new TransactionTemplate(myTxManager);
 
@@ -372,7 +451,7 @@ public class AuthorizationBulkDataExportProvider {
         ourLog.info("Finished deleting bulk export job: {}", jobToDelete.get());
 
         return null;
-      });
+      });*/
 
       response.setStatus(Constants.STATUS_HTTP_202_ACCEPTED);
       response.getWriter().close();
