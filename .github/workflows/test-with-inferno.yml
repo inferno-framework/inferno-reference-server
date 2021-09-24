@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build 
+    - name: Build in advance to reduce later output 
       run: docker-compose -f ./.github/inferno/docker-compose.yml build
 
     - name: Run Inferno Program tests on Reference Server
