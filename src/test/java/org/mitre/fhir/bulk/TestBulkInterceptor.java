@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jetty.server.Server;
@@ -23,9 +24,13 @@ import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.TestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.RuntimeResourceDefinition;
 import ca.uhn.fhir.context.RuntimeSearchParam;
+import ca.uhn.fhir.jpa.bulk.export.api.BulkDataExportOptions;
+import ca.uhn.fhir.jpa.bulk.export.api.IBulkDataExportSvc;
+import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
@@ -42,6 +47,9 @@ public class TestBulkInterceptor {
   private static IIdType testPatientId;
 
   private static Token testToken;
+  
+  @Autowired
+  private static IBulkDataExportSvc myBulkDataExportSvc;
 
   @Test
   public void testBulkInterceptor() throws IOException {
@@ -57,10 +65,21 @@ public class TestBulkInterceptor {
   {
     RuntimeResourceDefinition runtimeResourceDefinition = ourCtx.getResourceDefinition("Organization");
     
+    BulkDataExportOptions bulkDataExportOptions = new BulkDataExportOptions();
+    /*RequestDetails theRequestDetails = new RequestDetails();
+    IBulkDataExportSvc.JobInfo outcome =
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, shouldUseCache(theRequestDetails));
+        
+        
+    */
+    
+    Set<String> compartmentSet = new HashSet<String>();
+    compartmentSet.add("Patient");
+    runtimeResourceDefinition.addSearchParam(new RuntimeSearchParam(null, null, null, null, null, null, compartmentSet, null, null, null));
     
     List<RuntimeSearchParam> searchParams = runtimeResourceDefinition.getSearchParamsForCompartmentName("Patient");
     if (searchParams == null || searchParams.size() == 0) {
-      //throw new RuntimeException("FAIL");
+      throw new RuntimeException("FAIL");
     }
     
     else

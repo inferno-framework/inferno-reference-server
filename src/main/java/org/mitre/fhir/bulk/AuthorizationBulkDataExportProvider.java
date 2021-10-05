@@ -1,21 +1,11 @@
 package org.mitre.fhir.bulk;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
-import ca.uhn.fhir.jpa.api.dao.IFhirResourceDao;
-import ca.uhn.fhir.jpa.api.model.ExpungeOptions;
 import ca.uhn.fhir.jpa.bulk.export.api.BulkDataExportOptions;
 import ca.uhn.fhir.jpa.bulk.export.api.IBulkDataExportSvc;
 import ca.uhn.fhir.jpa.bulk.export.model.BulkExportResponseJson;
 import ca.uhn.fhir.jpa.bulk.export.provider.BulkDataExportProvider;
-import ca.uhn.fhir.jpa.dao.data.IBulkExportCollectionDao;
-import ca.uhn.fhir.jpa.dao.data.IBulkExportCollectionFileDao;
-import ca.uhn.fhir.jpa.dao.data.IBulkExportJobDao;
-import ca.uhn.fhir.jpa.entity.BulkExportCollectionEntity;
-import ca.uhn.fhir.jpa.entity.BulkExportCollectionFileEntity;
-import ca.uhn.fhir.jpa.entity.BulkExportJobEntity;
 import ca.uhn.fhir.jpa.model.util.JpaConstants;
-import ca.uhn.fhir.jpa.partition.SystemRequestDetails;
 import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Operation;
@@ -35,12 +25,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.instance.model.api.IBaseBinary;
 import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.instance.model.api.IPrimitiveType;
@@ -52,8 +40,6 @@ import org.hl7.fhir.r4.model.OperationOutcome.OperationOutcomeIssueComponent;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
@@ -74,20 +60,9 @@ public class AuthorizationBulkDataExportProvider {
 
   @Autowired
   private IBulkDataExportSvc myBulkDataExportSvc;
-  @Autowired
-  private IBulkExportJobDao myBulkExportJobDao;
+  
   @Autowired
   private FhirContext myFhirContext;
-
-  @Autowired
-  private DaoRegistry myDaoRegistry;
-  @Autowired
-  private IBulkExportCollectionDao myBulkExportCollectionDao;
-  @Autowired
-  private IBulkExportCollectionFileDao myBulkExportCollectionFileDao;
-
-  @Autowired
-  private PlatformTransactionManager myTxManager;
   
   private static final String[] DEFAULT_RESOURCE_TYPES = {
       "Patient",
@@ -570,17 +545,6 @@ public class AuthorizationBulkDataExportProvider {
 
       throw new InvalidRequestException(message);
     }
-  }
-
-  @SuppressWarnings("unchecked")
-  private IFhirResourceDao<IBaseBinary> getBinaryDao() {
-    return myDaoRegistry.getResourceDao("Binary");
-  }
-
-  private IIdType toId(String theResourceId) {
-    IIdType retVal = myFhirContext.getVersion().newIdType();
-    retVal.setValue(theResourceId);
-    return retVal;
   }
 
   // UGLY SIDE EFFECT FIX, For now, there is a bug where Exceptions Content-Type get overridden , so
