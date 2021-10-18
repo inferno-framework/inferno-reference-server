@@ -82,7 +82,6 @@ public class AuthorizationController {
     return json;
   }
 
-  // http://hl7.org/fhir/uv/bulkdata/authorization/index.html#obtaining-an-access-token
   /**
    * Get service to validate the client id.
    * 
@@ -99,16 +98,6 @@ public class AuthorizationController {
       @RequestParam(name = "client_assertion_type", required = true) String clientAssertionType,
       @RequestParam(name = "client_assertion", required = true) String clientAssertion,
       HttpServletRequest request) throws BearerTokenException {
-
-
-    // decode clientAssertion
-    String[] chunks = clientAssertion.split("\\.");
-    Base64.Decoder decoder = Base64.getDecoder();
-    String headerString = new String(decoder.decode(chunks[0]));
-    String payloadString = new String(decoder.decode(chunks[1]));
-
-    JSONObject header = new JSONObject(headerString);
-    JSONObject payload = new JSONObject(payloadString);
 
     // validate scopes
     validateBulkDataScopes(scopeString);

@@ -77,14 +77,13 @@ public class AuthorizationBulkDataExportProvider {
       "Immunization",
       "MedicationRequest",
       "Observation",
-      "Procedure",
-      
+      "Procedure",      
       "Encounter",
       "Organization",
-      //"Practitioner",
-      //"Provenance",
-      //"Location",
-      //"Medication"      
+      "Practitioner",
+      "Provenance",
+      "Location",
+      "Medication"      
   };
   
   static {
@@ -197,10 +196,7 @@ public class AuthorizationBulkDataExportProvider {
     if (bulkDataExportOptions.getResourceTypes() == null)
     { 
 
-      Set<String> resourceTypes = getDefaultResourceTypes();
-      
-      
-      
+      Set<String> resourceTypes = getDefaultResourceTypes();     
       bulkDataExportOptions.setResourceTypes(resourceTypes);
     }
     
@@ -219,13 +215,6 @@ public class AuthorizationBulkDataExportProvider {
   {    
     Set<String> resourceTypes = new HashSet<String>();
     resourceTypes.addAll(Arrays.asList(DEFAULT_RESOURCE_TYPES));
-    System.out.println("------------");
-    for (String s : resourceTypes)
-    {
-      System.out.println("RT " + s);
-    }
-    System.out.println("------------");
-
     return resourceTypes;
   }
 
@@ -321,40 +310,16 @@ public class AuthorizationBulkDataExportProvider {
         bulkResponseDocument.setRequest(status.getRequest());
         bulkResponseDocument.setRequiresAccessToken(true);
 
-        System.out.println("------------------------------------------------");
-
-        System.out.println("  ");
-        
         for (IBulkDataExportSvc.FileEntry nextFile : status.getFiles()) {
           String serverBase = getServerBase(theRequestDetails);
           
           
           String nextUrl =
-              serverBase + "/" + nextFile.getResourceId().toUnqualifiedVersionless().getValue();
-          
-          System.out.println("  ");
-          
-          
-          
-          
-          
-          
-          
-
-          System.out.println("Resource Type is " + nextFile.getResourceType());
-          System.out.println("NextFile " +nextFile);
-          System.out.println("  URL is " + nextUrl);
-          System.out.println("IdPart" + nextFile.getResourceId().getIdPart());
-
-          System.out.println("  ");
-          
+              serverBase + "/" + nextFile.getResourceId().toUnqualifiedVersionless().getValue();          
 
           
           bulkResponseDocument.addOutput().setType(nextFile.getResourceType()).setUrl(nextUrl);
         }
-        System.out.println("  ");
-        System.out.println("------------------------------------------------");
-
 
         // UGLY FIX: call the getter which will make output an empty array instead of null for
         // purposes of writing to json
@@ -392,45 +357,8 @@ public class AuthorizationBulkDataExportProvider {
       HttpServletResponse response = theRequestDetails.getServletResponse();
       theRequestDetails.getServer().addHeadersToResponse(response);
 
-      /*
-      // Delete in transaction
-      TransactionTemplate myTxTemplate = new TransactionTemplate(myTxManager);
-
-      myTxTemplate.execute(t -> {
-
-        Optional<BulkExportJobEntity> jobToDelete =
-            myBulkExportJobDao.findByJobId(theJobId.getValueAsString());
-
-        ourLog.info("Deleting bulk export job: {}", jobToDelete.get());
-
-        BulkExportJobEntity job = myBulkExportJobDao.getById(jobToDelete.get().getId());
-
-        for (BulkExportCollectionEntity nextCollection : job.getCollections()) {
-          for (BulkExportCollectionFileEntity nextFile : nextCollection.getFiles()) {
-
-            ourLog.info("Purging bulk data file: {}", nextFile.getResourceId());
-            getBinaryDao().delete(toId(nextFile.getResourceId()), new SystemRequestDetails());
-            getBinaryDao().forceExpungeInExistingTransaction(toId(nextFile.getResourceId()),
-                new ExpungeOptions().setExpungeDeletedResources(true).setExpungeOldVersions(true),
-                new SystemRequestDetails());
-            myBulkExportCollectionFileDao.deleteByPid(nextFile.getId());
-
-          }
-
-          myBulkExportCollectionDao.deleteByPid(nextCollection.getId());
-        }
-
-        ourLog.info("*** ABOUT TO DELETE");
-        myBulkExportJobDao.deleteByPid(job.getId());
-
-        ourLog.info("Finished deleting bulk export job: {}", jobToDelete.get());
-
-        return null;
-      });*/
-
       response.setStatus(Constants.STATUS_HTTP_202_ACCEPTED);
       response.getWriter().close();
-
     }
 
     catch (InvalidRequestException invalidRequestException) {

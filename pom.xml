@@ -44,6 +44,13 @@
             <artifactId>hapi-fhir-structures-r4</artifactId>
             <version>${hapi.version}</version>
         </dependency>
+        
+        <!--  <dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-test-utilities</artifactId>
+			<version>${hapi.version}</version>
+			<scope>test</scope>
+		</dependency>-->
 
         <!-- HAPI-FHIR tester web app overlay. Delete if not needed. -->
         <dependency>
@@ -138,6 +145,13 @@
 		    <version>4.13.1</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		<!-- <dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-junit-jupiter</artifactId>
+		    <version>4.0.0</version>
+		    <scope>test</scope>
+		</dependency>-->
 		
 		<!-- This example uses Derby embedded database for test cases. -->
         <dependency>

@@ -22,6 +22,7 @@ import org.hibernate.search.backend.lucene.cfg.LuceneIndexSettings;
 import org.hibernate.search.engine.cfg.BackendSettings;
 import org.hibernate.search.mapper.orm.cfg.HibernateOrmMapperSettings;
 import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
+import org.mitre.fhir.bulk.InfernoGroupBulkItemReader;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.context.annotation.Bean;
@@ -203,7 +204,7 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   @Bean
   @StepScope
   public GroupBulkItemReader groupBulkItemReader() {
-    return new GroupBulkItemReader();
+    return new InfernoGroupBulkItemReader();
   }
   
 

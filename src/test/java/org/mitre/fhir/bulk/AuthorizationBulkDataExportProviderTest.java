@@ -1,19 +1,27 @@
 package org.mitre.fhir.bulk;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
 import org.hl7.fhir.r4.model.Group.GroupMemberComponent;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -27,7 +35,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
-public class TestBulkInterceptor {
+public class AuthorizationBulkDataExportProviderTest {
 
   private static IGenericClient ourClient;
   private static FhirContext ourCtx;
@@ -38,42 +46,126 @@ public class TestBulkInterceptor {
   private static IIdType groupId;
   private static IIdType testPatientId;
   private static IIdType testEncounterId;
+  private static IIdType testOrganizationId;
 
   private static Token testToken;
 
   @Test
-  public void testBulkInterceptor() throws IOException {
-    String urlString = createGroupExport();
-    Assert.assertTrue(checkExportPollStatusExists(urlString));
-    //confirm that delete works and is being routed to the proper delete method
-    deleteGroupExport(urlString);
-  }
-  
-  
-  private void deleteGroupExport(String urlString) throws IOException
-  {
-    URL url = new URL(urlString);
-    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    conn.setRequestMethod("DELETE");
-    conn.setRequestProperty("Accept", "application/json");
-    conn.setRequestProperty("Authorization", "Bearer " + testToken.getTokenValue());
+  public void testGroupBulkExportEndToEnd() throws IOException, InterruptedException {
     
-    //Calls the service
-    conn.getResponseCode();
+    //starg 
+    String urlString = createGroupExport();
+    
+    int responseCode = 0;
+    HttpURLConnection response = null;
+    
+    
+    
+    /*while (responseCode != 200)
+    {
+      response = getCheckExportPollStatusExists(urlString);
+      
+      
+        responseCode = response.getResponseCode();
+        System.out.println("Response Code is " + responseCode);
+        
+        //throw an error
+        if (responseCode != 200 && responseCode != 202)
+        {
+          JSONObject body = getResponseBodyJson(response);*/
+          /*System.out.println("");
+          /*System.out.println("-------------------------------");
+          System.out.println("Group id is " + groupId.getIdPart());
 
-    conn.disconnect();
+          //System.out.println(responseCode);*/
+          /*System.out.println(body);
+          
+          System.out.println(response);
+          System.out.println("-------------------------------");
+        }
+      
+
+    }*/
+
+    Thread.sleep(5000l);
+      
+    response = getCheckExportPollStatusExists(urlString);
+    responseCode = response.getResponseCode();
+    System.out.println("Response Code is " + responseCode);
+
+    
+    JSONObject body = getResponseBodyJson(response);
+    
+    /*System.out.println("-------------------------------");
+    System.out.println("Group id is " + groupId.getIdPart());
+
+    System.out.println(responseCode);
+    System.out.println(body);
+    System.out.println("-------------------------------");*/
+
+    JSONArray output = (JSONArray) body.get("output");
+    
+    Map<String, Integer> numOfResourcesMap = new HashMap<>();
+    
+    for (Object resource : output)
+    {
+      JSONObject resourceJson = (JSONObject)resource;
+      String resourceName = resourceJson.getString("type");
+      
+      if (numOfResourcesMap.containsKey(resourceName))
+      {
+        numOfResourcesMap.put(resourceName, numOfResourcesMap.get(resourceName)+1) ;
+      }
+      
+      else
+      {
+        numOfResourcesMap.put(resourceName, 1);
+      }
+      
+    }
+    
+    System.out.println(output);
+    
+    int numOfPatient = numOfResourcesMap.get("Patient") != null ? numOfResourcesMap.get("Patient") : 0;
+    int numOfEncounters = numOfResourcesMap.get("Encounter") != null ? numOfResourcesMap.get("Encounter") : 0;
+    //int numOfOrganizations = numOfResourcesMap.get("Organization") != null ? numOfResourcesMap.get("Organization") : 0;
+
+    Assert.assertEquals(numOfPatient, 1);
+    Assert.assertEquals(numOfEncounters, 1);
+    //Assert.assertEquals(numOfOrganizations, 1);
+
 
   }
 
-  private boolean checkExportPollStatusExists(String urlString) throws IOException {
+  private HttpURLConnection getCheckExportPollStatusExists(String urlString) throws IOException {
     URL url = new URL(urlString);
     HttpURLConnection getConnection = (HttpURLConnection) url.openConnection();
     getConnection.setRequestMethod("GET");
     getConnection.setRequestProperty("Accept", "application/json");
     getConnection.setRequestProperty("Authorization", "Bearer " + testToken.getTokenValue());
-    int responseCode = getConnection.getResponseCode();
+    
     getConnection.disconnect();
-    return responseCode != 404;
+    
+    return getConnection;
+    
+
+  }
+  
+  private JSONObject getResponseBodyJson(HttpURLConnection getConnection) throws IOException
+  {
+    InputStream inputStream = getConnection.getInputStream();
+    String s = new String(inputStream.readAllBytes());
+    JSONObject response;
+    if (s != null && !s.equals(""))
+    {
+       response = new JSONObject(s);
+    }
+    
+    else 
+    {
+      response = new JSONObject();
+    }
+    return response;
   }
 
   private String createGroupExport() throws IOException {
@@ -88,6 +180,8 @@ public class TestBulkInterceptor {
 
     String contentUrl = conn.getHeaderField("Content-Location");
 
+    
+    
     conn.disconnect();
 
     return contentUrl;
@@ -149,25 +243,27 @@ public class TestBulkInterceptor {
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
     
+    Organization organization = new Organization();
+    testOrganizationId = ourClient.create().resource(organization)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+        .execute().getId();
+    
     Group group = new Group();
     group.setName("Test Name");
     
     Reference patientReference = new Reference();
     patientReference.setResource(pt);    
+    patientReference.setReference("Patient/" + testPatientId.getIdPart());
     GroupMemberComponent patientMember = new GroupMemberComponent(patientReference);
     group.addMember(patientMember);
-
-    
-    Reference encounterReference = new Reference();
-    encounterReference.setResource(encounter);
-    GroupMemberComponent encounterMember = new GroupMemberComponent(encounterReference);
-    group.addMember(encounterMember);
     
     groupId = ourClient.create().resource(group)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
     
+    System.out.println("GroupId: " + groupId);
     
     
 
@@ -192,6 +288,13 @@ public class TestBulkInterceptor {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
+    
+    ourClient.delete().resourceById(testOrganizationId)
+    .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+    .execute();
+
+
 
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
