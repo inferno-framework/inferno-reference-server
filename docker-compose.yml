@@ -25,6 +25,7 @@ services:
       - fhirnet
     depends_on:
       - db
+   
 
 networks:
   fhirnet:

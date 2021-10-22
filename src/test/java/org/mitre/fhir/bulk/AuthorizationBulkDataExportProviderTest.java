@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.hibernate.Session;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
@@ -50,58 +51,24 @@ public class AuthorizationBulkDataExportProviderTest {
 
   private static Token testToken;
 
+  
   @Test
   public void testGroupBulkExportEndToEnd() throws IOException, InterruptedException {
     
     //starg 
     String urlString = createGroupExport();
     
-    int responseCode = 0;
+    int responseCode = 202;
     HttpURLConnection response = null;
-    
-    
-    
-    /*while (responseCode != 200)
-    {
-      response = getCheckExportPollStatusExists(urlString);
-      
-      
-        responseCode = response.getResponseCode();
-        System.out.println("Response Code is " + responseCode);
-        
-        //throw an error
-        if (responseCode != 200 && responseCode != 202)
-        {
-          JSONObject body = getResponseBodyJson(response);*/
-          /*System.out.println("");
-          /*System.out.println("-------------------------------");
-          System.out.println("Group id is " + groupId.getIdPart());
 
-          //System.out.println(responseCode);*/
-          /*System.out.println(body);
-          
-          System.out.println(response);
-          System.out.println("-------------------------------");
-        }
-      
-
-    }*/
-
-    Thread.sleep(5000l);
-      
-    response = getCheckExportPollStatusExists(urlString);
-    responseCode = response.getResponseCode();
-    System.out.println("Response Code is " + responseCode);
-
+     while (responseCode == 202)
+     {
+       response = getCheckExportPollStatusExists(urlString);
+       responseCode = response.getResponseCode();
+       //System.out.println("Response Code is " + responseCode);
+     }
     
     JSONObject body = getResponseBodyJson(response);
-    
-    /*System.out.println("-------------------------------");
-    System.out.println("Group id is " + groupId.getIdPart());
-
-    System.out.println(responseCode);
-    System.out.println(body);
-    System.out.println("-------------------------------");*/
 
     JSONArray output = (JSONArray) body.get("output");
     
@@ -128,11 +95,11 @@ public class AuthorizationBulkDataExportProviderTest {
     
     int numOfPatient = numOfResourcesMap.get("Patient") != null ? numOfResourcesMap.get("Patient") : 0;
     int numOfEncounters = numOfResourcesMap.get("Encounter") != null ? numOfResourcesMap.get("Encounter") : 0;
-    //int numOfOrganizations = numOfResourcesMap.get("Organization") != null ? numOfResourcesMap.get("Organization") : 0;
+    int numOfOrganizations = numOfResourcesMap.get("Organization") != null ? numOfResourcesMap.get("Organization") : 0;
 
     Assert.assertEquals(numOfPatient, 1);
     Assert.assertEquals(numOfEncounters, 1);
-    //Assert.assertEquals(numOfOrganizations, 1);
+    Assert.assertEquals(numOfOrganizations, 1);
 
 
   }
@@ -298,6 +265,9 @@ public class AuthorizationBulkDataExportProviderTest {
 
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
+    
+    //Session sess = factory.openSession();
+
 
     ourServer.stop();
   }
