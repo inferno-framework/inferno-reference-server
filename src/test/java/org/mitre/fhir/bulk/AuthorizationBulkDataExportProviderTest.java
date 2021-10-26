@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.hibernate.Session;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
@@ -51,51 +48,48 @@ public class AuthorizationBulkDataExportProviderTest {
 
   private static Token testToken;
 
-  
+
   @Test
   public void testGroupBulkExportEndToEnd() throws IOException, InterruptedException {
-    
-    //starg 
+
+    // starg
     String urlString = createGroupExport();
-    
+
     int responseCode = 202;
     HttpURLConnection response = null;
 
-     while (responseCode == 202)
-     {
-       response = getCheckExportPollStatusExists(urlString);
-       responseCode = response.getResponseCode();
-       //System.out.println("Response Code is " + responseCode);
-     }
-    
+    while (responseCode == 202) {
+      response = getCheckExportPollStatusExists(urlString);
+      responseCode = response.getResponseCode();
+      // System.out.println("Response Code is " + responseCode);
+    }
+
     JSONObject body = getResponseBodyJson(response);
 
     JSONArray output = (JSONArray) body.get("output");
-    
+
     Map<String, Integer> numOfResourcesMap = new HashMap<>();
-    
-    for (Object resource : output)
-    {
-      JSONObject resourceJson = (JSONObject)resource;
+
+    for (Object resource : output) {
+      JSONObject resourceJson = (JSONObject) resource;
       String resourceName = resourceJson.getString("type");
-      
-      if (numOfResourcesMap.containsKey(resourceName))
-      {
-        numOfResourcesMap.put(resourceName, numOfResourcesMap.get(resourceName)+1) ;
+
+      if (numOfResourcesMap.containsKey(resourceName)) {
+        numOfResourcesMap.put(resourceName, numOfResourcesMap.get(resourceName) + 1);
       }
-      
-      else
-      {
+
+      else {
         numOfResourcesMap.put(resourceName, 1);
       }
-      
+
     }
-    
-    System.out.println(output);
-    
-    int numOfPatient = numOfResourcesMap.get("Patient") != null ? numOfResourcesMap.get("Patient") : 0;
-    int numOfEncounters = numOfResourcesMap.get("Encounter") != null ? numOfResourcesMap.get("Encounter") : 0;
-    int numOfOrganizations = numOfResourcesMap.get("Organization") != null ? numOfResourcesMap.get("Organization") : 0;
+
+    int numOfPatient =
+        numOfResourcesMap.get("Patient") != null ? numOfResourcesMap.get("Patient") : 0;
+    int numOfEncounters =
+        numOfResourcesMap.get("Encounter") != null ? numOfResourcesMap.get("Encounter") : 0;
+    int numOfOrganizations =
+        numOfResourcesMap.get("Organization") != null ? numOfResourcesMap.get("Organization") : 0;
 
     Assert.assertEquals(numOfPatient, 1);
     Assert.assertEquals(numOfEncounters, 1);
@@ -110,26 +104,21 @@ public class AuthorizationBulkDataExportProviderTest {
     getConnection.setRequestMethod("GET");
     getConnection.setRequestProperty("Accept", "application/json");
     getConnection.setRequestProperty("Authorization", "Bearer " + testToken.getTokenValue());
-    
-    getConnection.disconnect();
-    
-    return getConnection;
-    
 
+    getConnection.disconnect();
+
+    return getConnection;
   }
-  
-  private JSONObject getResponseBodyJson(HttpURLConnection getConnection) throws IOException
-  {
+
+  private JSONObject getResponseBodyJson(HttpURLConnection getConnection) throws IOException {
     InputStream inputStream = getConnection.getInputStream();
     String s = new String(inputStream.readAllBytes());
     JSONObject response;
-    if (s != null && !s.equals(""))
-    {
-       response = new JSONObject(s);
+    if (s != null && !s.equals("")) {
+      response = new JSONObject(s);
     }
-    
-    else 
-    {
+
+    else {
       response = new JSONObject();
     }
     return response;
@@ -147,8 +136,8 @@ public class AuthorizationBulkDataExportProviderTest {
 
     String contentUrl = conn.getHeaderField("Content-Location");
 
-    
-    
+
+
     conn.disconnect();
 
     return contentUrl;
@@ -162,7 +151,7 @@ public class AuthorizationBulkDataExportProviderTest {
     testToken = TokenManager.getInstance().getServerToken();
 
     ourCtx = FhirContext.forR4();
-        
+
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
     }
@@ -209,31 +198,26 @@ public class AuthorizationBulkDataExportProviderTest {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-    
+
     Organization organization = new Organization();
     testOrganizationId = ourClient.create().resource(organization)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-    
+
     Group group = new Group();
     group.setName("Test Name");
-    
+
     Reference patientReference = new Reference();
-    patientReference.setResource(pt);    
+    patientReference.setResource(pt);
     patientReference.setReference("Patient/" + testPatientId.getIdPart());
     GroupMemberComponent patientMember = new GroupMemberComponent(patientReference);
     group.addMember(patientMember);
-    
+
     groupId = ourClient.create().resource(group)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-    
-    System.out.println("GroupId: " + groupId);
-    
-    
-
   }
 
   @AfterClass
@@ -244,7 +228,7 @@ public class AuthorizationBulkDataExportProviderTest {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-    
+
 
     ourClient.delete().resourceById(testEncounterId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
@@ -255,19 +239,14 @@ public class AuthorizationBulkDataExportProviderTest {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-    
+
     ourClient.delete().resourceById(testOrganizationId)
-    .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-    .execute();
-
-
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+        .execute();
 
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
-    
-    //Session sess = factory.openSession();
-
 
     ourServer.stop();
   }

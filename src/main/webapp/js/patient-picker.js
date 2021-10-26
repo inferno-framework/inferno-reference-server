@@ -39,7 +39,6 @@ window.mitre.fhirreferenceserver.patientPicker = {
                     name = "&lt; <em>Patient Name Absent</em> &gt;"
                 }
 
-
                 patientsTable.row.add([
                     id,
                     name,
@@ -47,17 +46,8 @@ window.mitre.fhirreferenceserver.patientPicker = {
                 ]).draw(false);
 
                 $('#' + buttonId).click(function () {
-                    
-
-                    //redirectUrlParams.append("patient_id", patientId );
-                    //let redirect = "../oauth/authorization?" + urlParams.toString(); 
-
                     let redirect = redirectUri + "&patient_id=" + patientId;
-
                     window.location.href = redirect;
-
-
-
                 });
             }
 

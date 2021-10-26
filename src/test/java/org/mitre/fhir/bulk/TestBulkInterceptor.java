@@ -45,20 +45,19 @@ public class TestBulkInterceptor {
   public void testBulkInterceptor() throws IOException {
     String urlString = createGroupExport();
     Assert.assertTrue(checkExportPollStatusExists(urlString));
-    //confirm that delete works and is being routed to the proper delete method
+    // confirm that delete works and is being routed to the proper delete method
     deleteGroupExport(urlString);
   }
-  
-  
-  private void deleteGroupExport(String urlString) throws IOException
-  {
+
+
+  private void deleteGroupExport(String urlString) throws IOException {
     URL url = new URL(urlString);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("DELETE");
     conn.setRequestProperty("Accept", "application/json");
     conn.setRequestProperty("Authorization", "Bearer " + testToken.getTokenValue());
-    
-    //Calls the service
+
+    // Calls the service
     conn.getResponseCode();
 
     conn.disconnect();
@@ -101,7 +100,7 @@ public class TestBulkInterceptor {
     testToken = TokenManager.getInstance().getServerToken();
 
     ourCtx = FhirContext.forR4();
-        
+
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
     }
@@ -148,28 +147,27 @@ public class TestBulkInterceptor {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-    
+
     Group group = new Group();
     group.setName("Test Name");
-    
+
     Reference patientReference = new Reference();
-    patientReference.setResource(pt);    
+    patientReference.setResource(pt);
     GroupMemberComponent patientMember = new GroupMemberComponent(patientReference);
     group.addMember(patientMember);
 
-    
+
     Reference encounterReference = new Reference();
     encounterReference.setResource(encounter);
     GroupMemberComponent encounterMember = new GroupMemberComponent(encounterReference);
     group.addMember(encounterMember);
-    
+
     groupId = ourClient.create().resource(group)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-    
-    
-    
+
+
 
   }
 
@@ -181,7 +179,7 @@ public class TestBulkInterceptor {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-    
+
 
     ourClient.delete().resourceById(testEncounterId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
