@@ -22,7 +22,6 @@ window.mitre.fhirreferenceserver.authorize = {
             let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
             const launchAudError = "<div>The Audience value " + htmlSafeAud + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"; 
             window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchAudError);
-            $("#pageContent").hide();
             return;
         }
 
@@ -38,7 +37,6 @@ window.mitre.fhirreferenceserver.authorize = {
                 let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
                 const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
                 window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
-                $("#pageContent").hide();
                 return;
             }
         }
@@ -48,11 +46,16 @@ window.mitre.fhirreferenceserver.authorize = {
         // check for a patient id, if no one exists redirect to patient picker
         if (!urlParams.has('patient_id'))
         {
+
             let this_uri = window.location;
             let this_url_encoded = encodeURIComponent(this_uri);
             let redirect = "../oauth/patient-picker?client_id=" + clientId + "&redirect_uri=" + this_url_encoded;  
             window.location.href = redirect;
+            return;
         }
+        
+        $('#banner').show();
+        $('#pageContent').show();
 
         let state = urlParams.get('state') || '';
 
@@ -113,6 +116,7 @@ window.mitre.fhirreferenceserver.authorize = {
     
     showErrorMessage(errorMessage)
     {
+        $('#banner').show();
         $('#errorMessage').html(errorMessage).show();
     }
 }

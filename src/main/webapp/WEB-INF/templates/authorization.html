@@ -11,7 +11,7 @@
     <link href="css/site.css" rel="stylesheet">
 </head>
 <body>
-	<div th:replace="tmpl-banner :: banner"></div>
+	<div id="banner" style="display: none"><div th:replace="tmpl-banner :: banner"></div></div>
 	
 	<br>
 	<br>
@@ -19,7 +19,7 @@
     <div class="container">
         <div style="display: none" class="card card-body bg-danger text-white" id="errorMessage"> </div>
         
-        <div id="pageContent">
+        <div id="pageContent" style="display: none;">
 	        <div>Please select which scopes you would like to authorize:</div>
 	
 	        <br>
