@@ -61,7 +61,6 @@ public class AuthorizationBulkDataExportProviderTest {
     while (responseCode == 202) {
       response = getCheckExportPollStatusExists(urlString);
       responseCode = response.getResponseCode();
-      // System.out.println("Response Code is " + responseCode);
     }
 
     JSONObject body = getResponseBodyJson(response);
