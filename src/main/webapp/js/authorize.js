@@ -54,6 +54,7 @@ window.mitre.fhirreferenceserver.authorize = {
             return;
         }
         
+        $('#banner').show();
         $('#pageContent').show();
 
         let state = urlParams.get('state') || '';
@@ -115,6 +116,7 @@ window.mitre.fhirreferenceserver.authorize = {
     
     showErrorMessage(errorMessage)
     {
+        $('#banner').show();
         $('#errorMessage').html(errorMessage).show();
     }
 }
