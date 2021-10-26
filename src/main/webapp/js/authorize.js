@@ -48,6 +48,8 @@ window.mitre.fhirreferenceserver.authorize = {
         // check for a patient id, if no one exists redirect to patient picker
         if (!urlParams.has('patient_id'))
         {
+        	//disable submit button
+            $('#submit').prop('disabled', true);
             let this_uri = window.location;
             let this_url_encoded = encodeURIComponent(this_uri);
             let redirect = "../oauth/patient-picker?client_id=" + clientId + "&redirect_uri=" + this_url_encoded;  
