@@ -79,7 +79,6 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
       HapiReferenceServerProperties hapiReferenceServerProperties =
           new HapiReferenceServerProperties();
 
-
       String driverName = hapiReferenceServerProperties.getDataSourceDriver();
       Driver driver = (Driver) Class.forName(driverName).getConstructor().newInstance();
       dataSource.setDriver(driver);
@@ -143,7 +142,7 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
         "local-heap");
     extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION),
         "LUCENE_CURRENT");
-    extraProperties.put(HibernateOrmMapperSettings.ENABLED, "true");    
+    extraProperties.put(HibernateOrmMapperSettings.ENABLED, "true");
 
     return extraProperties;
   }
@@ -189,23 +188,20 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   public BatchConfigurer batchConfigurer() {
     return new NonPersistedBatchConfigurer();
   }
-  
+
   @Bean
   public AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider() {
     return new AuthorizationBulkDataExportProvider();
   }
-  
+
   @Bean
-  public AuthorizationBulkDataExportProvider authorizationBulkDataExport()
-  {
+  public AuthorizationBulkDataExportProvider authorizationBulkDataExport() {
     return new AuthorizationBulkDataExportProvider();
   }
-  
+
   @Bean
   @StepScope
   public GroupBulkItemReader groupBulkItemReader() {
     return new InfernoGroupBulkItemReader();
   }
-  
-
 }

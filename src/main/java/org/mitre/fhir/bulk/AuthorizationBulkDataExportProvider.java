@@ -51,7 +51,6 @@ import com.google.common.annotations.VisibleForTesting;
  */
 public class AuthorizationBulkDataExportProvider {
 
-
   private static final String ACCEPT = "accept";
   private static final List<String> VALID_ACCEPT_HEADERS = new ArrayList<String>();
 
@@ -60,32 +59,15 @@ public class AuthorizationBulkDataExportProvider {
 
   @Autowired
   private IBulkDataExportSvc myBulkDataExportSvc;
-  
+
   @Autowired
   private FhirContext myFhirContext;
-  
-  private static final String[] DEFAULT_RESOURCE_TYPES = {
-      "Patient",
-      "AllergyIntolerance",
-      "CarePlan",
-      "CareTeam",
-      "Condition",
-      "Device",
-      "DiagnosticReport",
-      "DocumentReference",
-      "Goal",
-      "Immunization",
-      "MedicationRequest",
-      "Observation",
-      "Procedure",      
-      "Encounter",
-      "Organization",
-      "Practitioner",
-      "Provenance",
-      "Location",
-      "Medication"      
-  };
-  
+
+  private static final String[] DEFAULT_RESOURCE_TYPES = {"Patient", "AllergyIntolerance",
+      "CarePlan", "CareTeam", "Condition", "Device", "DiagnosticReport", "DocumentReference",
+      "Goal", "Immunization", "MedicationRequest", "Observation", "Procedure", "Encounter",
+      "Organization", "Practitioner", "Provenance", "Location", "Medication"};
+
   static {
     VALID_ACCEPT_HEADERS.add("application/fhir+json");
   }
@@ -99,8 +81,6 @@ public class AuthorizationBulkDataExportProvider {
   public void setBulkDataExportSvcForUnitTests(IBulkDataExportSvc theBulkDataExportSvc) {
     myBulkDataExportSvc = theBulkDataExportSvc;
   }
-
-
 
   /**
    * $export function.
@@ -170,7 +150,6 @@ public class AuthorizationBulkDataExportProvider {
           typeName = "boolean") IPrimitiveType<Boolean> theMdm,
       ServletRequestDetails theRequestDetails) {
 
-
     ourLog.debug("Received Group Bulk Export Request for Group {}", theIdParam);
     ourLog.debug("_type={}", theIdParam);
     ourLog.debug("_since={}", theSince);
@@ -191,16 +170,16 @@ public class AuthorizationBulkDataExportProvider {
     BulkDataExportOptions bulkDataExportOptions = buildGroupBulkExportOptions(theOutputFormat,
         theType, theSince, theTypeFilter, theIdParam, theMdm);
     validateResourceTypesAllContainPatientSearchParams(bulkDataExportOptions.getResourceTypes());
-        
-    //currently default is only Patient, want ALL https://github.com/hapifhir/hapi-fhir/blob/dc627dc019d063aec6f651c0470b8c30d89db882/hapi-fhir-jpaserver-base/src/main/java/ca/uhn/fhir/jpa/bulk/export/svc/BulkDataExportSvcImpl.java#L383
-    if (bulkDataExportOptions.getResourceTypes() == null)
-    { 
 
-      Set<String> resourceTypes = getDefaultResourceTypes();     
+    // currently default is only Patient, want ALL
+    // https://github.com/hapifhir/hapi-fhir/blob/dc627dc019d063aec6f651c0470b8c30d89db882/hapi-fhir-jpaserver-base/src/main/java/ca/uhn/fhir/jpa/bulk/export/svc/BulkDataExportSvcImpl.java#L383
+    if (bulkDataExportOptions.getResourceTypes() == null) {
+
+      Set<String> resourceTypes = getDefaultResourceTypes();
       bulkDataExportOptions.setResourceTypes(resourceTypes);
     }
-    
-    
+
+
     IBulkDataExportSvc.JobInfo outcome =
         myBulkDataExportSvc.submitJob(bulkDataExportOptions, shouldUseCache(theRequestDetails));
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
@@ -210,9 +189,8 @@ public class AuthorizationBulkDataExportProvider {
     response.setHeader(Constants.HEADER_ACCEPT, "application/json");
     response.addHeader(Constants.HEADER_CONTENT_TYPE, "application/json");
   }
-  
-  private Set<String> getDefaultResourceTypes()
-  {    
+
+  private Set<String> getDefaultResourceTypes() {
     Set<String> resourceTypes = new HashSet<String>();
     resourceTypes.addAll(Arrays.asList(DEFAULT_RESOURCE_TYPES));
     return resourceTypes;
@@ -312,12 +290,12 @@ public class AuthorizationBulkDataExportProvider {
 
         for (IBulkDataExportSvc.FileEntry nextFile : status.getFiles()) {
           String serverBase = getServerBase(theRequestDetails);
-          
-          
-          String nextUrl =
-              serverBase + "/" + nextFile.getResourceId().toUnqualifiedVersionless().getValue();          
 
-          
+
+          String nextUrl =
+              serverBase + "/" + nextFile.getResourceId().toUnqualifiedVersionless().getValue();
+
+
           bulkResponseDocument.addOutput().setType(nextFile.getResourceType()).setUrl(nextUrl);
         }
 
@@ -325,7 +303,7 @@ public class AuthorizationBulkDataExportProvider {
         // purposes of writing to json
         bulkResponseDocument.getOutput();
         bulkResponseDocument.getError();
-        
+
         JsonUtil.serialize(bulkResponseDocument, response.getWriter());
         response.getWriter().close();
         break;
@@ -366,7 +344,6 @@ public class AuthorizationBulkDataExportProvider {
     }
 
   }
-
 
   private BulkDataExportOptions buildSystemBulkExportOptions(IPrimitiveType<String> theOutputFormat,
       IPrimitiveType<String> theType, IPrimitiveType<Date> theSince,
@@ -506,7 +483,4 @@ public class AuthorizationBulkDataExportProvider {
     }
 
   }
-
-
-
 }

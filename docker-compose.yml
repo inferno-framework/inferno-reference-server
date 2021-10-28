@@ -1,8 +1,7 @@
 version: '3'
 
 services:
-  db:
-    
+  db:    
     build:
       context: .
       dockerfile: Dockerfile.database
@@ -25,7 +24,6 @@ services:
       - fhirnet
     depends_on:
       - db
-   
 
 networks:
   fhirnet:

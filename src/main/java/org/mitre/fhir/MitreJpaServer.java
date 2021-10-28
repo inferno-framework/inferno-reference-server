@@ -35,10 +35,9 @@ public class MitreJpaServer extends RestfulServer {
 
   @Autowired
   protected ISearchParamRegistry searchParamRegistry;
-  
+
   @Autowired
   AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider;
-
 
   public MitreJpaServer() {
     // Required for Autowiring searchParamRegistry
@@ -83,8 +82,6 @@ public class MitreJpaServer extends RestfulServer {
             appContext.getBean(DaoConfig.class), searchParamRegistry);
     confProvider.setImplementationDescription("HAPI FHIR R4 Server");
     setServerConformanceProvider(confProvider);
-    
-    
 
     // Enable e-tag support.
     setETagSupport(ETagSupportEnum.ENABLED);
@@ -114,16 +111,13 @@ public class MitreJpaServer extends RestfulServer {
             + "UA[${requestHeader.user-agent}] " + "Params[${requestParameters}] "
             + "ResponseEncoding[${responseEncodingNoDefault}]");
     registerInterceptor(loggingInterceptor);
-    
+
     registerInterceptor(new BulkInterceptor());
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
-    
-    //enable Bulk Export
-    registerProvider(authorizationBulkDataExportProvider);
 
-    
-    
+    // enable Bulk Export
+    registerProvider(authorizationBulkDataExportProvider);
   }
-  
+
 }
