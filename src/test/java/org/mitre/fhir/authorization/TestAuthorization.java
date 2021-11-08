@@ -857,7 +857,6 @@ public class TestAuthorization {
     ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
 
     ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
-    ourClient.registerInterceptor(new LoggingInterceptor(true));
     ourClient.capabilities();
 
     Calendar cal = Calendar.getInstance();
