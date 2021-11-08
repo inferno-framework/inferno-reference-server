@@ -217,35 +217,18 @@ public class AuthorizationBulkDataExportProviderTest {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
+    
+    //TransactionSynchronizationManager.
+    
+    
   }
 
   @AfterClass
   public static void afterClass() throws Exception {
 
-    // delete test patient and group
-    ourClient.delete().resourceById(groupId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
-
-
-    ourClient.delete().resourceById(testEncounterId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
-
-    ourClient.delete().resourceById(testPatientId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
-
-    ourClient.delete().resourceById(testOrganizationId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
-
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
+
 
     ourServer.stop();
   }

@@ -26,6 +26,7 @@ public class InfernoGroupBulkItemReader extends GroupBulkItemReader {
       // else do normal behavior
       return super.getResourcePidIterator();
     }
+    
   }
 
   private boolean isResourceWithoutPatientCompartment(String resourceName) {

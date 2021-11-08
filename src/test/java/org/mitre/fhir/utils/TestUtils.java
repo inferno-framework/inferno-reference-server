@@ -4,6 +4,8 @@ package org.mitre.fhir.utils;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Group;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
@@ -54,8 +56,26 @@ public class TestUtils {
       throw new RuntimeException("ClearDB should ONLY be used on tests!");
     }
 
-    clearAllPatientsFromDB(ourClient);
+    clearAllGroupsFromDB(ourClient);
     clearAllEncountersFromDB(ourClient);
+    clearAllPatientsFromDB(ourClient);
+    clearAllOrganizationsFromDB(ourClient);
+
+  }
+  
+  private static void clearAllGroupsFromDB(IGenericClient ourClient) {
+    Token token = TokenManager.getInstance().getServerToken();
+
+    List<BundleEntryComponent> groups = FhirUtils.getAllGroups(ourClient);
+
+    for (BundleEntryComponent bundleEntryComponent : groups) {
+      Group group = (Group) bundleEntryComponent.getResource();
+      System.out.println("Deleting Group " + group.getIdElement().getIdPart());
+      ourClient.delete().resource(group)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue()))
+          .execute();
+    }
   }
 
   private static void clearAllPatientsFromDB(IGenericClient ourClient) {
@@ -87,6 +107,21 @@ public class TestUtils {
               TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue()))
           .execute();
     }
+  }
+  
+  private static void clearAllOrganizationsFromDB(IGenericClient ourClient) {
+    Token token = TokenManager.getInstance().getServerToken();
+
+    List<BundleEntryComponent> organizations = FhirUtils.getAllOrganizations(ourClient);
+
+    for (BundleEntryComponent bundleEntryComponent : organizations) {
+      Organization organization = (Organization) bundleEntryComponent.getResource();
+      System.out.println("Deleting Organization " + organization.getIdElement().getIdPart());
+      ourClient.delete().resource(organization)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              TestUtils.getAuthorizationHeaderBearerValue(token.getTokenValue()))
+          .execute();
+    }    
   }
 
   public static String getAuthorizationHeaderBearerValue(String accessToken) {
