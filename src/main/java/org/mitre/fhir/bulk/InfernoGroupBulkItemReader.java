@@ -3,8 +3,14 @@ package org.mitre.fhir.bulk;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IPrimitiveType;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import ca.uhn.fhir.jpa.bulk.export.job.GroupBulkItemReader;
+import ca.uhn.fhir.jpa.partition.SystemRequestDetails;
 import ca.uhn.fhir.jpa.searchparam.SearchParameterMap;
 import ca.uhn.fhir.rest.api.server.IBundleProvider;
 import ca.uhn.fhir.rest.api.server.storage.ResourcePersistentId;
@@ -19,7 +25,8 @@ public class InfernoGroupBulkItemReader extends GroupBulkItemReader {
   protected Iterator<ResourcePersistentId> getResourcePidIterator() {
     // check for special case resources
     if (isResourceWithoutPatientCompartment(myResourceType)) {
-      return getAllResourceIds(myResourceType).iterator();
+      //return getAllResourceIds(myResourceType).iterator();
+      return getMembers(myResourceType).iterator();
     }
 
     else {
@@ -37,20 +44,18 @@ public class InfernoGroupBulkItemReader extends GroupBulkItemReader {
     }
     return false;
   }
-
-  private List<ResourcePersistentId> getAllResourceIds(String resourceName) {
-
-    IBundleProvider provider =
-        myDaoRegistry.getResourceDao(resourceName).search(new SearchParameterMap());
-
-    // TODO: if run immediately after another transaction, sometimes fails
-    List<IBaseResource> resources = provider.getAllResources();
-
-    List<ResourcePersistentId> resourceIds = new ArrayList<>();
-    for (IBaseResource baseResource : resources) {
-      resourceIds.add(new ResourcePersistentId(baseResource.getIdElement().getIdPartAsLong()));
+  
+  private List<ResourcePersistentId> getMembers(String resourceName) {
+    SystemRequestDetails requestDetails = SystemRequestDetails.newSystemRequestAllPartitions();
+    Set<ResourcePersistentId> ids = myDaoRegistry.getResourceDao(resourceName).searchForIds(new SearchParameterMap(), requestDetails);
+    
+    List<ResourcePersistentId> list = new ArrayList<>();
+    for (ResourcePersistentId id : ids) {
+      list.add(id);
     }
+    
+    return list;
 
-    return resourceIds;
   }
+  
 }
