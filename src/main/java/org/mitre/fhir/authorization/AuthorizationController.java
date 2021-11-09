@@ -115,11 +115,13 @@ public class AuthorizationController {
     }
 
     // validate client_assertion (jwt)
-    DecodedJWT decodedJWT = JWT.decode(clientAssertion);
+    DecodedJWT decodedJwt = JWT.decode(clientAssertion);
 
-    String clientId =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9.eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4";
-    if (!clientId.equals(decodedJWT.getIssuer())) {
+    String clientId = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9"
+        + ".eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi"
+        + "9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX"
+        + "0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4";
+    if (!clientId.equals(decodedJwt.getIssuer())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "Issuer should be " + BULK_EXPECTED_CLIENT_ASSERTION_TYPE);
 
@@ -146,7 +148,7 @@ public class AuthorizationController {
     return responseEntity;
 
   }
-  
+
 
 
   private void validateBulkDataScopes(String scopesString) {

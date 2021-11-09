@@ -217,10 +217,10 @@ public class AuthorizationBulkDataExportProviderTest {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-    
-    //TransactionSynchronizationManager.
-    
-    
+
+    // TransactionSynchronizationManager.
+
+
   }
 
   @AfterClass

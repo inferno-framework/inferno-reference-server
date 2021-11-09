@@ -1,15 +1,15 @@
 package org.mitre.fhir.bulk;
 
+import ca.uhn.fhir.interceptor.api.Hook;
+import ca.uhn.fhir.interceptor.api.Interceptor;
+import ca.uhn.fhir.interceptor.api.Pointcut;
+import ca.uhn.fhir.jpa.model.util.JpaConstants;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import ca.uhn.fhir.interceptor.api.Hook;
-import ca.uhn.fhir.interceptor.api.Interceptor;
-import ca.uhn.fhir.interceptor.api.Pointcut;
-import ca.uhn.fhir.jpa.model.util.JpaConstants;
 
 @Interceptor
 public class BulkInterceptor {
@@ -20,10 +20,8 @@ public class BulkInterceptor {
   private static final String POST = "POST";
 
   /**
-   * Handle creates
+   * Handles redirecting DELETE to correct operation.
    * 
-   * @throws IOException
-   * @throws ServletException
    */
   @Hook(Pointcut.SERVER_INCOMING_REQUEST_PRE_PROCESSED)
   public boolean incomingRequestPreProcessed(HttpServletRequest theRequest,
@@ -31,8 +29,8 @@ public class BulkInterceptor {
     // change the request if it is DELETE
     if (theRequest.getMethod().equals(DELETE)
         && EXPORT_POLL_STATUS_PATH_INFO.equals(theRequest.getPathInfo())) {
-      String newURI = "$bulk-delete";
-      RequestDispatcher requestDispatcher = theRequest.getRequestDispatcher(newURI);
+      String newUri = "$bulk-delete";
+      RequestDispatcher requestDispatcher = theRequest.getRequestDispatcher(newUri);
       HttpServletRequest newServletRequest = new HttpServletRequestWrapper(theRequest) {
         // Change Request Method to POST
         @Override

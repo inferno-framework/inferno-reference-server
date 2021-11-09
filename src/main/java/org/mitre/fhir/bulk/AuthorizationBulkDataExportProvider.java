@@ -1,5 +1,7 @@
 package org.mitre.fhir.bulk;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.jpa.bulk.export.api.BulkDataExportOptions;
 import ca.uhn.fhir.jpa.bulk.export.api.IBulkDataExportSvc;
@@ -19,6 +21,7 @@ import ca.uhn.fhir.rest.server.servlet.ServletRequestDetails;
 import ca.uhn.fhir.util.ArrayUtil;
 import ca.uhn.fhir.util.JsonUtil;
 import ca.uhn.fhir.util.OperationOutcomeUtil;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,9 +41,9 @@ import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
 import org.hl7.fhir.r4.model.OperationOutcome.IssueType;
 import org.hl7.fhir.r4.model.OperationOutcome.OperationOutcomeIssueComponent;
 import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.google.common.annotations.VisibleForTesting;
+
+
 
 /**
  * Bulk Data Export Provider with Required Fhir Authentication. this is copied from
@@ -102,9 +105,7 @@ public class AuthorizationBulkDataExportProvider {
     try {
       authorize(theRequestDetails);
       validatePreferAsyncHeader(theRequestDetails);
-    }
-
-    catch (InvalidRequestException invalidRequestException) {
+    } catch (InvalidRequestException invalidRequestException) {
       handleInvalidRequestException(invalidRequestException, theRequestDetails);
       return;
     }
@@ -160,9 +161,7 @@ public class AuthorizationBulkDataExportProvider {
       authorize(theRequestDetails);
 
       validatePreferAsyncHeader(theRequestDetails);
-    }
-
-    catch (InvalidRequestException invalidRequestException) {
+    } catch (InvalidRequestException invalidRequestException) {
       handleInvalidRequestException(invalidRequestException, theRequestDetails);
       return;
     }
@@ -205,7 +204,8 @@ public class AuthorizationBulkDataExportProvider {
 
       if (!badResourceTypes.isEmpty()) {
         throw new InvalidRequestException(String.format(
-            "Resource types [%s] are invalid for this type of export, as they do not contain search parameters that refer to patients.",
+            "Resource types [%s] are invalid for this type of export, "
+                + "as they do not contain search parameters that refer to patients.",
             String.join(",", badResourceTypes)));
       }
     }
@@ -231,9 +231,7 @@ public class AuthorizationBulkDataExportProvider {
       authorize(theRequestDetails);
 
       validatePreferAsyncHeader(theRequestDetails);
-    }
-
-    catch (InvalidRequestException invalidRequestException) {
+    } catch (InvalidRequestException invalidRequestException) {
       handleInvalidRequestException(invalidRequestException, theRequestDetails);
       return;
     }
@@ -320,10 +318,15 @@ public class AuthorizationBulkDataExportProvider {
         myFhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToWriter(oo,
             response.getWriter());
         response.getWriter().close();
+        break;
+      default:
+        response.getWriter().close();
     }
   }
 
-  // Bulk Interceptor will redirect here from a DELETE on $export-poll-status REQUEST
+  /**
+   * Bulk Interceptor will redirect here from a DELETE on $export-poll-status REQUEST.
+   */
   @Operation(name = "$bulk-delete", manualResponse = true, idempotent = false, manualRequest = true)
   public void bulkDelete(
 
@@ -337,9 +340,7 @@ public class AuthorizationBulkDataExportProvider {
 
       response.setStatus(Constants.STATUS_HTTP_202_ACCEPTED);
       response.getWriter().close();
-    }
-
-    catch (InvalidRequestException invalidRequestException) {
+    } catch (InvalidRequestException invalidRequestException) {
       handleInvalidRequestException(invalidRequestException, theRequestDetails);
     }
 
@@ -379,7 +380,6 @@ public class AuthorizationBulkDataExportProvider {
   private BulkDataExportOptions buildBulkDataExportOptions(IPrimitiveType<String> theOutputFormat,
       IPrimitiveType<String> theType, IPrimitiveType<Date> theSince,
       IPrimitiveType<String> theTypeFilter, BulkDataExportOptions.ExportStyle theExportStyle) {
-    String outputFormat = theOutputFormat != null ? theOutputFormat.getValueAsString() : null;
 
     Set<String> resourceTypes = null;
     if (theType != null) {
@@ -398,10 +398,15 @@ public class AuthorizationBulkDataExportProvider {
     bulkDataExportOptions.setExportStyle(theExportStyle);
     bulkDataExportOptions.setSince(since);
     bulkDataExportOptions.setResourceTypes(resourceTypes);
+    String outputFormat = theOutputFormat != null ? theOutputFormat.getValueAsString() : null;
     bulkDataExportOptions.setOutputFormat(outputFormat);
     return bulkDataExportOptions;
   }
 
+  /**
+   * write polling location for bulk data request.
+   * 
+   */
   public void writePollingLocationToResponseHeaders(ServletRequestDetails theRequestDetails,
       IBulkDataExportSvc.JobInfo theOutcome) {
     String serverBase = getServerBase(theRequestDetails);
@@ -464,13 +469,13 @@ public class AuthorizationBulkDataExportProvider {
     response.setStatus(400);
 
     String message = invalidRequestException.getMessage();
-    OperationOutcome operationOutcome = new OperationOutcome();
-    List<OperationOutcomeIssueComponent> issues = new ArrayList<OperationOutcomeIssueComponent>();
     OperationOutcomeIssueComponent issue = new OperationOutcomeIssueComponent();
     issue.setDiagnostics(message);
     issue.setCode(IssueType.PROCESSING);
     issue.setSeverity(IssueSeverity.ERROR);
+    List<OperationOutcomeIssueComponent> issues = new ArrayList<OperationOutcomeIssueComponent>();
     issues.add(issue);
+    OperationOutcome operationOutcome = new OperationOutcome();
     operationOutcome.setIssue(issues);
 
     try {
