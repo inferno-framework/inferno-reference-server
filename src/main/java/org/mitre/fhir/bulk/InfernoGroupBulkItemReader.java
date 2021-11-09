@@ -25,7 +25,7 @@ public class InfernoGroupBulkItemReader extends GroupBulkItemReader {
   protected Iterator<ResourcePersistentId> getResourcePidIterator() {
     // check for special case resources
     if (isResourceWithoutPatientCompartment(myResourceType)) {
-      //return getAllResourceIds(myResourceType).iterator();
+      // return getAllResourceIds(myResourceType).iterator();
       return getMembers(myResourceType).iterator();
     }
 
@@ -33,7 +33,7 @@ public class InfernoGroupBulkItemReader extends GroupBulkItemReader {
       // else do normal behavior
       return super.getResourcePidIterator();
     }
-    
+
   }
 
   private boolean isResourceWithoutPatientCompartment(String resourceName) {
@@ -44,18 +44,19 @@ public class InfernoGroupBulkItemReader extends GroupBulkItemReader {
     }
     return false;
   }
-  
+
   private List<ResourcePersistentId> getMembers(String resourceName) {
     SystemRequestDetails requestDetails = SystemRequestDetails.newSystemRequestAllPartitions();
-    Set<ResourcePersistentId> ids = myDaoRegistry.getResourceDao(resourceName).searchForIds(new SearchParameterMap(), requestDetails);
-    
+    Set<ResourcePersistentId> ids = myDaoRegistry.getResourceDao(resourceName)
+        .searchForIds(new SearchParameterMap(), requestDetails);
+
     List<ResourcePersistentId> list = new ArrayList<>();
     for (ResourcePersistentId id : ids) {
       list.add(id);
     }
-    
+
     return list;
 
   }
-  
+
 }
