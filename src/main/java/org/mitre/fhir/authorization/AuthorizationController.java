@@ -124,7 +124,6 @@ public class AuthorizationController {
     if (!clientId.equals(decodedJwt.getIssuer())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "Issuer should be " + BULK_EXPECTED_CLIENT_ASSERTION_TYPE);
-
     }
 
     TokenManager tokenManager = TokenManager.getInstance();
@@ -138,9 +137,6 @@ public class AuthorizationController {
     accessToken.put("access_token", token.getTokenValue());
 
     HttpHeaders headers = new HttpHeaders();
-    // headers.setCacheControl(CacheControl.noStore());
-    // headers.setPragma("no-cache");
-
 
     ResponseEntity<String> responseEntity =
         new ResponseEntity<String>(accessToken.toString(), headers, HttpStatus.OK);
