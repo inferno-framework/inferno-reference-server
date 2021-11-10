@@ -873,9 +873,9 @@
       "operation": [
         {
           "name": "get-resource-counts",
-          "definition": "OperationDefinition/-s-get-resource-counts"
+          "definition": "$HOST/OperationDefinition/-s-get-resource-counts"
         },
-        {
+        { 
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
