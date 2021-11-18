@@ -26,11 +26,10 @@ jobs:
             infernocommunity/inferno-reference-server
           # generate Docker tags based on the following events/attributes
           tags: |
-            type=ref,event=branch,pattern=latest
-            type=semver,pattern=release-latest
-            type=semver,pattern={{raw}}
-            type=semver,pattern=v{{major}}-latest
-            type=semver,pattern=v{{major}}.{{minor}}-latest
+            # minimal
+            type=semver,pattern={{version}}
+            # use custom value instead of git tag
+            type=semver,pattern={{version}},value=v1.0.0
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
