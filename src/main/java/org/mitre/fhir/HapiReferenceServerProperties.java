@@ -39,19 +39,17 @@ public class HapiReferenceServerProperties {
   private static final String CONFIDENTIAL_CLIENT_SECRET_KEY = "inferno.confidential_client_secret";
   private static final String BULK_URL = "inferno.bulk_url";
   private static final String BULK_TOKEN_ENDPOINT = "inferno.bulk_token_endpoint";
-  private static final String BULK_CLIENT_ID="inferno.bulk_client_id";
+  private static final String BULK_CLIENT_ID = "inferno.bulk_client_id";
   private static final String GROUP_ID = "inferno.group_id";
-  
+
   private final Properties properties;
 
   /**
    * Loads the server properties.
    */
   public HapiReferenceServerProperties() {
-    try (InputStream in = HapiReferenceServerProperties
-        .class
-        .getClassLoader()
-        .getResourceAsStream(HAPI_PROPERTIES)) {
+    try (InputStream in =
+        HapiReferenceServerProperties.class.getClassLoader().getResourceAsStream(HAPI_PROPERTIES)) {
       this.properties = new Properties();
       this.properties.load(in);
     } catch (Exception e) {
@@ -62,6 +60,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the data source driver name.
+   * 
    * @return the name of the data source driver
    */
   public String getDataSourceDriver() {
@@ -73,6 +72,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the URL of the data source.
+   * 
    * @return the URL of the data source
    */
   public String getDataSourceUrl() {
@@ -82,6 +82,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the username for the data source.
+   * 
    * @return the username
    */
   public String getDataSourceUsername() {
@@ -91,6 +92,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the password for the data source.
+   * 
    * @return the password
    */
   public String getDataSourcePassword() {
@@ -100,6 +102,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the data source schema.
+   * 
    * @return the schema
    */
   public String getDataSourceSchema() {
@@ -109,6 +112,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the max pool size for the data source.
+   * 
    * @return
    */
   public String getDataSourceMaxPoolSize() {
@@ -118,6 +122,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the Hibernate Dialect.
+   * 
    * @return the dialect
    */
   public String getHibernateDialect() {
@@ -127,6 +132,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Return the Hibernate SQL format.
+   * 
    * @return the SQL format
    */
   public String getHibernateFormatSql() {
@@ -136,6 +142,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the Hibernate show SQL key.
+   * 
    * @return the show SQL key
    */
   public String getHibernateShowSql() {
@@ -145,6 +152,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the Hibernate HBM2DDLAuto key.
+   * 
    * @return the HBM2DDLAuto key
    */
   public String getHibernateHbdm2ddlAuto() {
@@ -154,6 +162,7 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the Hibernate JDBC Batch Size.
+   * 
    * @return the batch size
    */
   public String getHibernateJdbcBatchSize() {
@@ -163,157 +172,165 @@ public class HapiReferenceServerProperties {
 
   /**
    * Returns the Hibernate cache use query cache.
+   * 
    * @return the cache use query cache
    */
   public String getHibernateCacheUseQueryCache() {
-    String hibernateCacheUseQueryCache = properties
-        .getProperty(HIBERNATE_CACHE_USE_QUERY_CACHE_KEY);
+    String hibernateCacheUseQueryCache =
+        properties.getProperty(HIBERNATE_CACHE_USE_QUERY_CACHE_KEY);
     return hibernateCacheUseQueryCache;
   }
 
   /**
    * Returns the Hibernate cache use second level cache.
+   * 
    * @return the property
    */
   public String getHibernateCacheUseSecondLevelCache() {
-    String hibernateCacheUseSecondLevelCache = properties
-        .getProperty(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE_KEY);
+    String hibernateCacheUseSecondLevelCache =
+        properties.getProperty(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE_KEY);
     return hibernateCacheUseSecondLevelCache;
   }
 
   /**
    * Returns the Hibernate Property.
+   * 
    * @return the property
    */
   public String getHibernateCacheUseStructuredEntries() {
-    String hibernateCacheUseStructuredEntries = properties
-        .getProperty(HIBERNATE_CACHE_USE_STRUCTURED_ENTRIES_KEY);
+    String hibernateCacheUseStructuredEntries =
+        properties.getProperty(HIBERNATE_CACHE_USE_STRUCTURED_ENTRIES_KEY);
     return hibernateCacheUseStructuredEntries;
   }
 
   /**
    * Returns the Hibernate Property.
+   * 
    * @return the property
    */
   public String getHibernateCacheUseMinimalPuts() {
-    String hibernateCacheUseMinimalPuts = properties
-        .getProperty(HIBERNATE_CACHE_USE_MINIMAL_PUTS_KEY);
+    String hibernateCacheUseMinimalPuts =
+        properties.getProperty(HIBERNATE_CACHE_USE_MINIMAL_PUTS_KEY);
     return hibernateCacheUseMinimalPuts;
   }
 
   /**
    * Returns the Hibernate Property.
+   * 
    * @return the property
    */
   public String getHibernateSearchModelMapping() {
-    String hibernateSearchModelMapping = properties
-        .getProperty(HIBERNATE_SEARCH_MODEL_MAPPING_KEY);
+    String hibernateSearchModelMapping = properties.getProperty(HIBERNATE_SEARCH_MODEL_MAPPING_KEY);
     return hibernateSearchModelMapping;
   }
 
   /**
    * Returns the Hibernate Property.
+   * 
    * @return the property
    */
   public String getHibernateSearchDefaultDirectoryProvider() {
-    String hibernateSearchDefaultDirectoryProvider = properties
-        .getProperty(HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER_KEY);
+    String hibernateSearchDefaultDirectoryProvider =
+        properties.getProperty(HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER_KEY);
     return hibernateSearchDefaultDirectoryProvider;
   }
 
   /**
    * Returns the Hibernate Property.
+   * 
    * @return the property
    */
   public String getHibernateSearchDefaultIndexBase() {
-    String hibernateSearchDefaultIndexBase = properties
-        .getProperty(HIBERNATE_SEARCH_DEFAULT_INDEX_BASE_KEY);
+    String hibernateSearchDefaultIndexBase =
+        properties.getProperty(HIBERNATE_SEARCH_DEFAULT_INDEX_BASE_KEY);
     return hibernateSearchDefaultIndexBase;
   }
 
   /**
    * Returns the Hibernate Property.
+   * 
    * @return the property
    */
   public String getHibernateSearchLuceneVersion() {
-    String hibernateSearchLuceneVersion = properties
-        .getProperty(HIBERNATE_SEARCH_LUCENE_VERSION_KEY);
+    String hibernateSearchLuceneVersion =
+        properties.getProperty(HIBERNATE_SEARCH_LUCENE_VERSION_KEY);
     return hibernateSearchLuceneVersion;
   }
-  
+
   /**
    * Returns the public Client ID Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getPublicClientId() {
-    String publicClientId = properties
-        .getProperty(PUBLIC_CLIENT_ID_KEY);
+    String publicClientId = properties.getProperty(PUBLIC_CLIENT_ID_KEY);
     return publicClientId;
   }
 
   /**
    * Returns the Confidential Client ID Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getConfidentialClientId() {
-    String confidentialClientId = properties
-        .getProperty(CONFIDENTIAL_CLIENT_ID_KEY);
+    String confidentialClientId = properties.getProperty(CONFIDENTIAL_CLIENT_ID_KEY);
     return confidentialClientId;
   }
 
   /**
    * Returns the Confidential Client Secret Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getConfidentialClientSecret() {
-    String confidentialClientSecret = properties
-        .getProperty(CONFIDENTIAL_CLIENT_SECRET_KEY);
+    String confidentialClientSecret = properties.getProperty(CONFIDENTIAL_CLIENT_SECRET_KEY);
     return confidentialClientSecret;
   }
-  
+
   /**
    * Returns the Bulk Url Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getBulkUrl() {
-    String bulkUrl = properties
-        .getProperty(BULK_URL);
+    String bulkUrl = properties.getProperty(BULK_URL);
     return bulkUrl;
   }
-  
+
   /**
    * Returns the Bulk Token Endpoint Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getBulkTokenEndpoint() {
-    String bulkTokenEndpoint = properties
-        .getProperty(BULK_TOKEN_ENDPOINT);
+    String bulkTokenEndpoint = properties.getProperty(BULK_TOKEN_ENDPOINT);
     return bulkTokenEndpoint;
   }
-  
+
   /**
    * Returns the Bulk Client Id Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getBulkClientId() {
-    String bulkClientId = properties
-        .getProperty(BULK_CLIENT_ID);
+    String bulkClientId = properties.getProperty(BULK_CLIENT_ID);
     return bulkClientId;
   }
-  
+
   /**
    * Returns the Group Id Property.
+   * 
    * @return the property
-   */ 
+   */
   public String getGroupId() {
-    String groupId = properties
-        .getProperty(GROUP_ID);
+    String groupId = properties.getProperty(GROUP_ID);
     return groupId;
   }
-  
-  
+
+
   /**
    * Returns the properties.
+   * 
    * @return the properties
    */
   public Properties getProperties() {
