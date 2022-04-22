@@ -37,8 +37,6 @@ public class HapiReferenceServerProperties {
   private static final String PUBLIC_CLIENT_ID_KEY = "inferno.public_client_id";
   private static final String CONFIDENTIAL_CLIENT_ID_KEY = "inferno.confidential_client_id";
   private static final String CONFIDENTIAL_CLIENT_SECRET_KEY = "inferno.confidential_client_secret";
-  private static final String BULK_URL = "inferno.bulk_url";
-  private static final String BULK_TOKEN_ENDPOINT = "inferno.bulk_token_endpoint";
   private static final String BULK_CLIENT_ID = "inferno.bulk_client_id";
   private static final String GROUP_ID = "inferno.group_id";
 
@@ -285,26 +283,6 @@ public class HapiReferenceServerProperties {
   public String getConfidentialClientSecret() {
     String confidentialClientSecret = properties.getProperty(CONFIDENTIAL_CLIENT_SECRET_KEY);
     return confidentialClientSecret;
-  }
-
-  /**
-   * Returns the Bulk Url Property.
-   * 
-   * @return the property
-   */
-  public String getBulkUrl() {
-    String bulkUrl = properties.getProperty(BULK_URL);
-    return bulkUrl;
-  }
-
-  /**
-   * Returns the Bulk Token Endpoint Property.
-   * 
-   * @return the property
-   */
-  public String getBulkTokenEndpoint() {
-    String bulkTokenEndpoint = properties.getProperty(BULK_TOKEN_ENDPOINT);
-    return bulkTokenEndpoint;
   }
 
   /**

@@ -26,9 +26,6 @@ public class LandingViewController {
     model.addAttribute("publicClientId", properties.getPublicClientId());
     model.addAttribute("confidentialClientId", properties.getConfidentialClientId());
     model.addAttribute("confidentialClientSecret", properties.getConfidentialClientSecret());
-    
-    model.addAttribute("bulkUrl", properties.getBulkUrl());
-    model.addAttribute("bulkTokenEndpoint", properties.getBulkTokenEndpoint());
     model.addAttribute("bulkClientId", properties.getBulkClientId());
     model.addAttribute("groupId", properties.getGroupId());
 
