@@ -68,16 +68,16 @@
 		  </div>
 
 		  <div class="form-group row">
-		    <label for="bulkUrl" class="col-sm-2 col-form-label">Bulk Url:</label>
+		    <label for="bulkEndpoint" class="col-sm-2 col-form-label">Bulk Url:</label>
 		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="bulkTokenEndpoint" th:value="${bulkUrl}">	    	
+		      <input type="text" readonly class="form-control-plaintext" id="bulkEndpoint" value="https://inferno.healthit.gov/reference-server/r4">
 		    </div>
 		  </div>
 		  
 		  <div class="form-group row">
 		    <label for="bulkTokenEndpoint" class="col-sm-2 col-form-label">Bulk Token Endpoint:</label>
 		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="bulkTokenEndpoint" th:value="${bulkTokenEndpoint}">	    	
+		      <input type="text" readonly class="form-control-plaintext" id="bulkTokenEndpoint" value="https://inferno.healthit.gov/reference-server/oauth/bulk-token">
 		    </div>
 		  </div>
 		  
@@ -116,13 +116,12 @@
 	
 	<script>
       $(document).ready(function() {
-    	let fhirEndpoint = window.location.origin + "/reference-server/r4";
-
-    	$('#fhirEndpoint').val(fhirEndpoint);	  
+		let windowLocation = window.location.origin;
+    	let fhirEndpoint = windowLocation + "/reference-server/r4";
+    	$('#fhirEndpoint').val(fhirEndpoint);
+		$('#bulkEndpoint').val(fhirEndpoint)
+		$('#bulkTokenEndpoint').val(windowLocation + "/reference-server/oauth/bulk-token")
       });
-      
   	</script>
- 
-
 </body>
 </html>
