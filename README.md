@@ -46,10 +46,8 @@ A read-only set of privileges could alternatively be provided, but prevents writ
 GRANT CONNECT ON DATABASE inferno_rs TO inferno;
 GRANT USAGE ON SCHEMA public TO inferno;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO inferno;
-GRANT ALL PRIVILEGES ON TABLE hfj_search TO inferno;
+GRANT ALL PRIVILEGES ON TABLE hfj_search, hfj_search_include, hfj_search_result TO inferno;
 ALTER DATABASE inferno_rs SET lo_compat_privileges TO on;
-GRANT ALL PRIVILEGES ON TABLE hfj_search_include TO inferno;
-GRANT ALL PRIVILEGES ON TABLE hfj_search_result TO inferno;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO inferno;
 ```
 
