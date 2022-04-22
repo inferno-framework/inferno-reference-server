@@ -12,7 +12,7 @@ services:
       - '4567:4567'
 
   validator_service:
-    image: infernocommunity/fhir-validator-service:v1.2.0
+    image: infernocommunity/fhir-validator-service:v2.1.0
   db:    
     build:
       context: ../../
