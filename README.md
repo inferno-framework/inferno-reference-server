@@ -19,7 +19,6 @@ Note that sometimes on the initial start up, the database initialization might c
 
 You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.
 
-
 The database will be initially populated by the default initdb.sql script. To update the default initial data with the data in the current db container, run `docker-compose exec db pg_dump -U postgres postgres  > initdb.sql`
 
 ## Running without Docker
@@ -29,9 +28,34 @@ The reference server requires Java 11 or above.
 
 If you cannot run docker, you will need to create a postgres database.
 
+For example:
+```shell
+createdb inferno_rs
+psql inferno_rs < init.db
+createuser inferno -P # You will be prompted to enter a password
+psql inferno_rs
+```
+
+You may also want to create a role with specific privileges:
+```sql
+GRANT ALL PRIVILEGES ON DATABASE inferno_rs TO inferno;
+```
+
+A read-only set of privileges could alternatively be provided, but prevents writing to the database:
+```sql
+GRANT CONNECT ON DATABASE inferno_rs TO inferno;
+GRANT USAGE ON SCHEMA public TO inferno;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO inferno;
+GRANT ALL PRIVILEGES ON TABLE hfj_search TO inferno;
+ALTER DATABASE inferno_rs SET lo_compat_privileges TO on;
+GRANT ALL PRIVILEGES ON TABLE hfj_search_include TO inferno;
+GRANT ALL PRIVILEGES ON TABLE hfj_search_result TO inferno;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO inferno;
+```
+
 Once you have done that, update the `src/main/resources/hapi.properties` to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have the provided values).
 
-Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server.
+Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to `http://localhost:8080/reference-server` to see information about the fhir server.
 
 To populate the database with sample data, run `bundle install` then `bundle exec ruby upload.rb` *Note*: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb corresponds to your running fhir reference server.
 
