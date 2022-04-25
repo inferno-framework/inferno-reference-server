@@ -45,6 +45,16 @@ To use as a confidential client, use `SAMPLE_CONFIDENTIAL_CLIENT_ID` as the clie
 
 To launch an app from the EHR go to `reference-server/app/app-launch`
 
+The Bulk Data Token Endpoint is `/reference-server/oauth/bulk-token`
+
+The registered Bulk Data Client ID is `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9.eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4`.
+
+`init.db` provides the following resources:
+ - Patients with ids `85` and `355`
+ - Groups with ids `1a` and `64fdf2a5-ebad-4ed0-a512-567970843d49`. Both Groups contain patients `85` and `355` as members.
+
+`upload.rb` includes the resources above, except the Group with id `1a`.
+
 ## Custom Authentication Token
 
 If you would like to execute requests without going through the process to get a token, you can set the environment variable `CUSTOM_BEARER_TOKEN` to a value of your choice. 
