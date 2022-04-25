@@ -1,7 +1,7 @@
 version: '3'
 services:
   inferno_program:
-    image: onchealthit/inferno-program:release-latest
+    image: onchealthit/inferno-program:latest
     volumes:
       - ./config.yml:/var/www/inferno/config.yml
       - ./wait-for-it/wait-for-it.sh:/var/www/inferno/wait-for-it.sh
@@ -12,7 +12,7 @@ services:
       - '4567:4567'
 
   validator_service:
-    image: infernocommunity/fhir-validator-service:v1.2.0
+    image: infernocommunity/fhir-validator-service:v2.1.0
   db:    
     build:
       context: ../../

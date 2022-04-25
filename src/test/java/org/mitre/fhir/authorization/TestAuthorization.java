@@ -3,7 +3,6 @@ package org.mitre.fhir.authorization;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -206,7 +205,7 @@ public class TestAuthorization {
       }
     }
   }
-  
+
   @Test
   public void testTestAuthorizationWithPublicClient() throws IOException, JSONException,
       BearerTokenException, TokenNotFoundException, TokenNotFoundException {
@@ -216,7 +215,8 @@ public class TestAuthorization {
     request.setLocalAddr("localhost");
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
-    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeaderWithPublicClient());
+    request.addHeader("Authorization",
+        TestUtils.getEncodedBasicAuthorizationHeaderWithPublicClient());
 
     String scopes = "launch/patient openId ";
     String code =
@@ -780,11 +780,10 @@ public class TestAuthorization {
 
     Assert.assertEquals(1, bundleEntryComponents.size());
   }
-  
+
 
   @Test
-  public void testSearch()
-  {
+  public void testSearch() {
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.YEAR, 1988);
     cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -793,15 +792,12 @@ public class TestAuthorization {
 
     Token token = TokenManager.getInstance().getServerToken();
 
-    Bundle results = ourClient
-        .search()
-        .forResource(Patient.class)
-        .where(Patient.BIRTHDATE.exactly().day(birthdate))
-        .returnBundle(Bundle.class)
+    Bundle results = ourClient.search().forResource(Patient.class)
+        .where(Patient.BIRTHDATE.exactly().day(birthdate)).returnBundle(Bundle.class)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
         .execute();
-    
+
     Assert.assertEquals(1, results.getTotal());
   }
 
@@ -860,9 +856,8 @@ public class TestAuthorization {
     ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
 
     ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
-    ourClient.registerInterceptor(new LoggingInterceptor(true));
     ourClient.capabilities();
-    
+
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.YEAR, 1988);
     cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -871,7 +866,7 @@ public class TestAuthorization {
     // ensure that db is not empty (will be deleted @AfterClass)
     Patient pt = new Patient();
     pt.setBirthDate(birthdate);
-    
+
     pt.addName().setFamily("Test");
     testPatientId = ourClient.create().resource(pt)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,

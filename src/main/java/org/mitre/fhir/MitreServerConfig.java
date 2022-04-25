@@ -2,15 +2,16 @@ package org.mitre.fhir;
 
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
 import ca.uhn.fhir.jpa.batch.config.NonPersistedBatchConfigurer;
+import ca.uhn.fhir.jpa.bulk.export.job.GroupBulkItemReader;
 import ca.uhn.fhir.jpa.config.BaseJavaConfigR4;
 import ca.uhn.fhir.jpa.dao.DaoSearchParamProvider;
 import ca.uhn.fhir.jpa.model.config.PartitionSettings;
 import ca.uhn.fhir.jpa.model.entity.ModelConfig;
 import ca.uhn.fhir.jpa.search.HapiLuceneAnalysisConfigurer;
 import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamProvider;
-import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamRegistry;
 import ca.uhn.fhir.jpa.searchparam.registry.SearchParamRegistryImpl;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
+import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import java.sql.Driver;
 import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
@@ -20,7 +21,10 @@ import org.hibernate.search.backend.lucene.cfg.LuceneBackendSettings;
 import org.hibernate.search.backend.lucene.cfg.LuceneIndexSettings;
 import org.hibernate.search.engine.cfg.BackendSettings;
 import org.hibernate.search.mapper.orm.cfg.HibernateOrmMapperSettings;
+import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
+import org.mitre.fhir.bulk.InfernoGroupBulkItemReader;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -74,7 +78,6 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
       // org.apache.derby.jdbc.EmbeddedDriver
       HapiReferenceServerProperties hapiReferenceServerProperties =
           new HapiReferenceServerProperties();
-
 
       String driverName = hapiReferenceServerProperties.getDataSourceDriver();
       Driver driver = (Driver) Class.forName(driverName).getConstructor().newInstance();
@@ -186,4 +189,19 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     return new NonPersistedBatchConfigurer();
   }
 
+  @Bean
+  public AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider() {
+    return new AuthorizationBulkDataExportProvider();
+  }
+
+  @Bean
+  public AuthorizationBulkDataExportProvider authorizationBulkDataExport() {
+    return new AuthorizationBulkDataExportProvider();
+  }
+
+  @Bean
+  @StepScope
+  public GroupBulkItemReader groupBulkItemReader() {
+    return new InfernoGroupBulkItemReader();
+  }
 }

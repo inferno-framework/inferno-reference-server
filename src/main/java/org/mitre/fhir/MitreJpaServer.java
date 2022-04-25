@@ -7,17 +7,19 @@ import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
-import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamRegistry;
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
+import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import javax.servlet.ServletException;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
+import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
+import org.mitre.fhir.bulk.BulkInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -34,6 +36,8 @@ public class MitreJpaServer extends RestfulServer {
   @Autowired
   protected ISearchParamRegistry searchParamRegistry;
 
+  @Autowired
+  AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider;
 
   public MitreJpaServer() {
     // Required for Autowiring searchParamRegistry
@@ -108,6 +112,12 @@ public class MitreJpaServer extends RestfulServer {
             + "ResponseEncoding[${responseEncodingNoDefault}]");
     registerInterceptor(loggingInterceptor);
 
+    registerInterceptor(new BulkInterceptor());
+
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
+
+    // enable Bulk Export
+    registerProvider(authorizationBulkDataExportProvider);
   }
+
 }

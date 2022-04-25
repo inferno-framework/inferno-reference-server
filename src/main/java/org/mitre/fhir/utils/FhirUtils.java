@@ -27,6 +27,22 @@ public class FhirUtils {
     return getAllResourcesBundle(client, "Encounter");
   }
 
+  public static List<BundleEntryComponent> getAllGroups(IGenericClient client) {
+    return getAllResources(client, "Group");
+  }
+
+  public static Bundle getGroupsBundle(IGenericClient client) {
+    return getAllResourcesBundle(client, "Group");
+  }
+  
+  public static List<BundleEntryComponent> getAllOrganizations(IGenericClient client) {
+    return getAllResources(client, "Organization");
+  }
+
+  public static Bundle getOrganzationsBundle(IGenericClient client) {
+    return getAllResourcesBundle(client, "Organization");
+  }
+  
   private static List<BundleEntryComponent> getAllResources(IGenericClient client,
       String resourceName) {
 
