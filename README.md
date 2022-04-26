@@ -31,7 +31,7 @@ If you cannot run docker, you will need to create a postgres database.
 For example:
 ```shell
 createdb inferno_rs
-psql inferno_rs < init.db
+psql inferno_rs < initdb.sql
 createuser inferno -P # You will be prompted to enter a password
 psql inferno_rs
 ```
