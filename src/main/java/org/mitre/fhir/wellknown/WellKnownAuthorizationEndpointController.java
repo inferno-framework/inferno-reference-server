@@ -73,7 +73,7 @@ public class WellKnownAuthorizationEndpointController {
   }
 
   /**
-   * Supports retrieval of the opopenid configuration for authorization and authentication.
+   * Supports retrieval of the openid configuration for authorization and authentication.
    *
    * @param theRequest the incoming HTTP request
    * @return String representing the JSON object of the OpenID configuration

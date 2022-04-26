@@ -375,7 +375,7 @@ public class AuthorizationController {
 
       Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
       String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-          .withSubject("").withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
+          .withSubject("subject").withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
           .withClaim("fhirUser", fhirUserUrl).sign(algorithm);
 
       return token;
