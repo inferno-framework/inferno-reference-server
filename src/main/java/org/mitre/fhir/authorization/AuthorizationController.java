@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
@@ -373,9 +374,11 @@ public class AuthorizationController {
       calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
       Date expiresAt = calendar.getTime();
 
+      String sub = UUID.randomUUID().toString();
+
       Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
       String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-          .withSubject("subject").withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
+          .withSubject(sub).withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
           .withClaim("fhirUser", fhirUserUrl).sign(algorithm);
 
       return token;
