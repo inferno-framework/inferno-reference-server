@@ -637,6 +637,7 @@ public class TestAuthorization {
 
     Assert.assertEquals("RS256", decoded.getAlgorithm());
     Assert.assertNotNull(decoded.getClaim("fhirUser"));
+    Assert.assertFalse(decoded.getSubject().isEmpty());
   }
 
   @Test
