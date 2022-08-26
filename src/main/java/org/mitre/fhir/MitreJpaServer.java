@@ -49,7 +49,7 @@ public class MitreJpaServer extends RestfulServer {
   protected void initialize() throws ServletException {
     super.initialize();
 
-    // Load configuration
+    // Load ReadOnly var
     Boolean ReadOnly = Boolean.parseBoolean(System.getProperty("READ_ONLY"));
 
     // Setup a FHIR context.
