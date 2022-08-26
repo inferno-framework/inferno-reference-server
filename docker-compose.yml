@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:    
+  db:
     build:
       context: .
       dockerfile: Dockerfile.database
@@ -20,6 +20,7 @@ services:
     environment:
       - POSTGRES_HOST=db
       - CUSTOM_BEARER_TOKEN=SAMPLE_TOKEN
+      - READ_ONLY=true
     networks:
       - fhirnet
     depends_on:
@@ -27,6 +28,6 @@ services:
 
 networks:
   fhirnet:
-  
+
 volumes:
   fhir-pgdata:

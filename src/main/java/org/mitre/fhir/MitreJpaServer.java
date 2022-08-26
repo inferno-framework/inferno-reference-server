@@ -7,6 +7,7 @@ import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
+import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import ca.uhn.fhir.rest.server.RestfulServer;
@@ -33,6 +34,8 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 public class MitreJpaServer extends RestfulServer {
   private static final long serialVersionUID = 1L;
+  private static final String READ_ONLY_ENV_KEY = "READ_ONLY";
+
 
   @Autowired
   protected ISearchParamRegistry searchParamRegistry;
@@ -50,7 +53,10 @@ public class MitreJpaServer extends RestfulServer {
     super.initialize();
 
     // Load ReadOnly var
-    Boolean ReadOnly = Boolean.parseBoolean(System.getProperty("READ_ONLY"));
+    String ReadOnly = System.getenv().get(READ_ONLY_ENV_KEY);
+    if (ReadOnly == null) {
+      ReadOnly = System.getProperty(READ_ONLY_ENV_KEY);
+    }
 
     // Setup a FHIR context.
     FhirVersionEnum fhirVersion = FhirVersionEnum.R4;
@@ -120,7 +126,7 @@ public class MitreJpaServer extends RestfulServer {
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
-    if (ReadOnly) {
+    if (Boolean.parseBoolean(ReadOnly)) {
       registerInterceptor(new ReadOnlyInterceptor());
     };
 
