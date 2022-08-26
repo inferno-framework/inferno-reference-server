@@ -15,7 +15,6 @@ import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import javax.servlet.ServletException;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
@@ -25,8 +24,6 @@ import org.mitre.fhir.bulk.BulkInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import java.io.*;
-import java.util.Properties;
 
 /**
  * MitreJpaServer configures the server.
@@ -48,27 +45,12 @@ public class MitreJpaServer extends RestfulServer {
     SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
   }
 
-  public Properties LoadConfig() {
-    Properties prop = new Properties();
-
-    try {
-      FileInputStream propsInput = new FileInputStream("src/config.properties");
-      prop.load(propsInput);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return prop;
-  }
-
   @Override
   protected void initialize() throws ServletException {
     super.initialize();
 
     // Load configuration
-    Properties prop = LoadConfig();
+    Boolean ReadOnly = Boolean.parseBoolean(System.getProperty("READ_ONLY"));
 
     // Setup a FHIR context.
     FhirVersionEnum fhirVersion = FhirVersionEnum.R4;
@@ -138,7 +120,7 @@ public class MitreJpaServer extends RestfulServer {
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
-    if (Boolean.parseBoolean(prop.getProperty("READ_ONLY"))) {
+    if (ReadOnly) {
       registerInterceptor(new ReadOnlyInterceptor());
     };
 

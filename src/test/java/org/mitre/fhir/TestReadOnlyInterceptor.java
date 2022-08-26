@@ -1,13 +1,9 @@
 package org.mitre.fhir;
 
 import org.junit.Test;
-import java.io.FileWriter;
-import java.nio.file.Path;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.hl7.fhir.r4.model.IdType;
 import org.hl7.fhir.r4.model.Patient;
 import org.mitre.fhir.utils.TestUtils;
 import org.eclipse.jetty.server.Server;
@@ -75,23 +71,10 @@ public class TestReadOnlyInterceptor {
             .execute().getId();
   }
 
-  public static String CopyConfig() throws Exception {
-    Path FilePath = Path.of("src/config.properties");
-    return Files.readString(FilePath);
-  }
-
-  public static void OverWriteConfig(String ContentToWrite) throws Exception {
-    FileWriter ConfigWriter = new FileWriter("src/config.properties");
-    ConfigWriter.write("");
-    ConfigWriter.write(ContentToWrite);
-    ConfigWriter.close();
-  }
-
   @BeforeClass
   public static void beforeClass() throws Exception {
 
-    ConfigFileContent = CopyConfig();
-    OverWriteConfig("READ_ONLY=true");
+    System.setProperty("READ_ONLY", "true");
 
     testToken = TokenManager.getInstance().getServerToken();
     ourCtx = FhirContext.forR4();
@@ -123,8 +106,7 @@ public class TestReadOnlyInterceptor {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    OverWriteConfig(ConfigFileContent);
+    System.setProperty("READ_ONLY", "false");
     ourServer.stop();
   }
 }
-
