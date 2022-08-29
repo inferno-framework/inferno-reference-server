@@ -65,6 +65,14 @@ To revoke a token, go to `reference-server/oauth/token/revoke-token`
 
 The tokens are currently saved in memory, so if the reference server is restarted, all existing tokens will be invalid
 
+## Running Read-Only Mode
+
+By default, the Dockerized server runs in read-only mode – meaning, operations modifying the state of the server 
+are not supported. For example, requests to CREATE, UPDATE, or DELETE a resource will receive a `405 Method Not Allowed` 
+error. To adjust this while running Docker, change the `READ_ONLY` environment variable to `false` in 
+`./docker-compose.yml`. If running without Docker, the default mode is _not_ read-only. To activate read-only, run 
+`mvn jetty:run -DREAD_ONLY=true` when starting the server.
+
 ## Running Tests
 
 Tests can be run with:
