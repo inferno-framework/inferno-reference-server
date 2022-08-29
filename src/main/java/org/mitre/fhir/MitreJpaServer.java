@@ -15,7 +15,6 @@ import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import javax.servlet.ServletException;
-
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
@@ -53,9 +52,9 @@ public class MitreJpaServer extends RestfulServer {
     super.initialize();
 
     // Load ReadOnly var
-    String ReadOnly = System.getenv().get(READ_ONLY_ENV_KEY);
-    if (ReadOnly == null) {
-      ReadOnly = System.getProperty(READ_ONLY_ENV_KEY);
+    String readOnly = System.getenv().get(READ_ONLY_ENV_KEY);
+    if (readOnly == null) {
+      readOnly = System.getProperty(READ_ONLY_ENV_KEY);
     }
 
     // Setup a FHIR context.
@@ -126,9 +125,9 @@ public class MitreJpaServer extends RestfulServer {
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
-    if (Boolean.parseBoolean(ReadOnly)) {
+    if (Boolean.parseBoolean(readOnly)) {
       registerInterceptor(new ReadOnlyInterceptor());
-    };
+    }
 
     // enable Bulk Export
     registerProvider(authorizationBulkDataExportProvider);
