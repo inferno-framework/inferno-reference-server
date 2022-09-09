@@ -50,7 +50,8 @@ public class WellKnownAuthorizationEndpointController {
   };
 
   private static final JSONArray WELL_KNOWN_CAPABILITIES_VALUES = new JSONArray(capabilityValues);
-  private static final JSONArray WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES = new JSONArray(grantTypesSupportedValues);
+  private static final JSONArray WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES =
+        new JSONArray(grantTypesSupportedValues);
 
   @PostConstruct
   protected void postConstruct() {
@@ -75,7 +76,8 @@ public class WellKnownAuthorizationEndpointController {
     wellKnownJson.put(WELL_KNOWN_REVOCATION_ENDPOINT_KEY,
         ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
-    wellKnownJson.put(WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY, WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES);
+    wellKnownJson.put(WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY,
+        WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES);
 
     return wellKnownJson.toString();
   }
