@@ -23,6 +23,7 @@ public class WellKnownAuthorizationEndpointController {
   private static final String WELL_KNOWN_REVOCATION_ENDPOINT_KEY = "revocation_endpoint";
   private static final String WELL_KNOWN_CAPABILITIES_KEY = "capabilities";
   private static final String WELL_KNOWN_JWK_URI_KEY = "jwks_uri";
+  private static final String WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY = "grant_types_supported";
 
   // 2.1 on
   // http://hl7.org/fhir/smart-app-launch/conformance/index.html#core-capabilities
@@ -43,7 +44,13 @@ public class WellKnownAuthorizationEndpointController {
       "permission-user"
       };
 
+  private static final String[] grantTypesSupportedValues = {
+      "authorization_code",
+      "client_credentials"
+  };
+
   private static final JSONArray WELL_KNOWN_CAPABILITIES_VALUES = new JSONArray(capabilityValues);
+  private static final JSONArray WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES = new JSONArray(grantTypesSupportedValues);
 
   @PostConstruct
   protected void postConstruct() {
@@ -68,6 +75,7 @@ public class WellKnownAuthorizationEndpointController {
     wellKnownJson.put(WELL_KNOWN_REVOCATION_ENDPOINT_KEY,
         ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
+    wellKnownJson.put(WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY, WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES);
 
     return wellKnownJson.toString();
   }
