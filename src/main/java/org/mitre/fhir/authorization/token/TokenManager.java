@@ -36,7 +36,7 @@ public class TokenManager {
 
   /**
    * Gets instance of the TokenManager singleton.
-   * 
+   *
    * @return
    */
   public static TokenManager getInstance() {
@@ -49,7 +49,7 @@ public class TokenManager {
 
   /**
    * Creates a token.
-   * 
+   *
    * @return the created token
    */
   public Token createToken(String scopesString) {
@@ -59,7 +59,7 @@ public class TokenManager {
 
   /**
    * Creates a token.
-   * 
+   *
    * @return the created token
    */
   public Token createToken(List<String> scopes) {
@@ -82,7 +82,7 @@ public class TokenManager {
 
   /**
    * Gets a Token based on the token value.
-   * 
+   *
    * @param tokenValue the token's key value
    * @return the corresponding token
    * @throws TokenNotFoundException if no token with tokenValue exists
@@ -98,7 +98,7 @@ public class TokenManager {
 
   /**
    * Get the corresponding Token for a refresh token.
-   * 
+   *
    * @param refreshTokenValue the refresh token's key value
    * @return the corresponding refresh token
    * @throws TokenNotFoundException if no refresh token with refreshTokenValue exists
@@ -115,9 +115,9 @@ public class TokenManager {
 
   /**
    * Get the refresh token corresponding to a token.
-   * 
+   *
    * @param tokenValue the relevant token value
-   * 
+   *
    * @return refresh token corresponding to the provided token.
    * @throws TokenNotFoundException if the provided token value is not found.
    */
@@ -137,7 +137,7 @@ public class TokenManager {
 
   /**
    * revokes a token.
-   * 
+   *
    * @param tokenValue the token to be revoked.
    * @throws TokenNotFoundException if the provided token value is not found.
    * @throws InactiveTokenException the token has already been revoked.
@@ -162,7 +162,7 @@ public class TokenManager {
 
   /**
    * authenticates if the token is active.
-   * 
+   *
    * @param tokenValue the token to authenticate
    * @return if the token is active
    * @throws TokenNotFoundException if the supplied token is not found.
@@ -176,7 +176,7 @@ public class TokenManager {
 
   /**
    * Authenticates a refresh token.
-   * 
+   *
    * @param refreshTokenValue the refresh token to be authenticated
    * @return boolean indicating whether the refresh token is active
    * @throws TokenNotFoundException if the provided token is not found
@@ -207,7 +207,7 @@ public class TokenManager {
 
   /**
    * Gets a preadded token for calls in the java code.
-   * 
+   *
    * @return a Token
    */
   public Token getServerToken() {
