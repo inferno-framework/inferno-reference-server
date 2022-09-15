@@ -123,6 +123,10 @@
             ],
             "prefix": [
               "Mr."
+            ],
+            "suffix":
+            [
+              "PharmD"
             ]
           }
         ],
@@ -541,6 +545,55 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:4b14070a-2ef9-11ed-a261-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4b14070a-2ef9-11ed-a261-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "9843-4",
+              "display": "Head Occipital-frontal circumference"
+            }
+          ],
+          "text": "Head Circumference"
+        },
+        "subject": {
+          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "effectiveDateTime": "2020-11-18T16:19:31-08:00",
+        "valueQuantity": {
+          "value": 51.2,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org",
+          "code": "cm"
+        }
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:a2ad9c61-9e93-390e-34ad-d9d825c65a51",
       "resource": {
         "id": "a2ad9c61-9e93-390e-34ad-d9d825c65a51",
@@ -555,8 +608,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -695,8 +748,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -835,8 +888,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -975,8 +1028,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -1297,8 +1350,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -1742,6 +1795,18 @@
         },
         "status": "stopped",
         "intent": "order",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationrequest-category",
+                "code": "community",
+                "display": "Community"
+              }
+            ],
+            "text": "Community"
+          }
+        ],
         "medicationCodeableConcept": {
           "coding": [
             {
@@ -2033,8 +2098,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -2314,8 +2379,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -2595,8 +2660,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -2917,8 +2982,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -3239,8 +3304,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -3379,8 +3444,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -3560,8 +3625,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -3700,8 +3765,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -3840,8 +3905,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4019,8 +4084,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4841,8 +4906,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -5559,8 +5624,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -5699,8 +5764,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -5980,8 +6045,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6159,8 +6224,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6423,8 +6488,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6748,8 +6813,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6927,8 +6992,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -7106,8 +7171,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -7426,8 +7491,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -7605,8 +7670,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -7886,8 +7951,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -8065,8 +8130,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -8942,8 +9007,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -9559,8 +9624,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -10640,8 +10705,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -10819,8 +10884,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -10998,8 +11063,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -11532,8 +11597,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -12665,8 +12730,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -13164,6 +13229,255 @@
         "resourceType": "DocumentReference"
       },
       "request": {
+        "method": "POST",
+        "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c7207b52-2f09-11ed-a261-0242ac120002",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "c7207b52-2f09-11ed-a261-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:c7207b52-2f09-11ed-a261-0242ac120002"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18748-4",
+              "display": "Diagnostic imaging study"
+            }
+          ],
+          "text": "Diagnostic imaging study"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note",
+                "display": "Clinical Note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "date": "1975-04-07T02:42:45.131-04:00",
+        "author": [
+          {
+            "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+            "display": "Dr. Willena258 Oberbrunner298"
+          }
+        ],
+        "custodian": {
+          "reference": "urn:uuid:b0e04623-b02c-3f8b-92ea-943fc4db60da",
+          "display": "LOWELL GENERAL HOSPITAL"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "CjIwMjItMDUtMTQKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkFseXNoYTYzMCBDYXJhODQ1CiBpcyBhIDQ0IHllYXItb2xkIG5vbi1oaXNwYW5pYyB3aGl0ZSBmZW1hbGUuIFBhdGllbnQgaGFzIGEgaGlzdG9yeSBvZiBub3JtYWwgcHJlZ25hbmN5LCBhY3V0ZSBiYWN0ZXJpYWwgc2ludXNpdGlzIChkaXNvcmRlciksIHBhcnQtdGltZSBlbXBsb3ltZW50IChmaW5kaW5nKSwgbm90IGluIGxhYm9yIGZvcmNlIChmaW5kaW5nKSwgZnVsbC10aW1lIGVtcGxveW1lbnQgKGZpbmRpbmcpLCBhY3V0ZSB2aXJhbCBwaGFyeW5naXRpcyAoZGlzb3JkZXIpLCBtaXN1c2VzIGRydWdzIChmaW5kaW5nKSwgc3RyZXNzIChmaW5kaW5nKSwgc29jaWFsIGlzb2xhdGlvbiAoZmluZGluZykuCgojIFNvY2lhbCBIaXN0b3J5ClBhdGllbnQgaXMgbWFycmllZC4gUGF0aWVudCBpcyB0ZW1wb3JhcmlseSBob21lbGVzcy4gUGF0aWVudCBpcyBhbiBhY3RpdmUgc21va2VyIGFuZCBpcyBhbiBhbGNvaG9saWMuCiBQYXRpZW50IGlkZW50aWZpZXMgYXMgaGV0ZXJvc2V4dWFsLgoKUGF0aWVudCBjb21lcyBmcm9tIGEgbWlkZGxlIHNvY2lvZWNvbm9taWMgYmFja2dyb3VuZC4KIFBhdGllbnQgaXMgYSBjb2xsZWdlIGdyYWR1YXRlLgpQYXRpZW50IGN1cnJlbnRseSBoYXMgVW5pdGVkSGVhbHRoY2FyZS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKcmlib2NpY2xpYiAyMDAgbWcgb3JhbCB0YWJsZXQ7IGpvbGl2ZXR0ZSAyOCBkYXkgcGFjazsgc2Vhc29uaXF1ZSA5MSBkYXkgcGFjazsgY2FyYm9wbGF0aW4gMTAgbWcvbWwgaW5qZWN0YWJsZSBzb2x1dGlvbjsgdGFtb3hpZmVuIDEwIG1nIG9yYWwgdGFibGV0OyB5YXogMjggZGF5IHBhY2s7IDUgbWwgaHlhbHVyb25pZGFzZS1veXNrIDIwMDAgdW50L21sIC8gdHJhc3R1enVtYWIgMTIwIG1nL21sIGluamVjdGlvbjsgY2FtaWxhIDI4IGRheSBwYWNrCgojIEFzc2Vzc21lbnQgYW5kIFBsYW4KCgojIyBQbGFuCgpUaGUgZm9sbG93aW5nIHByb2NlZHVyZXMgd2VyZSBjb25kdWN0ZWQ6Ci0gZXZhbHVhdGlvbiBvZiB1dGVyaW5lIGZ1bmRhbCBoZWlnaHQKLSBhdXNjdWx0YXRpb24gb2YgdGhlIGZldGFsIGhlYXJ0Ci0gc2NyZWVuaW5nIGZvciBjaHJvbW9zb21hbCBhbmV1cGxvaWR5IGluIHByZW5hdGFsIGFtbmlvdGljIGZsdWlkCg=="
+            },
+            "format": {
+              "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+              "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+              "display": "mimeType Sufficient"
+            }
+          }
+        ],
+        "context": {
+          "encounter": [
+            {
+              "reference": "urn:uuid:887bc47f-4fae-3a26-0109-ae92af659da9"
+            }
+          ],
+          "period": {
+            "start": "1975-10-05T03:25:45-04:00",
+            "end": "1975-10-05T03:40:45-04:00"
+          }
+        }
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:335aec12-2f0a-11ed-a261-0242ac120002",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "335aec12-2f0a-11ed-a261-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:335aec12-2f0a-11ed-a261-0242ac120002"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Laboratory report"
+            }
+          ],
+          "text": "Laboratory report"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note",
+                "display": "Clinical Note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "date": "1971-06-11T01:11:45.131-04:00",
+        "author": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
+        "custodian": {
+          "reference": "urn:uuid:56090ab7-1f97-37ff-a434-194f9c6e5510",
+          "display": "PCP87052"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain; charset=utf-8",
+              "data": "CjIwMTktMDEtMTcKCiMgQ2hpZWYgQ29tcGxhaW50Ci0gRGVjcmVhc2VkIEF0dGVudGl2ZW5lc3MKCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkNlbGVuYTczNAogaXMgYSA2NiB5ZWFyLW9sZCBub24taGlzcGFuaWMgd2hpdGUgZmVtYWxlLiBQYXRpZW50IGhhcyBhIGhpc3Rvcnkgb2YgYWN1dGUgYnJvbmNoaXRpcyAoZGlzb3JkZXIpLCBsaW1pdGVkIHNvY2lhbCBjb250YWN0IChmaW5kaW5nKSwgbm90IGluIGxhYm9yIGZvcmNlIChmaW5kaW5nKSwgc2ludXNpdGlzIChkaXNvcmRlciksIGZ1bGwtdGltZSBlbXBsb3ltZW50IChmaW5kaW5nKSwgYWN1dGUgdmlyYWwgcGhhcnluZ2l0aXMgKGRpc29yZGVyKSwgc3ByYWluIG9mIHdyaXN0LCBzdHJlc3MgKGZpbmRpbmcpLCBzZXZlcmUgYW54aWV0eSAocGFuaWMpIChmaW5kaW5nLCBzb2NpYWwgaXNvbGF0aW9uIChmaW5kaW5nKS4KCiMgU29jaWFsIEhpc3RvcnkKUGF0aWVudCBpcyBtYXJyaWVkLiBQYXRpZW50IGlzIGFuIGFjdGl2ZSBzbW9rZXIgYW5kIGlzIGFuIGFsY29ob2xpYy4KIFBhdGllbnQgaWRlbnRpZmllcyBhcyBoZXRlcm9zZXh1YWwuCgpQYXRpZW50IGNvbWVzIGZyb20gYSBtaWRkbGUgc29jaW9lY29ub21pYyBiYWNrZ3JvdW5kLgogUGF0aWVudCBoYXMgYSBoaWdoIHNjaG9vbCBlZHVjYXRpb24uClBhdGllbnQgY3VycmVudGx5IGhhcyBNZWRpY2FyZS4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKYWNldGFtaW5vcGhlbiAzMjUgbWcgb3JhbCB0YWJsZXQ7IGFtbG9kaXBpbmUgNSBtZyBvcmFsIHRhYmxldDsgc2ltdmFzdGF0aW4gMjAgbWcgb3JhbCB0YWJsZXQ7IGNsb3BpZG9ncmVsIDc1IG1nIG9yYWwgdGFibGV0OyBuaXRyb2dseWNlcmluIDAuNCBtZy9hY3R1YXQgbXVjb3NhbCBzcHJheQoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuClBhdGllbnQgaXMgcHJlc2VudGluZyB3aXRoIG5vdCBpbiBsYWJvciBmb3JjZSAoZmluZGluZykuIAoKIyMgUGxhbgpQYXRpZW50IHdhcyBnaXZlbiB0aGUgZm9sbG93aW5nIGltbXVuaXphdGlvbnM6IGluZmx1ZW56YSwgc2Vhc29uYWwsIGluamVjdGFibGUsIHByZXNlcnZhdGl2ZSBmcmVlLCBwbmV1bW9jb2NjYWwgcG9seXNhY2NoYXJpZGUgdmFjY2luZSwgMjMgdmFsZW50LiAKVGhlIGZvbGxvd2luZyBwcm9jZWR1cmVzIHdlcmUgY29uZHVjdGVkOgotIGFzc2Vzc21lbnQgb2YgaGVhbHRoIGFuZCBzb2NpYWwgY2FyZSBuZWVkcyAocHJvY2VkdXJlKQotIGFzc2Vzc21lbnQgb2YgYW54aWV0eSAocHJvY2VkdXJlKQotIGFzc2Vzc21lbnQgdXNpbmcgbW9yc2UgZmFsbCBzY2FsZSAocHJvY2VkdXJlKQpUaGUgcGF0aWVudCB3YXMgcHJlc2NyaWJlZCB0aGUgZm9sbG93aW5nIG1lZGljYXRpb25zOgotIGNsb3BpZG9ncmVsIDc1IG1nIG9yYWwgdGFibGV0Ci0gbml0cm9nbHljZXJpbiAwLjQgbWcvYWN0dWF0IG11Y29zYWwgc3ByYXkKLSBzaW12YXN0YXRpbiAyMCBtZyBvcmFsIHRhYmxldAotIGFtbG9kaXBpbmUgNSBtZyBvcmFsIHRhYmxldAo="
+            },
+            "format": {
+              "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+              "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+              "display": "mimeType Sufficient"
+            }
+          }
+        ],
+        "context": {
+          "encounter": [
+            {
+              "reference": "urn:uuid:aa24e14a-051d-b4b9-d8fb-f15ac189d7a8"
+            }
+          ],
+          "period": {
+            "start": "1971-06-11T01:11:45-04:00",
+            "end": "1971-06-11T01:26:45-04:00"
+          }
+        }
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:868b6f6a-2f0a-11ed-a261-0242ac120002",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "868b6f6a-2f0a-11ed-a261-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:868b6f6a-2f0a-11ed-a261-0242ac120002"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11526-1",
+              "display": "Pathology study"
+            }
+          ],
+          "text": "Pathology study"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note",
+                "display": "Clinical Note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "date": "1974-03-29T02:42:45.131-04:00",
+        "author": [
+          {
+            "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+            "display": "Dr. Willena258 Oberbrunner298"
+          }
+        ],
+        "custodian": {
+          "reference": "urn:uuid:b0e04623-b02c-3f8b-92ea-943fc4db60da",
+          "display": "LOWELL GENERAL HOSPITAL"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "CjIwMjEtMDEtMjgKCiMgQ2hpZWYgQ29tcGxhaW50Ci0gRGVjcmVhc2VkIEF0dGVudGl2ZW5lc3MKCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkNlbGVuYTczNAogaXMgYSA2OCB5ZWFyLW9sZCBub24taGlzcGFuaWMgd2hpdGUgZmVtYWxlLiBQYXRpZW50IGhhcyBhIGhpc3Rvcnkgb2YgZmF0aWd1ZSAoZmluZGluZyksIGFjdXRlIHZpcmFsIHBoYXJ5bmdpdGlzIChkaXNvcmRlciksIHNwcmFpbiBvZiB3cmlzdCwgc3VzcGVjdGVkIGNvdmlkLTE5LCBzZXZlcmUgYW54aWV0eSAocGFuaWMpIChmaW5kaW5nLCBjb3ZpZC0xOSwgYWN1dGUgYnJvbmNoaXRpcyAoZGlzb3JkZXIpLCBmZXZlciAoZmluZGluZyksIGxpbWl0ZWQgc29jaWFsIGNvbnRhY3QgKGZpbmRpbmcpLCBub3QgaW4gbGFib3IgZm9yY2UgKGZpbmRpbmcpLCBzaW51c2l0aXMgKGRpc29yZGVyKSwgZnVsbC10aW1lIGVtcGxveW1lbnQgKGZpbmRpbmcpLCBsb3NzIG9mIHRhc3RlIChmaW5kaW5nKSwgc3RyZXNzIChmaW5kaW5nKSwgc29jaWFsIGlzb2xhdGlvbiAoZmluZGluZykuCgojIFNvY2lhbCBIaXN0b3J5ClBhdGllbnQgaXMgbWFycmllZC4gUGF0aWVudCBpcyBhbiBhY3RpdmUgc21va2VyIGFuZCBpcyBhbiBhbGNvaG9saWMuCiBQYXRpZW50IGlkZW50aWZpZXMgYXMgaGV0ZXJvc2V4dWFsLgoKUGF0aWVudCBjb21lcyBmcm9tIGEgbWlkZGxlIHNvY2lvZWNvbm9taWMgYmFja2dyb3VuZC4KIFBhdGllbnQgaGFzIGEgaGlnaCBzY2hvb2wgZWR1Y2F0aW9uLgpQYXRpZW50IGN1cnJlbnRseSBoYXMgTWVkaWNhcmUuCgojIEFsbGVyZ2llcwpObyBLbm93biBBbGxlcmdpZXMuCgojIE1lZGljYXRpb25zCmFjZXRhbWlub3BoZW4gMzI1IG1nIG9yYWwgdGFibGV0OyBhbWxvZGlwaW5lIDUgbWcgb3JhbCB0YWJsZXQ7IHNpbXZhc3RhdGluIDIwIG1nIG9yYWwgdGFibGV0OyBjbG9waWRvZ3JlbCA3NSBtZyBvcmFsIHRhYmxldDsgbml0cm9nbHljZXJpbiAwLjQgbWcvYWN0dWF0IG11Y29zYWwgc3ByYXkKCiMgQXNzZXNzbWVudCBhbmQgUGxhbgpQYXRpZW50IGlzIHByZXNlbnRpbmcgd2l0aCBmdWxsLXRpbWUgZW1wbG95bWVudCAoZmluZGluZykuIAoKIyMgUGxhbgpQYXRpZW50IHdhcyBnaXZlbiB0aGUgZm9sbG93aW5nIGltbXVuaXphdGlvbnM6IGluZmx1ZW56YSwgc2Vhc29uYWwsIGluamVjdGFibGUsIHByZXNlcnZhdGl2ZSBmcmVlLiAKVGhlIGZvbGxvd2luZyBwcm9jZWR1cmVzIHdlcmUgY29uZHVjdGVkOgotIGFzc2Vzc21lbnQgb2YgaGVhbHRoIGFuZCBzb2NpYWwgY2FyZSBuZWVkcyAocHJvY2VkdXJlKQotIG1lZGljYXRpb24gcmVjb25jaWxpYXRpb24gKHByb2NlZHVyZSkKLSBkZXByZXNzaW9uIHNjcmVlbmluZyAocHJvY2VkdXJlKQotIGRlcHJlc3Npb24gc2NyZWVuaW5nIHVzaW5nIHBhdGllbnQgaGVhbHRoIHF1ZXN0aW9ubmFpcmUgdHdvLWl0ZW0gc2NvcmUgKHByb2NlZHVyZSkKLSBhc3Nlc3NtZW50IG9mIHN1YnN0YW5jZSB1c2UgKHByb2NlZHVyZSkKLSBzY3JlZW5pbmcgZm9yIGRydWcgYWJ1c2UgKHByb2NlZHVyZSkKVGhlIHBhdGllbnQgd2FzIHByZXNjcmliZWQgdGhlIGZvbGxvd2luZyBtZWRpY2F0aW9uczoKLSBjbG9waWRvZ3JlbCA3NSBtZyBvcmFsIHRhYmxldAotIG5pdHJvZ2x5Y2VyaW4gMC40IG1nL2FjdHVhdCBtdWNvc2FsIHNwcmF5Ci0gc2ltdmFzdGF0aW4gMjAgbWcgb3JhbCB0YWJsZXQKLSBhbWxvZGlwaW5lIDUgbWcgb3JhbCB0YWJsZXQK"
+            },
+            "format": {
+              "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+              "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+              "display": "mimeType Sufficient"
+            }
+          }
+        ],
+        "context": {
+          "encounter": [
+            {
+              "reference": "urn:uuid:1904f534-2ec3-d480-dc4b-caf634416a57"
+            }
+          ],
+          "period": {
+            "start": "1974-03-29T01:11:45-04:00",
+            "end": "1974-03-29T02:42:45-04:00"
+          }
+        }
+      },
+      "request":
+      {
         "method": "POST",
         "url": "DocumentReference"
       }
@@ -13801,8 +14115,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -14274,8 +14588,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -15291,8 +15605,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -16115,6 +16429,18 @@
           },
           {
             "reference": "urn:uuid:32ef1af4-d49e-4442-9afb-9c7e5c07aa0e"
+          },
+          {
+            "reference": "urn:uuid:4b14070a-2ef9-11ed-a261-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:c7207b52-2f09-11ed-a261-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:335aec12-2f0a-11ed-a261-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:868b6f6a-2f0a-11ed-a261-0242ac120002"
           }
         ],
         "recorded": "1977-07-15T01:11:45.131-04:00",

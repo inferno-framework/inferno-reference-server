@@ -124,6 +124,23 @@
             "prefix": [
               "Mr."
             ]
+          },
+          {
+            "use": "old",
+            "family": "Ritchie586",
+            "given":
+            [
+              "John43"
+            ],
+            "prefix":
+            [
+              "Mr."
+            ],
+            "period":
+            {
+              "start": "1940-09-05",
+              "end": "1962-04-30"
+            }
           }
         ],
         "telecom": [
@@ -571,8 +588,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -864,8 +881,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -1385,8 +1402,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -1525,8 +1542,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -1703,8 +1720,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -1843,8 +1860,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -2796,8 +2813,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -3520,8 +3537,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4023,8 +4040,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4163,8 +4180,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4303,8 +4320,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4642,8 +4659,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -4782,8 +4799,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -5362,8 +5379,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -5502,8 +5519,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6141,8 +6158,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6450,8 +6467,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6641,8 +6658,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6781,8 +6798,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -6921,8 +6938,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -7061,8 +7078,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -7254,8 +7271,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -8031,8 +8048,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -8183,8 +8200,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -8762,8 +8779,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -9290,8 +9307,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -9430,8 +9447,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -9727,8 +9744,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -9867,8 +9884,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -10433,8 +10450,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -10573,8 +10590,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -10713,8 +10730,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -11276,8 +11293,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -11479,8 +11496,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -11670,8 +11687,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -11810,8 +11827,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -11950,8 +11967,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -12090,8 +12107,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -12242,8 +12259,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -12888,8 +12905,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -13134,8 +13151,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -13274,8 +13291,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -13414,8 +13431,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -13801,8 +13818,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -14256,8 +14273,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -14573,8 +14590,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -14888,8 +14905,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -15185,8 +15202,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -15513,8 +15530,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -15841,8 +15858,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -15993,8 +16010,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -16184,8 +16201,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -16389,8 +16406,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -16621,8 +16638,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -16761,8 +16778,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -16901,8 +16918,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -17082,8 +17099,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -17369,8 +17386,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -17509,8 +17526,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -17649,8 +17666,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -17828,8 +17845,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -17968,8 +17985,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -18294,8 +18311,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -18475,8 +18492,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -18739,8 +18756,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -18879,8 +18896,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -19365,8 +19382,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -19595,8 +19612,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -19747,8 +19764,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -20473,8 +20490,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -20760,8 +20777,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -21286,8 +21303,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -21426,8 +21443,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -21605,8 +21622,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -21837,8 +21854,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -21977,8 +21994,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -22156,8 +22173,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -22296,8 +22313,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -23271,8 +23288,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -24354,11 +24371,11 @@
             "coding": [
               {
                 "system": "http://snomed.info/sct",
-                "code": "781831000000109",
-                "display": "Major surgery care management"
+                "code": "737567002",
+                "display": "Major surgery care management (procedure)"
               }
             ],
-            "text": "Major surgery care management"
+            "text": "Major surgery care management (procedure)"
           }
         ],
         "subject": {
@@ -24527,8 +24544,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -24814,8 +24831,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -25180,8 +25197,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -25320,8 +25337,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -25613,8 +25630,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -25753,8 +25770,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -26038,8 +26055,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -26376,8 +26393,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -26904,8 +26921,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -27179,8 +27196,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -27827,8 +27844,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -28637,8 +28654,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -29038,8 +29055,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -29291,11 +29308,11 @@
                 "coding": [
                   {
                     "system": "http://snomed.info/sct",
-                    "code": "850261000000100",
-                    "display": "Education about dementia"
+                    "code": "311401005",
+                    "display": "Patient education (procedure)"
                   }
                 ],
-                "text": "Education about dementia"
+                "text": "Patient education (procedure)"
               },
               "status": "in-progress",
               "location": {
@@ -29907,8 +29924,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -30539,8 +30556,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -30727,8 +30744,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
@@ -32154,6 +32171,12 @@
           },
           {
             "reference": "urn:uuid:23516e68-4918-45e9-8716-bd7b7540e10a"
+          },
+          {
+            "reference": "urn:uuid:b8b254a2-2ef8-11ed-a261-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:0254bd52-2ef9-11ed-a261-0242ac120002"
           }
         ],
         "recorded": "2020-12-10T18:33:18.715-05:00",
@@ -32393,6 +32416,108 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:b8b254a2-2ef8-11ed-a261-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b8b254a2-2ef8-11ed-a261-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "20454-5",
+              "display": "Protein [Presence] in Urine by Test strip"
+            }
+          ],
+          "text": "PROTEIN"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2005-07-05",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260385009",
+              "display": "Negative"
+            }
+          ],
+          "text": "Negative"
+        },
+        "referenceRange": [
+          {
+            "text": "Negative"
+          }
+        ]
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0254bd52-2ef9-11ed-a261-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0254bd52-2ef9-11ed-a261-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11279-7",
+              "display": "Urine sediment comments by Light microscopy Narrative"
+            }
+          ],
+          "text": "COMMENT"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2005-07-05",
+        "valueString": "Recommend Urine Culture"
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:405f9fe5-4ca1-4beb-a946-60774e6878cf",
       "resource": {
         "id": "405f9fe5-4ca1-4beb-a946-60774e6878cf",
@@ -32407,8 +32532,8 @@
             "coding": [
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "survey"
+                "code": "social-history",
+                "display": "Social History"
               }
             ]
           }
