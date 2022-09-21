@@ -4,6 +4,9 @@
   "date": "2021-06-17T18:03:00+00:00",
   "publisher": "MITRE",
   "kind": "instance",
+  "instantiates": [
+    "http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server"
+  ],
   "implementation": {
     "description": "Inferno Reference Server for US Core Implementation Guide v3.1.1 based on HAPI FHIR R4  Server",
     "url": "$HOST"
@@ -446,7 +449,7 @@
               "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export"
             }
           ]
-        },        
+        },
         {
           "type": "Immunization",
           "supportedProfile": [
@@ -730,7 +733,7 @@
               "type": "string"
             }
           ]
-        	
+
         },
         {
           "type": "Practitioner",
@@ -761,7 +764,7 @@
               "type": "token"
             }
           ],
-          
+
           "operation": [
             {
               "extension": [
@@ -775,7 +778,7 @@
             }
           ]
 
-          
+
         },
         {
           "type": "PractitionerRole",
@@ -869,13 +872,13 @@
             }
           ]
         }
-      ],    
+      ],
       "operation": [
         {
           "name": "get-resource-counts",
           "definition": "$HOST/OperationDefinition/-s-get-resource-counts"
         },
-        { 
+        {
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
@@ -886,7 +889,7 @@
           "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export"
         }
       ]
-    
+
     }
   ]
 }
