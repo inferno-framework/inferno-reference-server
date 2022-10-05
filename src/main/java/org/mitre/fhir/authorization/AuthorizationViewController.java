@@ -1,7 +1,13 @@
 package org.mitre.fhir.authorization;
 
+import org.apache.commons.collections4.MultiValuedMap;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /*
  * Controller that serves the src/main/webapp/WEB-INF/templates/authorization.html template
@@ -9,9 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AuthorizationViewController {
 
-  @RequestMapping("/authorization")
-  public String showAuthorizationView() {
+  @GetMapping("/authorization")
+  public String showGetAuthorizationView(HttpServletRequest request) {
     return "authorization"; // String will be mapped to corresponding template html file
+  }
+
+  @PostMapping("/authorization")
+  public String showPostAuthorizationView(HttpServletRequest request, @RequestBody MultiValueMap<String, String> payload) {
+    String redirect = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString()).queryParams(payload).build().toUriString();
+    return "redirect:" + redirect;
   }
   
   @RequestMapping("/patient-picker")
