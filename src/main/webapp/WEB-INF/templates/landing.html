@@ -1,28 +1,29 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
 
-  <title>Inferno Reference Server</title>
-  <meta name="description" content="Inferno Reference Server">
-  
-  <link href="/reference-server/app/js/lib/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet"> 
-  <link href="/reference-server/app/css/site.css" rel="stylesheet">
+<head>
+	<meta charset="utf-8">
+
+	<title>Inferno Standardized API Demonstration Server</title>
+	<meta name="description" content="Inferno Reference Server">
+
+	<link href="/reference-server/app/js/lib/bootstrap-4.5.3-dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/reference-server/app/css/site.css" rel="stylesheet">
 </head>
 
 <body>
 	<div th:replace="tmpl-banner :: banner"></div>
-	
-	<br>
-	<br>
-	
-    <div id="pageContent" class="container">
-    
-    
-   		
-   		<p>This server is designed to meet the requirements of the Inferno Program Certification Tests.  This includes:</p>
 
-<p>Support for SMART-on-FHIR, including:</p>
+	<br>
+	<br>
+
+	<div id="pageContent" class="container">
+
+		<p>This server demonstrates a mock API that is capable of passing the automated Inferno ONC Certification (g)(10)
+			Standardized API certification tests. It is not intended for use in production systems, or as an authoritative
+			reference for interfaces presented to users during SMART App Launch / OAuth authentication flows.</p>
+
+		<p>Support for <a href="http://hl7.org/fhir/smart-app-launch/1.0.0/">SMART App Launch 1.0.0</a>, including:</p>
 		<ul>
 			<li>Public and Confidential Clients</li>
 			<li>Standalone and EHR Launch</li>
@@ -30,98 +31,111 @@
 			<li>Token Revocation</li>
 		</ul>
 
-<p>Support for US Core v3.1.1, including:</p>
+		<p>Support for <a href="http://hl7.org/fhir/uv/bulkdata/STU1.0.1/">Bulk Data 1.0.1</a></p>
+
+		<p>Support for US Core v3.1.1, including:</p>
 		<ul>
 			<li>Support for required API interactions</li>
 			<li>Example resources and patients</li>
 		</ul>
-		
-		
+
+		<p>
+			<a href="https://inferno.healthit.gov/reference-server/r4">This server</a> is protected by a simple mock
+			OAuth2.0 implementation,
+			which can be bypassed by using SAMPLE_TOKEN bearer token. Use patient <code>85</code> or <code>355</code>.
+		</p>
+
 		<div>
-		  <div class="form-group row">
-		    <label for="fhirEndpoint" class="col-sm-2 col-form-label">FHIR Endpoint:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="fhirEndpoint" value="https://inferno.healthit.gov/reference-server/r4">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group row">
-		    <label for="clientId" class="col-sm-2 col-form-label">Public Client ID:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="publicClientId" th:value="${publicClientId}">	    	
-		    </div>
-		  </div>
+			<div class="form-group row">
+				<label for="fhirEndpoint" class="col-sm-2 col-form-label">FHIR Endpoint:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="fhirEndpoint"
+						value="https://inferno.healthit.gov/reference-server/r4">
+				</div>
+			</div>
 
-		  <div class="form-group row">
-		    <label for="clientId" class="col-sm-2 col-form-label">Confidential Client ID:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="confidentialClientId" th:value="${confidentialClientId}">	    	
-		      
-		    </div>
-		  </div>
+			<div class="form-group row">
+				<label for="clientId" class="col-sm-2 col-form-label">Public Client ID:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="publicClientId" th:value="${publicClientId}">
+				</div>
+			</div>
 
-		  <div class="form-group row">
-		    <label for="clientSecret" class="col-sm-2 col-form-label">Confidential Client Secret:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="confidentialClientId" th:value="${confidentialClientSecret}">	    	
-		    </div>
-		  </div>
+			<div class="form-group row">
+				<label for="clientId" class="col-sm-2 col-form-label">Confidential Client ID:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="confidentialClientId"
+						th:value="${confidentialClientId}">
 
-		  <div class="form-group row">
-		    <label for="bulkEndpoint" class="col-sm-2 col-form-label">Bulk Url:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="bulkEndpoint" value="https://inferno.healthit.gov/reference-server/r4">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group row">
-		    <label for="bulkTokenEndpoint" class="col-sm-2 col-form-label">Bulk Token Endpoint:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="bulkTokenEndpoint" value="https://inferno.healthit.gov/reference-server/oauth/bulk-token">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group row">
-		    <label for="bulkClientId" class="col-sm-2 col-form-label">Bulk Client ID:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="bulkClientId" th:value="${bulkClientId}">	    	
-		    </div>
-		  </div>
-		  
-		  <div class="form-group row">
-		    <label for="sampleGroupId" class="col-sm-2 col-form-label">Sample Group Id:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control-plaintext" id="sampleGroupId" th:value="${groupId}">	    	
-		    </div>
-		  </div>
-		  
-		  
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="clientSecret" class="col-sm-2 col-form-label">Confidential Client Secret:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="confidentialClientId"
+						th:value="${confidentialClientSecret}">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="bulkEndpoint" class="col-sm-2 col-form-label">Bulk Url:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="bulkEndpoint"
+						value="https://inferno.healthit.gov/reference-server/r4">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="bulkTokenEndpoint" class="col-sm-2 col-form-label">Bulk Token Endpoint:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="bulkTokenEndpoint"
+						value="https://inferno.healthit.gov/reference-server/oauth/bulk-token">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="bulkClientId" class="col-sm-2 col-form-label">Bulk Client ID:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="bulkClientId" th:value="${bulkClientId}">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="sampleGroupId" class="col-sm-2 col-form-label">Sample Group Id:</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control-plaintext" id="sampleGroupId" th:value="${groupId}">
+				</div>
+			</div>
 		</div>
-			
-		   
-				
-   		<p>Links:</p>
-   		<ul>
-   			<li><a href="/reference-server/r4/metadata">Capability Statement</a></li>
-   			<li><a href="/reference-server/app/app-launch">App Launch</a></li>
-   			<li><a href="/reference-server/oauth/token/revoke-token">Revoke Token</a></li>
-   		</ul>
-  	
-  	</div>
-  	
 
-  
-   	<script src="/reference-server/app/js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+		<p>Links:</p>
+		<ul>
+			<li><a href="/reference-server/r4/metadata">Capability Statement</a></li>
+			<li><a href="/reference-server/app/app-launch">App Launch</a></li>
+			<li><a href="/reference-server/oauth/token/revoke-token">Revoke Token</a></li>
+			<li><a href="https://github.com/inferno-framework/inferno-reference-server">Reference Server on Github</a></li>
+			<li>
+				<a
+					href="https://github.com/inferno-training/inferno-tutorial/wiki/1.-Accepting-User-Bearer-Token-Input#reference-servers-to-test-against">Reference
+					Server Training</a>
+			</li>
+		</ul>
+
+	</div>
+
+	<script src="/reference-server/app/js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
 	<script src="/reference-server/app/js/lib/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
-	
+
 	<script>
-      $(document).ready(function() {
-		let windowLocation = window.location.origin;
-    	let fhirEndpoint = windowLocation + "/reference-server/r4";
-    	$('#fhirEndpoint').val(fhirEndpoint);
-		$('#bulkEndpoint').val(fhirEndpoint)
-		$('#bulkTokenEndpoint').val(windowLocation + "/reference-server/oauth/bulk-token")
-      });
-  	</script>
+		$(document).ready(function () {
+			let windowLocation = window.location.origin;
+			let fhirEndpoint = windowLocation + "/reference-server/r4";
+			$('#fhirEndpoint').val(fhirEndpoint);
+			$('#bulkEndpoint').val(fhirEndpoint)
+			$('#bulkTokenEndpoint').val(windowLocation + "/reference-server/oauth/bulk-token")
+		});
+	</script>
 </body>
+
 </html>
