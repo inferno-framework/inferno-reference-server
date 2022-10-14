@@ -25,7 +25,8 @@ public class ReadOnlyInterceptor {
             && theOperation != RestOperationTypeEnum.SEARCH_TYPE
             && theOperation != RestOperationTypeEnum.TRANSACTION
             && theOperation != RestOperationTypeEnum.VALIDATE
-            && theOperation != RestOperationTypeEnum.VREAD) {
+            && theOperation != RestOperationTypeEnum.VREAD
+            && theOperation != RestOperationTypeEnum.GET_PAGE) {
       throw new MethodNotAllowedException("Server is currently `read-only`: the "
               + theOperation.toString()
               + " operation is not allowed.");
