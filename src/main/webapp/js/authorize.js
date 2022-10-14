@@ -13,14 +13,17 @@ window.mitre.fhirreferenceserver.authorize = {
         let aud = urlParams.get('aud');
 
         const expectedAud = window.location.origin + "/reference-server/r4";
-        
+
         const appLaunchUrl = window.location.origin + "/reference-server/app/app-launch";
         const appLaunchUrlLink = '<a class="text-white" href="' + appLaunchUrl + '">' + appLaunchUrl + '</a>'
-        
+
+        let patient_id = "";
+        let encounter_id = "";
+
         if (aud !== expectedAud)
         {
             let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
-            const launchAudError = "<div>The Audience value " + htmlSafeAud + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"; 
+            const launchAudError = "<div>The Audience value " + htmlSafeAud + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>";
             window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchAudError);
             return;
         }
@@ -29,10 +32,28 @@ window.mitre.fhirreferenceserver.authorize = {
         {
             let launch = urlParams.get('launch');
 
-            const expectedLaunch = ["85", "355"];
+            let expectedPatientLaunch = [];
+            let expectedEncounterLaunch = [];
+
+            if (launch.includes(" ")) {
+                const launchArray = launch.split(" ");
+                patient_id = launchArray[0];
+                encounter_id = launchArray[1];
+
+                const url = '/reference-server/app/ehr-launch-context-options'
+                $.ajax({
+                    async: false,
+                    dataType: "json",
+                    url: url,
+                    success: function(data) {
+                        expectedPatientLaunch = Object.keys(data);
+                        expectedEncounterLaunch = Object.values(data)[expectedPatientLaunch.indexOf(patient_id) || 0];
+                    }
+                });
+            }
 
             // if launch is provided
-            if (!expectedLaunch.includes(launch))
+            if (!expectedPatientLaunch.includes(patient_id) || !expectedEncounterLaunch.includes(encounter_id))
             {
                 let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
                 const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
@@ -49,16 +70,16 @@ window.mitre.fhirreferenceserver.authorize = {
         let clientId = urlParams.get('client_id') || '';
 
         // check for a patient id, if no one exists redirect to patient picker
-        if (!urlParams.has('patient_id'))
+        if (!urlParams.has('patient_id') && patient_id == "")
         {
 
             let this_uri = window.location;
             let this_url_encoded = encodeURIComponent(this_uri);
-            let redirect = "../oauth/patient-picker?client_id=" + clientId + "&redirect_uri=" + this_url_encoded;  
+            let redirect = "../oauth/patient-picker?client_id=" + clientId + "&redirect_uri=" + this_url_encoded;
             window.location.href = redirect;
             return;
         }
-        
+
         $('#banner').show();
         $('#pageContent').show();
 
@@ -68,7 +89,7 @@ window.mitre.fhirreferenceserver.authorize = {
         let sampleCode = "SAMPLE_CODE";
 
         let scopes = urlParams.get('scope') || '';
-        
+
         scopes = scopes.trim();
 
         let scopesList = scopes.split(' ');
@@ -83,7 +104,7 @@ window.mitre.fhirreferenceserver.authorize = {
         	if (scope === '')
         	{
         		continue;
-        	}        	
+        	}
 
         	let scopeId = "scope-" + i;
             let scopeCheckboxHtml = '<div class="form-check">'
@@ -116,13 +137,12 @@ window.mitre.fhirreferenceserver.authorize = {
             let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state;
 
             window.location.href = redirect;
-        });            
+        });
     },
-    
+
     showErrorMessage(errorMessage)
     {
         $('#banner').show();
         $('#errorMessage').html(errorMessage).show();
     }
 }
-
