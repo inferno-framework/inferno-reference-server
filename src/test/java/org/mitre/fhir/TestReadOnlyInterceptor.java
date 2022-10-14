@@ -48,7 +48,7 @@ public class TestReadOnlyInterceptor {
     ourClient.create().resource(pt)
             .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
                     FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-            .execute().getId();
+            .execute();
   }
 
   private void updatePatient() throws MethodNotAllowedException {
@@ -58,7 +58,7 @@ public class TestReadOnlyInterceptor {
     ourClient.update().resource(pt)
             .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
                     FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-            .execute().getId();
+            .execute();
   }
 
   private void deletePatient() throws MethodNotAllowedException {
@@ -68,7 +68,7 @@ public class TestReadOnlyInterceptor {
     ourClient.delete().resource(pt)
             .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
                     FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-            .execute().getId();
+            .execute();
   }
 
   @BeforeClass
