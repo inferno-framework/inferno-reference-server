@@ -20,9 +20,7 @@ public class AppLaunchController {
   @GetMapping(path = "/fhir-server-path")
   public ResponseEntity<String> getFhirServerPath(HttpServletRequest request) {
     String fhirServerBaseUrl = FhirReferenceServerUtils.getFhirServerBaseUrl(request);
-    ResponseEntity<String> responseEntity = new ResponseEntity<String>(fhirServerBaseUrl,
-        HttpStatus.OK);
-    return responseEntity;
+    return new ResponseEntity<String>(fhirServerBaseUrl, HttpStatus.OK);
   }
 
   /**

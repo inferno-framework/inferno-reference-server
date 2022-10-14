@@ -11,6 +11,8 @@ import org.mitre.fhir.authorization.token.TokenManager;
 
 public class FhirUtils {
 
+  static Token token = TokenManager.getInstance().getServerToken();
+
   public static List<BundleEntryComponent> getAllPatients(IGenericClient client) {
     return getAllResources(client, "Patient");
   }
@@ -54,7 +56,10 @@ public class FhirUtils {
       resources.addAll(bundle.getEntry());
 
       if (bundle.getLink(Bundle.LINK_NEXT) != null) {
-        bundle = client.loadPage().next(bundle).execute();
+        bundle = client.loadPage().next(bundle)
+         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
+         .execute();
       } else {
         bundle = null;
       }
