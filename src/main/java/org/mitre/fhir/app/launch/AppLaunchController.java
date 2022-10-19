@@ -57,21 +57,18 @@ public class AppLaunchController {
   }
 
   /**
-   * Provides the possible patient and encounter ids to define the EHR Launch context.
+   * Provides ids of available patients and their related encounters.
    * @param theRequest the incoming HTTP Request
    * @return String mapping of patient ids to their encounters
    */
   @GetMapping(path = "/ehr-launch-context-options", produces = {"application/json"})
   public ResponseEntity<String> getEhrLaunchContextOptions(HttpServletRequest theRequest) {
-    String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(theRequest)
-          + FhirReferenceServerUtils.FHIR_SERVER_PATH;
-    FhirContext fhirContext = FhirContext.forR4();
-    IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
+    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(theRequest);
 
-    HashMap<String, List<String>> patientAndEncounterIds = new HashMap<String, List<String>>();
+    HashMap<String, List<String>> patientAndEncounterIds = new HashMap<>();
 
     for (Bundle.BundleEntryComponent patientEntry : FhirUtils.getAllPatients(client)) {
-      List<String> encounterIds = new ArrayList<String>();
+      List<String> encounterIds = new ArrayList<>();
       String patientId = patientEntry.getResource().getIdElement().getIdPart();
 
       for (Bundle.BundleEntryComponent encounterEntry :
@@ -82,6 +79,6 @@ public class AppLaunchController {
     }
 
     JSONObject ehrLaunchContextOptions = new JSONObject(patientAndEncounterIds);
-    return new ResponseEntity<String>(ehrLaunchContextOptions.toString(), HttpStatus.OK);
+    return new ResponseEntity<>(ehrLaunchContextOptions.toString(), HttpStatus.OK);
   }
 }

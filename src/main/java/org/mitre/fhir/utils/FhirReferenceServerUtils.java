@@ -1,10 +1,14 @@
 
 package org.mitre.fhir.utils;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,12 +27,13 @@ public class FhirReferenceServerUtils {
   private static final String HTTPS = "https";
   private static final int HTTP_DEFAULT_PORT = 80;
   private static final int HTTPS_DEFAULT_PORT = 443;
+  private static final Map<HttpServletRequest, IGenericClient> clients = new HashMap<>();
 
   /**
    * Get the server's base url.
    * 
    * @param request web service request
-   * @return
+   * @return string representation of the base url of the input request
    */
   public static String getServerBaseUrl(HttpServletRequest request) {
     String scheme = request.getScheme();
@@ -41,9 +46,7 @@ public class FhirReferenceServerUtils {
       port = "";
     }
 
-    String serverBaseUrl =
-        request.getScheme() + "://" + request.getServerName() + port + "/reference-server";
-    return serverBaseUrl;
+    return request.getScheme() + "://" + request.getServerName() + port + "/reference-server";
   }
 
   public static String getFhirServerBaseUrl(HttpServletRequest request) {
@@ -60,7 +63,7 @@ public class FhirReferenceServerUtils {
    * @param actualCode the code itself for auth purposes
    * @param scopes the scopes the user selected for this token
    * @param patientId the selected patientId
-   * @return
+   * @return string representation of code containing the input code, scopes, and patientId
    */
   public static String createCode(String actualCode, String scopes, String patientId) {
     String encodedScope = Base64.getEncoder().encodeToString(scopes.getBytes());
@@ -73,7 +76,7 @@ public class FhirReferenceServerUtils {
    * Create the Authorization Header value.
    * 
    * @param accessToken the access token value
-   * @return
+   * @return string representation of the Authorization Header Value
    */
   public static String createAuthorizationHeaderValue(String accessToken) {
     return BEARER_TOKEN_PREFIX + " " + accessToken;
@@ -83,7 +86,7 @@ public class FhirReferenceServerUtils {
    * converts scope string to scope list.
    * 
    * @param scopesString scopes separated by a space
-   * @return
+   * @return List of strings representation of the input string containing scopes
    */
   public static List<String> getScopesListByScopeString(String scopesString) {
 
@@ -101,7 +104,7 @@ public class FhirReferenceServerUtils {
    * converts scope list to scope string.
    * 
    * @param scopesList List with each scope String
-   * @return
+   * @return string representation of the input list of scopes
    */
   public static String getScopesStringFromScopesList(List<String> scopesList) {
     if (scopesList == null) {
@@ -111,5 +114,21 @@ public class FhirReferenceServerUtils {
     return String.join(" ", scopesList);
   }
 
+  /**
+   * gets or creates a FHIR client whose base url matches that of the request.
+   *
+   * @param theRequest HttpServletRequest whose base represents a FHIR endpoint
+   * @return IGGenericClient client for accessing that FHIR endpoint
+   */
+  public static IGenericClient getClientFromRequest(HttpServletRequest theRequest) {
+    if (clients.containsKey(theRequest)) {
+      return clients.get(theRequest);
+    }
 
+    String fhirServerBaseUrl = getServerBaseUrl(theRequest) + FHIR_SERVER_PATH;
+    IGenericClient newClient = FhirContext.forR4().newRestfulGenericClient(fhirServerBaseUrl);
+    clients.put(theRequest, newClient);
+
+    return newClient;
+  }
 }
