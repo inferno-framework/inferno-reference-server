@@ -10,14 +10,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.ArrayList;
-import java.util.Base64;
+import java.util.*;
 import java.util.Base64.Decoder;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
@@ -223,6 +217,7 @@ public class AuthorizationController {
 
     String scopes = "";
     String patientId = "";
+    String encounterId = "";
 
     String fullCodeString;
 
@@ -244,8 +239,13 @@ public class AuthorizationController {
         patientId = new String(Base64.getDecoder().decode(encodedPatientId));
       }
 
+      if (fullCode.length >= 4) {
+        String encodedEncounterId = fullCode[3];
+        encounterId = new String(Base64.getDecoder().decode(encodedEncounterId));
+      }
+
       if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken)) {
-        return generateBearerTokenResponse(request, clientId, scopes, patientId);
+        return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
       }
 
     } else if (refreshTokenValue != null) {
@@ -254,8 +254,9 @@ public class AuthorizationController {
         if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
           Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
           patientId = refreshToken.getPatientId();
+          encounterId = refreshToken.getEncounterId();
           String refreshTokenScopes = refreshToken.getScopesString();
-          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId);
+          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId, encounterId);
         }
       } catch (TokenNotFoundException tokenNotFoundException) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -270,12 +271,12 @@ public class AuthorizationController {
   }
 
   private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request,
-      String clientId, String scopes, String patientId) throws BearerTokenException {
+      String clientId, String scopes, String patientId, String encounterId) throws BearerTokenException {
     HttpHeaders headers = new HttpHeaders();
     headers.setCacheControl(CacheControl.noStore());
     headers.setPragma("no-cache");
 
-    String tokenJsonString = generateBearerToken(request, clientId, scopes, patientId);
+    String tokenJsonString = generateBearerToken(request, clientId, scopes, patientId, encounterId);
 
     ResponseEntity<String> responseEntity =
         new ResponseEntity<String>(tokenJsonString, headers, HttpStatus.OK);
@@ -290,7 +291,7 @@ public class AuthorizationController {
    * @throws BearerTokenException if token generation runs into an error
    */
   private String generateBearerToken(HttpServletRequest request, String clientId, String scopes,
-      String patientId) throws BearerTokenException {
+      String patientId, String encounterId) throws BearerTokenException {
 
     String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
         + FhirReferenceServerUtils.FHIR_SERVER_PATH;
@@ -306,6 +307,7 @@ public class AuthorizationController {
     try {
       Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
       refreshToken.setPatientId(patientId);
+      refreshToken.setEncounterId(encounterId);
       refreshTokenValue = refreshToken.getTokenValue();
     } catch (Exception exception) {
       throw new BearerTokenException(exception);
@@ -332,13 +334,16 @@ public class AuthorizationController {
     }
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
-      Encounter encounter = getFirstEncounterByPatientId(client, patientId);
+      if (Objects.equals(encounterId, "")) {
+        Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
-      if (encounter == null) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+        if (encounter == null) {
+          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+        }
+
+        encounterId = encounter.getIdElement().getIdPart();
       }
 
-      String encounterId = encounter.getIdElement().getIdPart();
       tokenJson.put("encounter", encounterId);
     }
 

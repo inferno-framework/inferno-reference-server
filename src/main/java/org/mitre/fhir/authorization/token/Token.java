@@ -60,12 +60,15 @@ public class Token {
     this.patientId = patientId;
   }
 
-  public void setEncounterId(String encounterId) { this.encounterId = encounterId; }
+  public void setEncounterId(String encounterId) {
+    this.encounterId = encounterId;
+  }
 
   public String getPatientId() {
     return patientId;
   }
 
-  public String getEncounterId() { return encounterId; }
-
+  public String getEncounterId() {
+    return encounterId;
+  }
 }
