@@ -17,15 +17,9 @@ window.mitre.fhirreferenceserver.authorize = {
         const appLaunchUrl = window.location.origin + "/reference-server/app/app-launch";
         const appLaunchUrlLink = '<a class="text-white" href="' + appLaunchUrl + '">' + appLaunchUrl + '</a>'
 
-<<<<<<< HEAD
-        let patient_id = "";
-        let encounter_id = "";
+        let patientId = urlParams.get("patient_id") || "";
+        let encounterId = urlParams.get("encounter_id") || "";
 
-=======
-        let patientId = urlParams.has("patient_id") || "";
-        let encounterId = urlParams.has("encounter_id") || "";
-        
->>>>>>> 13bc0f3 (add encounterID to authorization code, if given)
         if (aud !== expectedAud)
         {
             let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
