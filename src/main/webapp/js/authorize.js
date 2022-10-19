@@ -17,9 +17,15 @@ window.mitre.fhirreferenceserver.authorize = {
         const appLaunchUrl = window.location.origin + "/reference-server/app/app-launch";
         const appLaunchUrlLink = '<a class="text-white" href="' + appLaunchUrl + '">' + appLaunchUrl + '</a>'
 
+<<<<<<< HEAD
         let patient_id = "";
         let encounter_id = "";
 
+=======
+        let patientId = urlParams.has("patient_id") || "";
+        let encounterId = urlParams.has("encounter_id") || "";
+        
+>>>>>>> 13bc0f3 (add encounterID to authorization code, if given)
         if (aud !== expectedAud)
         {
             let htmlSafeAud = $('<span class="font-weight-bold" />').text(aud)[0].outerHTML;
@@ -37,8 +43,8 @@ window.mitre.fhirreferenceserver.authorize = {
 
             if (launch.includes(" ")) {
                 const launchArray = launch.split(" ");
-                patient_id = launchArray[0];
-                encounter_id = launchArray[1];
+                patientId = launchArray[0];
+                encounterId = launchArray[1];
 
                 const url = '/reference-server/app/ehr-launch-context-options'
                 $.ajax({
@@ -47,13 +53,13 @@ window.mitre.fhirreferenceserver.authorize = {
                     url: url,
                     success: function(data) {
                         expectedPatientLaunch = Object.keys(data);
-                        expectedEncounterLaunch = Object.values(data)[expectedPatientLaunch.indexOf(patient_id) || 0];
+                        expectedEncounterLaunch = Object.values(data)[expectedPatientLaunch.indexOf(patientId) || 0];
                     }
                 });
             }
 
             // if launch is provided
-            if (!expectedPatientLaunch.includes(patient_id) || !expectedEncounterLaunch.includes(encounter_id))
+            if (!expectedPatientLaunch.includes(patientId) || !expectedEncounterLaunch.includes(encounterId))
             {
                 let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
                 const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
@@ -70,7 +76,7 @@ window.mitre.fhirreferenceserver.authorize = {
         let clientId = urlParams.get('client_id') || '';
 
         // check for a patient id, if no one exists redirect to patient picker
-        if (!urlParams.has('patient_id') && patient_id == "")
+        if (!urlParams.has('patient_id') && patientId == "")
         {
 
             let this_uri = window.location;
@@ -125,14 +131,14 @@ window.mitre.fhirreferenceserver.authorize = {
                 selectedScopes += checkbox.value + " ";
             });
 
-            let patientId = urlParams.get('patient_id');
-
             let base64URLEncodedPatientId = btoa(patientId);
 
             // base64 encoding that is escaped so it can be used in a url
             let base64URLEncodedScopes = btoa(selectedScopes);
 
             let code = sampleCode + "." + base64URLEncodedScopes + "." + base64URLEncodedPatientId;
+
+            if (encounterId !== "") { code = code + "." + btoa(encounterId) }
 
             let redirect = urlParams.get('redirect_uri') + '?code=' + code + '&' + 'state=' + state;
 
