@@ -6,6 +6,8 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.jena.atlas.json.JSON;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
@@ -24,6 +26,7 @@ public class WellKnownAuthorizationEndpointController {
   private static final String WELL_KNOWN_CAPABILITIES_KEY = "capabilities";
   private static final String WELL_KNOWN_JWK_URI_KEY = "jwks_uri";
   private static final String WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY = "grant_types_supported";
+  private static final String WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_KEY = "code_challenge_methods_supported";
 
   // 2.1 on
   // http://hl7.org/fhir/smart-app-launch/conformance/index.html#core-capabilities
@@ -48,10 +51,13 @@ public class WellKnownAuthorizationEndpointController {
       "authorization_code",
       "client_credentials"
   };
+  private static final String[] codeChallengeMethodsSupportedValues = { "S256" };
 
   private static final JSONArray WELL_KNOWN_CAPABILITIES_VALUES = new JSONArray(capabilityValues);
   private static final JSONArray WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES =
         new JSONArray(grantTypesSupportedValues);
+  private static final JSONArray WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_VALUES =
+        new JSONArray(codeChallengeMethodsSupportedValues);
 
   @PostConstruct
   protected void postConstruct() {
@@ -78,6 +84,8 @@ public class WellKnownAuthorizationEndpointController {
     wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
     wellKnownJson.put(WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY,
         WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES);
+    wellKnownJson.put(WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_KEY,
+        WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_VALUES);
 
     return wellKnownJson.toString();
   }
