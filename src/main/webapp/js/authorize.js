@@ -29,15 +29,20 @@ window.mitre.fhirreferenceserver.authorize = {
         {
             let launch = urlParams.get('launch');
 
-            const expectedLaunch = "123";
+            const expectedLaunch = ["85", "355"];
 
             // if launch is provided
-            if (launch !== expectedLaunch)
+            if (!expectedLaunch.includes(launch))
             {
                 let htmlSafeLaunch = $('<div class="font-weight-bold" />').text(launch)[0].outerHTML;
                 const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
                 window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
                 return;
+            } else if (!urlParams.has('patient_id')) {
+                let this_uri = window.location;
+                let redirect = this_uri + "&patient_id=" + launch;
+                window.location.href = redirect;
+                urlParams.append('patient_id', launch)
             }
         }
 
