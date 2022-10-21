@@ -43,7 +43,10 @@ public class WellKnownAuthorizationEndpointController {
       "context-standalone-encounter",
       "permission-offline",
       "permission-patient",
-      "permission-user"
+      "permission-user",
+      "permission-v1",
+      "permission-v2",
+      "authorize-post"
       };
 
   private static final String[] grantTypesSupportedValues = {
