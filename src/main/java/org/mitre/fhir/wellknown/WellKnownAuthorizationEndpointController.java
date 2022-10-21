@@ -86,6 +86,8 @@ public class WellKnownAuthorizationEndpointController {
         WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES);
     wellKnownJson.put(WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_KEY,
         WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_VALUES);
+    wellKnownJson.put("issuer", FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest));
+    wellKnownJson.put(WELL_KNOWN_JWK_URI_KEY, FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest) + "/.well-known/jwk");
 
     return wellKnownJson.toString();
   }
