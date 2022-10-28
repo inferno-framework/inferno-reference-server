@@ -13,8 +13,6 @@ import org.mitre.fhir.authorization.token.TokenManager;
 
 public class FhirUtils {
 
-  static Token token = TokenManager.getInstance().getServerToken();
-
   public static List<BundleEntryComponent> getAllPatients(IGenericClient client) {
     return getAllResources(client, "Patient");
   }
@@ -56,7 +54,8 @@ public class FhirUtils {
           client.search().forResource(Encounter.class).where(Encounter.PATIENT.hasId(patientId))
             .returnBundle(Bundle.class).cacheControl(new CacheControlDirective().setNoCache(true))
             .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
+                FhirReferenceServerUtils.createAuthorizationHeaderValue(TokenManager.getInstance()
+                 .getServerToken().getTokenValue()))
             .execute();
 
     return bundleToResourceList(client, bundle);
@@ -76,7 +75,8 @@ public class FhirUtils {
     return client.search().forResource(resourceName).returnBundle(Bundle.class).count(1000)
         .cacheControl(cacheControlDirective)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(TokenManager.getInstance()
+             .getServerToken().getTokenValue()))
         .execute();
   }
 
@@ -90,7 +90,8 @@ public class FhirUtils {
       if (bundle.getLink(Bundle.LINK_NEXT) != null) {
         bundle = client.loadPage().next(bundle)
          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(TokenManager.getInstance()
+             .getServerToken().getTokenValue()))
          .execute();
       } else {
         bundle = null;
