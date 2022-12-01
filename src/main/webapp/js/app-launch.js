@@ -11,6 +11,8 @@ window.mitre.fhirreferenceserver.appLaunch = {
         $.getJSON(url, function (data, status) {
             let patientIds = Object.keys(data);
             let encounterIds = Object.values(data);
+            $('#patientSelector').empty();
+            $('#encounterSelector').empty();
 
             $.each(patientIds, function(key, value) {
                 $('#patientSelector')
