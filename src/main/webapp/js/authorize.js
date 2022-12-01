@@ -59,11 +59,6 @@ window.mitre.fhirreferenceserver.authorize = {
                 const launchError = "<div>The Launch value " + htmlSafeLaunch + " is invalid. If you are attempting to simulate an EHR launch, please enter the appropriate launch URI into the form at " + appLaunchUrlLink + ".</div>"
                 window.mitre.fhirreferenceserver.authorize.showErrorMessage(launchError);
                 return;
-            } else if (!urlParams.has('patient_id')) {
-                let this_uri = window.location;
-                let redirect = this_uri + "&patient_id=" + launch;
-                window.location.href = redirect;
-                urlParams.append('patient_id', launch)
             }
         }
 
