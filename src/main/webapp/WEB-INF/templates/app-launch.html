@@ -19,10 +19,18 @@
 <br>
 
 <div id="pageContent" class="container">
+    <div style="margin-bottom:40px;">
+        This is a very simplistic interface that mimics the basic functionality of an
+        EHR for launching an external SMART App via the EHR Launch flow.  Enter in the
+        launch URL of the app, select a Patient and Encounter to be provided
+        as context during the launch, and click the Launch App button.  The web browser
+        will be redirected to the launch URL of the app, containing the necessary query
+        parameters as described in the SMART App Launch guide.
+    </div>
     <div>
         <div class="form-row">
             <div class="col-3 text-right">
-                <label for="appURI">App Launch URI</label>
+                <label for="appURI">App Launch URL</label>
             </div>
             <div class="form-group col-6">
                 <input id="appURI" type="text" class="form-control"/>
@@ -35,12 +43,23 @@
     <div>
         <div class="form-row">
             <div class="col-3 text-right">
-                <label for="patientIDSelector">Patient ID</label>
+                <label for="patientSelector">Patient ID</label>
             </div>
             <div class="form-group col-6">
-                <select class="form-control" id="patientIDSelector">
-                    <option>85</option>
-                    <option>355</option>
+                <select class="form-control" id="patientSelector">
+                    <option>Loading...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="form-row">
+            <div class="col-3 text-right">
+                <label for="encounterSelector">Encounter ID</label>
+            </div>
+            <div class="form-group col-6">
+                <select class="form-control" id="encounterSelector">
+                    <option>Loading...</option>
                 </select>
             </div>
         </div>
@@ -49,29 +68,12 @@
 
 <script src="js/lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
 <script src="js/lib/bootstrap-4.5.3-dist/js/bootstrap.min.js"></script>
+<script src="js/app-launch.js?s=v5"></script>
 
 <script>
     $(document).ready(function () {
-
-
-        $('#launchAppButton').click(function () {
-            const url = '/reference-server/app/fhir-server-path'
-            $.get(url, function (data, status) {
-                let issParam = encodeURIComponent(data);
-                let launchParam = $('#patientIDSelector').val();
-                let appURI = $('#appURI').val();
-                let launchLinkHref = appURI + '?' + 'launch=' + launchParam + '&' + 'iss=' + issParam;
-
-                window.location.href = launchLinkHref;
-
-            }).fail(function () {
-                alert("Error getting ISS");
-            });
-        });
-
-
+        window.mitre.fhirreferenceserver.appLaunch.init();
     });
-
 </script>
 </body>
 </html>

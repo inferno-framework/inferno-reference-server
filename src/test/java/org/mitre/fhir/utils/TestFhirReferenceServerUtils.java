@@ -2,7 +2,10 @@ package org.mitre.fhir.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -10,54 +13,30 @@ public class TestFhirReferenceServerUtils {
 
   @Test
   public void testGetServerBaseUrl() {
-    MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-
-    mockHttpServletRequest.setScheme("http");
-    mockHttpServletRequest.setServerName("www.example.org");
-    mockHttpServletRequest.setServerPort(123);
-    mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
-
-    String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(mockHttpServletRequest);
-    Assert.assertEquals("http://www.example.org:123/reference-server", baseUrl);
-
+    String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(getMockRequest());
+    Assert.assertEquals("http://www.example.org/reference-server", baseUrl);
   }
 
   @Test
   public void testGetServerBaseUrlWithHttpDefaultPort() {
-    MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-
-    mockHttpServletRequest.setScheme("http");
-    mockHttpServletRequest.setServerName("www.example.org");
-    mockHttpServletRequest.setServerPort(80);
-    mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
-
-    String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(mockHttpServletRequest);
+    String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(getMockRequest());
     Assert.assertEquals("http://www.example.org/reference-server", baseUrl);
   }
 
   @Test
   public void testGetServerBaseUrlWithHttpsDefaultPort() {
-    MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-
-    mockHttpServletRequest.setScheme("https");
-    mockHttpServletRequest.setServerName("www.example.org");
-    mockHttpServletRequest.setServerPort(443);
-    mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
-
-    String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(mockHttpServletRequest);
+    MockHttpServletRequest mockRequest = getMockRequest();
+    mockRequest.setScheme("https");
+    mockRequest.setServerPort(443);
+    String baseUrl = FhirReferenceServerUtils.getServerBaseUrl(mockRequest);
     Assert.assertEquals("https://www.example.org/reference-server", baseUrl);
   }
 
   @Test
   public void testGetFhirServerBaseUrl() {
-    MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
-
-    mockHttpServletRequest.setScheme("http");
-    mockHttpServletRequest.setServerName("www.example.org");
-    mockHttpServletRequest.setServerPort(123);
-    mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
-
-    String baseUrl = FhirReferenceServerUtils.getFhirServerBaseUrl(mockHttpServletRequest);
+    MockHttpServletRequest mockRequest = getMockRequest();
+    mockRequest.setServerPort(123);
+    String baseUrl = FhirReferenceServerUtils.getFhirServerBaseUrl(mockRequest);
     Assert.assertEquals("http://www.example.org:123/reference-server/r4", baseUrl);
   }
 
@@ -130,5 +109,41 @@ public class TestFhirReferenceServerUtils {
 
     Assert.assertEquals("", scopesString);
 
+  }
+
+  @Test
+  public void testGetClientFromRequestReturnsExistingClient() {
+    MockHttpServletRequest mockRequest = getMockRequest();
+
+    IGenericClient newClient = FhirReferenceServerUtils.getClientFromRequest(mockRequest);
+    Assert.assertEquals(newClient.getServerBase(), "http://www.example.org/reference-server/r4");
+
+    IGenericClient existingClient = FhirReferenceServerUtils.getClientFromRequest(mockRequest);
+    Assert.assertEquals(existingClient, newClient);
+  }
+
+  @Test
+  public void testGetClientFromRequestCreatesNewClient() {
+    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(getMockRequest());
+    Assert.assertEquals(client.getServerBase(), "http://www.example.org/reference-server/r4");
+
+    MockHttpServletRequest differentMockRequest = new MockHttpServletRequest();
+    differentMockRequest.setScheme("https");
+    differentMockRequest.setServerName("www.notexample.org");
+
+    IGenericClient differentClient = FhirReferenceServerUtils.getClientFromRequest(differentMockRequest);
+    Assert.assertEquals(differentClient.getServerBase(), "https://www.notexample.org:80/reference-server/r4");
+    Assert.assertNotEquals(client, differentClient);
+  }
+
+  public static MockHttpServletRequest getMockRequest() {
+    MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+
+    mockRequest.setScheme("http");
+    mockRequest.setServerPort(80);
+    mockRequest.setServerName("www.example.org");
+    mockRequest.setRequestURI("/.well-known/smart-configuration");
+
+    return mockRequest;
   }
 }

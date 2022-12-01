@@ -6,7 +6,12 @@ window.mitre.fhirreferenceserver.patientPicker = {
      * initializes the page and all html components including actions
      */
     init: function () {
-        let patientsTable = $('#patients').DataTable();
+        let patientsTable = $('#patients').DataTable( {
+            "language": {
+                "emptyTable": "Loading patient list"
+            }
+        }
+        );
 
         //static code that the HAPI interceptor will look for to return token
         let urlParams = new URLSearchParams(window.location.search);

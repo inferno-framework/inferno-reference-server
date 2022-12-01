@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -67,20 +68,15 @@ public class AuthorizationController {
    * 
    * @param clientId client id to be validated
    * @param request the web service request
-   * @return
+   * @return string representation of the bundle of all patients on the endpoint given by the
+   *         request's base url
    */
   @GetMapping(path = "authorizeClientId/{clientId}", produces = {"application/json"})
   public String validateClientId(@PathVariable String clientId, HttpServletRequest request) {
     authorizeClientId(clientId);
-    String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
-        + FhirReferenceServerUtils.FHIR_SERVER_PATH;
-    FhirContext fhirContext = FhirContext.forR4();
-    IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
-
+    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
     Bundle patientsBundle = FhirUtils.getPatientsBundle(client);
-    String json = fhirContext.newJsonParser().encodeResourceToString(patientsBundle);
-
-    return json;
+    return FhirContext.forR4().newJsonParser().encodeResourceToString(patientsBundle);
   }
 
   /**
@@ -139,11 +135,7 @@ public class AuthorizationController {
 
     HttpHeaders headers = new HttpHeaders();
 
-    ResponseEntity<String> responseEntity =
-        new ResponseEntity<String>(accessToken.toString(), headers, HttpStatus.OK);
-
-    return responseEntity;
-
+    return new ResponseEntity<>(accessToken.toString(), headers, HttpStatus.OK);
   }
 
 
@@ -151,7 +143,7 @@ public class AuthorizationController {
   private void validateBulkDataScopes(String scopesString) {
     List<String> scopes = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
 
-    List<String> invalidScopes = new ArrayList<String>();
+    List<String> invalidScopes = new ArrayList<>();
 
     for (String scope : scopes) {
       // confirm scope is system level and a valid scope
@@ -170,13 +162,14 @@ public class AuthorizationController {
     }
 
     if (!invalidScopes.isEmpty()) {
-      String invalidScopesString = "";
+      StringBuilder invalidScopesString = new StringBuilder();
       for (String invalidScope : invalidScopes) {
-        invalidScopesString += invalidScope + ", ";
+        invalidScopesString.append(invalidScope).append(", ");
       }
 
       // strip of last 2 characters
-      invalidScopesString = invalidScopesString.substring(0, invalidScopesString.length() - 1);
+      invalidScopesString = new StringBuilder(invalidScopesString.substring(0,
+       invalidScopesString.length() - 1));
 
       String message = "The following scopes are invalid for bulk data : " + invalidScopesString;
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message,
@@ -202,14 +195,14 @@ public class AuthorizationController {
     // check client id and client secret if the server is confidential
     String basicHeader = getBasicHeader(request);
 
-    String clientId = null;
+    String clientId;
     String clientSecret = null;
 
     // if basic header exists, extract clientId and clientSecret from basic header
     if (basicHeader != null) {
       String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
       String[] splitDecodedValue = decodedValue.split(":");
-      // client id is user name, and should be before ':'
+      // client id is username, and should be before ':'
       clientId = splitDecodedValue[0];
       // client secret is password, and should be after ':'
 
@@ -223,6 +216,7 @@ public class AuthorizationController {
 
     String scopes = "";
     String patientId = "";
+    String encounterId = "";
 
     String fullCodeString;
 
@@ -230,8 +224,6 @@ public class AuthorizationController {
       fullCodeString = code;
       // the provided code is in the format <ACTUAL_CODE>.<SCOPES>
       String[] fullCode = fullCodeString.split("\\.");
-
-      String actualCodeOrRefreshToken = fullCode[0];
 
       // if scope was included
       if (fullCode.length >= 2) {
@@ -244,8 +236,14 @@ public class AuthorizationController {
         patientId = new String(Base64.getDecoder().decode(encodedPatientId));
       }
 
+      if (fullCode.length >= 4) {
+        String encodedEncounterId = fullCode[3];
+        encounterId = new String(Base64.getDecoder().decode(encodedEncounterId));
+      }
+
+      String actualCodeOrRefreshToken = fullCode[0];
       if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken)) {
-        return generateBearerTokenResponse(request, clientId, scopes, patientId);
+        return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
       }
 
     } else if (refreshTokenValue != null) {
@@ -254,13 +252,12 @@ public class AuthorizationController {
         if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
           Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
           patientId = refreshToken.getPatientId();
+          encounterId = refreshToken.getEncounterId();
           String refreshTokenScopes = refreshToken.getScopesString();
-          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId);
+          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
+           encounterId);
         }
-      } catch (TokenNotFoundException tokenNotFoundException) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-            "Refresh Token " + refreshTokenValue + " was not found");
-      } catch (InvalidBearerTokenException invalidBearerTokenException) {
+      } catch (TokenNotFoundException | InvalidBearerTokenException tokenNotFoundException) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
             "Refresh Token " + refreshTokenValue + " was not found");
       }
@@ -270,17 +267,14 @@ public class AuthorizationController {
   }
 
   private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request,
-      String clientId, String scopes, String patientId) throws BearerTokenException {
+      String clientId, String scopes, String patientId, String encounterId)
+        throws BearerTokenException {
     HttpHeaders headers = new HttpHeaders();
     headers.setCacheControl(CacheControl.noStore());
     headers.setPragma("no-cache");
 
-    String tokenJsonString = generateBearerToken(request, clientId, scopes, patientId);
-
-    ResponseEntity<String> responseEntity =
-        new ResponseEntity<String>(tokenJsonString, headers, HttpStatus.OK);
-
-    return responseEntity;
+    String tokenJsonString = generateBearerToken(request, clientId, scopes, patientId, encounterId);
+    return new ResponseEntity<>(tokenJsonString, headers, HttpStatus.OK);
   }
 
   /**
@@ -290,22 +284,19 @@ public class AuthorizationController {
    * @throws BearerTokenException if token generation runs into an error
    */
   private String generateBearerToken(HttpServletRequest request, String clientId, String scopes,
-      String patientId) throws BearerTokenException {
+      String patientId, String encounterId) throws BearerTokenException {
 
-    String fhirServerBaseUrl = FhirReferenceServerUtils.getServerBaseUrl(request)
-        + FhirReferenceServerUtils.FHIR_SERVER_PATH;
-    FhirContext fhirContext = FhirContext.forR4();
-    IGenericClient client = fhirContext.newRestfulGenericClient(fhirServerBaseUrl);
-
+    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
     JSONObject tokenJson = new JSONObject();
 
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken(scopes);
 
-    String refreshTokenValue = "";
+    String refreshTokenValue;
     try {
       Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
       refreshToken.setPatientId(patientId);
+      refreshToken.setEncounterId(encounterId);
       refreshTokenValue = refreshToken.getTokenValue();
     } catch (Exception exception) {
       throw new BearerTokenException(exception);
@@ -332,13 +323,16 @@ public class AuthorizationController {
     }
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
-      Encounter encounter = getFirstEncounterByPatientId(client, patientId);
+      if (Objects.equals(encounterId, "")) {
+        Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
-      if (encounter == null) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+        if (encounter == null) {
+          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+        }
+
+        encounterId = encounter.getIdElement().getIdPart();
       }
 
-      String encounterId = encounter.getIdElement().getIdPart();
       tokenJson.put("encounter", encounterId);
     }
 
@@ -377,11 +371,9 @@ public class AuthorizationController {
       String sub = UUID.randomUUID().toString();
 
       Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
-      String token = JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
+      return JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
           .withSubject(sub).withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
           .withClaim("fhirUser", fhirUserUrl).sign(algorithm);
-
-      return token;
     } catch (RsaKeyException rsaKeyException) {
       throw new OpenIdTokenGenerationException(rsaKeyException);
     }
@@ -428,8 +420,7 @@ public class AuthorizationController {
   private static String getDecodedBasicAuthorizationString(String basicHeader) {
     String encodedValue = basicHeader.replaceFirst("Basic ", ""); // strip off the beginning
     Decoder decoder = Base64.getUrlDecoder();
-    String decodedValue = new String(decoder.decode(encodedValue));
-    return decodedValue;
+    return new String(decoder.decode(encodedValue));
   }
 
   private static void authorizeClientId(String clientId) {

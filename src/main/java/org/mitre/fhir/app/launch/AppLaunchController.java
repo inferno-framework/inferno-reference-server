@@ -1,8 +1,15 @@
 package org.mitre.fhir.app.launch;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.hl7.fhir.r4.model.Bundle;
 import org.json.JSONObject;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.utils.FhirUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,5 +54,31 @@ public class AppLaunchController {
     json.put("font_family_heading",
         "'HelveticaNeue-Light', Helvetica, Arial, 'Lucida Grande', sans-serif;");
     return json.toString();
+  }
+
+  /**
+   * Provides ids of available patients and their related encounters.
+   * @param theRequest the incoming HTTP Request
+   * @return String mapping of patient ids to their encounters
+   */
+  @GetMapping(path = "/ehr-launch-context-options", produces = {"application/json"})
+  public ResponseEntity<String> getEhrLaunchContextOptions(HttpServletRequest theRequest) {
+    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(theRequest);
+
+    HashMap<String, List<String>> patientAndEncounterIds = new HashMap<>();
+
+    for (Bundle.BundleEntryComponent patientEntry : FhirUtils.getAllPatients(client)) {
+      List<String> encounterIds = new ArrayList<>();
+      String patientId = patientEntry.getResource().getIdElement().getIdPart();
+
+      for (Bundle.BundleEntryComponent encounterEntry :
+            FhirUtils.getAllEncountersWithPatientId(client, patientId)) {
+        encounterIds.add(encounterEntry.getResource().getIdElement().getIdPart());
+      }
+      patientAndEncounterIds.put(patientId, encounterIds);
+    }
+
+    JSONObject ehrLaunchContextOptions = new JSONObject(patientAndEncounterIds);
+    return new ResponseEntity<>(ehrLaunchContextOptions.toString(), HttpStatus.OK);
   }
 }
