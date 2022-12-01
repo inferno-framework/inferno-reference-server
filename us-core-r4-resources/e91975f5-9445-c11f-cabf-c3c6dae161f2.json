@@ -64,6 +64,18 @@
               "state": "Massachusetts",
               "country": "US"
             }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-genderIdentity",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "446151000124109",
+                  "display": "Identifies as male gender (finding)"
+                }
+              ]
+            }
           }
         ],
         "identifier": [
@@ -128,16 +140,13 @@
           {
             "use": "old",
             "family": "Ritchie586",
-            "given":
-            [
+            "given": [
               "John43"
             ],
-            "prefix":
-            [
+            "prefix": [
               "Mr."
             ],
-            "period":
-            {
+            "period": {
               "start": "1940-09-05",
               "end": "1962-04-30"
             }
@@ -32173,10 +32182,34 @@
             "reference": "urn:uuid:23516e68-4918-45e9-8716-bd7b7540e10a"
           },
           {
-            "reference": "urn:uuid:b8b254a2-2ef8-11ed-a261-0242ac120002"
+            "reference": "urn:uuid:b9fbaa22-6097-11ed-9b6a-0242ac120002"
           },
           {
-            "reference": "urn:uuid:0254bd52-2ef9-11ed-a261-0242ac120002"
+            "reference": "urn:uuid:3d4b6ff1-a1f9-435e-b38a-546e3f7c38ff"
+          },
+          {
+            "reference": "urn:uuid:1546a198-6098-11ed-9b6a-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:425033f2-6098-11ed-9b6a-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:a4c9c602-60a6-11ed-9b6a-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:9659d9e0-60a6-11ed-9b6a-0242ac120002"
+          },
+          {
+            "reference": "urn:uuid:0d075e25-365e-4dcf-863d-e2b814e52de2"
+          },
+          {
+            "reference": "urn:uuid:57775cdd-354a-6342-954b-f47f21a72578"
+          },
+          {
+            "reference": "urn:uuid:ba89c2af-ce2b-405d-8eff-793eabe1c38d"
+          },
+          {
+            "reference": "urn:uuid:706eb626-2e3a-4f23-bb58-dd11cde7da98"
           }
         ],
         "recorded": "2020-12-10T18:33:18.715-05:00",
@@ -32411,108 +32444,6 @@
         "resourceType": "Observation"
       },
       "request": {
-        "method": "POST",
-        "url": "Observation"
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:b8b254a2-2ef8-11ed-a261-0242ac120002",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "b8b254a2-2ef8-11ed-a261-0242ac120002",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
-          ]
-        },
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "laboratory",
-                "display": "Laboratory"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "20454-5",
-              "display": "Protein [Presence] in Urine by Test strip"
-            }
-          ],
-          "text": "PROTEIN"
-        },
-        "subject": {
-          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
-        },
-        "effectiveDateTime": "2005-07-05",
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "260385009",
-              "display": "Negative"
-            }
-          ],
-          "text": "Negative"
-        },
-        "referenceRange": [
-          {
-            "text": "Negative"
-          }
-        ]
-      },
-      "request":
-      {
-        "method": "POST",
-        "url": "Observation"
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:0254bd52-2ef9-11ed-a261-0242ac120002",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "0254bd52-2ef9-11ed-a261-0242ac120002",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
-          ]
-        },
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "laboratory",
-                "display": "Laboratory"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "11279-7",
-              "display": "Urine sediment comments by Light microscopy Narrative"
-            }
-          ],
-          "text": "COMMENT"
-        },
-        "subject": {
-          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
-        },
-        "effectiveDateTime": "2005-07-05",
-        "valueString": "Recommend Urine Culture"
-      },
-      "request":
-      {
         "method": "POST",
         "url": "Observation"
       }
@@ -33645,6 +33576,554 @@
       "request": {
         "method": "POST",
         "url": "DiagnosticReport"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b9fbaa22-6097-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Condition",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/condition-assertedDate",
+            "valueDateTime": "2016-08-10"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "resolved",
+              "display": "Resolved"
+            }
+          ],
+          "text": "Resolved"
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ],
+          "text": "Confirmed"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ],
+            "text": "Problem List Item"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ],
+            "text": "Social Determinants Of Health"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "445281000124101",
+              "display": "Nutrition impaired due to limited access to healthful foods (finding)"
+            }
+          ],
+          "text": "Nutrition impaired due to limited access to healthful foods (finding)"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "abatementDateTime": "2016-08-10T07:15:07-08:00",
+        "recordedDate": "2016-08-10T07:15:07-08:00"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3d4b6ff1-a1f9-435e-b38a-546e3f7c38ff",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "3d4b6ff1-a1f9-435e-b38a-546e3f7c38ff",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/condition-assertedDate",
+            "valueDateTime": "2007-12-14"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ],
+          "text": "Active"
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ],
+          "text": "Confirmed"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/condition-category",
+                "code": "health-concern",
+                "display": "Health Concern"
+              }
+            ],
+            "text": "Health Concern"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "247824007",
+              "display": "Fear of becoming fat"
+            }
+          ],
+          "text": "Fear of becoming fat"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "onsetDateTime": "2007-12-14",
+        "recordedDate": "2007-12-14T07:15:07-08:00"
+      },
+      "request": {
+        "method": "POST",
+        "rul": "Condition"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1546a198-6098-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-observation-category",
+                "code": "clinical-test",
+                "display": "Clinical Test"
+              }
+            ],
+            "text": "Clinical Test"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8601-7",
+              "display": "EKG impression"
+            }
+          ],
+          "text": "EKG impression"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2021-11-10T16:48:57.246958-08:00",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "64730000",
+              "display": "Normal sinus rhythm"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:425033f2-6098-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-observation-category",
+                "code": "clinical-test",
+                "display": "Clinical Test"
+              }
+            ],
+            "text": "Clinical Test"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "80954-1",
+              "display": "DXA Femur-L ArMass BMD"
+            }
+          ],
+          "text": "DXA Femur-L ArMass BMD"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "dataAbsentReason": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "code": "not-performed",
+              "display": "Not Performed"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0d075e25-365e-4dcf-863d-e2b814e52de2",
+      "resource": {
+        "id": "0d075e25-365e-4dcf-863d-e2b814e52de2",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "741062008",
+              "display": "Not in labor force (finding)"
+            }
+          ],
+          "text": "Not in labor force (finding)"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2021-06-04T12:19:16-05:00",
+        "performer": [
+          {
+            "reference": "Practitioner/88"
+          }
+        ],
+        "valueBoolean": true,
+        "resourceType": "Observation"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:57775cdd-354a-6342-954b-f47f21a72578",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "57775cdd-354a-6342-954b-f47f21a72578",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "1993-01-13T21:54:22-06:00",
+        "issued": "1993-01-13T21:54:22.840-06:00",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "63586-2",
+              "display": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits."
+            }
+          ],
+          "text": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits."
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/88"
+          }
+        ],
+        "valueQuantity": {
+          "value": 43450,
+          "unit": "/a",
+          "system": "http://unitsofmeasure.org",
+          "code": "/a"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d1ee0707-00f8-462c-aca3-63cf6dd1be82",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d1ee0707-00f8-462c-aca3-63cf6dd1be82",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "1993-01-13T21:54:22-06:00",
+        "issued": "1993-01-13T21:54:22.840-06:00",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "93028-9",
+              "display": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?"
+            }
+          ],
+          "text": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?"
+        },
+        "valueString": "No",
+        "performer": [
+          {
+            "extension": [
+              {
+                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                  "valueCode": "unknown"
+              }
+          ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ba89c2af-ce2b-405d-8eff-793eabe1c38d",
+      "resource": {
+        "resourceType": "ServiceRequest",
+        "id": "ba89c2af-ce2b-405d-8eff-793eabe1c38d",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+          ]
+        },
+        "status": "active",
+        "intent": "order",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ],
+            "text": "Social Determinants Of Health"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "410606002",
+                "display": "Social service procedure (procedure)"
+              }
+            ],
+            "text": "Social service procedure (procedure)"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "467771000124109",
+              "display": "Assistance with application for food pantry program"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "occurrenceDateTime": "2021-11-20",
+        "authoredOn": "2021-11-12T10:59:38-08:00",
+        "requester": {
+          "reference": "Practitioner/358"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "ServiceRequest"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:706eb626-2e3a-4f23-bb58-dd11cde7da98",
+      "resource": {
+        "resourceType": "ServiceRequest",
+        "id": "706eb626-2e3a-4f23-bb58-dd11cde7da98",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+          ]
+        },
+        "status": "active",
+        "intent": "order",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ],
+            "text": "Social Determinants Of Health"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "410606002",
+                "display": "Social service procedure (procedure)"
+              }
+            ],
+            "text": "Social service procedure (procedure)"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "467771000124109",
+              "display": "Assistance with application for food pantry program"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "occurrencePeriod": {
+          "start": "2021-11-20",
+          "end": "2021-12-04"
+        },
+        "authoredOn": "2021-11-12T10:59:38-08:00",
+        "requester": {
+          "reference": "Practitioner/358"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "ServiceRequest"
       }
     }
   ],
