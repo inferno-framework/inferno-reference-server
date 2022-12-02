@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 
 public class FhirReferenceServerUtils {
 
@@ -66,10 +67,13 @@ public class FhirReferenceServerUtils {
    * @return string representation of code containing the input code, scopes, and patientId
    */
   public static String createCode(String actualCode, String scopes, String patientId) {
-    String encodedScope = Base64.getEncoder().encodeToString(scopes.getBytes());
-    String encodedPatientId = Base64.getEncoder().encodeToString(patientId.getBytes());
+    JSONObject code = new JSONObject();
 
-    return actualCode + "." + encodedScope + "." + encodedPatientId;
+    if (actualCode != null) code.put("code", actualCode);
+    if (scopes != null) code.put("scopes", scopes);
+    if (patientId != null) code.put("patientId", patientId);
+
+    return Base64.getEncoder().encodeToString(code.toString().getBytes());
   }
 
   /**

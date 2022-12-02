@@ -138,8 +138,6 @@ public class AuthorizationController {
     return new ResponseEntity<>(accessToken.toString(), headers, HttpStatus.OK);
   }
 
-
-
   private void validateBulkDataScopes(String scopesString) {
     List<String> scopes = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
 
@@ -179,19 +177,51 @@ public class AuthorizationController {
 
   /**
    * Provide a code to get a bearer token for authorization.
-   * 
+   *
    * @param code code to get token
    * @return bearer token to be used for authorization
    * @throws BearerTokenException error generating a bearer token
    */
   @PostMapping(path = "/token", produces = {"application/json"})
-  public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
-      @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-      @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
-      HttpServletRequest request) throws BearerTokenException {
+  public ResponseEntity<String> getToken(
+    @RequestParam(name = "code", required = false) String code,
+    @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
+    @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
+    @RequestParam(name = "code_verifier", required = false) String codeVerifier,
+    HttpServletRequest request
+  ) throws ResponseStatusException, BearerTokenException {
 
     Log.info("code is " + code);
 
+    String clientId = validateClient(request, clientIdRequestParam);
+
+    String scopes = "";
+    String patientId = "";
+    String encounterId = "";
+
+    if (code != null) {
+      return validateCode(request, code, clientId);
+    } else if (refreshTokenValue != null) {
+
+      try {
+        if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
+          Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
+          patientId = refreshToken.getPatientId();
+          encounterId = refreshToken.getEncounterId();
+          String refreshTokenScopes = refreshToken.getScopesString();
+          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
+           encounterId);
+        }
+      } catch (TokenNotFoundException | InvalidBearerTokenException tokenNotFoundException) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            "Refresh Token " + refreshTokenValue + " was not found");
+      }
+    }
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                      "No code or refresh token provided.");
+  }
+
+  private static String validateClient(HttpServletRequest request, String clientIdRequestParam) {
     // check client id and client secret if the server is confidential
     String basicHeader = getBasicHeader(request);
 
@@ -214,53 +244,28 @@ public class AuthorizationController {
 
     authenticateClientIdAndClientSecret(clientId, clientSecret);
 
-    String scopes = "";
-    String patientId = "";
-    String encounterId = "";
+    return clientId;
+  }
 
-    String fullCodeString;
+  private ResponseEntity<String> validateCode(HttpServletRequest request, String encodedCodeString, String clientId) throws ResponseStatusException, BearerTokenException {
+    String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
+    JSONObject codeObject = new JSONObject(rawCodeString);
+    String scopes = null;
+    String patientId = null;
+    String encounterId = null;
+    String codeChallenge = null;
+    String codeChallengeMethod = null;
+    String code = null;
 
-    if (code != null) {
-      fullCodeString = code;
-      // the provided code is in the format <ACTUAL_CODE>.<SCOPES>
-      String[] fullCode = fullCodeString.split("\\.");
+    if (codeObject.has("scopes")) scopes = (String) codeObject.get("scopes");
+    if (codeObject.has("patientId")) patientId = (String) codeObject.get("patientId");
+    if (codeObject.has("encounterId")) encounterId = (String) codeObject.get("encounterId");
+    if (codeObject.has("codeChallenge")) codeChallenge = (String) codeObject.get("codeChallenge");
+    if (codeObject.has("codeChallengeMethod")) codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
+    if (codeObject.has("code")) code = (String) codeObject.get("code");
 
-      // if scope was included
-      if (fullCode.length >= 2) {
-        String encodedScopes = fullCode[1];
-        scopes = new String(Base64.getDecoder().decode(encodedScopes));
-      }
-
-      if (fullCode.length >= 3) {
-        String encodedPatientId = fullCode[2];
-        patientId = new String(Base64.getDecoder().decode(encodedPatientId));
-      }
-
-      if (fullCode.length >= 4) {
-        String encodedEncounterId = fullCode[3];
-        encounterId = new String(Base64.getDecoder().decode(encodedEncounterId));
-      }
-
-      String actualCodeOrRefreshToken = fullCode[0];
-      if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken)) {
-        return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
-      }
-
-    } else if (refreshTokenValue != null) {
-
-      try {
-        if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
-          Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
-          patientId = refreshToken.getPatientId();
-          encounterId = refreshToken.getEncounterId();
-          String refreshTokenScopes = refreshToken.getScopesString();
-          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
-           encounterId);
-        }
-      } catch (TokenNotFoundException | InvalidBearerTokenException tokenNotFoundException) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-            "Refresh Token " + refreshTokenValue + " was not found");
-      }
+    if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
+      return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
     }
 
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
@@ -279,7 +284,7 @@ public class AuthorizationController {
 
   /**
    * Generates Token in Oauth2 expected format.
-   * 
+   *
    * @return token JSON String
    * @throws BearerTokenException if token generation runs into an error
    */
@@ -312,7 +317,7 @@ public class AuthorizationController {
     tokenJson.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
     tokenJson.put("need_patient_banner", false);
 
-    if ("".equals(patientId)) {
+    if ("".equals(patientId) || patientId == null) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
     }
 
@@ -323,7 +328,7 @@ public class AuthorizationController {
     }
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
-      if (Objects.equals(encounterId, "")) {
+      if (Objects.equals(encounterId, "") || encounterId == null) {
         Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
         if (encounter == null) {
@@ -346,7 +351,7 @@ public class AuthorizationController {
 
   /**
    * Generates a sample open id token https://openid.net/specs/openid-connect-core-1_0.html
-   * 
+   *
    * @return token JSON String representing the open id token
    * @throws OpenIdTokenGenerationException if error generating open id token
    */

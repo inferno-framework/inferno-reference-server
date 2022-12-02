@@ -74,7 +74,6 @@ public class TestAuthorization {
 
   @Test
   public void testCreateAndRead() {
-
     String methodName = "testCreateResourceConditional";
 
     Patient pt = new Patient();
@@ -95,7 +94,6 @@ public class TestAuthorization {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-
   }
 
   @Test(expected = AuthenticationException.class)
@@ -134,7 +132,6 @@ public class TestAuthorization {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
         .execute();
-
   }
 
   @Test
@@ -156,7 +153,6 @@ public class TestAuthorization {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(token.getTokenValue()))
         .execute();
-
   }
 
   @Test(expected = AuthenticationException.class)
@@ -176,7 +172,7 @@ public class TestAuthorization {
       request.setRequestURI(serverBaseUrl);
       request.setServerPort(TestUtils.TEST_PORT);
 
-      authorizationController.getToken("INVALID_CODE", null, null, request);
+      authorizationController.getToken("{\"code\":\"INVALID_CODE\"}", null, null, null, request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
     } catch (ResponseStatusException rse) {
       if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
@@ -197,7 +193,7 @@ public class TestAuthorization {
       request.setRequestURI(serverBaseUrl);
       request.setServerPort(TestUtils.TEST_PORT);
 
-      authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", request);
+      authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", null, request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
     } catch (ResponseStatusException rse) {
       if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
@@ -223,7 +219,7 @@ public class TestAuthorization {
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -231,7 +227,6 @@ public class TestAuthorization {
 
     JsonNode jsonNode = mapper.readTree(jsonString);
     Assert.assertNotNull(jsonNode.get("access_token"));
-
   }
 
   @Test
@@ -250,7 +245,7 @@ public class TestAuthorization {
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -258,7 +253,6 @@ public class TestAuthorization {
 
     JsonNode jsonNode = mapper.readTree(jsonString);
     Assert.assertNotNull(jsonNode.get("access_token"));
-
   }
 
   @Test
@@ -274,7 +268,7 @@ public class TestAuthorization {
     String scopes = "";
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+        "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -300,7 +294,7 @@ public class TestAuthorization {
 
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+        "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -365,7 +359,6 @@ public class TestAuthorization {
         ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(request));
     Assert.assertEquals(tokenUri,
         ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(request));
-
   }
 
 
@@ -383,7 +376,7 @@ public class TestAuthorization {
     // shouldn't throw an exception
     authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
-        SAMPLE_PUBLIC_CLIENT_ID, null, request);
+        SAMPLE_PUBLIC_CLIENT_ID, null, null, request);
   }
 
   @Test(expected = InvalidClientIdException.class)
@@ -396,7 +389,7 @@ public class TestAuthorization {
     request.setServerPort(TestUtils.TEST_PORT);
     AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, "INVALID_CLIENT_ID",
-        null, request);
+                                     null, null, request);
   }
 
   @Test(expected = InvalidClientIdException.class)
@@ -409,7 +402,7 @@ public class TestAuthorization {
     request.setServerPort(TestUtils.TEST_PORT);
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+    authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, null, request);
   }
 
   @Test
@@ -424,8 +417,12 @@ public class TestAuthorization {
 
     AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken(
-        FhirReferenceServerUtils.createCode(SAMPLE_CODE, "", testPatientId.getIdPart()), null, null,
-        request);
+        FhirReferenceServerUtils.createCode(SAMPLE_CODE, "", testPatientId.getIdPart()),
+        null,
+        null,
+        null,
+        request
+    );
   }
 
   @Test(expected = ResponseStatusException.class)
@@ -439,8 +436,13 @@ public class TestAuthorization {
     request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
-
+    authorizationController.getToken(
+        FhirReferenceServerUtils.createCode(SAMPLE_CODE, null, null),
+        null,
+        null,
+        null,
+        request
+    );
   }
 
   @Test
@@ -459,7 +461,7 @@ public class TestAuthorization {
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -489,7 +491,7 @@ public class TestAuthorization {
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -517,7 +519,7 @@ public class TestAuthorization {
 
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+        "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -545,7 +547,7 @@ public class TestAuthorization {
 
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()),
-        "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+        "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -573,7 +575,7 @@ public class TestAuthorization {
     String code = FhirReferenceServerUtils.SAMPLE_CODE + encodedScopes;
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(code, null, null, request);
+    authorizationController.getToken(code, null, null, null, request);
   }
 
   @Test
@@ -592,7 +594,7 @@ public class TestAuthorization {
     // no error should be thrown
     authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null,
-        null, request);
+        null, null, request);
   }
 
   @Test(expected = InvalidClientSecretException.class)
@@ -607,7 +609,7 @@ public class TestAuthorization {
         SAMPLE_CONFIDENTIAL_CLIENT_ID, "Invalid Client Secret"));
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, request);
+    authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, null, request);
   }
 
   @Test
@@ -624,7 +626,7 @@ public class TestAuthorization {
     String scopes = "";
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null,
-        null, request);
+        null, null, request);
     String jsonString = tokenResponseEntity.getBody();
     JSONObject jsonObject = new JSONObject(jsonString);
     String idToken = (String) jsonObject.get("id_token");
@@ -654,11 +656,17 @@ public class TestAuthorization {
     Token token = TokenManager.getInstance().getServerToken();
     Token refreshToken =
         TokenManager.getInstance().getCorrespondingRefreshToken(token.getTokenValue());
+    refreshToken.setPatientId("SAMPLE_PATIENT_ID");
 
     String refreshTokenValue = refreshToken.getTokenValue();
 
-    ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(null,
-        "SAMPLE_PUBLIC_CLIENT_ID", refreshTokenValue, request);
+    ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
+      null,
+      "SAMPLE_PUBLIC_CLIENT_ID",
+      refreshTokenValue,
+      null,
+      request
+    );
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -666,7 +674,6 @@ public class TestAuthorization {
 
     JsonNode jsonNode = mapper.readTree(jsonString);
     Assert.assertNotNull(jsonNode.get("access_token"));
-
   }
 
   @Test
@@ -685,7 +692,7 @@ public class TestAuthorization {
     String code = FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, patientId);
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -701,12 +708,10 @@ public class TestAuthorization {
     request2.setServerPort(TestUtils.TEST_PORT);
     request2.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
-
-
     // check that the new token has the same scopes and the new refresh token has the same patient
     // id
     ResponseEntity<String> newTokenResponseEntity =
-        authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", refreshToken, request2);
+      authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", refreshToken, null, request2);
     String newJsonString = newTokenResponseEntity.getBody();
     ObjectMapper mapper2 = new ObjectMapper();
     JsonNode newJsonNode = mapper2.readTree(newJsonString);
@@ -717,9 +722,6 @@ public class TestAuthorization {
     String newPatientId = newJsonNode.get("patient").textValue();
 
     Assert.assertEquals(newPatientId, patientId);
-
-
-
   }
 
   @Test(expected = ResponseStatusException.class)
@@ -734,16 +736,7 @@ public class TestAuthorization {
     request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", null, request);
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    String jsonString = tokenResponseEntity.getBody();
-
-    JsonNode jsonNode = mapper.readTree(jsonString);
-    String accessToken = jsonNode.get("access_token").asText();
-
-    Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+      authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
   }
 
   @Test(expected = ResponseStatusException.class)
@@ -762,16 +755,7 @@ public class TestAuthorization {
         testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-        authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", refreshToken, request);
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    String jsonString = tokenResponseEntity.getBody();
-
-    JsonNode jsonNode = mapper.readTree(jsonString);
-    String accessToken = jsonNode.get("access_token").asText();
-
-    Assert.assertEquals("SAMPLE_ACCESS_TOKEN", accessToken);
+      authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", refreshToken, null, request);
   }
 
   @Test
@@ -805,7 +789,6 @@ public class TestAuthorization {
 
   @AfterClass
   public static void afterClass() throws Exception {
-
     // delete test patient and encounter
 
     ourClient.delete().resourceById(testEncounterId)
@@ -829,8 +812,6 @@ public class TestAuthorization {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-
-
     testToken = TokenManager.getInstance().getServerToken();
 
     ourCtx = FhirContext.forR4();
@@ -880,7 +861,5 @@ public class TestAuthorization {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-
   }
-
 }
