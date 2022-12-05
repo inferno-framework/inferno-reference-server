@@ -69,9 +69,15 @@ public class FhirReferenceServerUtils {
   public static String createCode(String actualCode, String scopes, String patientId) {
     JSONObject code = new JSONObject();
 
-    if (actualCode != null) code.put("code", actualCode);
-    if (scopes != null) code.put("scopes", scopes);
-    if (patientId != null) code.put("patientId", patientId);
+    if (actualCode != null) {
+      code.put("code", actualCode);
+    }
+    if (scopes != null) {
+      code.put("scopes", scopes);
+    }
+    if (patientId != null) {
+      code.put("patientId", patientId);
+    }
 
     return Base64.getEncoder().encodeToString(code.toString().getBytes());
   }
@@ -86,14 +92,30 @@ public class FhirReferenceServerUtils {
    * @param codeChallenge PKCE
    * @return string representation of code containing the input code, scopes, and patientId
    */
-  public static String createCode(String actualCode, String scopes, String patientId, String codeChallengeMethod, String codeChallenge) {
+  public static String createCode(
+      String actualCode,
+      String scopes,
+      String patientId,
+      String codeChallengeMethod,
+      String codeChallenge
+  ) {
     JSONObject code = new JSONObject();
 
-    if (actualCode != null) code.put("code", actualCode);
-    if (scopes != null) code.put("scopes", scopes);
-    if (patientId != null) code.put("patientId", patientId);
-    if (codeChallengeMethod != null) code.put("codeChallengeMethod", codeChallengeMethod );
-    if (codeChallenge != null) code.put("codeChallenge", codeChallenge);
+    if (actualCode != null) {
+      code.put("code", actualCode);
+    }
+    if (scopes != null) {
+      code.put("scopes", scopes);
+    }
+    if (patientId != null) {
+      code.put("patientId", patientId);
+    }
+    if (codeChallengeMethod != null) {
+      code.put("codeChallengeMethod", codeChallengeMethod);
+    }
+    if (codeChallenge != null) {
+      code.put("codeChallenge", codeChallenge);
+    }
 
     return Base64.getEncoder().encodeToString(code.toString().getBytes());
   }
@@ -122,7 +144,7 @@ public class FhirReferenceServerUtils {
 
     String[] scopesArray = scopesString.trim().split("\\s+");
 
-    return Arrays.stream(scopesArray).filter(scope -> !scope.equals(""))
+    return Arrays.stream(scopesArray).filter(scope -> !"".equals(scope))
         .collect(Collectors.toList());
   }
 
@@ -156,5 +178,8 @@ public class FhirReferenceServerUtils {
     clients.put(theRequest, newClient);
 
     return newClient;
+  }
+
+  private FhirReferenceServerUtils() {
   }
 }

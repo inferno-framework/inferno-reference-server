@@ -112,7 +112,7 @@ public class AuthorizationBulkDataExportProviderTest {
     InputStream inputStream = getConnection.getInputStream();
     String s = new String(inputStream.readAllBytes());
     JSONObject response;
-    if (s != null && !s.equals("")) {
+    if (s != null && !"".equals(s)) {
       response = new JSONObject(s);
     }
 

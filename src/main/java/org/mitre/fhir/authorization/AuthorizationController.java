@@ -188,11 +188,11 @@ public class AuthorizationController {
    */
   @PostMapping(path = "/token", produces = {"application/json"})
   public ResponseEntity<String> getToken(
-    @RequestParam(name = "code", required = false) String code,
-    @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
-    @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
-    @RequestParam(name = "code_verifier", required = false) String codeVerifier,
-    HttpServletRequest request
+      @RequestParam(name = "code", required = false) String code,
+      @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
+      @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
+      @RequestParam(name = "code_verifier", required = false) String codeVerifier,
+      HttpServletRequest request
   ) throws ResponseStatusException, BearerTokenException {
 
     Log.info("code is " + code);
@@ -252,10 +252,10 @@ public class AuthorizationController {
   }
 
   private ResponseEntity<String> validateCode(
-    HttpServletRequest request,
-    String encodedCodeString,
-    String clientId,
-    String codeVerifier
+      HttpServletRequest request,
+      String encodedCodeString,
+      String clientId,
+      String codeVerifier
   ) throws ResponseStatusException, BearerTokenException {
     String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
     JSONObject codeObject = new JSONObject(rawCodeString);
@@ -266,14 +266,26 @@ public class AuthorizationController {
     String codeChallengeMethod = null;
     String code = null;
 
-    if (codeObject.has("scopes")) scopes = (String) codeObject.get("scopes");
-    if (codeObject.has("patientId")) patientId = (String) codeObject.get("patientId");
-    if (codeObject.has("encounterId")) encounterId = (String) codeObject.get("encounterId");
-    if (codeObject.has("codeChallenge")) codeChallenge = (String) codeObject.get("codeChallenge");
-    if (codeObject.has("codeChallengeMethod")) codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
-    if (codeObject.has("code")) code = (String) codeObject.get("code");
+    if (codeObject.has("scopes")) {
+      scopes = (String) codeObject.get("scopes");
+    }
+    if (codeObject.has("patientId")) {
+      patientId = (String) codeObject.get("patientId");
+    }
+    if (codeObject.has("encounterId")) {
+      encounterId = (String) codeObject.get("encounterId");
+    }
+    if (codeObject.has("codeChallenge")) {
+      codeChallenge = (String) codeObject.get("codeChallenge");
+    }
+    if (codeObject.has("codeChallengeMethod")) {
+      codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
+    }
+    if (codeObject.has("code")) {
+      code = (String) codeObject.get("code");
+    }
 
-    validatePKCE(codeChallengeMethod, codeChallenge, codeVerifier, scopes);
+    validatePkce(codeChallengeMethod, codeChallenge, codeVerifier, scopes);
 
     if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
       return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
@@ -282,24 +294,32 @@ public class AuthorizationController {
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
   }
 
-  private void validatePKCE(String codeChallengeMethod, String codeChallenge, String codeVerifier, String scopes) throws ResponseStatusException {
+  private void validatePkce(
+        String codeChallengeMethod,
+        String codeChallenge,
+        String codeVerifier,
+        String scopes
+  ) throws ResponseStatusException {
     String[] scopeList = scopes == null ? new String[0] : scopes.split(" ");
 
-    Boolean v2_scope_found = false;
-    String v2_scope_pattern = "\\b(patient|user|system|\\*)/[\\w*]\\.c?r?u?d?s?\\b";
-    for(String scope : scopeList) {
-      if (scope.matches(v2_scope_pattern)) {
-        v2_scope_found = true;
+    Boolean v2ScopeFound = false;
+    String v2ScopePattern = "\\b(patient|user|system|\\*)/[\\w*]\\.c?r?u?d?s?\\b";
+    for (String scope : scopeList) {
+      if (scope.matches(v2ScopePattern)) {
+        v2ScopeFound = true;
         break;
       }
     }
 
-    if (codeChallenge == null && codeVerifier == null && !v2_scope_found) {
+    if (codeChallenge == null && codeVerifier == null && !v2ScopeFound) {
       return;
     }
 
-    if (codeChallengeMethod!= null && !codeChallengeMethod.equalsIgnoreCase("S256")) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only S256 PKCE code challenge method is supported");
+    if (codeChallengeMethod != null && !"S256".equalsIgnoreCase(codeChallengeMethod)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST,
+          "Only S256 PKCE code challenge method is supported"
+      );
     }
 
     if (codeChallenge == null) {
@@ -453,7 +473,7 @@ public class AuthorizationController {
     List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 
     for (BundleEntryComponent bundleEntryComponent : encounters) {
-      if (bundleEntryComponent.getResource().fhirType().equals("Encounter")) {
+      if ("Encounter".equals(bundleEntryComponent.getResource().fhirType())) {
         encounter = (Encounter) bundleEntryComponent.getResource();
         break;
       }
