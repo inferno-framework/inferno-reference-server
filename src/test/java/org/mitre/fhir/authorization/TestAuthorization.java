@@ -12,12 +12,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -786,6 +791,132 @@ public class TestAuthorization {
     Assert.assertEquals(1, results.getTotal());
   }
 
+  @Test
+  public void testPKCE() throws IOException, JSONException, NoSuchAlgorithmException,
+                                BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "launch/patient openId patient/*.read";
+    String codeVerifier = UUID.randomUUID().toString() + UUID.randomUUID().toString();
+    byte[] sha = MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+    String codeChallenge = Base64.getUrlEncoder().withoutPadding().encodeToString(sha);
+    String code =
+      FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart(), "s256", codeChallenge);
+
+    ResponseEntity<String> tokenResponseEntity =
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier, request);
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testPKCERequiresValidCodeVerifier() throws IOException, JSONException, NoSuchAlgorithmException,
+                                BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "launch/patient openId patient/*.read";
+    String codeVerifier = UUID.randomUUID().toString() + UUID.randomUUID().toString();
+    byte[] sha = MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+    String codeChallenge = Base64.getUrlEncoder().withoutPadding().encodeToString(sha);
+    String code =
+      FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart(), "s256", codeChallenge);
+
+    ResponseEntity<String> tokenResponseEntity =
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier + "X", request);
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testPKCERequiresCodeVerifier() throws IOException, JSONException, NoSuchAlgorithmException,
+                                BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "launch/patient openId patient/*.read";
+    String codeVerifier = UUID.randomUUID().toString() + UUID.randomUUID().toString();
+    byte[] sha = MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+    String codeChallenge = Base64.getUrlEncoder().withoutPadding().encodeToString(sha);
+    String code =
+      FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart(), "s256", codeChallenge);
+
+    ResponseEntity<String> tokenResponseEntity =
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testPKCERequiresCodeChallenge() throws IOException, JSONException, NoSuchAlgorithmException,
+                                BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "launch/patient openId patient/*.read";
+    String codeVerifier = UUID.randomUUID().toString() + UUID.randomUUID().toString();
+    byte[] sha = MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+    String codeChallenge = Base64.getUrlEncoder().withoutPadding().encodeToString(sha);
+    String code =
+      FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart(), "s256", null);
+
+    ResponseEntity<String> tokenResponseEntity =
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier, request);
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testPKCERequiresS256() throws IOException, JSONException, NoSuchAlgorithmException,
+                                BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "launch/patient openId patient/*.r";
+    String codeVerifier = UUID.randomUUID().toString() + UUID.randomUUID().toString();
+    String code =
+      FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart(), "plain", codeVerifier);
+
+    ResponseEntity<String> tokenResponseEntity =
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier, request);
+  }
+
+  @Test(expected = ResponseStatusException.class)
+  public void testPKCERequiredWithV2Scopes() throws IOException, JSONException,
+      BearerTokenException, TokenNotFoundException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "launch/patient openId patient/*.r";
+    String code =
+        FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
+
+    ResponseEntity<String> tokenResponseEntity =
+      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, request);
+  }
 
   @AfterClass
   public static void afterClass() throws Exception {

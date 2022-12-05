@@ -77,6 +77,28 @@ public class FhirReferenceServerUtils {
   }
 
   /**
+   * Create a code embed with the actual code, scopes and patient id.
+   *
+   * @param actualCode the code itself for auth purposes
+   * @param scopes the scopes the user selected for this token
+   * @param patientId the selected patientId
+   * @param codeChallengeMethod PKCE
+   * @param codeChallenge PKCE
+   * @return string representation of code containing the input code, scopes, and patientId
+   */
+  public static String createCode(String actualCode, String scopes, String patientId, String codeChallengeMethod, String codeChallenge) {
+    JSONObject code = new JSONObject();
+
+    if (actualCode != null) code.put("code", actualCode);
+    if (scopes != null) code.put("scopes", scopes);
+    if (patientId != null) code.put("patientId", patientId);
+    if (codeChallengeMethod != null) code.put("codeChallengeMethod", codeChallengeMethod );
+    if (codeChallenge != null) code.put("codeChallenge", codeChallenge);
+
+    return Base64.getEncoder().encodeToString(code.toString().getBytes());
+  }
+
+  /**
    * Create the Authorization Header value.
    * 
    * @param accessToken the access token value

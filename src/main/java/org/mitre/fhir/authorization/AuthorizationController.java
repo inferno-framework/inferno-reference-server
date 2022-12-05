@@ -286,7 +286,7 @@ public class AuthorizationController {
     String[] scopeList = scopes == null ? new String[0] : scopes.split(" ");
 
     Boolean v2_scope_found = false;
-    String v2_scope_pattern = "\\w+\\.c?r?u?d?s?\\b";
+    String v2_scope_pattern = "\\b(patient|user|system|\\*)/[\\w*]\\.c?r?u?d?s?\\b";
     for(String scope : scopeList) {
       if (scope.matches(v2_scope_pattern)) {
         v2_scope_found = true;
@@ -298,7 +298,7 @@ public class AuthorizationController {
       return;
     }
 
-    if (!codeChallengeMethod.equalsIgnoreCase("S256")) {
+    if (codeChallengeMethod!= null && !codeChallengeMethod.equalsIgnoreCase("S256")) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only S256 PKCE code challenge method is supported");
     }
 
@@ -319,6 +319,7 @@ public class AuthorizationController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code verifier");
       }
     } catch (NoSuchAlgorithmException exception) {
+      // This should not be reachable
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to process code verifier");
     }
 
