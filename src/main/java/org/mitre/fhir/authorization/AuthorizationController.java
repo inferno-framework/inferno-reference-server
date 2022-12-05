@@ -8,6 +8,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -200,7 +204,7 @@ public class AuthorizationController {
     String encounterId = "";
 
     if (code != null) {
-      return validateCode(request, code, clientId);
+      return validateCode(request, code, clientId, codeVerifier);
     } else if (refreshTokenValue != null) {
 
       try {
@@ -247,7 +251,12 @@ public class AuthorizationController {
     return clientId;
   }
 
-  private ResponseEntity<String> validateCode(HttpServletRequest request, String encodedCodeString, String clientId) throws ResponseStatusException, BearerTokenException {
+  private ResponseEntity<String> validateCode(
+    HttpServletRequest request,
+    String encodedCodeString,
+    String clientId,
+    String codeVerifier
+  ) throws ResponseStatusException, BearerTokenException {
     String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
     JSONObject codeObject = new JSONObject(rawCodeString);
     String scopes = null;
@@ -264,11 +273,56 @@ public class AuthorizationController {
     if (codeObject.has("codeChallengeMethod")) codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
     if (codeObject.has("code")) code = (String) codeObject.get("code");
 
+    validatePKCE(codeChallengeMethod, codeChallenge, codeVerifier, scopes);
+
     if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
       return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
     }
 
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
+  }
+
+  private void validatePKCE(String codeChallengeMethod, String codeChallenge, String codeVerifier, String scopes) throws ResponseStatusException {
+    String[] scopeList = scopes == null ? new String[0] : scopes.split(" ");
+
+    Boolean v2_scope_found = false;
+    String v2_scope_pattern = "\\w+\\.c?r?u?d?s?\\b";
+    for(String scope : scopeList) {
+      if (scope.matches(v2_scope_pattern)) {
+        v2_scope_found = true;
+        break;
+      }
+    }
+
+    if (codeChallenge == null && codeVerifier == null && !v2_scope_found) {
+      return;
+    }
+
+    if (!codeChallengeMethod.equalsIgnoreCase("S256")) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only S256 PKCE code challenge method is supported");
+    }
+
+    if (codeChallenge == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No code challenge received");
+    }
+
+    if (codeVerifier == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No code verifier received");
+    }
+
+    try {
+      MessageDigest digest = MessageDigest.getInstance("SHA-256");
+      byte[] rawHash = digest.digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+      String hash = Base64.getUrlEncoder().withoutPadding().encodeToString(rawHash);
+
+      if (!codeChallenge.equalsIgnoreCase(hash)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code verifier");
+      }
+    } catch (NoSuchAlgorithmException exception) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to process code verifier");
+    }
+
+    return;
   }
 
   private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request,
