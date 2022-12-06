@@ -45,13 +45,8 @@ public class TestAuthorizationWithNoData {
 
   @Test(expected = ResponseStatusException.class)
   public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
-
-
-    // add a patient
     Patient pt = new Patient();
     pt.addName().setFamily("Test");
-
-
 
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
@@ -60,15 +55,19 @@ public class TestAuthorizationWithNoData {
     request.setServerPort(1234);
 
     String scope = "launch/patient launch/encounter";
-    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
-    
+
     AuthorizationController authorizationController = new AuthorizationController();
 
-    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
-        request);
-    
+    authorizationController.getToken(
+        FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null),
+        "SAMPLE_PUBLIC_CLIENT_ID",
+        null,
+        null,
+        request
+    );
+
     Token testToken = TokenManager.getInstance().getServerToken();
-    
+
     IIdType patientId = ourClient.create().resource(pt)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
@@ -78,14 +77,10 @@ public class TestAuthorizationWithNoData {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-
   }
 
   @Test(expected = ResponseStatusException.class)
   public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
-
-
-    
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.setLocalAddr("localhost");
@@ -93,12 +88,11 @@ public class TestAuthorizationWithNoData {
     request.setServerPort(1234);
 
     String scope = "launch/patient launch/encounter";
-    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null,
         request);
-    
+
     Token testToken = TokenManager.getInstance().getServerToken();
 
     Encounter encounter = new Encounter();
@@ -125,10 +119,9 @@ public class TestAuthorizationWithNoData {
     request.setServerPort(1234);
 
     String scope = "launch/patient launch/encounter";
-    String encodedScope = Base64.getEncoder().encodeToString(scope.getBytes());
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken("SAMPLE_CODE." + encodedScope, "SAMPLE_PUBLIC_CLIENT_ID", null,
+    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null,
         request);
   }
 

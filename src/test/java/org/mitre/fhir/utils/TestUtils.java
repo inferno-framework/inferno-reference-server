@@ -128,4 +128,7 @@ public class TestUtils {
     return BEARER_TOKEN_PREFIX + " " + accessToken;
   }
 
+  private TestUtils() {
+  }
+
 }

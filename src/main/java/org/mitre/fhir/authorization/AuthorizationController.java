@@ -8,6 +8,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -138,8 +142,6 @@ public class AuthorizationController {
     return new ResponseEntity<>(accessToken.toString(), headers, HttpStatus.OK);
   }
 
-
-
   private void validateBulkDataScopes(String scopesString) {
     List<String> scopes = FhirReferenceServerUtils.getScopesListByScopeString(scopesString);
 
@@ -179,19 +181,51 @@ public class AuthorizationController {
 
   /**
    * Provide a code to get a bearer token for authorization.
-   * 
+   *
    * @param code code to get token
    * @return bearer token to be used for authorization
    * @throws BearerTokenException error generating a bearer token
    */
   @PostMapping(path = "/token", produces = {"application/json"})
-  public ResponseEntity<String> getToken(@RequestParam(name = "code", required = false) String code,
+  public ResponseEntity<String> getToken(
+      @RequestParam(name = "code", required = false) String code,
       @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
       @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
-      HttpServletRequest request) throws BearerTokenException {
+      @RequestParam(name = "code_verifier", required = false) String codeVerifier,
+      HttpServletRequest request
+  ) throws ResponseStatusException, BearerTokenException {
 
     Log.info("code is " + code);
 
+    String clientId = validateClient(request, clientIdRequestParam);
+
+    String scopes = "";
+    String patientId = "";
+    String encounterId = "";
+
+    if (code != null) {
+      return validateCode(request, code, clientId, codeVerifier);
+    } else if (refreshTokenValue != null) {
+
+      try {
+        if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
+          Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
+          patientId = refreshToken.getPatientId();
+          encounterId = refreshToken.getEncounterId();
+          String refreshTokenScopes = refreshToken.getScopesString();
+          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
+           encounterId);
+        }
+      } catch (TokenNotFoundException | InvalidBearerTokenException tokenNotFoundException) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            "Refresh Token " + refreshTokenValue + " was not found");
+      }
+    }
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                      "No code or refresh token provided.");
+  }
+
+  private static String validateClient(HttpServletRequest request, String clientIdRequestParam) {
     // check client id and client secret if the server is confidential
     String basicHeader = getBasicHeader(request);
 
@@ -214,56 +248,106 @@ public class AuthorizationController {
 
     authenticateClientIdAndClientSecret(clientId, clientSecret);
 
-    String scopes = "";
-    String patientId = "";
-    String encounterId = "";
+    return clientId;
+  }
 
-    String fullCodeString;
+  private ResponseEntity<String> validateCode(
+      HttpServletRequest request,
+      String encodedCodeString,
+      String clientId,
+      String codeVerifier
+  ) throws ResponseStatusException, BearerTokenException {
+    try {
+      String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
+      JSONObject codeObject = new JSONObject(rawCodeString);
+      String scopes = null;
+      String patientId = null;
+      String encounterId = null;
+      String codeChallenge = null;
+      String codeChallengeMethod = null;
+      String code = null;
 
-    if (code != null) {
-      fullCodeString = code;
-      // the provided code is in the format <ACTUAL_CODE>.<SCOPES>
-      String[] fullCode = fullCodeString.split("\\.");
-
-      // if scope was included
-      if (fullCode.length >= 2) {
-        String encodedScopes = fullCode[1];
-        scopes = new String(Base64.getDecoder().decode(encodedScopes));
+      if (codeObject.has("scopes")) {
+        scopes = (String) codeObject.get("scopes");
+      }
+      if (codeObject.has("patientId")) {
+        patientId = (String) codeObject.get("patientId");
+      }
+      if (codeObject.has("encounterId")) {
+        encounterId = (String) codeObject.get("encounterId");
+      }
+      if (codeObject.has("codeChallenge")) {
+        codeChallenge = (String) codeObject.get("codeChallenge");
+      }
+      if (codeObject.has("codeChallengeMethod")) {
+        codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
+      }
+      if (codeObject.has("code")) {
+        code = (String) codeObject.get("code");
       }
 
-      if (fullCode.length >= 3) {
-        String encodedPatientId = fullCode[2];
-        patientId = new String(Base64.getDecoder().decode(encodedPatientId));
-      }
+      validatePkce(codeChallengeMethod, codeChallenge, codeVerifier, scopes);
 
-      if (fullCode.length >= 4) {
-        String encodedEncounterId = fullCode[3];
-        encounterId = new String(Base64.getDecoder().decode(encodedEncounterId));
-      }
-
-      String actualCodeOrRefreshToken = fullCode[0];
-      if (FhirReferenceServerUtils.SAMPLE_CODE.equals(actualCodeOrRefreshToken)) {
+      if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
         return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
       }
-
-    } else if (refreshTokenValue != null) {
-
-      try {
-        if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
-          Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
-          patientId = refreshToken.getPatientId();
-          encounterId = refreshToken.getEncounterId();
-          String refreshTokenScopes = refreshToken.getScopesString();
-          return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
-           encounterId);
-        }
-      } catch (TokenNotFoundException | InvalidBearerTokenException tokenNotFoundException) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-            "Refresh Token " + refreshTokenValue + " was not found");
-      }
+    } catch (IllegalArgumentException exception) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
     }
 
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
+  }
+
+  private void validatePkce(
+        String codeChallengeMethod,
+        String codeChallenge,
+        String codeVerifier,
+        String scopes
+  ) throws ResponseStatusException {
+    String[] scopeList = scopes == null ? new String[0] : scopes.split(" ");
+
+    Boolean v2ScopeFound = false;
+    String v2ScopePattern = "\\b(patient|user|system|\\*)/[\\w*]\\.c?r?u?d?s?\\b";
+    for (String scope : scopeList) {
+      if (scope.matches(v2ScopePattern)) {
+        v2ScopeFound = true;
+        break;
+      }
+    }
+
+    if (codeChallenge == null && codeVerifier == null && !v2ScopeFound) {
+      return;
+    }
+
+    if (codeChallengeMethod != null && !"S256".equalsIgnoreCase(codeChallengeMethod)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST,
+          "Only S256 PKCE code challenge method is supported"
+      );
+    }
+
+    if (codeChallenge == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No code challenge received");
+    }
+
+    if (codeVerifier == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No code verifier received");
+    }
+
+    try {
+      MessageDigest digest = MessageDigest.getInstance("SHA-256");
+      byte[] rawHash = digest.digest(codeVerifier.getBytes(StandardCharsets.UTF_8));
+      String hash = Base64.getUrlEncoder().withoutPadding().encodeToString(rawHash);
+
+      if (!codeChallenge.equalsIgnoreCase(hash)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code verifier");
+      }
+    } catch (NoSuchAlgorithmException exception) {
+      // This should not be reachable
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to process code verifier");
+    }
+
+    return;
   }
 
   private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request,
@@ -279,7 +363,7 @@ public class AuthorizationController {
 
   /**
    * Generates Token in Oauth2 expected format.
-   * 
+   *
    * @return token JSON String
    * @throws BearerTokenException if token generation runs into an error
    */
@@ -312,7 +396,7 @@ public class AuthorizationController {
     tokenJson.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
     tokenJson.put("need_patient_banner", false);
 
-    if ("".equals(patientId)) {
+    if ("".equals(patientId) || patientId == null) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
     }
 
@@ -323,7 +407,7 @@ public class AuthorizationController {
     }
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
-      if (Objects.equals(encounterId, "")) {
+      if (Objects.equals(encounterId, "") || encounterId == null) {
         Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
         if (encounter == null) {
@@ -346,7 +430,7 @@ public class AuthorizationController {
 
   /**
    * Generates a sample open id token https://openid.net/specs/openid-connect-core-1_0.html
-   * 
+   *
    * @return token JSON String representing the open id token
    * @throws OpenIdTokenGenerationException if error generating open id token
    */
@@ -393,7 +477,7 @@ public class AuthorizationController {
     List<BundleEntryComponent> encounters = encountersBundle.getEntry();
 
     for (BundleEntryComponent bundleEntryComponent : encounters) {
-      if (bundleEntryComponent.getResource().fhirType().equals("Encounter")) {
+      if ("Encounter".equals(bundleEntryComponent.getResource().fhirType())) {
         encounter = (Encounter) bundleEntryComponent.getResource();
         break;
       }

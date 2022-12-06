@@ -8,10 +8,8 @@ import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class TokenManager {
-
   private static final String CUSTOM_BEARER_TOKEN_ENV_KEY = "CUSTOM_BEARER_TOKEN";
   private static final String CUSTOM_BEARER_TOKEN_SCOPE_STRING = "system/*";
-
 
   private static TokenManager instance;
 
@@ -31,7 +29,6 @@ public class TokenManager {
       addTokenToTokenMap(customBearerToken);
       createCorrespondingRefreshToken(customBearerToken);
     }
-
   }
 
   /**

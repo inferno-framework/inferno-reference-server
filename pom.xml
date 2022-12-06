@@ -1,165 +1,165 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mitre.fhir</groupId>
-    <artifactId>inferno-reference-server</artifactId>
-    <version>1.1.1</version>
-    <packaging>war</packaging>
+  <groupId>org.mitre.fhir</groupId>
+  <artifactId>inferno-reference-server</artifactId>
+  <version>1.1.1</version>
+  <packaging>war</packaging>
 
-    <name>Inferno FHIR Reference Server</name>
+  <name>Inferno FHIR Reference Server</name>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <hapi.version>5.4.0</hapi.version>
-        <jetty_version>9.4.35.v20201120</jetty_version>
-        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
-        <checkstyle.version>8.32</checkstyle.version>
-        <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
-        <sevntu.checkstyle.plugin.version>1.37.1</sevntu.checkstyle.plugin.version>
-    </properties>
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <hapi.version>5.4.0</hapi.version>
+    <jetty_version>9.4.35.v20201120</jetty_version>
+    <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
+    <checkstyle.version>8.32</checkstyle.version>
+    <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
+    <sevntu.checkstyle.plugin.version>1.37.1</sevntu.checkstyle.plugin.version>
+  </properties>
 
-    <dependencies>
-        <!-- HAPI-FHIR core classes. -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-base</artifactId>
-            <version>${hapi.version}</version>
-        </dependency>
+  <dependencies>
+    <!-- HAPI-FHIR core classes. -->
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-base</artifactId>
+      <version>${hapi.version}</version>
+    </dependency>
 
-        <!-- HAPI-FHIR JPA server, model, and data structures. -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-jpaserver-base</artifactId>
-            <version>${hapi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-jpaserver-model</artifactId>
-            <version>${hapi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-structures-r4</artifactId>
-            <version>${hapi.version}</version>
-        </dependency>
+    <!-- HAPI-FHIR JPA server, model, and data structures. -->
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-jpaserver-base</artifactId>
+      <version>${hapi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-jpaserver-model</artifactId>
+      <version>${hapi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-structures-r4</artifactId>
+      <version>${hapi.version}</version>
+    </dependency>
 
-        <!-- HAPI-FHIR tester web app overlay. Delete if not needed. -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-testpage-overlay</artifactId>
-            <version>${hapi.version}</version>
-            <type>war</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-testpage-overlay</artifactId>
-            <version>${hapi.version}</version>
-            <classifier>classes</classifier>
-            <scope>provided</scope>
-        </dependency>
+    <!-- HAPI-FHIR tester web app overlay. Delete if not needed. -->
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-testpage-overlay</artifactId>
+      <version>${hapi.version}</version>
+      <type>war</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-testpage-overlay</artifactId>
+      <version>${hapi.version}</version>
+      <classifier>classes</classifier>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- Required for Jetty to work with websockets. -->
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-api</artifactId>
-            <version>${jetty_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-client</artifactId>
-            <version>${jetty_version}</version>
-        </dependency>
+    <!-- Required for Jetty to work with websockets. -->
+    <dependency>
+      <groupId>org.eclipse.jetty.websocket</groupId>
+      <artifactId>websocket-api</artifactId>
+      <version>${jetty_version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.websocket</groupId>
+      <artifactId>websocket-client</artifactId>
+      <version>${jetty_version}</version>
+    </dependency>
 
-        <!-- Required for logging to work. -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
-        </dependency>
+    <!-- Required for logging to work. -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.1.7</version>
+    </dependency>
 
-        <!-- Required for JEE/Servlet support. -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-            <version>3.1.0</version>
-        </dependency>
+    <!-- Required for JEE/Servlet support. -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+      <version>3.1.0</version>
+    </dependency>
 
-        <!-- Required CORS support. -->
-        <dependency>
-            <groupId>org.ebaysf.web</groupId>
-            <artifactId>cors-filter</artifactId>
-            <version>1.0.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <!-- Required CORS support. -->
+    <dependency>
+      <groupId>org.ebaysf.web</groupId>
+      <artifactId>cors-filter</artifactId>
+      <version>1.0.1</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>servlet-api</artifactId>
+          <groupId>javax.servlet</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-        <!-- You may not need this if you are deploying to an application server -->
-        <!-- which provides database connection pools itself. -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>2.5.0</version>
-        </dependency>
+    <!-- You may not need this if you are deploying to an application server -->
+    <!-- which provides database connection pools itself. -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
+      <version>2.5.0</version>
+    </dependency>
 
-        <!-- Postgres database driver. -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.5</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <scope>test</scope>
-            <version>${jetty_version}</version>
+    <!-- Postgres database driver. -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <scope>test</scope>
+      <version>${jetty_version}</version>
 		</dependency>
-             
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		    <version>5.1.9.RELEASE</version>
-		    <scope>test</scope>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-test</artifactId>
+		  <version>5.1.9.RELEASE</version>
+		  <scope>test</scope>
 		</dependency>
-				
+
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>4.13.1</version>
-		    <scope>test</scope>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>4.13.1</version>
+		  <scope>test</scope>
 		</dependency>
 		
 		<!-- This example uses Derby embedded database for test cases. -->
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-        	<version>10.10.2.0</version>
-        </dependency>
-        
-        <!-- for jwt support -->
-        <dependency>
-		    <groupId>com.auth0</groupId>
-		    <artifactId>java-jwt</artifactId>
-		    <version>3.8.3</version>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.10.2.0</version>
+    </dependency>
+
+    <!-- for jwt support -->
+    <dependency>
+		  <groupId>com.auth0</groupId>
+		  <artifactId>java-jwt</artifactId>
+		  <version>3.8.3</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20190722</version>
+		  <groupId>org.json</groupId>
+		  <artifactId>json</artifactId>
+		  <version>20190722</version>
 		</dependency>
-				
+
 		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
@@ -206,105 +206,115 @@
 			<artifactId>moment</artifactId>
 			<version>2.15.1</version>
 		</dependency>
-				
+
 		
 		<!-- For testing with custom env variables -->
 		<dependency>
-		    <groupId>com.github.stefanbirkner</groupId>
-		    <artifactId>system-lambda</artifactId>
-		    <version>1.1.0</version>
+		  <groupId>com.github.stefanbirkner</groupId>
+		  <artifactId>system-lambda</artifactId>
+		  <version>1.1.0</version>
 		</dependency>
 		
 		<dependency>
-		    <groupId>javax.xml.bind</groupId>
-		    <artifactId>jaxb-api</artifactId>
-		    <version>2.3.0</version>
+		  <groupId>javax.xml.bind</groupId>
+		  <artifactId>jaxb-api</artifactId>
+		  <version>2.3.0</version>
 		</dependency>
 		
-    </dependencies>
+  </dependencies>
 
-    <build>
-        <finalName>inferno-fhir-reference-server</finalName>
+  <build>
+    <finalName>inferno-fhir-reference-server</finalName>
 
-        <!-- Not required for the application to build. -->
-        <!-- Allows you to run locally by running "mvn jetty:run" from the command line. -->
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-maven-plugin</artifactId>
-                    <version>${jetty_version}</version>
-                    <configuration>
-                        <webApp>
-                            <contextPath></contextPath>
-                            <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-                        </webApp>
-                    </configuration>
-                </plugin>
+    <!-- Not required for the application to build. -->
+    <!-- Allows you to run locally by running "mvn jetty:run" from the command line. -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>${jetty_version}</version>
+          <configuration>
+            <webApp>
+              <contextPath></contextPath>
+              <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+            </webApp>
+          </configuration>
+        </plugin>
 
-	            <!-- Overlay tells the WAR plugin to include the FHIR Tester overlay. -->
-	            <!-- You can omit it if you are not using that feature. -->
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-war-plugin</artifactId>
-	                <version>3.2.0</version>
-	                <configuration>
-	                    <archive>
-	                        <manifestEntries>
-	                            <Build-Time>${maven.build.timestamp}</Build-Time>
-	                        </manifestEntries>
-	                    </archive>
-	                    <overlays>
-	                        <overlay>
-	                            <groupId>ca.uhn.hapi.fhir</groupId>
-	                            <artifactId>hapi-fhir-testpage-overlay</artifactId>
-	                        </overlay>
-	                    </overlays>
-	                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
-	                </configuration>
-	            </plugin>
-	            <plugin>
-			        <groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-enforcer-plugin</artifactId>
-			        <version>1.4.1</version>
-			        <configuration>
-			            <rules><dependencyConvergence/></rules>
-			        </configuration>
-			    </plugin>
-	
-	            <!-- Configure Checkstyle -->
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-checkstyle-plugin</artifactId>
-	                <version>${checkstyle.plugin.version}</version>
-	                <configuration>
-	                    <configLocation>${checkstyle.config}</configLocation>
-	                    <encoding>UTF-8</encoding>
-	                    <consoleOutput>true</consoleOutput>
-	                    <failsOnError>true</failsOnError>
-	                    <violationSeverity>warning</violationSeverity>
-	                    <linkXRef>false</linkXRef>
-	                </configuration>
-	                <dependencies>
-	                    <dependency>
-	                        <groupId>com.puppycrawl.tools</groupId>
-	                        <artifactId>checkstyle</artifactId>
-	                        <version>${checkstyle.version}</version>
-	                    </dependency>
-	                </dependencies>
-	                <executions>
-	                    <execution>
-	                        <id>validate</id>
-	                        <phase>validate</phase>
-	                        <goals>
-	                            <goal>check</goal>
-	                        </goals>
-	                    </execution>
-	                </executions>
-	            </plugin>
-        	</plugins>
-      </pluginManagement>
-        
-    </build>
+	      <!-- Overlay tells the WAR plugin to include the FHIR Tester overlay. -->
+	      <!-- You can omit it if you are not using that feature. -->
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-war-plugin</artifactId>
+	        <version>3.2.0</version>
+	        <configuration>
+	          <archive>
+	            <manifestEntries>
+	              <Build-Time>${maven.build.timestamp}</Build-Time>
+	            </manifestEntries>
+	          </archive>
+	          <overlays>
+	            <overlay>
+	              <groupId>ca.uhn.hapi.fhir</groupId>
+	              <artifactId>hapi-fhir-testpage-overlay</artifactId>
+	            </overlay>
+	          </overlays>
+	          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+	        </configuration>
+	      </plugin>
+	      <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-enforcer-plugin</artifactId>
+			    <version>1.4.1</version>
+			    <configuration>
+			      <rules><dependencyConvergence/></rules>
+			    </configuration>
+			  </plugin>
+
+	      <!-- Configure Checkstyle -->
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-checkstyle-plugin</artifactId>
+	        <version>${checkstyle.plugin.version}</version>
+	        <configuration>
+	          <configLocation>${checkstyle.config}</configLocation>
+	          <encoding>UTF-8</encoding>
+	          <consoleOutput>true</consoleOutput>
+	          <failsOnError>true</failsOnError>
+	          <violationSeverity>warning</violationSeverity>
+	          <linkXRef>false</linkXRef>
+	        </configuration>
+	        <dependencies>
+	          <dependency>
+	            <groupId>com.puppycrawl.tools</groupId>
+	            <artifactId>checkstyle</artifactId>
+	            <version>${checkstyle.version}</version>
+	          </dependency>
+	        </dependencies>
+	        <executions>
+	          <execution>
+	            <id>validate</id>
+	            <phase>validate</phase>
+	            <goals>
+	              <goal>check</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+        <plugin>
+          <groupId>org.openrewrite.maven</groupId>
+          <artifactId>rewrite-maven-plugin</artifactId>
+          <version>4.37.0</version>
+          <configuration>
+            <activeRecipes>
+              <recipe>org.openrewrite.java.cleanup.Cleanup</recipe>
+            </activeRecipes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+  </build>
 
 </project>

@@ -100,4 +100,7 @@ public class FhirUtils {
 
     return resources;
   }
+
+  private FhirUtils() {
+  }
 }

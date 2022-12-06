@@ -56,7 +56,7 @@ public class TestWellKnownEndpoint {
     String jSONString = wellKnownEndpoint.getJwk(mockHttpServletRequest);
     JSONObject jsonObject = new JSONObject(jSONString);
     JSONArray keys = (JSONArray) jsonObject.get("keys");
-    JSONObject firstKey = ((JSONObject) (keys.get(0)));
+    JSONObject firstKey = (JSONObject) (keys.get(0));
     String modulusString = (String) firstKey.get("n");
     String exponentString = (String) firstKey.get("e");
     Decoder decoder = Base64.getUrlDecoder();

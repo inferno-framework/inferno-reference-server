@@ -53,7 +53,7 @@ public class WellKnownAuthorizationEndpointController {
       "authorization_code",
       "client_credentials"
   };
-  private static final String[] codeChallengeMethodsSupportedValues = { "S256" };
+  private static final String[] codeChallengeMethodsSupportedValues = {"S256"};
 
   private static final JSONArray WELL_KNOWN_CAPABILITIES_VALUES = new JSONArray(capabilityValues);
   private static final JSONArray WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES =
