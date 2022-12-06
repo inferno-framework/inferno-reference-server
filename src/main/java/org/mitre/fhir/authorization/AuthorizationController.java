@@ -257,38 +257,42 @@ public class AuthorizationController {
       String clientId,
       String codeVerifier
   ) throws ResponseStatusException, BearerTokenException {
-    String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
-    JSONObject codeObject = new JSONObject(rawCodeString);
-    String scopes = null;
-    String patientId = null;
-    String encounterId = null;
-    String codeChallenge = null;
-    String codeChallengeMethod = null;
-    String code = null;
+    try {
+      String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
+      JSONObject codeObject = new JSONObject(rawCodeString);
+      String scopes = null;
+      String patientId = null;
+      String encounterId = null;
+      String codeChallenge = null;
+      String codeChallengeMethod = null;
+      String code = null;
 
-    if (codeObject.has("scopes")) {
-      scopes = (String) codeObject.get("scopes");
-    }
-    if (codeObject.has("patientId")) {
-      patientId = (String) codeObject.get("patientId");
-    }
-    if (codeObject.has("encounterId")) {
-      encounterId = (String) codeObject.get("encounterId");
-    }
-    if (codeObject.has("codeChallenge")) {
-      codeChallenge = (String) codeObject.get("codeChallenge");
-    }
-    if (codeObject.has("codeChallengeMethod")) {
-      codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
-    }
-    if (codeObject.has("code")) {
-      code = (String) codeObject.get("code");
-    }
+      if (codeObject.has("scopes")) {
+        scopes = (String) codeObject.get("scopes");
+      }
+      if (codeObject.has("patientId")) {
+        patientId = (String) codeObject.get("patientId");
+      }
+      if (codeObject.has("encounterId")) {
+        encounterId = (String) codeObject.get("encounterId");
+      }
+      if (codeObject.has("codeChallenge")) {
+        codeChallenge = (String) codeObject.get("codeChallenge");
+      }
+      if (codeObject.has("codeChallengeMethod")) {
+        codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
+      }
+      if (codeObject.has("code")) {
+        code = (String) codeObject.get("code");
+      }
 
-    validatePkce(codeChallengeMethod, codeChallenge, codeVerifier, scopes);
+      validatePkce(codeChallengeMethod, codeChallenge, codeVerifier, scopes);
 
-    if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
-      return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
+      if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
+        return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
+      }
+    } catch(IllegalArgumentException exception) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
     }
 
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
