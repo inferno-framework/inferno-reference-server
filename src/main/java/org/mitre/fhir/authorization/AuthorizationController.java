@@ -291,7 +291,7 @@ public class AuthorizationController {
       if (code != null && FhirReferenceServerUtils.SAMPLE_CODE.equals(code)) {
         return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
       }
-    } catch(IllegalArgumentException exception) {
+    } catch (IllegalArgumentException exception) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
     }
 
