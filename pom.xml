@@ -4,7 +4,7 @@
 
   <groupId>org.mitre.fhir</groupId>
   <artifactId>inferno-reference-server</artifactId>
-  <version>1.1.1</version>
+  <version>1.2.0</version>
   <packaging>war</packaging>
 
   <name>Inferno FHIR Reference Server</name>
