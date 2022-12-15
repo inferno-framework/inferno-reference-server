@@ -23,6 +23,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
@@ -155,9 +157,19 @@ public class AuthorizationController {
         String[] scopeParts = scope.split("\\.");
         String scopeAction = scopeParts[1];
 
-        List<String> actions = List.of("read", "write", "*");
+        List<String> actionPatterns = List.of("read", "write", "\\*", "c?ru?d?s?");
 
-        if (!actions.contains(scopeAction)) {
+        Boolean validAction = false;
+
+        for (String pattern : actionPatterns) {
+          Pattern r = Pattern.compile(pattern);
+          Matcher m = r.matcher(scopeAction);
+          if (m.find()) {
+            validAction = true;
+          }
+        }
+
+        if (!validAction) {
           invalidScopes.add(scope);
         }
       }
