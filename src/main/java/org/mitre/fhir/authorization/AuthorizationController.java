@@ -22,9 +22,9 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
@@ -161,7 +161,7 @@ public class AuthorizationController {
 
         Boolean validAction = false;
 
-        for(String pattern : actionPatterns) {
+        for (String pattern : actionPatterns) {
           Pattern r = Pattern.compile(pattern);
           Matcher m = r.matcher(scopeAction);
           if (m.find()) {
