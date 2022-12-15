@@ -66,10 +66,13 @@ public class AuthorizationBulkDataExportProvider {
   @Autowired
   private FhirContext myFhirContext;
 
-  private static final String[] DEFAULT_RESOURCE_TYPES = {"Patient", "AllergyIntolerance",
-      "CarePlan", "CareTeam", "Condition", "Device", "DiagnosticReport", "DocumentReference",
-      "Goal", "Immunization", "MedicationRequest", "Observation", "Procedure", "Encounter",
-      "Organization", "Practitioner", "Provenance", "Location", "Medication"};
+  private static final String[] DEFAULT_RESOURCE_TYPES = {
+    "Patient", "AllergyIntolerance", "CarePlan", "CareTeam", "Condition",
+    "Device", "DiagnosticReport", "DocumentReference", "Goal", "Immunization",
+    "MedicationRequest", "Observation", "Procedure", "Encounter",
+    "Organization", "Practitioner", "Provenance", "Location", "Medication",
+    "ServiceRequest", "RelatedPerson"
+  };
 
   static {
     VALID_ACCEPT_HEADERS.add("application/fhir+json");
