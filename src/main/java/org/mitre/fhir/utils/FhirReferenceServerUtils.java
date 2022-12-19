@@ -28,7 +28,7 @@ public class FhirReferenceServerUtils {
   private static final String HTTPS = "https";
   private static final int HTTP_DEFAULT_PORT = 80;
   private static final int HTTPS_DEFAULT_PORT = 443;
-  private static final Map<HttpServletRequest, IGenericClient> clients = new HashMap<>();
+  private static final Map<String, IGenericClient> clients = new HashMap<>();
 
   /**
    * Get the server's base url.
@@ -169,13 +169,13 @@ public class FhirReferenceServerUtils {
    * @return IGGenericClient client for accessing that FHIR endpoint
    */
   public static IGenericClient getClientFromRequest(HttpServletRequest theRequest) {
-    if (clients.containsKey(theRequest)) {
-      return clients.get(theRequest);
+    String fhirServerBaseUrl = getServerBaseUrl(theRequest) + FHIR_SERVER_PATH;
+    if (clients.containsKey(fhirServerBaseUrl)) {
+      return clients.get(fhirServerBaseUrl);
     }
 
-    String fhirServerBaseUrl = getServerBaseUrl(theRequest) + FHIR_SERVER_PATH;
     IGenericClient newClient = FhirContext.forR4().newRestfulGenericClient(fhirServerBaseUrl);
-    clients.put(theRequest, newClient);
+    clients.put(fhirServerBaseUrl, newClient);
 
     return newClient;
   }
