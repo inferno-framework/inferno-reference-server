@@ -118,7 +118,7 @@ public class TestFhirReferenceServerUtils {
     IGenericClient newClient = FhirReferenceServerUtils.getClientFromRequest(mockRequest);
     Assert.assertEquals(newClient.getServerBase(), "http://www.example.org/reference-server/r4");
 
-    IGenericClient existingClient = FhirReferenceServerUtils.getClientFromRequest(mockRequest);
+    IGenericClient existingClient = FhirReferenceServerUtils.getClientFromRequest(getMockRequest());
     Assert.assertEquals(existingClient, newClient);
   }
 
