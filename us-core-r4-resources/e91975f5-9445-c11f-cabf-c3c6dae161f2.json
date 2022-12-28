@@ -32210,6 +32210,9 @@
           },
           {
             "reference": "urn:uuid:706eb626-2e3a-4f23-bb58-dd11cde7da98"
+          },
+          {
+            "reference": "urn:uuid:d1ee0707-00f8-462c-aca3-63cf6dd1be82"
           }
         ],
         "recorded": "2020-12-10T18:33:18.715-05:00",
@@ -33582,6 +33585,7 @@
       "fullUrl": "urn:uuid:b9fbaa22-6097-11ed-9b6a-0242ac120002",
       "resource": {
         "resourceType": "Condition",
+        "id": "b9fbaa22-6097-11ed-9b6a-0242ac120002",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
@@ -33729,6 +33733,7 @@
       "fullUrl": "urn:uuid:1546a198-6098-11ed-9b6a-0242ac120002",
       "resource": {
         "resourceType": "Observation",
+        "id": "1546a198-6098-11ed-9b6a-0242ac120002",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test"
@@ -33780,6 +33785,7 @@
       "fullUrl": "urn:uuid:425033f2-6098-11ed-9b6a-0242ac120002",
       "resource": {
         "resourceType": "Observation",
+        "id": "425033f2-6098-11ed-9b6a-0242ac120002",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test"
@@ -33811,6 +33817,102 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "dataAbsentReason": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "code": "not-performed",
+              "display": "Not Performed"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a4c9c602-60a6-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a4c9c602-60a6-11ed-9b6a-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "Imaging"
+              }
+            ],
+            "text": "Imaging"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "19005-8",
+              "display": "Radiology Imaging study [Impression] (narrative)"
+            }
+          ],
+          "text": "Impression"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2019-02-03T19:43:30.000Z",
+        "valueString": "No acute abnormality"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9659d9e0-60a6-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9659d9e0-60a6-11ed-9b6a-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging"
+          ]
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "Imaging"
+              }
+            ],
+            "text": "Imaging"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18782-3",
+              "display": "Radiology Study observation (narrative)"
+            }
+          ],
+          "text": "Findings"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2019-02-03T19:43:30.000Z",
         "dataAbsentReason": {
           "coding": [
             {
@@ -33872,7 +33974,7 @@
         "effectiveDateTime": "2021-06-04T12:19:16-05:00",
         "performer": [
           {
-            "reference": "Practitioner/88"
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
           }
         ],
         "valueBoolean": true,
@@ -33931,7 +34033,7 @@
         },
         "performer": [
           {
-            "reference": "Practitioner/88"
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
           }
         ],
         "valueQuantity": {
@@ -34058,7 +34160,7 @@
         "occurrenceDateTime": "2021-11-20",
         "authoredOn": "2021-11-12T10:59:38-08:00",
         "requester": {
-          "reference": "Practitioner/358"
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
         }
       },
       "request": {
@@ -34118,7 +34220,7 @@
         },
         "authoredOn": "2021-11-12T10:59:38-08:00",
         "requester": {
-          "reference": "Practitioner/358"
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
         }
       },
       "request": {
