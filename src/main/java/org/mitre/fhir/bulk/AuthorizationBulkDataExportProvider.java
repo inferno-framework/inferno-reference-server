@@ -25,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -59,6 +60,8 @@ public class AuthorizationBulkDataExportProvider {
 
   public static final String FARM_TO_TABLE_TYPE_FILTER_REGEX = "(?:,)(?=[A-Z][a-z]+\\?)";
   private static final Logger ourLog = getLogger(BulkDataExportProvider.class);
+
+  private static Set<String> cancelledJobs = Collections.synchronizedSet(new HashSet<String>());
 
   @Autowired
   private IBulkDataExportSvc myBulkDataExportSvc;
@@ -115,21 +118,14 @@ public class AuthorizationBulkDataExportProvider {
 
     BulkDataExportOptions bulkDataExportOptions =
         buildSystemBulkExportOptions(theOutputFormat, theType, theSince, theTypeFilter);
-    Boolean useCache = shouldUseCache(theRequestDetails);
     IBulkDataExportSvc.JobInfo outcome =
-        myBulkDataExportSvc.submitJob(bulkDataExportOptions, useCache);
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false);
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
 
     // Add correct headers
     HttpServletResponse response = theRequestDetails.getServletResponse();
     response.setHeader("Accept", "application/json");
     response.setHeader("Content-Type", "application/json");
-  }
-
-  private boolean shouldUseCache(ServletRequestDetails theRequestDetails) {
-    CacheControlDirective cacheControlDirective = new CacheControlDirective()
-        .parse(theRequestDetails.getHeaders(Constants.HEADER_CACHE_CONTROL));
-    return !cacheControlDirective.isNoCache();
   }
 
   private String getServerBase(ServletRequestDetails theRequestDetails) {
@@ -181,9 +177,8 @@ public class AuthorizationBulkDataExportProvider {
       bulkDataExportOptions.setResourceTypes(resourceTypes);
     }
 
-
     IBulkDataExportSvc.JobInfo outcome =
-        myBulkDataExportSvc.submitJob(bulkDataExportOptions, shouldUseCache(theRequestDetails));
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false);
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
 
     // Add correct headers
@@ -242,7 +237,7 @@ public class AuthorizationBulkDataExportProvider {
         buildPatientBulkExportOptions(theOutputFormat, theType, theSince, theTypeFilter);
     validateResourceTypesAllContainPatientSearchParams(bulkDataExportOptions.getResourceTypes());
     IBulkDataExportSvc.JobInfo outcome =
-        myBulkDataExportSvc.submitJob(bulkDataExportOptions, shouldUseCache(theRequestDetails));
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false);
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
 
     // Add correct headers
@@ -260,12 +255,21 @@ public class AuthorizationBulkDataExportProvider {
       @OperationParam(name = JpaConstants.PARAM_EXPORT_POLL_STATUS_JOB_ID, typeName = "string",
           min = 0, max = 1) IPrimitiveType<String> theJobId,
       ServletRequestDetails theRequestDetails) throws IOException {
+    String jobId = theJobId.getValueAsString();
 
     HttpServletResponse response = theRequestDetails.getServletResponse();
+
+    if (cancelledJobs.contains(jobId)) {
+      response.setStatus(Constants.STATUS_HTTP_404_NOT_FOUND);
+      response.getWriter().close();
+
+      return;
+    }
+
     theRequestDetails.getServer().addHeadersToResponse(response);
 
     IBulkDataExportSvc.JobInfo status =
-        myBulkDataExportSvc.getJobInfoOrThrowResourceNotFound(theJobId.getValueAsString());
+        myBulkDataExportSvc.getJobInfoOrThrowResourceNotFound(jobId);
 
     switch (status.getStatus()) {
       case SUBMITTED:
@@ -338,6 +342,8 @@ public class AuthorizationBulkDataExportProvider {
       ServletRequestDetails theRequestDetails) throws IOException {
 
     try {
+      cancelledJobs.add(theJobId.getValueAsString());
+
       HttpServletResponse response = theRequestDetails.getServletResponse();
       theRequestDetails.getServer().addHeadersToResponse(response);
 
