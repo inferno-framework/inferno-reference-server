@@ -79,7 +79,6 @@ public class AuthorizationBulkDataExportProviderTest {
       else {
         numOfResourcesMap.put(resourceName, 1);
       }
-
     }
 
     int numOfPatient =
@@ -92,8 +91,23 @@ public class AuthorizationBulkDataExportProviderTest {
     Assert.assertEquals(numOfPatient, 1);
     Assert.assertEquals(numOfEncounters, 1);
     Assert.assertEquals(numOfOrganizations, 1);
+  }
 
+  @Test
+  public void testGroupBulkExportCancel() throws IOException, InterruptedException {
+    String urlString = createGroupExport();
 
+    URL url = new URL(urlString);
+    HttpURLConnection cancelConnection = (HttpURLConnection) url.openConnection();
+    cancelConnection.setRequestMethod("DELETE");
+    cancelConnection.setRequestProperty("Authorization", "Bearer " + testToken.getTokenValue());
+    cancelConnection.disconnect();
+
+    Assert.assertEquals(202, cancelConnection.getResponseCode());
+
+    HttpURLConnection statusConnection = getCheckExportPollStatusExists(urlString);
+
+    Assert.assertEquals(404, statusConnection.getResponseCode());
   }
 
   private HttpURLConnection getCheckExportPollStatusExists(String urlString) throws IOException {
