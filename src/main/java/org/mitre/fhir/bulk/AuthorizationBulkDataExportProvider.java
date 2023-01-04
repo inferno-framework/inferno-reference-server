@@ -261,6 +261,12 @@ public class AuthorizationBulkDataExportProvider {
 
     if (cancelledJobs.contains(jobId)) {
       response.setStatus(Constants.STATUS_HTTP_404_NOT_FOUND);
+
+      IBaseOperationOutcome oo = OperationOutcomeUtil.newInstance(myFhirContext);
+      OperationOutcomeUtil.addIssue(myFhirContext, oo, "error",
+                                    "Bulk export job " + jobId + "not found", null, null);
+      myFhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToWriter(oo,
+                                                                                response.getWriter());
       response.getWriter().close();
 
       return;
