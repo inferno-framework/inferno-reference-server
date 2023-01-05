@@ -265,8 +265,10 @@ public class AuthorizationBulkDataExportProvider {
       IBaseOperationOutcome oo = OperationOutcomeUtil.newInstance(myFhirContext);
       OperationOutcomeUtil.addIssue(myFhirContext, oo, "error",
                                     "Bulk export job " + jobId + "not found", null, "not-found");
-      myFhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToWriter(oo,
-                                                                                response.getWriter());
+      myFhirContext
+          .newJsonParser()
+          .setPrettyPrint(true)
+          .encodeResourceToWriter(oo, response.getWriter());
       response.getWriter().close();
 
       return;
