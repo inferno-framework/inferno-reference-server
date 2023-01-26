@@ -166,7 +166,9 @@
         {
           "type": "Condition",
           "supportedProfile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
           ],
           "interaction": [
             {
@@ -603,14 +605,28 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
             "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
             "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
             "http://hl7.org/fhir/StructureDefinition/bp",
             "http://hl7.org/fhir/StructureDefinition/bodyheight",
             "http://hl7.org/fhir/StructureDefinition/bodyweight",
             "http://hl7.org/fhir/StructureDefinition/heartrate",
             "http://hl7.org/fhir/StructureDefinition/resprate",
-            "http://hl7.org/fhir/StructureDefinition/bodytemp"
+            "http://hl7.org/fhir/StructureDefinition/bodytemp",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-bmi",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-height",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-temperature",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-weight",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-heart-rate",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-respiratory-rate",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-survey",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
           ],
           "interaction": [
             {
