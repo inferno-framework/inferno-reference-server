@@ -9,7 +9,7 @@
     "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data"
   ],
   "implementation": {
-    "description": "Inferno Reference Server for US Core Implementation Guide v3.1.1 based on HAPI FHIR R4  Server",
+    "description": "Inferno Reference Server for US Core, Bulk Data, and SMART App Launch Implementation Guides based on HAPI FHIR R4 Server",
     "url": "$HOST"
   },
   "fhirVersion": "4.0.1",
@@ -18,7 +18,8 @@
     "application/fhir+json"
   ],
   "implementationGuide": [
-    "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core|3.1.1"
+    "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
+    "http://hl7.org/fhir/uv/bulkdata/ImplementationGuide/hl7.fhir.uv.bulkdata"
   ],
   "rest": [
     {
@@ -166,7 +167,9 @@
         {
           "type": "Condition",
           "supportedProfile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
           ],
           "interaction": [
             {
@@ -440,12 +443,6 @@
           "type": "Group",
           "operation": [
             {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHOULD"
-                }
-              ],
               "name": "export",
               "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export"
             }
@@ -603,14 +600,28 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
             "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
             "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
             "http://hl7.org/fhir/StructureDefinition/bp",
             "http://hl7.org/fhir/StructureDefinition/bodyheight",
             "http://hl7.org/fhir/StructureDefinition/bodyweight",
             "http://hl7.org/fhir/StructureDefinition/heartrate",
             "http://hl7.org/fhir/StructureDefinition/resprate",
-            "http://hl7.org/fhir/StructureDefinition/bodytemp"
+            "http://hl7.org/fhir/StructureDefinition/bodytemp",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-bmi",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-height",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-temperature",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-weight",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-heart-rate",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-respiratory-rate",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-survey",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
           ],
           "interaction": [
             {
@@ -768,18 +779,10 @@
 
           "operation": [
             {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHOULD"
-                }
-              ],
               "name": "patient-export",
               "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/patient-export"
             }
           ]
-
-
         },
         {
           "type": "PractitionerRole",
@@ -880,12 +883,6 @@
           "definition": "$HOST/OperationDefinition/-s-get-resource-counts"
         },
         {
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHOULD"
-            }
-          ],
           "name": "export",
           "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export"
         }
