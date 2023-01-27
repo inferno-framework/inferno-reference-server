@@ -18,7 +18,8 @@
     "application/fhir+json"
   ],
   "implementationGuide": [
-    "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core|3.1.1"
+    "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
+    "http://hl7.org/fhir/uv/bulkdata/ImplementationGuide/hl7.fhir.uv.bulkdata"
   ],
   "rest": [
     {
