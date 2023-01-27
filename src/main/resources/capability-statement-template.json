@@ -9,7 +9,7 @@
     "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data"
   ],
   "implementation": {
-    "description": "Inferno Reference Server for US Core Implementation Guide v3.1.1, v4.0.0, and v based on HAPI FHIR R4  Server",
+    "description": "Inferno Reference Server for US Core, Bulk Data, and SMART App Launch Implementation Guides based on HAPI FHIR R4 Server",
     "url": "$HOST"
   },
   "fhirVersion": "4.0.1",
