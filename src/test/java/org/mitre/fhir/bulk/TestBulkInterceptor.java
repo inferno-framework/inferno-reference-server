@@ -95,7 +95,7 @@ public class TestBulkInterceptor {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-
+    System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
 
@@ -166,14 +166,10 @@ public class TestBulkInterceptor {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-
-
-
   }
 
   @AfterClass
   public static void afterClass() throws Exception {
-
     // delete test patient and group
     ourClient.delete().resourceById(groupId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
@@ -191,10 +187,11 @@ public class TestBulkInterceptor {
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
 
+    System.setProperty("READ_ONLY", "true");
+
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
 
     ourServer.stop();
   }
-
 }
