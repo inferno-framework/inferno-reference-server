@@ -9,13 +9,6 @@ COPY config /home/app/config
 RUN mvn -q -f /home/app/pom.xml package
 
 FROM jetty:9.4-jre11
-
-# Download MITRE certificates.
-
-USER root
-
-# Switch to jetty user and configure jetty.
-
 USER jetty:jetty
 
 COPY --from=mavenbuild /home/app/target/inferno-fhir-reference-server.war /var/lib/jetty/webapps/root.war
