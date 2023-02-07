@@ -875,6 +875,99 @@
               "code": "history-instance"
             }
           ]
+        },
+        {
+          "type": "ServiceRequest",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+          ],
+          "interaction": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "code": "read"
+            }
+          ],
+          "referencePolicy": [
+            "resolves"
+          ],
+          "searchRevInclude": [
+            "Provenance:target"
+          ],
+          "searchParam": [
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-servicerequest-status",
+              "type": "token",
+              "documentation": "The client **SHALL** provide at least a code value and **MAY** provide both the system and code values.\n\nThe server **SHALL** support both."
+            },
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-servicerequest-patient",
+              "type": "reference",
+              "documentation": "The client **SHALL** provide at least a id value and **MAY** provide both the Type and id values.\n\nThe server **SHALL** support both."
+            },
+            {
+              "name": "category",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-servicerequest-category",
+              "type": "token",
+              "documentation": "The client **SHALL** provide at least a code value and **MAY** provide both the system and code values.\n\nThe server **SHALL** support both."
+            },
+            {
+              "name": "code",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-servicerequest-code",
+              "type": "token",
+              "documentation": "The client **SHALL** provide at least a code value and **MAY** provide both the system and code values.\n\nThe server **SHALL** support both."
+            },
+            {
+              "name": "authored",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-servicerequest-authored",
+              "type": "date",
+              "documentation": "A client **SHALL** provide a value precise to the *second + time offset*.\n\nA server **SHALL** support a value precise to the *second + time offset*."
+            },
+            {
+              "name": "_id",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-servicerequest-id",
+              "type": "token"
+            }
+          ]
+        },
+        {
+          "type": "RelatedPerson",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+          ],
+          "interaction": [
+            {
+              "code": "search-type"
+            },
+            {
+              "code": "read"
+            }
+          ],
+          "referencePolicy": [
+            "resolves"
+          ],
+          "searchRevInclude": [
+            "Provenance:target"
+          ],
+          "searchParam": [
+            {
+              "name": "_id",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-relatedperson-id",
+              "type": "token"
+            },
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-relatedperson-patient",
+              "type": "reference",
+              "documentation": "The client **SHALL** provide at least a id value and **MAY** provide both the Type and id values.\n\nThe server **SHALL** support both."
+            }
+          ]
         }
       ],
       "operation": [
