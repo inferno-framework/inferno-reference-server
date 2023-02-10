@@ -1,0 +1,908 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "id": "us-core-600-update",
+  "meta": {
+    "lastUpdated": "2023-02-02"
+  },
+  "entry": [
+    {
+      "fullUrl": "55c952c8-7a1c-4b97-b7d1-a60a671d75ff",
+      "resource": {
+        "resourceType" : "Coverage",
+        "id": "55c952c8-7a1c-4b97-b7d1-a60a671d75ff",
+        "identifier" : [{
+          "type" : {
+            "coding" : [{
+              "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+              "code" : "MB",
+              "display" : "Member Number"
+            }]
+          },
+          "system" : "http://example.org/fhir/memberidentifier",
+          "value" : "88800933501"
+        }],
+        "status" : "active",
+        "type" : {
+          "coding" : [{
+            "system" : "https://nahdo.org/sopt",
+            "code" : "3712",
+            "display" : "PPO"
+          },
+          {
+            "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code" : "PPO",
+            "display" : "preferred provider organization policy"
+          }],
+          "text" : "PPO"
+        },
+        "subscriberId" : "888009335",
+        "beneficiary" : {
+          "reference" : "Patient/85"
+        },
+        "relationship" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/subscriber-relationship",
+            "code" : "self"
+          }],
+          "text" : "Self"
+        },
+        "period" : {
+          "start" : "2020-01-01"
+        },
+        "payor" : [{
+          "reference" : "Organization/87",
+          "display" : "PCP87052"
+        }],
+        "class" : [{
+          "type" : {
+            "coding" : [{
+              "system" : "http://terminology.hl7.org/CodeSystem/coverage-class",
+              "code" : "group",
+              "display" : "Group"
+            }],
+            "text" : "An employee group"
+          },
+          "value" : "xyz",
+          "name" : "XYZ employee Group Plan"
+        },
+        {
+          "type" : {
+            "coding" : [{
+              "system" : "http://terminology.hl7.org/CodeSystem/coverage-class",
+              "code" : "plan",
+              "display" : "Plan"
+            }],
+            "text" : "A specific suite of benefits."
+          },
+          "value" : "gold",
+          "name" : "Acme Gold Plan"
+        }]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Coverage"
+      }
+    },
+    {
+      "fullUrl": "17991da0-97b0-447c-bb49-185eb104a160",
+      "resource": {
+        "resourceType" : "MedicationDispense",
+        "id": "17991da0-97b0-447c-bb49-185eb104a160",
+        "status" : "completed",
+        "medicationCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code" : "476872",
+            "display" : "Nizatidine 15 MG/ML Oral Solution"
+          }],
+          "text" : "Nizatidine 15 MG/ML Oral Solution"
+        },
+        "subject" : {
+          "reference" : "Patient/85"
+        },
+        "performer" : [{
+          "actor" : {
+            "reference" : "Practitioner/369",
+            "display" : "Dr. Patricia625 Kilback373"
+          }
+        }],
+        "authorizingPrescription" : [{
+          "reference" : "MedicationRequest/495",
+          "display" : "Aspirin 81 MG Oral Tablet"
+        }],
+        "type" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code" : "FFC",
+            "display" : "First Fill - Complete"
+          }]
+        },
+        "quantity" : {
+          "value" : 480,
+          "unit" : "mL",
+          "system" : "http://unitsofmeasure.org",
+          "code" : "mL"
+        },
+        "whenHandedOver" : "2016-12-08T06:38:52Z",
+        "dosageInstruction" : [{
+          "text" : "10 mL bid",
+          "timing" : {
+            "repeat" : {
+              "boundsPeriod" : {
+                "start" : "2008-04-05"
+              },
+              "frequency" : 2,
+              "period" : 1,
+              "periodUnit" : "d"
+            }
+          },
+          "doseAndRate" : [{
+            "doseQuantity" : {
+              "value" : 10,
+              "unit" : "ml",
+              "system" : "http://unitsofmeasure.org",
+              "code" : "mL"
+            }
+          }]
+        }]
+      },
+      "request":{
+        "method": "POST",
+        "url": "MedicationDispense"
+      }
+    },
+    {
+      "fullUrl": "a24de725-699a-49a4-87d3-0a4cbf964a9f",
+      "resource": {
+        "resourceType" : "Observation",
+        "id": "a24de725-699a-49a4-87d3-0a4cbf964a9f",
+        "status" : "final",
+        "category" : [{
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+            "code" : "social-history",
+            "display" : "Social History"
+          }],
+          "text" : "Social History"
+        }],
+        "code" : {
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "86645-9",
+            "display" : "Pregnancy intention in the next year - Reported"
+          }],
+          "text" : "Pregnancy Intent"
+        },
+        "subject" : {
+          "reference" : "Patient/85"
+        },
+        "effectiveDateTime" : "2022-09-23T22:39:43Z",
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://snomed.info/sct",
+            "code" : "454381000124105",
+            "display" : "Not sure of desire to become pregnant (finding)"
+          }]
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+      {
+        "fullUrl": "http://localhost:8080/reference-server/r4/Observation/964",
+        "resource":
+        {
+          "resourceType": "Observation",
+          "id": "964",
+          "meta":
+          {
+            "profile":
+            [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation"
+            ]
+          },
+          "status": "final",
+          "category":
+          [
+            {
+              "coding":
+              [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                  "code": "sdoh",
+                  "display": "SDOH"
+                }
+              ]
+            },
+            {
+              "coding":
+              [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "survey",
+                  "display": "Survey"
+                }
+              ]
+            }
+          ],
+          "code":
+          {
+            "coding":
+            [
+              {
+                "system": "http://loinc.org",
+                "code": "44250-9",
+                "display": "Little interest or pleasure in doing things in last 2 weeks"
+              }
+            ],
+            "text": "Little interest or pleasure in doing things?"
+          },
+          "subject":
+          {
+            "reference": "Patient/85"
+          },
+          "effectiveDateTime": "2022-03-29T22:38:59.084000+00:00",
+          "performer":
+          [
+            {
+              "reference": "Practitioner/88"
+            }
+          ],
+          "valueCodeableConcept":
+          {
+            "coding":
+            [
+              {
+                "system": "http://loinc.org",
+                "code": "LA6568-5",
+                "display": "Not at all"
+              }
+            ],
+            "text": "Not at all"
+          },
+          "hasMember":
+          [
+            {
+              "reference": "Observation/965"
+            }
+          ]
+        },
+        "request":
+        {
+          "method": "PUT",
+          "url": "Observation/964"
+        }
+      },
+      {
+        "fullUrl": "http://localhost:8080/reference-server/r4/Observation/965",
+        "resource":
+        {
+          "resourceType": "Observation",
+          "id": "965",
+          "meta":
+          {
+            "profile":
+            [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation"
+            ]
+          },
+          "status": "final",
+          "category":
+          [
+            {
+              "coding":
+              [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                  "code": "sdoh",
+                  "display": "SDOH"
+                }
+              ]
+            },
+            {
+              "coding":
+              [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "survey",
+                  "display": "Survey"
+                }
+              ]
+            }
+          ],
+          "code":
+          {
+            "coding":
+            [
+              {
+                "system": "http://loinc.org",
+                "code": "44250-9",
+                "display": "Little interest or pleasure in doing things in last 2 weeks"
+              }
+            ],
+            "text": "Little interest or pleasure in doing things?"
+          },
+          "subject":
+          {
+            "reference": "Patient/85"
+          },
+          "effectiveDateTime": "2022-03-29T22:38:59.084000+00:00",
+          "performer":
+          [
+            {
+              "reference": "Practitioner/88"
+            }
+          ],
+          "valueString": "Not at all",
+          "derivedFrom":
+          [
+            {
+              "reference": "Observation/964"
+            }
+          ]
+        },
+        "request":
+        {
+          "method": "PUT",
+          "url": "Observation/965"
+        }
+      },
+      {
+        "fullUrl": "http://localhost:8080/reference-server/r4/Observation/969",
+        "resource":
+        {
+          "resourceType": "Observation",
+          "id": "969",
+          "meta":
+          {
+            "profile":
+            [
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history",
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation"
+            ]
+          },
+          "status": "final",
+          "category":
+          [
+            {
+              "coding":
+              [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "social-history",
+                  "display": "Social History"
+                }
+              ]
+            },
+            {
+              "coding":
+              [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "survey",
+                  "display": "Survey"
+                }
+              ]
+            },
+            {
+              "coding":
+              [
+                {
+                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                  "code": "sdoh",
+                  "display": "SDOH"
+                }
+              ]
+            }
+          ],
+          "code":
+          {
+            "coding":
+            [
+              {
+                "system": "http://loinc.org",
+                "code": "63586-2",
+                "display": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits."
+              }
+            ],
+            "text": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits."
+          },
+          "subject":
+          {
+            "reference": "Patient/355"
+          },
+          "effectiveDateTime": "1993-01-13T21:54:22-06:00",
+          "issued": "1993-01-13T21:54:22.840-06:00",
+          "performer":
+          [
+            {
+              "reference": "Practitioner/88"
+            }
+          ],
+          "valueQuantity":
+          {
+            "value": 43450,
+            "unit": "/a",
+            "system": "http://unitsofmeasure.org",
+            "code": "/a"
+          }
+        },
+        "request":
+        {
+          "method": "PUT",
+          "url": "Observation/969"
+        }
+      },
+    {
+      "fullUrl": "8bef174a-00eb-41d6-9cfd-27945c91a43a",
+      "resource":
+      {
+        "resourceType": "Observation",
+        "id": "8bef174a-00eb-41d6-9cfd-27945c91a43a",
+        "meta":
+        {
+          "profile":
+          [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation"
+          ]
+        },
+        "status": "final",
+        "category":
+        [
+          {
+            "coding":
+            [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "code":
+        {
+          "coding":
+          [
+            {
+              "system": "http://loinc.org",
+              "code": "11341-5",
+              "display": "History of Occupation"
+            }
+          ]
+        },
+        "subject":
+        {
+          "reference": "Patient/85"
+        },
+        "effectivePeriod":
+        {
+          "start": "2015-04-24"
+        },
+        "valueCodeableConcept":
+        {
+          "coding":
+          [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/PHOccupationalDataForHealthODH",
+              "code": "31-1014.00.007136",
+              "display": "Certified Nursing Assistant (CNA) [Nursing Assistants]"
+            }
+          ]
+        },
+        "component":
+        [
+          {
+            "code":
+            {
+              "coding":
+              [
+                {
+                  "system": "http://loinc.org",
+                  "code": "86188-0",
+                  "display": "History of Occupation Industry"
+                }
+              ]
+            },
+            "valueCodeableConcept":
+            {
+              "coding":
+              [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/PHOccupationalDataForHealthODH",
+                  "code": "621610.008495",
+                  "display": "Home nursing services"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "Obervation"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8080/reference-server/r4/Observation/959",
+      "resource":
+      {
+        "resourceType": "Observation",
+        "id": "959",
+        "meta":
+        {
+          "versionId": "1",
+          "lastUpdated": "2022-11-19T02:29:06.962+00:00",
+          "source": "#BjsZLSTu1czGaHR7",
+          "profile":
+          [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+          ]
+        },
+        "status": "final",
+        "category":
+        [
+          {
+            "coding":
+            [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "imaging"
+              }
+            ]
+          }
+        ],
+        "code":
+        {
+          "coding":
+          [
+            {
+              "system": "http://loinc.org",
+              "code": "33728-7",
+              "display": "Size.maximum dimension in Tumor"
+            }
+          ],
+          "text": "Size.maximum dimension in Tumor"
+        },
+        "subject":
+        {
+          "reference": "Patient/85"
+        },
+        "effectiveDateTime": "2018-08-17T17:44:25-05:00",
+        "issued": "2018-08-17T17:44:25.961-05:00",
+        "valueQuantity":
+        {
+          "value": 1.7742,
+          "unit": "cm",
+          "system": "http://unitsofmeasure.org",
+          "code": "cm"
+        }
+      },
+      "request":
+      {
+        "method": "PUT",
+        "url": "http://localhost:8080/reference-server/r4/Observation/959"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8080/reference-server/r4/Observation/962",
+      "resource":
+      {
+        "resourceType": "Observation",
+        "id": "962",
+        "meta":
+        {
+          "versionId": "1",
+          "lastUpdated": "2022-11-19T02:29:06.962+00:00",
+          "source": "#BjsZLSTu1czGaHR7",
+          "profile":
+          [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+          ]
+        },
+        "status": "final",
+        "category":
+        [
+          {
+            "coding":
+            [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "Imaging"
+              }
+            ],
+            "text": "Imaging"
+          }
+        ],
+        "code":
+        {
+          "coding":
+          [
+            {
+              "system": "http://loinc.org",
+              "code": "18782-3",
+              "display": "Radiology Study observation (narrative)"
+            }
+          ],
+          "text": "Findings"
+        },
+        "subject":
+        {
+          "reference": "Patient/355"
+        },
+        "effectiveDateTime": "2019-02-03T19:43:30.000Z",
+        "dataAbsentReason":
+        {
+          "coding":
+          [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "code": "not-performed",
+              "display": "Not Performed"
+            }
+          ]
+        }
+      },
+      "request":
+      {
+        "method": "PUT",
+        "url": "http://localhost:8080/reference-server/r4/Observation/962"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8080/reference-server/r4/Observation/960",
+      "resource":
+      {
+        "resourceType": "Observation",
+        "id": "960",
+        "meta":
+        {
+          "versionId": "1",
+          "lastUpdated": "2022-11-19T02:29:06.962+00:00",
+          "source": "#BjsZLSTu1czGaHR7",
+          "profile":
+          [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+          ]
+        },
+        "status": "final",
+        "category":
+        [
+          {
+            "coding":
+            [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "imaging"
+              }
+            ]
+          }
+        ],
+        "code":
+        {
+          "coding":
+          [
+            {
+              "system": "http://loinc.org",
+              "code": "44667-4",
+              "display": "Site of distant metastasis in Breast tumor"
+            }
+          ],
+          "text": "Site of distant metastasis in Breast tumor"
+        },
+        "subject":
+        {
+          "reference": "Patient/85"
+        },
+        "effectiveDateTime": "2018-08-17T17:44:25-05:00",
+        "issued": "2018-08-17T17:44:25.961-05:00",
+        "valueCodeableConcept":
+        {
+          "coding":
+          [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260413007",
+              "display": "None (qualifier value)"
+            }
+          ],
+          "text": "None (qualifier value)"
+        }
+      },
+      "request":
+      {
+        "method": "PUT",
+        "url": "http://localhost:8080/reference-server/r4/Observation/960"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8080/reference-server/r4/Observation/961",
+      "resource":
+      {
+        "resourceType": "Observation",
+        "id": "961",
+        "meta":
+        {
+          "versionId": "1",
+          "lastUpdated": "2022-11-19T02:29:06.962+00:00",
+          "source": "#BjsZLSTu1czGaHR7",
+          "profile":
+          [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+          ]
+        },
+        "status": "final",
+        "category":
+        [
+          {
+            "coding":
+            [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "Imaging"
+              }
+            ],
+            "text": "Imaging"
+          }
+        ],
+        "code":
+        {
+          "coding":
+          [
+            {
+              "system": "http://loinc.org",
+              "code": "19005-8",
+              "display": "Radiology Imaging study [Impression] (narrative)"
+            }
+          ],
+          "text": "Impression"
+        },
+        "subject":
+        {
+          "reference": "Patient/355"
+        },
+        "effectiveDateTime": "2019-02-03T19:43:30.000Z",
+        "valueString": "No acute abnormality"
+      },
+      "request":
+      {
+        "method": "PUT",
+        "url": "http://localhost:8080/reference-server/r4/Observation/961"
+      }
+    },
+    {
+      "fullUrl": "ea0ff093-87f5-4335-a220-cc82ab0cb49e",
+      "resource":
+      {
+        "resourceType": "Observation",
+        "id": "ea0ff093-87f5-4335-a220-cc82ab0cb49e",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus"
+          ]
+        },
+        "status": "final",
+        "category":
+        [
+          {
+            "coding":
+            [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history",
+                "display": "Social History"
+              }
+            ],
+            "text": "Social History"
+          }
+        ],
+        "code":
+        {
+          "coding":
+          [
+            {
+              "system": "http://loinc.org",
+              "code": "82810-3",
+              "display": "Pregnancy status"
+            }
+          ],
+          "text": "Pregnancy Status"
+        },
+        "subject":
+        {
+          "reference": "Patient/85"
+        },
+        "effectiveDateTime": "2022-08-24T10:39:52Z",
+        "valueCodeableConcept":
+        {
+          "coding":
+          [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "60001007",
+              "display": "Not pregnant (finding)"
+            }
+          ],
+          "text": "Not pregnant (finding)"
+        }
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "82115a91-04c9-4654-acb5-72f2806e00fc",
+      "resource":
+      {
+        "resourceType": "Specimen",
+        "id": "82115a91-04c9-4654-acb5-72f2806e00fc",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen"
+          ]
+        },
+        "accessionIdentifier":
+        {
+          "system": "http://acme.com/labs/accession-ids",
+          "value": "20220927-00124"
+        },
+        "type":
+        {
+          "coding":
+          [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "119364003",
+              "display": "Serum sample"
+            },
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
+              "code": "SER",
+              "display": "Serum"
+            }
+          ]
+        },
+        "subject":
+        {
+          "reference": "Patient/85"
+        },
+        "collection":
+        {
+          "collectedDateTime": "2022-09-27T18:07:12Z"
+        },
+        "container":
+        [
+          {
+            "type":
+            {
+              "text": "Serum Separator Tube"
+            }
+          }
+        ]
+      },
+      "request":
+      {
+        "method": "POST",
+        "url": "Observation"
+      }
+    }
+  ]
+}
