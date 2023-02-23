@@ -71,7 +71,7 @@ By default, the Dockerized server runs in read-only mode – meaning, operations
 modifying the state of the server are not supported. For example, requests to
 CREATE, UPDATE, or DELETE a resource will receive a `405 Method Not Allowed`
 error. To adjust this while running Docker, change the `READ_ONLY` environment
-variable to `false` in `./docker-compose.yml`. If running without Docker, , run
+variable to `false` in `./docker-compose.yml`. If running without Docker, run
 `mvn jetty:run -DREAD_ONLY=false` when starting the server.
 
 ## Running Tests
