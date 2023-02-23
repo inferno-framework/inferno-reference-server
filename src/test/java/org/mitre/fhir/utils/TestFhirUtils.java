@@ -50,6 +50,8 @@ public class TestFhirUtils {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
+    System.setProperty("READ_ONLY", "false");
+
     testToken = TokenManager.getInstance().getServerToken();
     FhirContext ourCtx = FhirContext.forR4();
 
@@ -122,7 +124,6 @@ public class TestFhirUtils {
 
   @AfterClass
   public static void afterClass() throws Exception {
-
     // delete test patient and encounter
 
     ourClient.delete().resourceById("Encounter", testFirstEncounterId.getIdPart())
@@ -149,6 +150,8 @@ public class TestFhirUtils {
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute();
+
+    System.setProperty("READ_ONLY", "true");
 
     testFirstPatientId = null;
     testSecondPatientId = null;

@@ -935,6 +935,8 @@ public class TestAuthorization {
     testPatientId = null;
     testEncounterId = null;
 
+    System.setProperty("READ_ONLY", "true");
+
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
 
@@ -943,6 +945,8 @@ public class TestAuthorization {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
+    System.setProperty("READ_ONLY", "false");
+
     testToken = TokenManager.getInstance().getServerToken();
 
     ourCtx = FhirContext.forR4();

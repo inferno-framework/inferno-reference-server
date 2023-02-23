@@ -59,6 +59,8 @@ public class TestAppLaunchController {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
+    System.setProperty("READ_ONLY", "false");
+
     testToken = TokenManager.getInstance().getServerToken();
     FhirContext ourCtx = FhirContext.forR4();
 
@@ -108,7 +110,6 @@ public class TestAppLaunchController {
 
   @AfterClass
   public static void afterClass() throws Exception {
-
     // delete test patient and encounter
     ourClient.delete().resourceById("Encounter", testFirstEncounterId.getIdPart())
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
@@ -119,6 +120,8 @@ public class TestAppLaunchController {
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute();
+
+    System.setProperty("READ_ONLY", "true");
 
     testFirstPatientId = null;
     testFirstEncounterId = null;

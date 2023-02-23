@@ -158,7 +158,7 @@ public class AuthorizationBulkDataExportProviderTest {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
-
+    System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
 
@@ -232,8 +232,6 @@ public class AuthorizationBulkDataExportProviderTest {
         .execute().getId();
 
     // TransactionSynchronizationManager.
-
-
   }
 
   @AfterClass
@@ -253,17 +251,16 @@ public class AuthorizationBulkDataExportProviderTest {
     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
         FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
     .execute();
-  
+
     ourClient.delete().resourceById(testPatientId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute();
-    
+
+    System.setProperty("READ_ONLY", "true");
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
 
-
     ourServer.stop();
   }
-
 }

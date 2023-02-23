@@ -125,7 +125,7 @@ public class MitreJpaServer extends RestfulServer {
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
-    if (Boolean.parseBoolean(readOnly)) {
+    if (readOnly == null || Boolean.parseBoolean(readOnly)) {
       registerInterceptor(new ReadOnlyInterceptor());
     }
 

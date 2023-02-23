@@ -74,8 +74,6 @@ public class TestReadOnlyInterceptor {
   @BeforeClass
   public static void beforeClass() throws Exception {
 
-    System.setProperty("READ_ONLY", "true");
-
     testToken = TokenManager.getInstance().getServerToken();
     ourCtx = FhirContext.forR4();
 
@@ -106,7 +104,6 @@ public class TestReadOnlyInterceptor {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    System.setProperty("READ_ONLY", "false");
     ourServer.stop();
   }
 }
