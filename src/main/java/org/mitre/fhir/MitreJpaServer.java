@@ -3,6 +3,7 @@ package org.mitre.fhir;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
+import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
@@ -14,9 +15,13 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
+import java.io.File;
 import javax.servlet.ServletException;
+import org.apache.commons.io.FileUtils;
+import org.hl7.fhir.r4.formats.JsonParser;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Resource;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
@@ -131,6 +136,27 @@ public class MitreJpaServer extends RestfulServer {
 
     // enable Bulk Export
     registerProvider(authorizationBulkDataExportProvider);
+
+    loadResources(appContext);
   }
 
+  private void loadResources(ApplicationContext appContext) {
+    DaoRegistry registry = new DaoRegistry(getFhirContext());
+    registry.setApplicationContext(appContext);
+
+    File dir = new File("./resources");
+    File[] files = dir.listFiles((d, name) -> name.endsWith(".json"));
+    if (files != null) {
+      for (File file : files) {
+        try {
+          System.out.println("Loading " + file.getName());
+          Resource resource = new JsonParser().parse(FileUtils.readFileToByteArray(file));
+
+          registry.getResourceDao(resource.fhirType()).update(resource);
+        } catch ( Exception e ) {
+          System.out.println("Unable to load " + file.getName());
+        }
+      }
+    }
+  }
 }
