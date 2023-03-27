@@ -41,7 +41,7 @@ jobs:
           type=semver,pattern=v{{major}}
           type=semver,pattern=v{{major}}.{{minor}}
           type=semver,pattern=latest
-          type=ref,event=branch
+          type=edge,branch=main
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
