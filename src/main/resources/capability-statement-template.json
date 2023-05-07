@@ -212,6 +212,31 @@
           ]
         },
         {
+          "type": "Coverage",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage"
+          ],
+          "interaction": [
+            {
+              "code": "search-type"
+            },
+            {
+              "code": "read"
+            }
+          ],
+          "searchRevInclude": [
+            "Provenance:target"
+          ],
+          "searchParam": [
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-coverage-patient",
+              "type": "reference",
+              "documentation": "The client **SHALL** provide at least a id value and **MAY** provide both the Type and id values.\n\nThe server **SHALL** support both."
+            }
+          ]
+        },
+        {
           "type": "Device",
           "supportedProfile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
@@ -545,6 +570,43 @@
           ]
         },
         {
+          "type": "MedicationDispense",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+          ],
+          "interaction": [
+            {
+              "code": "search-type"
+            },
+            {
+              "code": "read"
+            }
+          ],
+          "searchRevInclude": [
+            "Provenance:target"
+          ],
+          "searchParam": [
+            {
+              "name": "status",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-medicationdispense-status",
+              "type": "token",
+              "documentation": "The client **SHALL** provide at least a code value and **MAY** provide both the system and code values.\n\nThe server **SHALL** support both."
+            },
+            {
+              "name": "type",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-medicationdispense-type",
+              "type": "token",
+              "documentation": "The client **SHALL** provide at least a code value and **MAY** provide both the system and code values.\n\nThe server **SHALL** support both."
+            },
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-medicationdispense-patient",
+              "type": "reference",
+              "documentation": "The client **SHALL** provide at least a id value and **MAY** provide both the Type and id values.\n\nThe server **SHALL** support both."
+            }
+          ]
+        },
+        {
           "type": "MedicationRequest",
           "supportedProfile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
@@ -621,7 +683,14 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation",
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment",
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test",
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancyintent",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
           ],
           "interaction": [
             {
@@ -745,7 +814,6 @@
               "type": "string"
             }
           ]
-
         },
         {
           "type": "Practitioner",
@@ -776,7 +844,6 @@
               "type": "token"
             }
           ],
-
           "operation": [
             {
               "name": "patient-export",
@@ -937,6 +1004,32 @@
           ]
         },
         {
+          "type": "Specimen",
+          "supportedProfile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen"
+          ],
+          "interaction": [
+            {
+              "code": "search-type"
+            },
+            {
+              "code": "read"
+            }
+          ],
+          "searchParam": [
+            {
+              "name": "_id",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-specimen-id",
+              "type": "token"
+            },
+            {
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/us/core/SearchParameter/us-core-specimen-patient",
+              "type": "reference"
+            }
+          ]
+        },
+        {
           "type": "RelatedPerson",
           "supportedProfile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
@@ -980,7 +1073,6 @@
           "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export"
         }
       ]
-
     }
   ]
 }
