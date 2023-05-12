@@ -61,6 +61,8 @@ import org.springframework.web.server.ResponseStatusException;
 public class AuthorizationController {
 
   private static final String BULK_EXPECTED_GRANT_TYPE = "client_credentials";
+  private static final String AUTHORIZATION_CODE_GRANT_TYPE = "authorization_code";
+  private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
   private static final String BULK_EXPECTED_CLIENT_ASSERTION_TYPE =
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 
@@ -94,12 +96,11 @@ public class AuthorizationController {
    * @param clientAssertion the client assertion
    * @return auth token
    */
-  @PostMapping(path = "/bulk-token", produces = {"application/json"})
   public ResponseEntity<String> getTokenByBackendServiceAuthorization(
-      @RequestParam(name = "scope", required = true) String scopeString,
-      @RequestParam(name = "grant_type", required = true) String grantType,
-      @RequestParam(name = "client_assertion_type", required = true) String clientAssertionType,
-      @RequestParam(name = "client_assertion", required = true) String clientAssertion,
+      String scopeString,
+      String grantType,
+      String clientAssertionType,
+      String clientAssertion,
       HttpServletRequest request) throws BearerTokenException {
 
     // validate scopes
@@ -204,14 +205,30 @@ public class AuthorizationController {
       @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
       @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
       @RequestParam(name = "code_verifier", required = false) String codeVerifier,
+      @RequestParam(name = "grant_type", required = true) String grantType,
+      @RequestParam(name = "scope", required = false) String scopes,
+      @RequestParam(name = "client_assertion_type", required = false) String clientAssertionType,
+      @RequestParam(name = "client_assertion", required = false) String clientAssertion,
       HttpServletRequest request
   ) throws ResponseStatusException, BearerTokenException {
 
     Log.info("code is " + code);
 
+    if (BULK_EXPECTED_GRANT_TYPE.equals(grantType)) {
+      return getTokenByBackendServiceAuthorization(
+                                                   scopes,
+                                                   grantType,
+                                                   clientAssertionType,
+                                                   clientAssertion,
+                                                   request
+                                                  );
+    } else if (!(AUTHORIZATION_CODE_GRANT_TYPE.equals(grantType) || REFRESH_TOKEN_GRANT_TYPE.equals(grantType))) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                        "Bad Grant Type: " + grantType);
+    }
+
     String clientId = validateClient(request, clientIdRequestParam);
 
-    String scopes = "";
     String patientId = "";
     String encounterId = "";
 
