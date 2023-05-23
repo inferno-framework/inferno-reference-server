@@ -17666,7 +17666,15 @@
         "identifier": [
           {
             "system": "https://github.com/inferno-framework/us-core-test-kit",
-            "value": "f4a375d2-4e53-4f81-ba95-345e7573b550"
+            "value": "f4a375d2-4e53-4f81-ba95-345e7573b550",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MB"
+                }
+              ]
+            }
           }
         ],
         "status": "active",
