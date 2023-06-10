@@ -18,7 +18,6 @@
 	<br>
 
 	<div id="pageContent" class="container">
-
 		<p>
       This HL7® FHIR® server demonstrates a simulated API that is capable of passing
 			the automated Inferno ONC Certification (g)(10) Standardized API
@@ -36,8 +35,8 @@
 			<li>Standalone and EHR Launch</li>
 			<li>Token Refresh</li>
 			<li>Token Revocation</li>
-      <li>Proof Key for Code Exchange (PKCE)</li>
-      <li>POST-based authorization</li>
+			<li>Proof Key for Code Exchange (PKCE)</li>
+			<li>POST-based authorization</li>
 		</ul>
 
 		<p>Support for <a href="http://hl7.org/fhir/uv/bulkdata">Bulk Data v1.0.1 & v2.0.0</a></p>
@@ -66,7 +65,8 @@
 			<div class="form-group row">
 				<label for="clientId" class="col-sm-2 col-form-label">Public Client ID:</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="publicClientId" th:value="${publicClientId}">
+					<input type="text" readonly class="form-control-plaintext" id="publicClientId"
+						th:value="${publicClientId}">
 				</div>
 			</div>
 
@@ -99,14 +99,15 @@
 				<label for="bulkTokenEndpoint" class="col-sm-2 col-form-label">Bulk Token Endpoint:</label>
 				<div class="col-sm-10">
 					<input type="text" readonly class="form-control-plaintext" id="bulkTokenEndpoint"
-						value="https://inferno.healthit.gov/reference-server/oauth/bulk-token">
+						value="https://inferno.healthit.gov/reference-server/oauth/token">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="bulkClientId" class="col-sm-2 col-form-label">Bulk Client ID:</label>
 				<div class="col-sm-10">
-					<input type="text" readonly class="form-control-plaintext" id="bulkClientId" th:value="${bulkClientId}">
+					<input type="text" readonly class="form-control-plaintext" id="bulkClientId"
+						th:value="${bulkClientId}">
 				</div>
 			</div>
 
@@ -123,7 +124,8 @@
 			<li><a href="/reference-server/r4/metadata">Capability Statement</a></li>
 			<li><a href="/reference-server/app/app-launch">App Launch</a></li>
 			<li><a href="/reference-server/oauth/token/revoke-token">Revoke Token</a></li>
-			<li><a href="https://github.com/inferno-framework/inferno-reference-server">Reference Server on Github</a></li>
+			<li><a href="https://github.com/inferno-framework/inferno-reference-server">Reference Server on Github</a>
+			</li>
 			<li>
 				<a
 					href="https://github.com/inferno-training/inferno-tutorial/wiki/1.-Accepting-User-Bearer-Token-Input#reference-servers-to-test-against">Reference
@@ -147,7 +149,7 @@
 			let fhirEndpoint = windowLocation + "/reference-server/r4";
 			$('#fhirEndpoint').val(fhirEndpoint);
 			$('#bulkEndpoint').val(fhirEndpoint)
-			$('#bulkTokenEndpoint').val(windowLocation + "/reference-server/oauth/bulk-token")
+			$('#bulkTokenEndpoint').val(windowLocation + "/reference-server/oauth/token")
 		});
 	</script>
 </body>
