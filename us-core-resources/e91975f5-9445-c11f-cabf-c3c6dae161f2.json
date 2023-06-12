@@ -241,10 +241,10 @@
                 {
                   "system": "urn:ietf:bcp:47",
                   "code": "en-US",
-                  "display": "English"
+                  "display": "English (United States)"
                 }
               ],
-              "text": "English"
+              "text": "English (United States)"
             }
           }
         ],
@@ -431,10 +431,10 @@
               {
                 "system": "http://nucc.org/provider-taxonomy",
                 "code": "208D00000X",
-                "display": "General Practice"
+                "display": "General Practice Physician"
               }
             ],
-            "text": "General Practice"
+            "text": "General Practice Physician"
           }
         ],
         "specialty": [
@@ -443,10 +443,10 @@
               {
                 "system": "http://nucc.org/provider-taxonomy",
                 "code": "208D00000X",
-                "display": "General Practice"
+                "display": "General Practice Physician"
               }
             ],
-            "text": "General Practice"
+            "text": "General Practice Physician"
           }
         ],
         "location": [
@@ -641,10 +641,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -662,10 +662,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -701,10 +701,10 @@
             {
               "system": "http://loinc.org",
               "code": "11488-4",
-              "display": "Consultation note"
+              "display": "Consult note"
             }
           ],
-          "text": "Consultation note"
+          "text": "Consult note"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -763,10 +763,10 @@
             {
               "system": "http://loinc.org",
               "code": "11488-4",
-              "display": "Consultation note"
+              "display": "Consult note"
             }
           ],
-          "text": "Consultation note"
+          "text": "Consult note"
         },
         "category": [
           {
@@ -934,10 +934,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -952,10 +952,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -1144,10 +1144,10 @@
               {
                 "system": "http://nucc.org/provider-taxonomy",
                 "code": "208D00000X",
-                "display": "General Practice"
+                "display": "General Practice Physician"
               }
             ],
-            "text": "General Practice"
+            "text": "General Practice Physician"
           }
         ],
         "specialty": [
@@ -1156,10 +1156,10 @@
               {
                 "system": "http://nucc.org/provider-taxonomy",
                 "code": "208D00000X",
-                "display": "General Practice"
+                "display": "General Practice Physician"
               }
             ],
-            "text": "General Practice"
+            "text": "General Practice Physician"
           }
         ],
         "location": [
@@ -1459,10 +1459,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -1477,10 +1477,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -1599,10 +1599,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -1617,10 +1617,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -1777,10 +1777,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -1795,10 +1795,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -1917,10 +1917,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -1935,10 +1935,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -2438,10 +2438,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "232347008",
-              "display": "Dander (animal) allergy"
+              "display": "Animal dander allergy"
             }
           ],
-          "text": "Dander (animal) allergy"
+          "text": "Animal dander allergy"
         },
         "patient": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -2870,10 +2870,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -2888,10 +2888,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -3436,10 +3436,10 @@
               {
                 "system": "http://nucc.org/provider-taxonomy",
                 "code": "208D00000X",
-                "display": "General Practice"
+                "display": "General Practice Physician"
               }
             ],
-            "text": "General Practice"
+            "text": "General Practice Physician"
           }
         ],
         "specialty": [
@@ -3448,10 +3448,10 @@
               {
                 "system": "http://nucc.org/provider-taxonomy",
                 "code": "208D00000X",
-                "display": "General Practice"
+                "display": "General Practice Physician"
               }
             ],
-            "text": "General Practice"
+            "text": "General Practice Physician"
           }
         ],
         "location": [
@@ -3594,10 +3594,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -3612,10 +3612,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -4097,10 +4097,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -4115,10 +4115,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -4237,10 +4237,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -4255,10 +4255,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -4377,10 +4377,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -4395,10 +4395,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -4664,10 +4664,10 @@
             {
               "system": "http://loinc.org",
               "code": "59576-9",
-              "display": "Body mass index (BMI) [Percentile] Per age and gender"
+              "display": "Body mass index (BMI) [Percentile] Per age and sex"
             }
           ],
-          "text": "Body mass index (BMI) [Percentile] Per age and gender"
+          "text": "Body mass index (BMI) [Percentile] Per age and sex"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -4716,10 +4716,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -4734,10 +4734,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -4856,10 +4856,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -4874,10 +4874,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -5436,10 +5436,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -5454,10 +5454,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -5576,10 +5576,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -5594,10 +5594,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -5633,10 +5633,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "702927004",
-                "display": "Urgent care clinic (procedure)"
+                "display": "Urgent care clinic"
               }
             ],
-            "text": "Urgent care clinic (procedure)"
+            "text": "Urgent care clinic"
           }
         ],
         "subject": {
@@ -6215,10 +6215,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -6233,10 +6233,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -6524,10 +6524,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -6542,10 +6542,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -6715,10 +6715,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -6733,10 +6733,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -6855,10 +6855,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -6873,10 +6873,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -6995,10 +6995,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -7013,10 +7013,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -7135,10 +7135,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -7153,10 +7153,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -7328,10 +7328,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -7346,10 +7346,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -7899,10 +7899,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "702927004",
-                "display": "Urgent care clinic (procedure)"
+                "display": "Urgent care clinic"
               }
             ],
-            "text": "Urgent care clinic (procedure)"
+            "text": "Urgent care clinic"
           }
         ],
         "subject": {
@@ -8105,10 +8105,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -8123,10 +8123,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -8257,10 +8257,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -8275,10 +8275,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -8836,10 +8836,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -8854,10 +8854,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -9364,10 +9364,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -9382,10 +9382,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -9504,10 +9504,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -9522,10 +9522,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -9801,10 +9801,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -9819,10 +9819,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -9941,10 +9941,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -9959,10 +9959,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -10108,10 +10108,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "403190006",
-              "display": "First degree burn"
+              "display": "First degree burn of skin"
             }
           ],
-          "text": "First degree burn"
+          "text": "First degree burn of skin"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -10263,10 +10263,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "403190006",
-                "display": "First degree burn"
+                "display": "First degree burn of skin"
               }
             ],
-            "text": "First degree burn"
+            "text": "First degree burn of skin"
           }
         ],
         "managingOrganization": [
@@ -10293,7 +10293,7 @@
         },
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Burn care.<br/>Activities: <ul><li>Burn care</li><li>Burn care</li><li>Burn care</li></ul><br/>Care plan is meant to treat First degree burn.</div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Burn care.<br/>Activities: <ul><li>Burn care</li><li>Burn care</li><li>Burn care</li></ul><br/>Care plan is meant to treat First degree burn of skin.</div>"
         },
         "status": "completed",
         "intent": "order",
@@ -10513,10 +10513,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -10531,10 +10531,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -10653,10 +10653,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -10671,10 +10671,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -10793,10 +10793,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -10811,10 +10811,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -11356,10 +11356,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -11374,10 +11374,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -11559,10 +11559,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -11577,10 +11577,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -11750,10 +11750,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -11768,10 +11768,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -11890,10 +11890,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -11908,10 +11908,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -12030,10 +12030,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -12048,10 +12048,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -12170,10 +12170,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -12188,10 +12188,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -12322,10 +12322,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -12340,10 +12340,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -12968,10 +12968,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -12986,10 +12986,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -13214,10 +13214,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -13232,10 +13232,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -13354,10 +13354,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -13372,10 +13372,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -13494,10 +13494,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -13512,10 +13512,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -13881,10 +13881,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -13899,10 +13899,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -14336,10 +14336,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -14354,10 +14354,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -14653,10 +14653,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -14671,10 +14671,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -14968,10 +14968,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -14986,10 +14986,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -15265,10 +15265,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -15283,10 +15283,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -15593,10 +15593,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -15611,10 +15611,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -15921,10 +15921,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -15939,10 +15939,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -16073,10 +16073,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -16091,10 +16091,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -16264,10 +16264,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -16282,10 +16282,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -16469,10 +16469,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -16487,10 +16487,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -16701,10 +16701,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -16719,10 +16719,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -16841,10 +16841,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -16859,10 +16859,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -16981,10 +16981,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -16999,10 +16999,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -17162,10 +17162,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -17180,10 +17180,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -17449,10 +17449,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -17467,10 +17467,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -17589,10 +17589,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -17607,10 +17607,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -17729,10 +17729,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -17747,10 +17747,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -17908,10 +17908,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -17926,10 +17926,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -18048,10 +18048,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -18066,10 +18066,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -18374,10 +18374,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -18392,10 +18392,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -18555,10 +18555,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -18573,10 +18573,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -18735,10 +18735,10 @@
             {
               "system": "http://loinc.org",
               "code": "85354-9",
-              "display": "Blood Pressure"
+              "display": "Blood pressure panel with all children optional"
             }
           ],
-          "text": "Blood Pressure"
+          "text": "Blood pressure panel with all children optional"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -18819,10 +18819,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -18837,10 +18837,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -18959,10 +18959,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -18977,10 +18977,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -19057,10 +19057,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "185349003",
-                "display": "Encounter for 'check-up'"
+                "display": "Encounter for check up"
               }
             ],
-            "text": "Encounter for 'check-up'"
+            "text": "Encounter for check up"
           }
         ],
         "subject": {
@@ -19445,10 +19445,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -19463,10 +19463,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -19675,10 +19675,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -19693,10 +19693,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -19827,10 +19827,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -19845,10 +19845,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -19935,10 +19935,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "702927004",
-                "display": "Urgent care clinic (procedure)"
+                "display": "Urgent care clinic"
               }
             ],
-            "text": "Urgent care clinic (procedure)"
+            "text": "Urgent care clinic"
           }
         ],
         "subject": {
@@ -20019,10 +20019,10 @@
             {
               "system": "http://loinc.org",
               "code": "11488-4",
-              "display": "Consultation note"
+              "display": "Consult note"
             }
           ],
-          "text": "Consultation note"
+          "text": "Consult note"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -20078,10 +20078,10 @@
             {
               "system": "http://loinc.org",
               "code": "11488-4",
-              "display": "Consultation note"
+              "display": "Consult note"
             }
           ],
-          "text": "Consultation note"
+          "text": "Consult note"
         },
         "category": [
           {
@@ -20553,10 +20553,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -20571,10 +20571,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -20840,10 +20840,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -20858,10 +20858,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -21366,10 +21366,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -21384,10 +21384,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -21506,10 +21506,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -21524,10 +21524,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -21685,10 +21685,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -21703,10 +21703,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -21730,10 +21730,10 @@
             {
               "system": "http://hl7.org/fhir/sid/cvx",
               "code": "113",
-              "display": "Td (adult) preservative free"
+              "display": "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed"
             }
           ],
-          "text": "Td (adult) preservative free"
+          "text": "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed"
         },
         "patient": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -21917,10 +21917,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -21935,10 +21935,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -22057,10 +22057,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -22075,10 +22075,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -22236,10 +22236,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -22254,10 +22254,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -22376,10 +22376,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -22394,10 +22394,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -22976,10 +22976,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "185349003",
-                "display": "Encounter for 'check-up'"
+                "display": "Encounter for check up"
               }
             ],
-            "text": "Encounter for 'check-up'"
+            "text": "Encounter for check up"
           }
         ],
         "subject": {
@@ -23351,10 +23351,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -23369,10 +23369,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -23555,10 +23555,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "185349003",
-                "display": "Encounter for 'check-up'"
+                "display": "Encounter for check up"
               }
             ],
-            "text": "Encounter for 'check-up'"
+            "text": "Encounter for check up"
           }
         ],
         "subject": {
@@ -24607,10 +24607,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -24625,10 +24625,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -24664,10 +24664,10 @@
             {
               "system": "http://loinc.org",
               "code": "11488-4",
-              "display": "Consultation note"
+              "display": "Consult note"
             }
           ],
-          "text": "Consultation note"
+          "text": "Consult note"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -24723,10 +24723,10 @@
             {
               "system": "http://loinc.org",
               "code": "11488-4",
-              "display": "Consultation note"
+              "display": "Consult note"
             }
           ],
-          "text": "Consultation note"
+          "text": "Consult note"
         },
         "category": [
           {
@@ -24894,10 +24894,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -24912,10 +24912,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -25260,10 +25260,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -25278,10 +25278,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -25400,10 +25400,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -25418,10 +25418,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -25531,7 +25531,7 @@
               {
                 "system": "http://loinc.org",
                 "code": "51847-2",
-                "display": "Evaluation+Plan note"
+                "display": "Evaluation + Plan note"
               }
             ]
           }
@@ -25546,7 +25546,7 @@
             {
               "system": "http://loinc.org",
               "code": "51847-2",
-              "display": "Evaluation+Plan note"
+              "display": "Evaluation + Plan note"
             }
           ]
         },
@@ -25693,10 +25693,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -25711,10 +25711,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -25833,10 +25833,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -25851,10 +25851,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -25919,10 +25919,10 @@
             {
               "system": "http://hl7.org/fhir/sid/cvx",
               "code": "113",
-              "display": "Td (adult) preservative free"
+              "display": "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed"
             }
           ],
-          "text": "Td (adult) preservative free"
+          "text": "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed"
         },
         "patient": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -26066,10 +26066,10 @@
             {
               "system": "http://loinc.org",
               "code": "39156-5",
-              "display": "Body Mass Index"
+              "display": "Body mass index (BMI) [Ratio]"
             }
           ],
-          "text": "Body Mass Index"
+          "text": "Body mass index (BMI) [Ratio]"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -26118,10 +26118,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -26136,10 +26136,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -26456,10 +26456,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -26474,10 +26474,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -26984,10 +26984,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27002,10 +27002,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -27041,10 +27041,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "702927004",
-                "display": "Urgent care clinic (procedure)"
+                "display": "Urgent care clinic"
               }
             ],
-            "text": "Urgent care clinic (procedure)"
+            "text": "Urgent care clinic"
           }
         ],
         "subject": {
@@ -27259,10 +27259,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27277,10 +27277,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -27491,10 +27491,10 @@
             {
               "system": "http://loinc.org",
               "code": "2339-0",
-              "display": "Glucose"
+              "display": "Glucose [Mass/volume] in Blood"
             }
           ],
-          "text": "Glucose"
+          "text": "Glucose [Mass/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27543,10 +27543,10 @@
             {
               "system": "http://loinc.org",
               "code": "6299-2",
-              "display": "Urea Nitrogen"
+              "display": "Urea nitrogen [Mass/volume] in Blood"
             }
           ],
-          "text": "Urea Nitrogen"
+          "text": "Urea nitrogen [Mass/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27595,10 +27595,10 @@
             {
               "system": "http://loinc.org",
               "code": "38483-4",
-              "display": "Creatinine"
+              "display": "Creatinine [Mass/volume] in Blood"
             }
           ],
-          "text": "Creatinine"
+          "text": "Creatinine [Mass/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27647,10 +27647,10 @@
             {
               "system": "http://loinc.org",
               "code": "49765-1",
-              "display": "Calcium"
+              "display": "Calcium [Mass/volume] in Blood"
             }
           ],
-          "text": "Calcium"
+          "text": "Calcium [Mass/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27699,10 +27699,10 @@
             {
               "system": "http://loinc.org",
               "code": "2947-0",
-              "display": "Sodium"
+              "display": "Sodium [Moles/volume] in Blood"
             }
           ],
-          "text": "Sodium"
+          "text": "Sodium [Moles/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27751,10 +27751,10 @@
             {
               "system": "http://loinc.org",
               "code": "6298-4",
-              "display": "Potassium"
+              "display": "Potassium [Moles/volume] in Blood"
             }
           ],
-          "text": "Potassium"
+          "text": "Potassium [Moles/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27803,10 +27803,10 @@
             {
               "system": "http://loinc.org",
               "code": "2069-3",
-              "display": "Chloride"
+              "display": "Chloride [Moles/volume] in Blood"
             }
           ],
-          "text": "Chloride"
+          "text": "Chloride [Moles/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27855,10 +27855,10 @@
             {
               "system": "http://loinc.org",
               "code": "20565-8",
-              "display": "Carbon Dioxide"
+              "display": "Carbon dioxide, total [Moles/volume] in Blood"
             }
           ],
-          "text": "Carbon Dioxide"
+          "text": "Carbon dioxide, total [Moles/volume] in Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27907,10 +27907,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -27925,10 +27925,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -28004,10 +28004,10 @@
             {
               "system": "http://loinc.org",
               "code": "51990-0",
-              "display": "Basic Metabolic Panel"
+              "display": "Basic metabolic panel - Blood"
             }
           ],
-          "text": "Basic Metabolic Panel"
+          "text": "Basic metabolic panel - Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -28242,10 +28242,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "60027007",
-              "display": "X-ray or wrist"
+              "display": "X-ray of wrist"
             }
           ],
-          "text": "X-ray or wrist"
+          "text": "X-ray of wrist"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -28728,10 +28728,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -28746,10 +28746,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -29129,10 +29129,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -29147,10 +29147,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -29321,7 +29321,7 @@
         },
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Demential management.<br/>Activities: <ul><li>Demential management</li><li>Demential management</li><li>Demential management</li></ul><br/>Care plan is meant to treat Alzheimer's disease (disorder).</div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan for Dementia management.<br/>Activities: <ul><li>Dementia management</li><li>Dementia management</li><li>Dementia management</li></ul><br/>Care plan is meant to treat Alzheimer's disease (disorder).</div>"
         },
         "status": "active",
         "intent": "order",
@@ -29339,10 +29339,10 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "386257007",
-                "display": "Demential management"
+                "display": "Dementia management"
               }
             ],
-            "text": "Demential management"
+            "text": "Dementia management"
           }
         ],
         "subject": {
@@ -29998,10 +29998,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -30016,10 +30016,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -30630,10 +30630,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -30648,10 +30648,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -30818,10 +30818,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -30836,10 +30836,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "266919005",
-              "display": "Never smoker"
+              "display": "Never smoked"
             }
           ],
-          "text": "Never smoker"
+          "text": "Never smoked"
         },
         "resourceType": "Observation"
       },
@@ -32537,10 +32537,10 @@
             {
               "system": "http://loinc.org",
               "code": "72166-2",
-              "display": "Tobacco smoking status NHIS"
+              "display": "Tobacco smoking status"
             }
           ],
-          "text": "Tobacco smoking status NHIS"
+          "text": "Tobacco smoking status"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -32936,10 +32936,10 @@
             {
               "system": "http://loinc.org",
               "code": "85354-9",
-              "display": "Blood Pressure"
+              "display": "Blood pressure panel with all children optional"
             }
           ],
-          "text": "Blood Pressure"
+          "text": "Blood pressure panel with all children optional"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -33207,10 +33207,10 @@
             {
               "system": "http://loinc.org",
               "code": "85354-9",
-              "display": "Blood Pressure"
+              "display": "Blood pressure panel with all children optional"
             }
           ],
-          "text": "Blood Pressure"
+          "text": "Blood pressure panel with all children optional"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -33349,10 +33349,10 @@
             {
               "system": "http://loinc.org",
               "code": "59576-9",
-              "display": "Body mass index (BMI) [Percentile] Per age and gender"
+              "display": "Body mass index (BMI) [Percentile] Per age and sex"
             }
           ],
-          "text": "Body mass index (BMI) [Percentile] Per age and gender"
+          "text": "Body mass index (BMI) [Percentile] Per age and sex"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -33572,10 +33572,10 @@
             {
               "system": "http://loinc.org",
               "code": "51990-0",
-              "display": "Basic Metabolic Panel"
+              "display": "Basic metabolic panel - Blood"
             }
           ],
-          "text": "Basic Metabolic Panel"
+          "text": "Basic metabolic panel - Blood"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -34133,10 +34133,10 @@
             {
               "system": "http://loinc.org",
               "code": "63586-2",
-              "display": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits."
+              "display": "What was your best estimate of the total income of all family members from all sources, before taxes, in last year [PhenX]"
             }
           ],
-          "text": "During the past year, what was the total combined income for you and the family members you live with? This information will help us determine if you are eligible for any benefits."
+          "text": "What was your best estimate of the total income of all family members from all sources, before taxes, in last year [PhenX]"
         },
         "performer": [
           {
