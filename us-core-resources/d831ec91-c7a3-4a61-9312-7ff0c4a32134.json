@@ -15717,10 +15717,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "449868002",
-              "display": "Current every day smoker"
+              "display": "Smokes tobacco daily (finding)"
             }
           ],
-          "text": "Current every day smoker"
+          "text": "Smokes tobacco daily (finding)"
         },
         "resourceType": "Observation"
       },
