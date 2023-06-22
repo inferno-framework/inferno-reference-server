@@ -76,6 +76,39 @@
                 }
               ]
             }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-tribal-affiliation",
+            "extension": [
+              {
+                "url": "tribalAffiliation",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-TribalEntityUS",
+                      "code": "338",
+                      "display": "Native Village of Afognak"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-sex-for-clinical-use",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-sex-for-clinical-use",
+                      "code": "male"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         ],
         "identifier": [
@@ -1036,8 +1069,12 @@
         },
         "identifier": [
           {
+            "system": "https://github.com/synthetichealth/synthea",
+            "value": "eb10a604-ac01-3975-ad58-4c34606af456"
+          },
+          {
             "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "9999999889"
+            "value": "1245319599"
           }
         ],
         "active": true,
@@ -10101,6 +10138,12 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/synthetichealth/synthea",
+            "value": "1f50f7e0-ada9-752c-6cb6-9f4022f76c13"
+          }
+        ],
         "status": "stopped",
         "intent": "order",
         "medicationCodeableConcept": {
@@ -28182,6 +28225,17 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/synthetichealth/synthea",
+            "value": "266e572c-3ab6-abd4-5964-ce3189351546"
+          }
+        ],
+        "basedOn": [
+          {
+            "reference": "urn:uuid:ba89c2af-ce2b-405d-8eff-793eabe1c38d"
+          }
+        ],
         "status": "completed",
         "code": {
           "coding": [
@@ -32206,10 +32260,19 @@
             "reference": "urn:uuid:57775cdd-354a-6342-954b-f47f21a72578"
           },
           {
+            "reference": "urn:uuid:d1ee0707-00f8-462c-aca3-63cf6dd1be82"
+          },
+          {
             "reference": "urn:uuid:ba89c2af-ce2b-405d-8eff-793eabe1c38d"
           },
           {
             "reference": "urn:uuid:706eb626-2e3a-4f23-bb58-dd11cde7da98"
+          },
+          {
+            "reference": "urn:uuid:17991da0-97b0-447c-bb49-185eb104a160"
+          },
+          {
+            "reference": "urn:uuid:4b056f97-383a-416f-94a8-624972f4a440"
           }
         ],
         "recorded": "2020-12-10T18:33:18.715-05:00",
@@ -33582,6 +33645,7 @@
       "fullUrl": "urn:uuid:b9fbaa22-6097-11ed-9b6a-0242ac120002",
       "resource": {
         "resourceType": "Condition",
+        "id": "b9fbaa22-6097-11ed-9b6a-0242ac120002",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
@@ -33591,6 +33655,12 @@
           {
             "url": "http://hl7.org/fhir/StructureDefinition/condition-assertedDate",
             "valueDateTime": "2016-08-10"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "b9fbaa22-6097-11ed-9b6a-0242ac120002"
           }
         ],
         "clinicalStatus": {
@@ -33628,6 +33698,16 @@
             "coding": [
               {
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              }
+            ],
+            "text": "Social Determinants Of Health"
+          },
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
                 "code": "sdoh",
                 "display": "SDOH"
               }
@@ -33729,6 +33809,7 @@
       "fullUrl": "urn:uuid:1546a198-6098-11ed-9b6a-0242ac120002",
       "resource": {
         "resourceType": "Observation",
+        "id": "1546a198-6098-11ed-9b6a-0242ac120002",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test"
@@ -33780,6 +33861,7 @@
       "fullUrl": "urn:uuid:425033f2-6098-11ed-9b6a-0242ac120002",
       "resource": {
         "resourceType": "Observation",
+        "id": "425033f2-6098-11ed-9b6a-0242ac120002",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-test"
@@ -33811,6 +33893,116 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "dataAbsentReason": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "code": "not-performed",
+              "display": "Not Performed"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a4c9c602-60a6-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a4c9c602-60a6-11ed-9b6a-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "a4c9c602-60a6-11ed-9b6a-0242ac120002"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "Imaging"
+              }
+            ],
+            "text": "Imaging"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "19005-8",
+              "display": "Radiology Imaging study [Impression] (narrative)"
+            }
+          ],
+          "text": "Impression"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2019-02-03T19:43:30.000Z",
+        "valueString": "No acute abnormality"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9659d9e0-60a6-11ed-9b6a-0242ac120002",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9659d9e0-60a6-11ed-9b6a-0242ac120002",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-imaging",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "9659d9e0-60a6-11ed-9b6a-0242ac120002"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "imaging",
+                "display": "Imaging"
+              }
+            ],
+            "text": "Imaging"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18782-3",
+              "display": "Radiology Study observation (narrative)"
+            }
+          ],
+          "text": "Findings"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "effectiveDateTime": "2019-02-03T19:43:30.000Z",
         "dataAbsentReason": {
           "coding": [
             {
@@ -33872,7 +34064,7 @@
         "effectiveDateTime": "2021-06-04T12:19:16-05:00",
         "performer": [
           {
-            "reference": "Practitioner/88"
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
           }
         ],
         "valueBoolean": true,
@@ -33890,9 +34082,17 @@
         "id": "57775cdd-354a-6342-954b-f47f21a72578",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "57775cdd-354a-6342-954b-f47f21a72578"
+          }
+        ],
         "status": "final",
         "category": [
           {
@@ -33901,6 +34101,15 @@
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "social-history",
                 "display": "Social History"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
               }
             ]
           },
@@ -33931,7 +34140,7 @@
         },
         "performer": [
           {
-            "reference": "Practitioner/88"
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
           }
         ],
         "valueQuantity": {
@@ -33956,6 +34165,12 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-social-history"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "d1ee0707-00f8-462c-aca3-63cf6dd1be82"
+          }
+        ],
         "status": "final",
         "category": [
           {
@@ -33997,10 +34212,10 @@
           {
             "extension": [
               {
-                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                  "valueCode": "unknown"
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
               }
-          ]
+            ]
           }
         ]
       },
@@ -34019,47 +34234,54 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
           ]
         },
-        "status": "active",
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "ba89c2af-ce2b-405d-8eff-793eabe1c38d"
+          }
+        ],
+        "status": "completed",
         "intent": "order",
         "category": [
           {
             "coding": [
               {
-                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
-                "code": "sdoh",
-                "display": "SDOH"
-              }
-            ],
-            "text": "Social Determinants Of Health"
-          },
-          {
-            "coding": [
-              {
                 "system": "http://snomed.info/sct",
-                "code": "410606002",
-                "display": "Social service procedure (procedure)"
+                "code": "387713003",
+                "display": "Surgical procedure"
               }
             ],
-            "text": "Social service procedure (procedure)"
+            "text": "Surgical procedure"
           }
         ],
         "code": {
           "coding": [
             {
               "system": "http://snomed.info/sct",
-              "code": "467771000124109",
-              "display": "Assistance with application for food pantry program"
+              "code": "233169004",
+              "display": "Automatic defibrillator procedure (procedure)"
             }
           ]
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
-        "occurrenceDateTime": "2021-11-20",
-        "authoredOn": "2021-11-12T10:59:38-08:00",
+        "authoredOn": "2015-03-30",
         "requester": {
-          "reference": "Practitioner/358"
-        }
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "71908006",
+                "display": "Ventricular fibrillation (disorder)"
+              }
+            ],
+            "text": "Bradycardia"
+          }
+        ]
       },
       "request": {
         "method": "POST",
@@ -34076,6 +34298,12 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "706eb626-2e3a-4f23-bb58-dd11cde7da98"
+          }
+        ],
         "status": "active",
         "intent": "order",
         "category": [
@@ -34088,26 +34316,17 @@
               }
             ],
             "text": "Social Determinants Of Health"
-          },
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "410606002",
-                "display": "Social service procedure (procedure)"
-              }
-            ],
-            "text": "Social service procedure (procedure)"
           }
         ],
         "code": {
           "coding": [
             {
               "system": "http://snomed.info/sct",
-              "code": "467771000124109",
-              "display": "Assistance with application for food pantry program"
+              "code": "24165007",
+              "display": "Alcoholism counseling"
             }
-          ]
+          ],
+          "text": "Alcohol rehabilitation"
         },
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -34118,12 +34337,174 @@
         },
         "authoredOn": "2021-11-12T10:59:38-08:00",
         "requester": {
-          "reference": "Practitioner/358"
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
         }
       },
       "request": {
         "method": "POST",
         "url": "ServiceRequest"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4b056f97-383a-416f-94a8-624972f4a440",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "4b056f97-383a-416f-94a8-624972f4a440",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "4b056f97-383a-416f-94a8-624972f4a440"
+          }
+        ],
+        "status": "entered-in-error",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11488-4",
+              "display": "Consult note"
+            }
+          ],
+          "text": "Consult note"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note",
+                "display": "Clinical Note"
+              }
+            ],
+            "text": "Clinical Note"
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "date": "2016-03-09T15:29:46Z",
+        "description": "Report created by error. Discarded",
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "_data": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                    "valueCode": "error"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:17991da0-97b0-447c-bb49-185eb104a160",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "17991da0-97b0-447c-bb49-185eb104a160",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "17991da0-97b0-447c-bb49-185eb104a160"
+          }
+        ],
+        "status": "completed",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "476872",
+              "display": "Nizatidine 15 MG/ML Oral Solution"
+            }
+          ],
+          "text": "Nizatidine 15 MG/ML Oral Solution"
+        },
+        "subject": {
+          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
+        },
+        "performer": [
+          {
+            "actor": {
+              "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+              "display": "Dr. Patricia625 Kilback373"
+            }
+          },
+          {
+            "actor": {
+              "reference": "urn:uuid:5d4b9df1-93ae-3bc9-b680-03249990e558",
+              "display": "HOLYOKE MEDICAL CENTER"
+            }
+          }
+        ],
+        "authorizingPrescription": [
+          {
+            "reference": "urn:uuid:1f50f7e0-ada9-752c-6cb6-9f4022f76c13",
+            "display": "Aspirin 81 MG Oral Tablet"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "FFC",
+              "display": "First Fill - Complete"
+            }
+          ]
+        },
+        "quantity": {
+          "value": 480,
+          "unit": "mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mL"
+        },
+        "whenHandedOver": "2016-12-08T06:38:52Z",
+        "dosageInstruction": [
+          {
+            "text": "10 mL bid",
+            "timing": {
+              "repeat": {
+                "boundsPeriod": {
+                  "start": "2008-04-05"
+                },
+                "frequency": 2,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 10,
+                  "unit": "ml",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "MedicationDispense"
       }
     }
   ],
