@@ -54,7 +54,7 @@
             "valueString": "Christen366 Murray856"
           },
           {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-sex",
             "valueCode": "M"
           },
           {

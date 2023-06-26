@@ -54,7 +54,7 @@
             "valueString": "Arnetta705 Walker122"
           },
           {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-sex",
             "valueCode": "M"
           },
           {
