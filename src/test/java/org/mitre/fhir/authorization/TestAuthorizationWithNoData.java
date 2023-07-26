@@ -63,6 +63,10 @@ public class TestAuthorizationWithNoData {
         "SAMPLE_PUBLIC_CLIENT_ID",
         null,
         null,
+        null,
+        null,
+        null,
+        null,
         request
     );
 
@@ -90,7 +94,7 @@ public class TestAuthorizationWithNoData {
     String scope = "launch/patient launch/encounter";
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null,
+    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null, null, null, null, null,
         request);
 
     Token testToken = TokenManager.getInstance().getServerToken();
@@ -121,7 +125,7 @@ public class TestAuthorizationWithNoData {
     String scope = "launch/patient launch/encounter";
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null,
+    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null, null, null, null, null,
         request);
   }
 
