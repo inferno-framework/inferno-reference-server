@@ -15,7 +15,7 @@
     <hapi.version>5.4.0</hapi.version>
     <jetty_version>9.4.35.v20201120</jetty_version>
     <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
-    <checkstyle.version>8.32</checkstyle.version>
+    <checkstyle.version>10.12.3</checkstyle.version>
     <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
     <sevntu.checkstyle.plugin.version>1.37.1</sevntu.checkstyle.plugin.version>
   </properties>
