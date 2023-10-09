@@ -12,10 +12,10 @@
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-    <hapi.version>5.4.0</hapi.version>
+    <hapi.version>5.7.9</hapi.version>
     <jetty_version>9.4.35.v20201120</jetty_version>
-    <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
-    <checkstyle.version>8.32</checkstyle.version>
+    <checkstyle.plugin.version>3.3.0</checkstyle.plugin.version>
+    <checkstyle.version>10.12.4</checkstyle.version>
     <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
     <sevntu.checkstyle.plugin.version>1.37.1</sevntu.checkstyle.plugin.version>
   </properties>
@@ -157,8 +157,16 @@
 		<dependency>
 		  <groupId>org.json</groupId>
 		  <artifactId>json</artifactId>
-		  <version>20190722</version>
+		  <version>20230618</version>
 		</dependency>
+
+    <!-- TODO: remove this.
+      originally a nested dependency of hapi-jpaserver, only used for randomness in testing. -->
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>2.10.9.2</version>
+    </dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
 		<dependency>
@@ -222,6 +230,61 @@
 		</dependency>
 		
   </dependencies>
+
+  <!--
+    dependencyManagement allows us "to directly specify the versions of artifacts
+    to be used when they are encountered in transitive dependencies
+    or in dependencies where no version has been specified".
+    For example, if a direct dependency above brings in a nested dependency
+    with a vulnerability, we can bump the nested dependency here.
+    (Assuming the new version is still compatible, etc)
+    This section should be reviewed every time we bump direct dependencies.
+  -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- nested dependency of fhir-validation / hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.24.0</version>
+      </dependency>
+
+      <!-- nested dependency of hapi-fhir-sql-migrate / hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.33</version>
+      </dependency>
+
+      <!-- dependency of hapi-fhir-base -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.10.0</version>
+      </dependency>
+
+      <!-- nested dependency of elasticsearch / hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>2.2</version>
+      </dependency>
+
+      <!-- nested dependency of springdoc-openapi-ui / hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-autoconfigure</artifactId>
+        <version>2.7.16</version>
+      </dependency>
+
+      <!-- dependency of hapi-fhir-testpage-overlay -->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <finalName>inferno-fhir-reference-server</finalName>

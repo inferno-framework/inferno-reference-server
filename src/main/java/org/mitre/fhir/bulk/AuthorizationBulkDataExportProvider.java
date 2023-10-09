@@ -3,7 +3,6 @@ package org.mitre.fhir.bulk;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.jpa.bulk.export.api.BulkDataExportOptions;
 import ca.uhn.fhir.jpa.bulk.export.api.IBulkDataExportSvc;
 import ca.uhn.fhir.jpa.bulk.export.model.BulkExportResponseJson;
 import ca.uhn.fhir.jpa.bulk.export.provider.BulkDataExportProvider;
@@ -12,9 +11,9 @@ import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Operation;
 import ca.uhn.fhir.rest.annotation.OperationParam;
-import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.api.PreferHeader;
+import ca.uhn.fhir.rest.api.server.bulk.BulkDataExportOptions;
 import ca.uhn.fhir.rest.server.RestfulServerUtils;
 import ca.uhn.fhir.rest.server.exceptions.InvalidRequestException;
 import ca.uhn.fhir.rest.server.servlet.ServletRequestDetails;
@@ -119,7 +118,7 @@ public class AuthorizationBulkDataExportProvider {
     BulkDataExportOptions bulkDataExportOptions =
         buildSystemBulkExportOptions(theOutputFormat, theType, theSince, theTypeFilter);
     IBulkDataExportSvc.JobInfo outcome =
-        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false);
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false, theRequestDetails);
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
 
     // Add correct headers
@@ -178,7 +177,7 @@ public class AuthorizationBulkDataExportProvider {
     }
 
     IBulkDataExportSvc.JobInfo outcome =
-        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false);
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false, theRequestDetails);
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
 
     // Add correct headers
@@ -237,7 +236,7 @@ public class AuthorizationBulkDataExportProvider {
         buildPatientBulkExportOptions(theOutputFormat, theType, theSince, theTypeFilter);
     validateResourceTypesAllContainPatientSearchParams(bulkDataExportOptions.getResourceTypes());
     IBulkDataExportSvc.JobInfo outcome =
-        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false);
+        myBulkDataExportSvc.submitJob(bulkDataExportOptions, false, theRequestDetails);
     writePollingLocationToResponseHeaders(theRequestDetails, outcome);
 
     // Add correct headers
