@@ -111,7 +111,7 @@ public class HapiReferenceServerProperties {
   /**
    * Returns the max pool size for the data source.
    * 
-   * @return
+   * @return the max pool size for the data source
    */
   public String getDataSourceMaxPoolSize() {
     String maxPoolSize = properties.getProperty(DATA_SOURCE_MAX_TOTAL_KEY);

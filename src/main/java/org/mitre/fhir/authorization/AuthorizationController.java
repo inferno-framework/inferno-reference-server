@@ -222,7 +222,8 @@ public class AuthorizationController {
                                                    clientAssertion,
                                                    request
                                                   );
-    } else if (!(AUTHORIZATION_CODE_GRANT_TYPE.equals(grantType) || REFRESH_TOKEN_GRANT_TYPE.equals(grantType))) {
+    } else if (!(AUTHORIZATION_CODE_GRANT_TYPE.equals(grantType)
+              || REFRESH_TOKEN_GRANT_TYPE.equals(grantType))) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                                         "Bad Grant Type: " + grantType);
     }

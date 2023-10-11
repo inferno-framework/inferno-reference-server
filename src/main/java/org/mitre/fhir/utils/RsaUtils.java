@@ -110,7 +110,7 @@ public class RsaUtils {
    * Strips newline characters. This will usually be \r\n in Windows and \n in UNIX
    *
    * @param s - string to strip
-   * @return
+   * @return input string without newlines
    */
   private static String stripNewlineCharacters(String s) {
     String result = s.replaceAll("\n", "");

@@ -34,7 +34,7 @@ public class TokenManager {
   /**
    * Gets instance of the TokenManager singleton.
    *
-   * @return
+   * @return TokenManager instance
    */
   public static TokenManager getInstance() {
     if (instance == null) {
