@@ -26,6 +26,7 @@ public class WellKnownAuthorizationEndpointController {
   private static final String WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY = "grant_types_supported";
   private static final String WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_KEY =
         "code_challenge_methods_supported";
+  private static final String WELL_KNOWN_INTROSPECTION_ENDPOINT_KEY = "introspection_endpoint";
 
   // 2.1 on
   // http://hl7.org/fhir/smart-app-launch/conformance/index.html#core-capabilities
@@ -91,6 +92,8 @@ public class WellKnownAuthorizationEndpointController {
     wellKnownJson.put("issuer", FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest));
     wellKnownJson.put(WELL_KNOWN_JWK_URI_KEY,
         FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest) + "/.well-known/jwk");
+    wellKnownJson.put(WELL_KNOWN_INTROSPECTION_ENDPOINT_KEY,
+        ServerConformanceWithAuthorizationProvider.getIntrospectExtensionUri(theRequest));
 
     return wellKnownJson.toString();
   }
