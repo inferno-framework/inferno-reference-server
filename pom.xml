@@ -12,7 +12,7 @@
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-    <hapi.version>5.7.9</hapi.version>
+    <hapi.version>5.5.3</hapi.version>
     <jetty_version>9.4.52.v20230823</jetty_version>
     <checkstyle.plugin.version>3.3.0</checkstyle.plugin.version>
     <checkstyle.version>10.12.4</checkstyle.version>
@@ -283,6 +283,71 @@
         <artifactId>spring-web</artifactId>
         <version>5.3.30</version>
       </dependency>
+
+      <!-- dependencies of hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-messaging</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-websocket</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>5.3.30</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf</artifactId>
+        <version>3.0.15.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.thymeleaf</groupId>
+        <artifactId>thymeleaf-spring5</artifactId>
+        <version>3.0.15.RELEASE</version>
+      </dependency>
+
+
 
       <!-- dependency of hapi-fhir-base -->
       <dependency>

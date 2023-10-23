@@ -113,10 +113,9 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
    */
   @Override
   @Bean
-  public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-      ConfigurableListableBeanFactory myConfigurableListableBeanFactory) {
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
     LocalContainerEntityManagerFactoryBean manager =
-        super.entityManagerFactory(myConfigurableListableBeanFactory);
+        super.entityManagerFactory();
     manager.setPersistenceUnitName("HAPI_PU");
     manager.setDataSource(dataSource());
     manager.setJpaProperties(jpaProperties());
