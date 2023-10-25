@@ -25,6 +25,7 @@ import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
 import org.mitre.fhir.bulk.InfernoGroupBulkItemReader;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -113,7 +114,8 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
   @Override
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-    LocalContainerEntityManagerFactoryBean manager = super.entityManagerFactory();
+    LocalContainerEntityManagerFactoryBean manager =
+        super.entityManagerFactory();
     manager.setPersistenceUnitName("HAPI_PU");
     manager.setDataSource(dataSource());
     manager.setJpaProperties(jpaProperties());
