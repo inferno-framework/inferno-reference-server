@@ -73,7 +73,8 @@ public class AuthorizationBulkDataExportProvider {
     "Device", "DiagnosticReport", "DocumentReference", "Goal", "Immunization",
     "MedicationRequest", "Observation", "Procedure", "Encounter",
     "Organization", "Practitioner", "Provenance", "Location", "Medication",
-    "ServiceRequest", "RelatedPerson"
+    "ServiceRequest", "RelatedPerson", "Coverage", "MedicationDispense",
+    "Specimen"
   };
 
   static {
