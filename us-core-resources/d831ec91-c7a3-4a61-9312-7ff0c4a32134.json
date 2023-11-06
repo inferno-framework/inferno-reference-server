@@ -18032,11 +18032,8 @@
         "status": "completed",
         "medicationReference":
         {
-          "reference":
-          {
-            "reference": "urn:uuid:58f7a300-f288-6094-a82f-e1e64086902b",
-            "display": "10 ML Furosemide 10 MG/ML Injection"
-          }
+          "reference": "urn:uuid:58f7a300-f288-6094-a82f-e1e64086902b",
+          "display": "10 ML Furosemide 10 MG/ML Injection"
         },
         "subject":
         {
