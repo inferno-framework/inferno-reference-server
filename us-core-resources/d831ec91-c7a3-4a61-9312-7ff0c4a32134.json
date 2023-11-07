@@ -18055,7 +18055,8 @@
             "reference": "urn:uuid:3722c630-7ccd-b25e-316d-78fd30a4ff30",
             "display": "10 ML Furosemide 10 MG/ML Injection"
           }
-        ]
+        ],
+        "whenHandedOver": "1975-04-07T02:51:45-04:00"
       },
       "request":
       {
