@@ -39,12 +39,12 @@
                 "valueCoding": {
                   "system": "urn:oid:2.16.840.1.113883.6.238",
                   "code": "2186-5",
-                  "display": "Non Hispanic or Latino"
+                  "display": "Not Hispanic or Latino"
                 }
               },
               {
                 "url": "text",
-                "valueString": "Non Hispanic or Latino"
+                "valueString": "Not Hispanic or Latino"
               }
             ],
             "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
@@ -126,10 +126,10 @@
                 {
                   "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
                   "code": "MR",
-                  "display": "Medical Record Number"
+                  "display": "Medical record number"
                 }
               ],
-              "text": "Medical Record Number"
+              "text": "Medical record number"
             },
             "system": "http://hospital.smarthealthit.org",
             "value": "e91975f5-9445-c11f-cabf-c3c6dae161f2"
@@ -140,10 +140,10 @@
                 {
                   "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
                   "code": "SS",
-                  "display": "Social Security Number"
+                  "display": "Social Security number"
                 }
               ],
-              "text": "Social Security Number"
+              "text": "Social Security number"
             },
             "system": "http://hl7.org/fhir/sid/us-ssn",
             "value": "999-61-9797"
@@ -154,10 +154,10 @@
                 {
                   "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
                   "code": "DL",
-                  "display": "Driver's License"
+                  "display": "Driver's license number"
                 }
               ],
-              "text": "Driver's License"
+              "text": "Driver's license number"
             },
             "system": "urn:oid:2.16.840.1.113883.4.3.25",
             "value": "S99940283"
@@ -232,10 +232,10 @@
             {
               "system": "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
               "code": "M",
-              "display": "M"
+              "display": "Married"
             }
           ],
-          "text": "M"
+          "text": "Married"
         },
         "multipleBirthBoolean": false,
         "communication": [
@@ -255,8 +255,8 @@
         "resourceType": "Patient"
       },
       "request": {
-        "method": "POST",
-        "url": "Patient"
+        "method": "PUT",
+        "url": "Patient/355"
       }
     },
     {
@@ -583,7 +583,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -3370,7 +3370,7 @@
         "identifier": [
           {
             "system": "http://hl7.org/fhir/sid/us-npi",
-            "value": "9999906499"
+            "value": "9706202469"
           }
         ],
         "active": true,
@@ -4658,7 +4658,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -7270,7 +7270,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -14278,7 +14278,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -16411,7 +16411,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -18729,7 +18729,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -21859,7 +21859,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -25040,7 +25040,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -26060,7 +26060,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -32640,7 +32640,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -32697,7 +32697,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -32754,7 +32754,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -32816,7 +32816,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -32873,7 +32873,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -32930,7 +32930,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33033,7 +33033,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33089,7 +33089,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33145,7 +33145,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33201,7 +33201,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33288,7 +33288,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33343,7 +33343,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33450,7 +33450,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
@@ -33506,7 +33506,7 @@
               {
                 "system": "http://terminology.hl7.org/CodeSystem/observation-category",
                 "code": "vital-signs",
-                "display": "vital-signs"
+                "display": "Vital Signs"
               }
             ]
           }
