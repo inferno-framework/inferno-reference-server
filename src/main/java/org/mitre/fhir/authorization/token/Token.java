@@ -70,7 +70,7 @@ public class Token {
     this.clientId = clientId;
   }
 
-  public void setExp(Long exp){
+  public void setExp(Long exp) {
     this.exp = exp;
   }
 
