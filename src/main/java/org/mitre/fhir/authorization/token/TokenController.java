@@ -1,7 +1,13 @@
 package org.mitre.fhir.authorization.token;
 
+
+import java.util.UUID;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.mitre.fhir.authorization.exception.BearerTokenException;
+import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +62,25 @@ public class TokenController {
         if (token.getEncounterId() != null) {
           tokenResponse.put("encounter", token.getEncounterId().toString());
         }
+
+        if (token.getClientId() != null) {
+          tokenResponse.put("client_id", token.getClientId().toString());
+        }
+
+        if (token.getExp() != null) {
+          tokenResponse.put("exp", token.getExp());
+        }
+
+        List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(token.getScopesString());
+
+        if(scopesList.contains("openid") && (scopesList.contains("fhirUser") || scopesList.contains("profile"))){
+          String fhirUserUrl =
+              FhirReferenceServerUtils.getFhirServerBaseUrl(request) + "/Patient/" + token.getPatientId();
+          tokenResponse.put("fhirUser", fhirUserUrl);
+          tokenResponse.put("iss", FhirReferenceServerUtils.getFhirServerBaseUrl(request));
+          tokenResponse.put("sub", TokenManager.SUB_STRING);
+        }
+
       } catch (TokenNotFoundException tokenNotFoundException) {
         // This doesn't feel quit right, but am staying consistent
         tokenNotFoundException.printStackTrace();
