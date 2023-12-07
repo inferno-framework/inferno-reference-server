@@ -401,16 +401,21 @@ public class AuthorizationController {
       String patientId, String encounterId) throws BearerTokenException {
 
     IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
-    JSONObject tokenJson = new JSONObject();
 
+    Long expiresIn = 3600L;
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken(scopes);
+    token.setClientId(clientId);
+    token.setPatientId(patientId);
+    token.setEncounterId(encounterId);
+    token.setExp(java.time.Instant.now().getEpochSecond() + expiresIn);
 
     String refreshTokenValue;
     try {
       Token refreshToken = tokenManager.getCorrespondingRefreshToken(token.getTokenValue());
       refreshToken.setPatientId(patientId);
       refreshToken.setEncounterId(encounterId);
+      refreshToken.setClientId(clientId);
       refreshTokenValue = refreshToken.getTokenValue();
     } catch (Exception exception) {
       throw new BearerTokenException(exception);
@@ -418,9 +423,10 @@ public class AuthorizationController {
 
     String accessToken = token.getTokenValue();
 
+    JSONObject tokenJson = new JSONObject();
     tokenJson.put("access_token", accessToken);
     tokenJson.put("token_type", "bearer");
-    tokenJson.put("expires_in", 3600);
+    tokenJson.put("expires_in", expiresIn);
     tokenJson.put("refresh_token", refreshTokenValue);
     tokenJson.put("scope", scopes);
     tokenJson.put("smart_style_url", FhirReferenceServerUtils.getSmartStyleUrl(request));
@@ -450,10 +456,13 @@ public class AuthorizationController {
       tokenJson.put("encounter", encounterId);
     }
 
-    try {
-      tokenJson.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
-    } catch (OpenIdTokenGenerationException openIdTokenGenerationException) {
-      throw new BearerTokenException(openIdTokenGenerationException);
+    if (scopesList.contains("openid")
+        && (scopesList.contains("fhirUser") || scopesList.contains("profile"))) {
+      try {
+        tokenJson.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
+      } catch (OpenIdTokenGenerationException openIdTokenGenerationException) {
+        throw new BearerTokenException(openIdTokenGenerationException);
+      }
     }
     return tokenJson.toString();
   }
@@ -482,11 +491,10 @@ public class AuthorizationController {
       calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
       Date expiresAt = calendar.getTime();
 
-      String sub = UUID.randomUUID().toString();
-
       Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
       return JWT.create().withIssuer(FhirReferenceServerUtils.getFhirServerBaseUrl(request))
-          .withSubject(sub).withAudience(clientId).withExpiresAt(expiresAt).withIssuedAt(issuedAt)
+          .withSubject(TokenManager.SUB_STRING).withAudience(clientId)
+          .withExpiresAt(expiresAt).withIssuedAt(issuedAt)
           .withClaim("fhirUser", fhirUserUrl).sign(algorithm);
     } catch (RsaKeyException rsaKeyException) {
       throw new OpenIdTokenGenerationException(rsaKeyException);

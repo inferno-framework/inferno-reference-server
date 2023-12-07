@@ -24,6 +24,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaCapabilitySta
   private static final String TOKEN_EXTENSION_VALUE_URI = "/oauth/token";
   private static final String AUTHORIZE_EXTENSION_VALUE_URI = "/oauth/authorization";
   private static final String REVOKE_EXTENSION_VALUE_URI = "/oauth/token/revoke-token";
+  private static final String INTROSPECT_EXTENSION_VALUE_URI = "/oauth/token/introspect";
 
   private static final String CAPABILITY_STATEMENT_FILE_PATH = "capability-statement-template.json";
 
@@ -45,6 +46,10 @@ public class ServerConformanceWithAuthorizationProvider extends JpaCapabilitySta
 
   public static String getRevokeExtensionUri(HttpServletRequest theRequest) {
     return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + REVOKE_EXTENSION_VALUE_URI;
+  }
+
+  public static String getIntrospectExtensionUri(HttpServletRequest theRequest) {
+    return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + INTROSPECT_EXTENSION_VALUE_URI;
   }
 
   @Override

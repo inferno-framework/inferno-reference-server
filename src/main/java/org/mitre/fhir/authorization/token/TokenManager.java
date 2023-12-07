@@ -1,15 +1,24 @@
 
 package org.mitre.fhir.authorization.token;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 
 public class TokenManager {
+  // Always say the subject of the tokens are the same
+  // This isn't a great approximation but we do not have tests that require
+  // systems to demonstrate different subjects
+  public static final String SUB_STRING = UUID.randomUUID().toString();
+
   private static final String CUSTOM_BEARER_TOKEN_ENV_KEY = "CUSTOM_BEARER_TOKEN";
-  private static final String CUSTOM_BEARER_TOKEN_SCOPE_STRING = "system/*";
+  private static final String CUSTOM_BEARER_TOKEN_SCOPE_STRING = "system/*.*";
+
 
   private static TokenManager instance;
 
@@ -26,6 +35,8 @@ public class TokenManager {
     if (customBearerTokenString != null) {
       Token customBearerToken = new Token(customBearerTokenString,
           FhirReferenceServerUtils.getScopesListByScopeString(CUSTOM_BEARER_TOKEN_SCOPE_STRING));
+      customBearerToken.setClientId("SAMPLE_CLIENT_ID");
+      customBearerToken.setExp(Instant.now().plus(120, ChronoUnit.DAYS).getEpochSecond());
       addTokenToTokenMap(customBearerToken);
       createCorrespondingRefreshToken(customBearerToken);
     }

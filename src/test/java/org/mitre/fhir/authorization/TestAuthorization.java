@@ -636,10 +636,10 @@ public class TestAuthorization {
     request.setServerPort(TestUtils.TEST_PORT);
     request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
 
-    String scopes = "";
+    String scopes = "patient/Patient.rs openid fhirUser";
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null,
-        null, null, "authorization_code", null, null, null, request);
+        null, null, "authorization_code", scopes, null, null, request);
     String jsonString = tokenResponseEntity.getBody();
     JSONObject jsonObject = new JSONObject(jsonString);
     String idToken = (String) jsonObject.get("id_token");
@@ -653,6 +653,27 @@ public class TestAuthorization {
     Assert.assertEquals("RS256", decoded.getAlgorithm());
     Assert.assertNotNull(decoded.getClaim("fhirUser"));
     Assert.assertFalse(decoded.getSubject().isEmpty());
+  }
+
+  @Test
+  public void testGetTokenOnlyReturnsOpenIdWithProperScope() throws IllegalArgumentException, RsaKeyException,
+      JSONException, BearerTokenException, TokenNotFoundException {
+    AuthorizationController authorizationController = new AuthorizationController();
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+    request.addHeader("Authorization", TestUtils.getEncodedBasicAuthorizationHeader());
+
+    String scopes = "patient/Patient.r"; // no openid fhirUser scope requested
+    ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
+        FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null,
+        null, null, "authorization_code", scopes, null, null, request);
+    String jsonString = tokenResponseEntity.getBody();
+    JSONObject jsonObject = new JSONObject(jsonString);
+
+    Assert.assertFalse(jsonObject.has("id_token"));
   }
 
   @Test
@@ -1009,4 +1030,5 @@ public class TestAuthorization {
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
   }
+
 }

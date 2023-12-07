@@ -40,6 +40,10 @@
               {
                 "url": "revoke",
                 "valueUri": "$HOST/oauth/token/revoke-token"
+              },
+              {
+                "url": "introspect",
+                "valueUri": "$HOST/oauth/token/introspect"
               }
             ]
           }

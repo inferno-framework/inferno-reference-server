@@ -9,6 +9,8 @@ public class Token {
   private final List<String> scopes;
   private String patientId;
   private String encounterId;
+  private String clientId;
+  private Long exp; // Expiration: seconds since epoch
 
   private final String tokenValue;
 
@@ -64,11 +66,27 @@ public class Token {
     this.encounterId = encounterId;
   }
 
+  public void setClientId(String clientId) {
+    this.clientId = clientId;
+  }
+
+  public void setExp(Long exp) {
+    this.exp = exp;
+  }
+
   public String getPatientId() {
     return patientId;
   }
 
   public String getEncounterId() {
     return encounterId;
+  }
+
+  public String getClientId() {
+    return clientId;
+  }
+
+  public Long getExp() {
+    return exp;
   }
 }
