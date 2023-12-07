@@ -87,7 +87,6 @@ public class TokenController {
         }
 
       } catch (TokenNotFoundException tokenNotFoundException) {
-        // This doesn't feel quit right, but am staying consistent
         tokenNotFoundException.printStackTrace();
       }
     }

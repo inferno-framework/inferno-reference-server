@@ -1,6 +1,8 @@
 
 package org.mitre.fhir.authorization.token;
 
+import java.time.temporal.ChronoUnit;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +33,10 @@ public class TokenManager {
     String customBearerTokenString = System.getenv().get(CUSTOM_BEARER_TOKEN_ENV_KEY);
 
     if (customBearerTokenString != null) {
-      Long expiresIn = 10368000L; // 4 months
       Token customBearerToken = new Token(customBearerTokenString,
           FhirReferenceServerUtils.getScopesListByScopeString(CUSTOM_BEARER_TOKEN_SCOPE_STRING));
       customBearerToken.setClientId("SAMPLE_CLIENT_ID");
-      customBearerToken.setExp(java.time.Instant.now().getEpochSecond() + expiresIn);
+      customBearerToken.setExp(Instant.now().plus(4, ChronoUnit.MONTHS).getEpochSecond());
       addTokenToTokenMap(customBearerToken);
       createCorrespondingRefreshToken(customBearerToken);
     }
