@@ -36,7 +36,7 @@ public class TokenManager {
       Token customBearerToken = new Token(customBearerTokenString,
           FhirReferenceServerUtils.getScopesListByScopeString(CUSTOM_BEARER_TOKEN_SCOPE_STRING));
       customBearerToken.setClientId("SAMPLE_CLIENT_ID");
-      customBearerToken.setExp(Instant.now().plus(4, ChronoUnit.MONTHS).getEpochSecond());
+      customBearerToken.setExp(Instant.now().plus(120, ChronoUnit.DAYS).getEpochSecond());
       addTokenToTokenMap(customBearerToken);
       createCorrespondingRefreshToken(customBearerToken);
     }
