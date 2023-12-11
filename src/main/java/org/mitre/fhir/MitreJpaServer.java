@@ -3,6 +3,8 @@ package org.mitre.fhir;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
+import ca.uhn.fhir.jpa.api.config.DaoConfig.ClientIdStrategyEnum;
+import ca.uhn.fhir.jpa.api.config.DaoConfig.IdStrategyEnum;
 import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
@@ -20,6 +22,7 @@ import javax.servlet.ServletException;
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.r4.formats.JsonParser;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
@@ -69,6 +72,16 @@ public class MitreJpaServer extends RestfulServer {
     // Get the Spring context from the web container (it's declared in web.xml)
     ApplicationContext appContext = (ApplicationContext) getServletContext()
         .getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
+
+    DaoConfig daoConfig = appContext.getBean(DaoConfig.class);
+    // Auto-create placeholder reference targets to allow loading resources in any order
+    daoConfig.setAutoCreatePlaceholderReferenceTargets(true);
+    // Allow "clients" to use any Id strategy, ie, allow loading resources with numeric IDs
+    daoConfig.setResourceClientIdStrategy(ClientIdStrategyEnum.ANY);
+    // POSTed resources with no IDs will be assigned UUIDs, to ensure there is no conflict
+    // with loaded resources. See doc on ClientIdStrategyEnum.ANY above
+    // (In practice there shouldn't be POSTed resources, so this is just being extra safe)
+    daoConfig.setResourceServerIdStrategy(IdStrategyEnum.UUID);
 
     // myResourceProvidersR4 is generated as a part of hapi-fhir-jpaserver-base.
     // It contains bean definitions for a resource provider for each resource type.
@@ -152,11 +165,33 @@ public class MitreJpaServer extends RestfulServer {
           System.out.println("Loading " + file.getName());
           Resource resource = new JsonParser().parse(FileUtils.readFileToByteArray(file));
 
-          registry.getResourceDao(resource.fhirType()).update(resource);
+          if (resource instanceof Bundle) {
+            for (BundleEntryComponent entry : ((Bundle)resource).getEntry()) {
+              System.out.println(" Loading " + entry.getFullUrl());
+              loadResource(entry.getResource(), registry);
+            }
+          } else {
+            loadResource(resource, registry);
+          }
+
         } catch ( Exception e ) {
           System.out.println("Unable to load " + file.getName());
+          e.printStackTrace();
         }
       }
     }
+    System.out.println("Done loading resources.");
+  }
+
+  private void loadResource(Resource resource, DaoRegistry registry) {
+    String resourceType = resource.getResourceType().toString();
+
+    // IMPORTANT: the HAPI parser appends version numbers to this ID when parsing from file,
+    // but not when parsing from the body of an HTTP request, even when the content of both
+    // is exactly the same.
+    // That version number causes pain here, so remove it.
+    resource.setId(resourceType + "/" + resource.getIdElement().getIdPart());
+
+    registry.getResourceDao(resource.fhirType()).update(resource);
   }
 }
