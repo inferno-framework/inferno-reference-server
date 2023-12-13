@@ -17987,7 +17987,16 @@
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
         "collection": {
-          "collectedDateTime": "2005-07-05T18:07:12Z"
+          "collectedDateTime": "2005-07-05T18:07:12Z",
+          "bodySite": {
+              "coding": [
+                  {
+                      "system": "http://snomed.info/sct",
+                      "code": "106004",
+                      "display": "Posterior carpal region"
+                  }
+              ]
+          }
         },
         "container": [
           {
@@ -18001,6 +18010,17 @@
               ],
               "text": "Sterile urine specimen container"
             }
+          }
+        ],
+        "condition": [
+          {
+              "coding": [
+                  {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0493",
+                      "code": "AUT",
+                      "display": "Autolyzed"
+                  }
+              ]
           }
         ]
       },
@@ -18060,6 +18080,106 @@
       },
       "request":
       {
+        "method": "POST",
+        "url": "MedicationDispense"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:17991da0-97b0-447c-bb49-185eb104a160",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "17991da0-97b0-447c-bb49-185eb104a160",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "17991da0-97b0-447c-bb49-185eb104a160"
+          }
+        ],
+        "status": "completed",
+        "medicationCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code": "476872",
+              "display": "Nizatidine 15 MG/ML Oral Solution"
+            }
+          ],
+          "text": "Nizatidine 15 MG/ML Oral Solution"
+        },
+        "subject": {
+          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "context": {
+          "reference": "urn:uuid:09775519-5327-3bbf-cb95-66313dde54ee"
+        },
+        "performer": [
+          {
+            "actor": {
+              "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+              "display": "Dr. Patricia625 Kilback373"
+            }
+          },
+          {
+            "actor": {
+              "reference": "urn:uuid:5d4b9df1-93ae-3bc9-b680-03249990e558",
+              "display": "HOLYOKE MEDICAL CENTER"
+            }
+          }
+        ],
+        "authorizingPrescription": [
+          {
+            "reference": "urn:uuid:1f50f7e0-ada9-752c-6cb6-9f4022f76c13",
+            "display": "Aspirin 81 MG Oral Tablet"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code": "FFC",
+              "display": "First Fill - Complete"
+            }
+          ]
+        },
+        "quantity": {
+          "value": 480,
+          "unit": "mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mL"
+        },
+        "whenHandedOver": "2016-12-08T06:38:52Z",
+        "dosageInstruction": [
+          {
+            "text": "10 mL bid",
+            "timing": {
+              "repeat": {
+                "boundsPeriod": {
+                  "start": "2008-04-05"
+                },
+                "frequency": 2,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "doseAndRate": [
+              {
+                "doseQuantity": {
+                  "value": 10,
+                  "unit": "ml",
+                  "system": "http://unitsofmeasure.org",
+                  "code": "mL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
         "method": "POST",
         "url": "MedicationDispense"
       }

@@ -20,6 +20,7 @@ services:
     environment:
       - POSTGRES_HOST=db
       - CUSTOM_BEARER_TOKEN=SAMPLE_TOKEN
+      - READ_ONLY=false
     networks:
       - fhirnet
     depends_on:
