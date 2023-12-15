@@ -18743,7 +18743,8 @@
             },
             {
               "system": "http://loinc.org",
-              "code": "96607-7"
+              "code": "96607-7",
+              "display": "Blood pressure panel mean systolic and mean diastolic"
             }
           ],
           "text": "Blood pressure panel with all children optional"
@@ -18767,7 +18768,8 @@
                 },
                 {
                   "system": "http://loinc.org",
-                  "code": "96609-3"
+                  "code": "96609-3",
+                  "display": "Diastolic blood pressure mean"
                 }
               ],
               "text": "Diastolic Blood Pressure"
@@ -18789,7 +18791,8 @@
                 },
                 {
                   "system": "http://loinc.org",
-                  "code": "96608-5"
+                  "code": "96608-5",
+                  "display": "Systolic blood pressure mean"
                 }
               ],
               "text": "Systolic Blood Pressure"
@@ -32962,10 +32965,6 @@
               "system": "http://loinc.org",
               "code": "85354-9",
               "display": "Blood pressure panel with all children optional"
-            },
-            {
-              "system": "http://loinc.org",
-              "code": "96607-7"
             }
           ],
           "text": "Blood pressure panel with all children optional"
@@ -32996,10 +32995,6 @@
                   "system": "http://loinc.org",
                   "code": "8462-4",
                   "display": "Diastolic Blood Pressure"
-                },
-                {
-                  "system": "http://loinc.org",
-                  "code": "96609-3"
                 }
               ],
               "text": "Diastolic Blood Pressure"
@@ -33022,10 +33017,6 @@
                   "system": "http://loinc.org",
                   "code": "8480-6",
                   "display": "Systolic Blood Pressure"
-                },
-                {
-                  "system": "http://loinc.org",
-                  "code": "96608-5"
                 }
               ],
               "text": "Systolic Blood Pressure"
@@ -33245,10 +33236,6 @@
               "system": "http://loinc.org",
               "code": "85354-9",
               "display": "Blood pressure panel with all children optional"
-            },
-            {
-              "system": "http://loinc.org",
-              "code": "96607-7"
             }
           ],
           "text": "Blood pressure panel with all children optional"
@@ -33272,10 +33259,6 @@
                   "system": "http://loinc.org",
                   "code": "8462-4",
                   "display": "Diastolic Blood Pressure"
-                },
-                {
-                  "system": "http://loinc.org",
-                  "code": "96609-3"
                 }
               ],
               "text": "Diastolic Blood Pressure"
@@ -33294,10 +33277,6 @@
                   "system": "http://loinc.org",
                   "code": "8480-6",
                   "display": "Systolic Blood Pressure"
-                },
-                {
-                  "system": "http://loinc.org",
-                  "code": "96608-5"
                 }
               ],
               "text": "Systolic Blood Pressure"
