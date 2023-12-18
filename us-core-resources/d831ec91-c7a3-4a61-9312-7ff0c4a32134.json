@@ -17955,78 +17955,13 @@
       }
     },
     {
-      "fullUrl": "http://localhost:8080/reference-server/r4/Observation/1102",
-      "resource": {
-      "resourceType": "Observation",
-      "id": "1102",
-      "meta": {
-          "versionId": "1",
-          "lastUpdated": "2023-12-18T11:41:44.383+00:00",
-          "source": "#crLQ8RiwLfNZoYO9",
-          "profile": [
-              "http://hl7.org/fhir/us/core/StructureDefinition/us-core-treatment-intervention-preference|7.0.0-ballot"
-          ]
-      },
-      "status": "final",
-      "category": [
-          {
-              "coding": [
-                  {
-                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
-                      "code": "treatment-intervention-preference",
-                      "display": "Treatment Intervention preference"
-                  }
-              ],
-              "text": "Treatment Intervention Preference"
-          }
-      ],
-      "code": {
-          "coding": [
-              {
-                  "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
-                  "code": "treatment-intervention-preference",
-                  "display": "Treatment Intervention Preference"
-              }
-          ],
-          "text": "Treatment Intervention Preference"
-      },
-      "subject": {
-          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
-      },
-      "effectiveDateTime": "2023-08-30",
-      "performer": [
-          {
-              "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
-          }
-      ],
-      "valueString": "If I am having significant pain or suffering, I would like my doctors to consult a Supportive and Palliative Care Team to help treat my physical, emotional and spiritual discomfort, and to support my family."
-      },
-      "valueCodeableConcept": {
-        "coding": [
-            {
-                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
-                "code": "treatment-intervention-preference",
-                "display": "Treatment Intervention Preference"
-            }
-        ],
-        "text": "Treatment Intervention Preference"
-      },
-      "request":{
-        "method" : "POST",
-        "url" : "Observation"
-      }
-    },
-    {
-      "fullUrl": "http://localhost:8080/reference-server/r4/Observation/1152",
+      "fullUrl": "urn:uuid:47576d19-ec6c-4ab9-b8e0-3e8ed99a35be",
       "resource": {
           "resourceType": "Observation",
-          "id": "1152",
+          "id": "47576d19-ec6c-4ab9-b8e0-3e8ed99a35be",
           "meta": {
-              "versionId": "1",
-              "lastUpdated": "2023-12-18T11:56:14.781+00:00",
-              "source": "#54h6bd9JmAEa5dHS",
               "profile": [
-                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-care-experience-preference|7.0.0-ballot"
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-treatment-intervention-preference|7.0.0-ballot"
               ]
           },
           "status": "final",
@@ -18035,22 +17970,22 @@
                   "coding": [
                       {
                           "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
-                          "code": "care-experience-preference",
-                          "display": "Care experience preference"
+                          "code": "treatment-intervention-preference",
+                          "display": "Treatment Intervention preference"
                       }
                   ],
-                  "text": "Care Experience Preference"
+                  "text": "Treatment Intervention Preference"
               }
           ],
           "code": {
               "coding": [
                   {
-                      "system": "http://loinc.org",
-                      "code": "95541-9",
-                      "display": "Care experience preference"
+                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                      "code": "treatment-intervention-preference",
+                      "display": "Treatment Intervention Preference"
                   }
               ],
-              "text": "Care Experience Preference"
+              "text": "Treatment Intervention Preference"
           },
           "subject": {
               "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
@@ -18061,21 +17996,154 @@
                   "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
               }
           ],
-          "valueString": "For critical or end-of-life care, here are some examples of the things that I would like to have near me, music that I’d like to hear, and other details of my care that would help to keep me happy and relaxed: Like Bach, especially the cantatas.  St. Martin in the Fields",
-          "valueCodeableConcept": {
-            "coding": [
-                {
-                    "system": "http://loinc.org",
-                    "code": "95541-9",
-                    "display": "Care experience preference"
-                }
-            ],
-            "text": "Care Experience Preference"
-        }
+          "valueString": "If I am having significant pain or suffering, I would like my doctors to consult a Supportive and Palliative Care Team to help treat my physical, emotional and spiritual discomfort, and to support my family."
       },
-      "request":{
-        "method" : "POST",
-        "url" : "Observation"
+      "request": {
+          "method": "POST",
+          "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a8972ead-fee5-4a96-be8a-9f2a77264d9d",
+      "resource": {
+          "resourceType": "Observation",
+          "id": "a8972ead-fee5-4a96-be8a-9f2a77264d9d",
+          "meta": {
+              "profile": [
+                  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-treatment-intervention-preference|7.0.0-ballot"
+              ]
+          },
+          "status": "final",
+          "category": [
+              {
+                  "coding": [
+                      {
+                          "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                          "code": "treatment-intervention-preference",
+                          "display": "Treatment Intervention preference"
+                      }
+                  ],
+                  "text": "Treatment Intervention Preference"
+              }
+          ],
+          "code": {
+              "coding": [
+                  {
+                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                      "code": "treatment-intervention-preference",
+                      "display": "Treatment Intervention Preference"
+                  }
+              ],
+              "text": "Treatment Intervention Preference"
+          },
+          "subject": {
+              "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+          },
+          "effectiveDateTime": "2023-08-30",
+          "performer": [
+              {
+                  "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+              }
+          ],
+          "valueCodeableConcept": {
+              "coding": [
+                  {
+                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                      "code": "treatment-intervention-preference",
+                      "display": "Treatment Intervention Preference"
+                  }
+              ],
+              "text": "Treatment Intervention Preference"
+          }
+      },
+      "request": {
+          "method": "POST",
+          "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:db06bd66-469d-4556-9883-cd6a8be1f7e9",
+      "resource": {
+          "resourceType" : "Observation",
+          "id" : "db06bd66-469d-4556-9883-cd6a8be1f7e9",
+          "meta" : {
+            "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-care-experience-preference|7.0.0-ballot"]
+          },
+          "status" : "final",
+          "category" : [{
+            "coding" : [{
+              "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+              "code" : "care-experience-preference",
+              "display" : "Care experience preference"
+            }],
+            "text" : "Care Experience Preference"
+          }],
+          "code" : {
+            "coding" : [{
+              "system" : "http://loinc.org",
+              "code" : "95541-9",
+              "display" : "Care experience preference"
+            }],
+            "text" : "Care Experience Preference"
+          },
+          "subject" : {
+            "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+          },
+          "effectiveDateTime" : "2023-08-30",
+          "performer" : [{
+            "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+          }],
+          "valueString" : "For critical or end-of-life care, here are some examples of the things that I would like to have near me, music that I’d like to hear, and other details of my care that would help to keep me happy and relaxed: Like Bach, especially the cantatas.  St. Martin in the Fields"
+        },
+      "request": {
+          "method": "POST",
+          "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bef6c601-bc94-4f55-9f87-7f46afcc2943",
+      "resource": {
+          "resourceType" : "Observation",
+          "id" : "bef6c601-bc94-4f55-9f87-7f46afcc2943",
+          "meta" : {
+            "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-care-experience-preference|7.0.0-ballot"]
+          },
+          "status" : "final",
+          "category" : [{
+            "coding" : [{
+              "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+              "code" : "care-experience-preference",
+              "display" : "Care experience preference"
+            }],
+            "text" : "Care Experience Preference"
+          }],
+          "code" : {
+            "coding" : [{
+              "system" : "http://loinc.org",
+              "code" : "95541-9",
+              "display" : "Care experience preference"
+            }],
+            "text" : "Care Experience Preference"
+          },
+          "subject" : {
+            "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+          },
+          "effectiveDateTime" : "2023-08-30",
+          "performer" : [{
+            "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+          }],
+          "valueCodeableConcept" : {
+              "coding" : [{
+                "system" : "http://loinc.org",
+                "code" : "95541-9",
+                "display" : "Care experience preference"
+              }],
+              "text" : "Care Experience Preference"
+            }
+        },
+      "request": {
+          "method": "POST",
+          "url": "Observation"
       }
     },
     {
