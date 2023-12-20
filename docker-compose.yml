@@ -20,8 +20,6 @@ services:
       - CUSTOM_BEARER_TOKEN=SAMPLE_TOKEN
     networks:
       - fhirnet
-    volumes:
-      - ./resources:/var/lib/jetty/resources
     depends_on:
       - db
 
