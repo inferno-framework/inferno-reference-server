@@ -1,0 +1,21 @@
+{
+    "resourceType": "Group",
+    "id": "1a",
+    "active": true,
+    "type": "person",
+    "actual": true,
+    "name": "Synthea US Core Patients",
+    "quantity": 2,
+    "member": [
+        {
+            "entity": {
+                "reference": "Patient/85"
+            }
+        },
+        {
+            "entity": {
+                "reference": "Patient/355"
+            }
+        }
+    ]
+}

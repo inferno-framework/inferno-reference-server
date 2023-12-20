@@ -21,6 +21,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -179,35 +180,32 @@ public class MitreJpaServer extends RestfulServer {
       return;
     }
 
-    Files.walk(fhirResources, Integer.MAX_VALUE)
-        .filter(Files::isReadable)
-        .filter(Files::isRegularFile)
-        .filter(p -> p.toString().endsWith(".json"))
-        .forEach(p -> {
-          try {
-            File file = p.toFile();
-            System.out.println("Loading " + file.getName());
-            Resource resource = new JsonParser().parse(FileUtils.readFileToByteArray(file));
+    File dir = fhirResources.toFile();
+    File[] files = dir.listFiles((d, name) -> name.endsWith(".json"));
+    Arrays.sort(files); // sort files for consistent and predictable ordering
+    for (File file : files) {
+      try {
+        System.out.println("Loading " + file.getName());
+        Resource resource = new JsonParser().parse(FileUtils.readFileToByteArray(file));
 
-            if (resource instanceof Bundle) {
-              registry.getSystemDao().transaction(null, resource);
-            } else {
-              String resourceType = resource.getResourceType().toString();
+        if (resource instanceof Bundle) {
+          registry.getSystemDao().transaction(null, resource);
+        } else {
+          String resourceType = resource.getResourceType().toString();
 
-              // IMPORTANT: the HAPI parser appends version numbers to this ID when parsing from file,
-              // but not when parsing from the body of an HTTP request, even when the content of both
-              // is exactly the same.
-              // That version number causes pain here, so remove it.
-              resource.setId(resourceType + "/" + resource.getIdElement().getIdPart());
+          // IMPORTANT: the HAPI parser appends version numbers to this ID when parsing from file,
+          // but not when parsing from the body of an HTTP request, even when the content of both
+          // is exactly the same.
+          // That version number causes pain here, so remove it.
+          resource.setId(resourceType + "/" + resource.getIdElement().getIdPart());
 
-              registry.getResourceDao(resource.fhirType()).update(resource);
-            }
-          } catch ( Exception e ) {
-            System.out.println("Unable to load " + p.toString());
-            e.printStackTrace();
-          }
-        });
-
+          registry.getResourceDao(resource.fhirType()).update(resource);
+        }
+      } catch ( Exception e ) {
+        System.out.println("Unable to load " + file.getName());
+        e.printStackTrace();
+      }
+    }
     System.out.println("Done loading resources.");
   }
 }
