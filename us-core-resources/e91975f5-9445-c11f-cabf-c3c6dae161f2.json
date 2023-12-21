@@ -97,22 +97,6 @@
                 }
               }
             ]
-          },
-          {
-            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-sex-for-clinical-use",
-            "extension": [
-              {
-                "url": "value",
-                "valueCodeableConcept": {
-                  "coding": [
-                    {
-                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-sex-for-clinical-use",
-                      "code": "male"
-                    }
-                  ]
-                }
-              }
-            ]
           }
         ],
         "identifier": [
@@ -18740,6 +18724,11 @@
               "system": "http://loinc.org",
               "code": "85354-9",
               "display": "Blood pressure panel with all children optional"
+            },
+            {
+              "system": "http://loinc.org",
+              "code": "96607-7",
+              "display": "Blood pressure panel mean systolic and mean diastolic"
             }
           ],
           "text": "Blood pressure panel with all children optional"
@@ -18760,6 +18749,11 @@
                   "system": "http://loinc.org",
                   "code": "8462-4",
                   "display": "Diastolic Blood Pressure"
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "96609-3",
+                  "display": "Diastolic blood pressure mean"
                 }
               ],
               "text": "Diastolic Blood Pressure"
@@ -18778,6 +18772,11 @@
                   "system": "http://loinc.org",
                   "code": "8480-6",
                   "display": "Systolic Blood Pressure"
+                },
+                {
+                  "system": "http://loinc.org",
+                  "code": "96608-5",
+                  "display": "Systolic blood pressure mean"
                 }
               ],
               "text": "Systolic Blood Pressure"
@@ -27659,6 +27658,15 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "interpretation": {
+          "coding": [
+              {
+                  "code": "B",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "display": "Better"
+              }
+          ]
+        },
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
@@ -32273,9 +32281,6 @@
             "reference": "urn:uuid:706eb626-2e3a-4f23-bb58-dd11cde7da98"
           },
           {
-            "reference": "urn:uuid:17991da0-97b0-447c-bb49-185eb104a160"
-          },
-          {
             "reference": "urn:uuid:4b056f97-383a-416f-94a8-624972f4a440"
           }
         ],
@@ -34270,6 +34275,9 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "encounter": {
+          "reference": "urn:uuid:90a74c6c-a0e0-0cb3-157a-e38f35ca66b3"
+        },
         "authoredOn": "2015-03-30",
         "requester": {
           "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36"
@@ -34412,103 +34420,6 @@
       "request": {
         "method": "POST",
         "url": "DocumentReference"
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:17991da0-97b0-447c-bb49-185eb104a160",
-      "resource": {
-        "resourceType": "MedicationDispense",
-        "id": "17991da0-97b0-447c-bb49-185eb104a160",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://github.com/inferno-framework/us-core-test-kit",
-            "value": "17991da0-97b0-447c-bb49-185eb104a160"
-          }
-        ],
-        "status": "completed",
-        "medicationCodeableConcept": {
-          "coding": [
-            {
-              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "code": "476872",
-              "display": "Nizatidine 15 MG/ML Oral Solution"
-            }
-          ],
-          "text": "Nizatidine 15 MG/ML Oral Solution"
-        },
-        "subject": {
-          "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
-        },
-        "performer": [
-          {
-            "actor": {
-              "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
-              "display": "Dr. Patricia625 Kilback373"
-            }
-          },
-          {
-            "actor": {
-              "reference": "urn:uuid:5d4b9df1-93ae-3bc9-b680-03249990e558",
-              "display": "HOLYOKE MEDICAL CENTER"
-            }
-          }
-        ],
-        "authorizingPrescription": [
-          {
-            "reference": "urn:uuid:1f50f7e0-ada9-752c-6cb6-9f4022f76c13",
-            "display": "Aspirin 81 MG Oral Tablet"
-          }
-        ],
-        "type": {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-              "code": "FFC",
-              "display": "First Fill - Complete"
-            }
-          ]
-        },
-        "quantity": {
-          "value": 480,
-          "unit": "mL",
-          "system": "http://unitsofmeasure.org",
-          "code": "mL"
-        },
-        "whenHandedOver": "2016-12-08T06:38:52Z",
-        "dosageInstruction": [
-          {
-            "text": "10 mL bid",
-            "timing": {
-              "repeat": {
-                "boundsPeriod": {
-                  "start": "2008-04-05"
-                },
-                "frequency": 2,
-                "period": 1,
-                "periodUnit": "d"
-              }
-            },
-            "doseAndRate": [
-              {
-                "doseQuantity": {
-                  "value": 10,
-                  "unit": "ml",
-                  "system": "http://unitsofmeasure.org",
-                  "code": "mL"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "request": {
-        "method": "POST",
-        "url": "MedicationDispense"
       }
     }
   ],
