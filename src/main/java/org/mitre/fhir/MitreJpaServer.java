@@ -3,8 +3,6 @@ package org.mitre.fhir;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
-import ca.uhn.fhir.jpa.api.config.DaoConfig.ClientIdStrategyEnum;
-import ca.uhn.fhir.jpa.api.config.DaoConfig.IdStrategyEnum;
 import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
@@ -18,12 +16,10 @@ import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import java.io.File;
 import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.r4.formats.JsonParser;
@@ -78,15 +74,6 @@ public class MitreJpaServer extends RestfulServer {
     // Get the Spring context from the web container (it's declared in web.xml)
     ApplicationContext appContext = (ApplicationContext) getServletContext()
         .getAttribute("org.springframework.web.context.WebApplicationContext.ROOT");
-
-    DaoConfig daoConfig = appContext.getBean(DaoConfig.class);
-    // Auto-create placeholder reference targets to allow loading resources in any order
-    daoConfig.setAutoCreatePlaceholderReferenceTargets(true);
-    // Allow "clients" to use any Id strategy, ie, allow loading resources with numeric IDs
-    daoConfig.setResourceClientIdStrategy(ClientIdStrategyEnum.ANY);
-    // POSTed resources with no IDs will be assigned UUIDs, to ensure there is no conflict
-    // with loaded resources. See doc on ClientIdStrategyEnum.ANY above
-    daoConfig.setResourceServerIdStrategy(IdStrategyEnum.UUID);
 
     // myResourceProvidersR4 is generated as a part of hapi-fhir-jpaserver-base.
     // It contains bean definitions for a resource provider for each resource type.
@@ -156,8 +143,9 @@ public class MitreJpaServer extends RestfulServer {
     registerProvider(authorizationBulkDataExportProvider);
 
     try {
-      URI resourcesURI = MitreJpaServer.class.getClassLoader().getResource("fhir_resources").toURI();
-      Path fhirResources = Paths.get(resourcesURI);
+      URI resourcesUri =
+          MitreJpaServer.class.getClassLoader().getResource("fhir_resources").toURI();
+      Path fhirResources = Paths.get(resourcesUri);
 
       loadResources(appContext, fhirResources);
     } catch (Exception e) {
@@ -201,7 +189,7 @@ public class MitreJpaServer extends RestfulServer {
 
           registry.getResourceDao(resource.fhirType()).update(resource);
         }
-      } catch ( Exception e ) {
+      } catch (Exception e) {
         System.out.println("Unable to load " + file.getName());
         e.printStackTrace();
       }
