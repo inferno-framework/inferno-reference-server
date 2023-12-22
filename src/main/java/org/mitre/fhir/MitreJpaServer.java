@@ -15,7 +15,6 @@ import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import java.io.File;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -143,10 +142,7 @@ public class MitreJpaServer extends RestfulServer {
     registerProvider(authorizationBulkDataExportProvider);
 
     try {
-      URI resourcesUri =
-          MitreJpaServer.class.getClassLoader().getResource("fhir_resources").toURI();
-      Path fhirResources = Paths.get(resourcesUri);
-
+      Path fhirResources = Paths.get("./resources");
       loadResources(appContext, fhirResources);
     } catch (Exception e) {
       throw new ServletException("Error in loading resources from file", e);
@@ -170,6 +166,10 @@ public class MitreJpaServer extends RestfulServer {
 
     File dir = fhirResources.toFile();
     File[] files = dir.listFiles((d, name) -> name.endsWith(".json"));
+    if (files == null || files.length == 0) {
+      System.out.println("No resources to load.");
+      return;
+    }
     Arrays.sort(files); // sort files for consistent and predictable ordering
     for (File file : files) {
       try {
