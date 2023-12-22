@@ -142,7 +142,8 @@ public class MitreJpaServer extends RestfulServer {
     registerProvider(authorizationBulkDataExportProvider);
 
     try {
-      Path fhirResources = Paths.get("./resources");
+      String resourcesFolder = new HapiReferenceServerProperties().getResourcesFolder();
+      Path fhirResources = Paths.get(resourcesFolder);
       loadResources(appContext, fhirResources);
     } catch (Exception e) {
       throw new ServletException("Error in loading resources from file", e);

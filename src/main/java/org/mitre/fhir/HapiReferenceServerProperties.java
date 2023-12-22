@@ -39,6 +39,7 @@ public class HapiReferenceServerProperties {
   private static final String CONFIDENTIAL_CLIENT_SECRET_KEY = "inferno.confidential_client_secret";
   private static final String BULK_CLIENT_ID = "inferno.bulk_client_id";
   private static final String GROUP_ID = "inferno.group_id";
+  private static final String RESOURCES_FOLDER = "inferno.resources_folder";
 
   private final Properties properties;
 
@@ -305,6 +306,15 @@ public class HapiReferenceServerProperties {
     return groupId;
   }
 
+  /**
+   * Returns the Resources Folder Property.
+   *
+   * @return the property
+   */
+  public String getResourcesFolder() {
+    String resourcesFolder = properties.getProperty(RESOURCES_FOLDER);
+    return resourcesFolder;
+  }
 
   /**
    * Returns the properties.
