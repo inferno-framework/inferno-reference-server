@@ -18320,11 +18320,11 @@
           "coding": [
             {
               "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "code": "476872",
-              "display": "Nizatidine 15 MG/ML Oral Solution"
+              "code": "313988",
+              "display": "Furosemide 40 MG Oral Tablet"
             }
           ],
-          "text": "Nizatidine 15 MG/ML Oral Solution"
+          "text": "Furosemide 40 MG Oral Tablet"
         },
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
@@ -18335,21 +18335,21 @@
         "performer": [
           {
             "actor": {
-              "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
-              "display": "Dr. Patricia625 Kilback373"
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
             }
           },
           {
             "actor": {
-              "reference": "urn:uuid:5d4b9df1-93ae-3bc9-b680-03249990e558",
-              "display": "HOLYOKE MEDICAL CENTER"
+              "reference": "urn:uuid:56090ab7-1f97-37ff-a434-194f9c6e5510",
+              "display": "PCP87052"
             }
           }
         ],
         "authorizingPrescription": [
           {
-            "reference": "urn:uuid:1f50f7e0-ada9-752c-6cb6-9f4022f76c13",
-            "display": "Aspirin 81 MG Oral Tablet"
+            "reference": "urn:uuid:c98ce29f-de0d-377b-db87-bccbd618d7e3",
+            "display": "Furosemide 40 MG Oral Tablet"
           }
         ],
         "type": {

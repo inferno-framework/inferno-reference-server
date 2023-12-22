@@ -27658,15 +27658,17 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
-        "interpretation": {
-          "coding": [
-              {
-                  "code": "B",
-                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                  "display": "Better"
-              }
-          ]
-        },
+        "interpretation": [
+          {
+            "coding": [
+                {
+                    "code": "B",
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                    "display": "Better"
+                }
+            ]
+          }
+        ],
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
