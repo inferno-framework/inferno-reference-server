@@ -5395,15 +5395,15 @@
                   "value": 1.0
                 }
               }
-            ],
-            "dispenseRequest": {
-              "numberOfRepeatsAllowed": 1,
-              "quantity": {
-                "value": 1.0
-              }
-            }
+            ]
           }
         ],
+        "dispenseRequest": {
+          "numberOfRepeatsAllowed": 1,
+          "quantity": {
+            "value": 1.0
+          }
+        },
         "resourceType": "MedicationRequest"
       },
       "request": {

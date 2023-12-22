@@ -640,10 +640,7 @@
         "encounter": {
           "reference": "urn:uuid:65abf8dc-d463-e590-71e7-dea000842f94"
         },
-        "effectivePeriod": {
-          "start": "1940-09-05T19:33:18-04:00",
-          "end": "1940-09-05T20:33:18-04:00"
-        },
+        "effectiveDateTime": "1940-09-05T19:33:18-04:00",
         "issued": "1940-09-05T19:33:18.715-04:00",
         "valueCodeableConcept": {
           "coding": [
