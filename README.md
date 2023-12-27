@@ -21,7 +21,8 @@ Note that sometimes on the initial start up, the database initialization might c
 You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.
 
 
-The database will be initially populated with the resources in `src/main/resources/fhir_resources`. If the server contains any `Patient` resources this process will be skipped, but you can force loading the files in this folder by setting the `FORCE_LOAD_RESOURCES`  environment variable to `true`. Note that if the default files are still present this will result in duplicate data being populated.
+The database will be initially populated with the resources in `./resources/` the next time the server starts. This folder by default contains 3 files, but you can add additional files in the form of transaction Bundles or individual resources, or you can remove the original files to start with an empty server.  
+If the server contains any `Patient` resources the initial loading process will be skipped, but you can force loading the files in this folder by setting the `FORCE_LOAD_RESOURCES`  environment variable to `true`. Note that if the original files are re-loaded in this way, this will result in duplicate data being populated.
 
 ## Running without Docker
 
@@ -48,7 +49,7 @@ The Bulk Data Token Endpoint is `/reference-server/oauth/bulk-token`
 
 The registered Bulk Data Client ID is `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9.eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4`.
 
-`src/main/resources/fhir_resources` provides the following resources:
+`./resources/` provides the following resources:
  - Patients with ids `85` and `355`
  - a Group with id `1a`, containing patients `85` and `355` as members.
 
