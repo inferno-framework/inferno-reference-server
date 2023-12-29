@@ -817,6 +817,12 @@
               "name": "name",
               "type": "string"
             }
+          ],
+          "operation": [
+            {
+              "name": "patient-export",
+              "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/patient-export"
+            }
           ]
         },
         {
@@ -846,12 +852,6 @@
             {
               "name": "identifier",
               "type": "token"
-            }
-          ],
-          "operation": [
-            {
-              "name": "patient-export",
-              "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/patient-export"
             }
           ]
         },
