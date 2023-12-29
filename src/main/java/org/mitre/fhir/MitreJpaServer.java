@@ -3,20 +3,28 @@ package org.mitre.fhir;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
+import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
-import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Map;
 import javax.servlet.ServletException;
+import org.apache.commons.io.FileUtils;
+import org.hl7.fhir.r4.formats.JsonParser;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Resource;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
@@ -34,6 +42,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 public class MitreJpaServer extends RestfulServer {
   private static final long serialVersionUID = 1L;
   private static final String READ_ONLY_ENV_KEY = "READ_ONLY";
+  private static final String FORCE_LOAD_RESOURCES_ENV_KEY = "FORCE_LOAD_RESOURCES";
 
 
   @Autowired
@@ -131,6 +140,61 @@ public class MitreJpaServer extends RestfulServer {
 
     // enable Bulk Export
     registerProvider(authorizationBulkDataExportProvider);
+
+    try {
+      String resourcesFolder = new HapiReferenceServerProperties().getResourcesFolder();
+      Path fhirResources = Paths.get(resourcesFolder);
+      loadResources(appContext, fhirResources);
+    } catch (Exception e) {
+      throw new ServletException("Error in loading resources from file", e);
+    }
   }
 
+  private void loadResources(ApplicationContext appContext, Path fhirResources) throws Exception {
+    DaoRegistry registry = new DaoRegistry(getFhirContext());
+    registry.setApplicationContext(appContext);
+
+    Map<String, Long> resCounts = registry.getSystemDao().getResourceCounts();
+
+    if (resCounts.isEmpty() || resCounts.getOrDefault("Patient", 0L) == 0) {
+      System.out.println("Server is empty. Loading resources from local files.");
+    } else if (Boolean.parseBoolean(System.getenv(FORCE_LOAD_RESOURCES_ENV_KEY))) {
+      System.out.println("Loading resources from local files since FORCE_LOAD_RESOURCES is set.");
+    } else {
+      System.out.println("Server not empty, skipping loading resources from local files.");
+      return;
+    }
+
+    File dir = fhirResources.toFile();
+    File[] files = dir.listFiles((d, name) -> name.endsWith(".json"));
+    if (files == null || files.length == 0) {
+      System.out.println("No resources to load.");
+      return;
+    }
+    Arrays.sort(files); // sort files for consistent and predictable ordering
+    for (File file : files) {
+      try {
+        System.out.println("Loading " + file.getName());
+        Resource resource = new JsonParser().parse(FileUtils.readFileToByteArray(file));
+
+        if (resource instanceof Bundle) {
+          registry.getSystemDao().transaction(null, resource);
+        } else {
+          String resourceType = resource.getResourceType().toString();
+
+          // IMPORTANT: the HAPI parser appends version numbers to this ID when parsing from file,
+          // but not when parsing from the body of an HTTP request, even when the content of both
+          // is exactly the same.
+          // That version number causes pain here, so remove it.
+          resource.setId(resourceType + "/" + resource.getIdElement().getIdPart());
+
+          registry.getResourceDao(resource.fhirType()).update(resource);
+        }
+      } catch (Exception e) {
+        System.out.println("Unable to load " + file.getName());
+        e.printStackTrace();
+      }
+    }
+    System.out.println("Done loading resources.");
+  }
 }

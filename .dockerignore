@@ -4,3 +4,4 @@
 !fhir-pgdata
 !initdb.sql
 !config
+!resources

@@ -21,7 +21,8 @@ Note that sometimes on the initial start up, the database initialization might c
 You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.
 
 
-The database will be initially populated by the default initdb.sql script. To update the default initial data with the data in the current db container, run `docker-compose exec db pg_dump -U postgres postgres  > initdb.sql`
+The database will be initially populated with the resources in `./resources/` the next time the server starts. This folder by default contains 3 files, but you can add additional files in the form of transaction Bundles or individual resources, or you can remove the original files to start with an empty server.  
+If the server contains any `Patient` resources the initial loading process will be skipped, but you can force loading the files in this folder by setting the `FORCE_LOAD_RESOURCES`  environment variable to `true`. Note that if the original files are re-loaded in this way, this will result in duplicate data being populated.
 
 ## Running without Docker
 
@@ -33,8 +34,6 @@ If you cannot run docker, you will need to create a postgres database.
 Once you have done that, update the `src/main/resources/hapi.properties` to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have the provided values).
 
 Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server.
-
-To populate the database with sample data, run `bundle install` then `bundle exec ruby upload.rb` *Note*: make sure the jetty server is running, and that the FHIR_SERVER variable at the top of upload.rb corresponds to your running fhir reference server.
 
 ## Using with Apps
 
@@ -50,9 +49,9 @@ The Bulk Data Token Endpoint is `/reference-server/oauth/bulk-token`
 
 The registered Bulk Data Client ID is `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9.eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4`.
 
-`init.db` provides the following resources:
+`./resources/` provides the following resources:
  - Patients with ids `85` and `355`
- - Groups with ids `1a` and `64fdf2a5-ebad-4ed0-a512-567970843d49`. Both Groups contain patients `85` and `355` as members.
+ - a Group with id `1a`, containing patients `85` and `355` as members.
 
 `upload.rb` includes the resources above, except the Group with id `1a`.
 
