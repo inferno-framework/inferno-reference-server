@@ -1,0 +1,368 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+      {
+          "resource": {
+          "resourceType" : "StructureDefinition",
+          "id" : "condition-assertedDate",
+          "extension" : [{
+              "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+              "valueCode" : "pc"
+          },
+          {
+              "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+              "valueInteger" : 1
+          }],
+          "url" : "http://hl7.org/fhir/StructureDefinition/condition-assertedDate",
+          "version" : "4.0.1",
+          "name" : "assertedDate",
+          "title" : "assertedDate",
+          "status" : "draft",
+          "date" : "2015-02-21",
+          "publisher" : "Health Level Seven, Inc. - FHIR WG",
+          "contact" : [{
+              "telecom" : [{
+              "system" : "url",
+              "value" : "HL7"
+              }]
+          }],
+          "description" : "The date on which the existence of the Condition was first asserted or acknowledged.",
+          "fhirVersion" : "4.0.1",
+          "mapping" : [{
+              "identity" : "rim",
+              "uri" : "http://hl7.org/v3",
+              "name" : "RIM Mapping"
+          }],
+          "kind" : "complex-type",
+          "abstract" : false,
+          "context" : [{
+              "type" : "element",
+              "expression" : "Condition"
+          }],
+          "type" : "Extension",
+          "baseDefinition" : "http://hl7.org/fhir/StructureDefinition/Extension",
+          "derivation" : "constraint",
+          "snapshot" : {
+              "element" : [{
+              "id" : "Extension",
+              "path" : "Extension",
+              "short" : "Date the condition was first asserted",
+              "definition" : "The date on which the existence of the Condition was first asserted or acknowledged.",
+              "comment" : "The assertedDate is in the context of the recording practitioner and might not be the same as the recordedDate.",
+              "min" : 0,
+              "max" : "1",
+              "base" : {
+                  "path" : "Extension",
+                  "min" : 0,
+                  "max" : "*"
+              },
+              "condition" : ["ele-1"],
+              "constraint" : [{
+                  "key" : "ele-1",
+                  "severity" : "error",
+                  "human" : "All FHIR elements must have a @value or children",
+                  "expression" : "hasValue() or (children().count() > id.count())",
+                  "xpath" : "@value|f:*|h:div",
+                  "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+              },
+              {
+                  "key" : "ext-1",
+                  "severity" : "error",
+                  "human" : "Must have either extensions or value[x], not both",
+                  "expression" : "extension.exists() != value.exists()",
+                  "xpath" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])",
+                  "source" : "http://hl7.org/fhir/StructureDefinition/Extension"
+              }],
+              "isModifier" : false
+              },
+              {
+              "id" : "Extension.id",
+              "path" : "Extension.id",
+              "representation" : ["xmlAttr"],
+              "short" : "Unique id for inter-element referencing",
+              "definition" : "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+              "min" : 0,
+              "max" : "1",
+              "base" : {
+                  "path" : "Element.id",
+                  "min" : 0,
+                  "max" : "1"
+              },
+              "type" : [{
+                  "extension" : [{
+                  "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                  "valueUrl" : "string"
+                  }],
+                  "code" : "http://hl7.org/fhirpath/System.String"
+              }],
+              "isModifier" : false,
+              "isSummary" : false,
+              "mapping" : [{
+                  "identity" : "rim",
+                  "map" : "n/a"
+              }]
+              },
+              {
+              "id" : "Extension.extension",
+              "path" : "Extension.extension",
+              "slicing" : {
+                  "discriminator" : [{
+                  "type" : "value",
+                  "path" : "url"
+                  }],
+                  "description" : "Extensions are always sliced by (at least) url",
+                  "rules" : "open"
+              },
+              "short" : "Extension",
+              "definition" : "An Extension",
+              "min" : 0,
+              "max" : "0",
+              "base" : {
+                  "path" : "Element.extension",
+                  "min" : 0,
+                  "max" : "*"
+              },
+              "type" : [{
+                  "code" : "Extension"
+              }],
+              "constraint" : [{
+                  "key" : "ele-1",
+                  "severity" : "error",
+                  "human" : "All FHIR elements must have a @value or children",
+                  "expression" : "hasValue() or (children().count() > id.count())",
+                  "xpath" : "@value|f:*|h:div",
+                  "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+              },
+              {
+                  "key" : "ext-1",
+                  "severity" : "error",
+                  "human" : "Must have either extensions or value[x], not both",
+                  "expression" : "extension.exists() != value.exists()",
+                  "xpath" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                  "source" : "http://hl7.org/fhir/StructureDefinition/Extension"
+              }],
+              "isModifier" : false,
+              "isSummary" : false
+              },
+              {
+              "id" : "Extension.url",
+              "path" : "Extension.url",
+              "representation" : ["xmlAttr"],
+              "short" : "identifies the meaning of the extension",
+              "definition" : "Source of the definition for the extension code - a logical name or a URL.",
+              "comment" : "The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension.",
+              "min" : 1,
+              "max" : "1",
+              "base" : {
+                  "path" : "Extension.url",
+                  "min" : 1,
+                  "max" : "1"
+              },
+              "type" : [{
+                  "extension" : [{
+                  "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                  "valueUrl" : "uri"
+                  }],
+                  "code" : "http://hl7.org/fhirpath/System.String"
+              }],
+              "fixedUri" : "http://hl7.org/fhir/StructureDefinition/condition-assertedDate",
+              "isModifier" : false,
+              "isSummary" : false,
+              "mapping" : [{
+                  "identity" : "rim",
+                  "map" : "N/A"
+              }]
+              },
+              {
+              "id" : "Extension.value[x]",
+              "path" : "Extension.value[x]",
+              "short" : "Value of extension",
+              "definition" : "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+              "min" : 1,
+              "max" : "1",
+              "base" : {
+                  "path" : "Extension.value[x]",
+                  "min" : 0,
+                  "max" : "1"
+              },
+              "type" : [{
+                  "code" : "dateTime"
+              }],
+              "constraint" : [{
+                  "key" : "ele-1",
+                  "severity" : "error",
+                  "human" : "All FHIR elements must have a @value or children",
+                  "expression" : "hasValue() or (children().count() > id.count())",
+                  "xpath" : "@value|f:*|h:div",
+                  "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+              }],
+              "isModifier" : false,
+              "isSummary" : false,
+              "mapping" : [{
+                  "identity" : "rim",
+                  "map" : "N/A"
+              }]
+              }]
+          },
+          "differential" : {
+              "element" : [{
+              "id" : "Extension",
+              "path" : "Extension",
+              "short" : "Date the condition was first asserted",
+              "definition" : "The date on which the existence of the Condition was first asserted or acknowledged.",
+              "comment" : "The assertedDate is in the context of the recording practitioner and might not be the same as the recordedDate.",
+              "min" : 0,
+              "max" : "1"
+              },
+              {
+              "id" : "Extension.extension",
+              "path" : "Extension.extension",
+              "max" : "0"
+              },
+              {
+              "id" : "Extension.url",
+              "path" : "Extension.url",
+              "fixedUri" : "http://hl7.org/fhir/StructureDefinition/condition-assertedDate"
+              },
+              {
+              "id" : "Extension.value[x]",
+              "path" : "Extension.value[x]",
+              "min" : 1,
+              "type" : [{
+                  "code" : "dateTime"
+              }]
+              }]
+          }
+          },
+          "request": {
+              "method": "POST",
+              "url": "StructureDefinition"
+          }
+      },
+      {
+          "resource":{
+            "resourceType" : "SearchParameter",
+            "id" : "us-core-condition-asserted-date",
+            "text" : {
+              "status" : "generated",
+              "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">  <!-- <h2>SearchParameter: USCoreConditionAssertedDate</h2>\n\t\t\t\t<b> description</b> : <p>Returns conditions with an <a href=\"http://hl7.org/fhir/StructureDefinition/condition-assertedDate\">assertedDate extension</a> matching the specified date (dateTime).</p>\n\n\t\t\t<br/> --><p><b> id</b> us-core-condition-asserted-date</p><p><b> url</b> : <b> http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-asserted-date</b>\n\t\t\t</p><p><b> name</b> : USCoreConditionAssertedDate</p><p><b> status</b> : active</p><p><b> date</b> : 04/13/2023</p><p><b> publisher</b> : HL7 International - Cross-Group Projects</p><p><b> contact</b> : http://www.hl7.org/Special/committees/cgp</p>  <!-- <p>\n\t\t\t\t<b> useContext</b> : </p> --><p><b> jurisdiction</b> : United States of America (the) <span> (Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America', given as 'United\n           States of America (the)'})</span>\n\t\t\t</p>  <!-- <p>\n\t\t<b> purpose</b> : Need to search by identifier for various infrastructural cases - mainly retrieving packages,\n         and matching as part of a chain</p> --><p><b> code</b> : <code>asserted-date</code>\n\t\t\t</p><p><b> base</b> :Condition</p><p><b> type</b> : date</p><p><b> expression</b> : <code>Condition.extension.where(url = 'http://hl7.org/fhir/StructureDefinition/condition-assertedDate').value</code>\n\t\t\t</p><p><b> xpath</b> : <code>f:Condition/f:extension[@url='http://hl7.org/fhir/StructureDefinition/condition-assertedDate']/f:valueDateTime/@value</code>\n\t\t\t</p><p><b> xpathUsage</b> : normal</p><p><b> mulitpleOr</b> : True   (Conformance Expectation = MAY)</p><p><b> mulitpleAnd</b> : True  ( Conformance Expectation = SHOULD)</p><p><b> comparator</b> : <code>eq</code> ( Conformance Expectation = MAY)</p><p><b> comparator</b> : <code>ne</code> ( Conformance Expectation = MAY)</p><p><b> comparator</b> : <code>gt</code> ( Conformance Expectation = SHALL)</p><p><b> comparator</b> : <code>ge</code> ( Conformance Expectation = SHALL)</p><p><b> comparator</b> : <code>lt</code> ( Conformance Expectation = SHALL)</p><p><b> comparator</b> : <code>le</code> ( Conformance Expectation = SHALL)</p><p><b> comparator</b> : <code>sa</code> ( Conformance Expectation = MAY)</p><p><b> comparator</b> : <code>eb</code> ( Conformance Expectation = MAY)</p><p><b> comparator</b> : <code>ap</code> ( Conformance Expectation = MAY)</p></div>"
+            },
+            "extension" : [{
+              "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+              "valueCode" : "cgp"
+            }],
+            "url" : "http://hl7.org/fhir/us/core/SearchParameter/us-core-condition-asserted-date",
+            "version" : "7.0.0-ballot",
+            "name" : "USCoreConditionAssertedDate",
+            "status" : "active",
+            "date" : "2023-04-13",
+            "publisher" : "HL7 International / Cross-Group Projects",
+            "contact" : [{
+              "name" : "HL7 International / Cross-Group Projects",
+              "telecom" : [{
+                "system" : "url",
+                "value" : "http://www.hl7.org/Special/committees/cgp"
+              },
+              {
+                "system" : "email",
+                "value" : "cgp@lists.HL7.org"
+              }]
+            }],
+            "description" : "Returns conditions with an [assertedDate extension](http://hl7.org/fhir/StructureDefinition/condition-assertedDate) matching the specified date (dateTime).",
+            "jurisdiction" : [{
+              "coding" : [{
+                "system" : "urn:iso:std:iso:3166",
+                "code" : "US"
+              }]
+            }],
+            "code" : "asserted-date",
+            "base" : ["Condition"],
+            "type" : "date",
+            "expression" : "Condition.extension.where(url = 'http://hl7.org/fhir/StructureDefinition/condition-assertedDate').value",
+            "xpathUsage" : "normal",
+            "multipleOr" : true,
+            "_multipleOr" : {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "MAY"
+              }]
+            },
+            "multipleAnd" : true,
+            "_multipleAnd" : {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "SHOULD"
+              }]
+            },
+            "comparator" : ["eq",
+            "ne",
+            "gt",
+            "ge",
+            "lt",
+            "le",
+            "sa",
+            "eb",
+            "ap"],
+            "_comparator" : [{
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "MAY"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "MAY"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "SHALL"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "SHALL"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "SHALL"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "SHALL"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "MAY"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "MAY"
+              }]
+            },
+            {
+              "extension" : [{
+                "url" : "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode" : "MAY"
+              }]
+            }]
+          },
+          "request":{
+            "method": "POST",
+            "url": "SearchParameter"
+          }
+      }
+  ]
+}
