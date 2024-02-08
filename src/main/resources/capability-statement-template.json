@@ -472,7 +472,7 @@
           "type": "Group",
           "operation": [
             {
-              "name": "group-export",
+              "name": "export",
               "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export"
             }
           ]
@@ -820,7 +820,7 @@
           ],
           "operation": [
             {
-              "name": "patient-export",
+              "name": "export",
               "definition": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/patient-export"
             }
           ]
