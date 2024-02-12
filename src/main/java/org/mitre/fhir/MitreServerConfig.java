@@ -3,6 +3,7 @@ package org.mitre.fhir;
 import ca.uhn.fhir.jpa.api.config.DaoConfig;
 import ca.uhn.fhir.jpa.api.config.DaoConfig.ClientIdStrategyEnum;
 import ca.uhn.fhir.jpa.api.config.DaoConfig.IdStrategyEnum;
+import ca.uhn.fhir.jpa.api.config.DaoConfig.IndexEnabledEnum;
 import ca.uhn.fhir.jpa.batch.config.NonPersistedBatchConfigurer;
 import ca.uhn.fhir.jpa.bulk.export.job.GroupBulkItemReader;
 import ca.uhn.fhir.jpa.config.BaseJavaConfigR4;
@@ -54,6 +55,7 @@ public class MitreServerConfig extends BaseJavaConfigR4 {
     DaoConfig config = new DaoConfig();
     config.setAllowExternalReferences(true);
     config.getTreatBaseUrlsAsLocal().add("http://hl7.org/fhir/us/core/");
+    config.setIndexMissingFields(IndexEnabledEnum.ENABLED);
 
     // Auto-create placeholder reference targets to allow loading resources in any order
     config.setAutoCreatePlaceholderReferenceTargets(true);
