@@ -127,7 +127,7 @@ public class AuthorizationController {
         + "0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4";
     if (!clientId.equals(decodedJwt.getIssuer())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Issuer should be " + BULK_EXPECTED_CLIENT_ASSERTION_TYPE);
+          "Issuer should be " + clientId);
     }
 
     TokenManager tokenManager = TokenManager.getInstance();
@@ -228,7 +228,7 @@ public class AuthorizationController {
                                         "Bad Grant Type: " + grantType);
     }
 
-    String clientId = validateClient(request, clientIdRequestParam);
+    String clientId = validateClient(request, clientIdRequestParam, clientAssertionType, clientAssertion);
 
     String patientId = "";
     String encounterId = "";
@@ -255,25 +255,35 @@ public class AuthorizationController {
                                       "No code or refresh token provided.");
   }
 
-  private static String validateClient(HttpServletRequest request, String clientIdRequestParam) {
-    // check client id and client secret if the server is confidential
-    String basicHeader = getBasicHeader(request);
-
+  private static String validateClient(HttpServletRequest request, String clientIdRequestParam, String clientAssertionType, String clientAssertion) {
     String clientId;
     String clientSecret = null;
 
-    // if basic header exists, extract clientId and clientSecret from basic header
-    if (basicHeader != null) {
-      String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
-      String[] splitDecodedValue = decodedValue.split(":");
-      // client id is username, and should be before ':'
-      clientId = splitDecodedValue[0];
-      // client secret is password, and should be after ':'
+    if (clientAssertionType == null) {
+      // check client id and client secret if the server is confidential
+      String basicHeader = getBasicHeader(request);
 
-      clientSecret = splitDecodedValue.length >= 2 ? splitDecodedValue[1] : "";
+
+      // if basic header exists, extract clientId and clientSecret from basic header
+      if (basicHeader != null) {
+        String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
+        String[] splitDecodedValue = decodedValue.split(":");
+        // client id is username, and should be before ':'
+        clientId = splitDecodedValue[0];
+        // client secret is password, and should be after ':'
+
+        clientSecret = splitDecodedValue.length >= 2 ? splitDecodedValue[1] : "";
+      } else {
+        // if no basic auth, client id should be supplied as request param
+        clientId = clientIdRequestParam;
+      }
+    } else if (BULK_EXPECTED_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
+      // confindential asymmetric
+      DecodedJWT decodedJwt = JWT.decode(clientAssertion);
+      clientId = decodedJwt.getIssuer();
     } else {
-      // if no basic auth, client id should be supplied as request param
-      clientId = clientIdRequestParam;
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Unexpected Client Assertion Type: " + clientAssertionType);
     }
 
     authenticateClientIdAndClientSecret(clientId, clientSecret);

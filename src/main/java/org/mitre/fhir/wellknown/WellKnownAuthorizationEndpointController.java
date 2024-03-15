@@ -34,6 +34,7 @@ public class WellKnownAuthorizationEndpointController {
       "launch-ehr",
       "launch-standalone",
       "client-public",
+      "client-confidential-asymmetric",
       "client-confidential-symmetric",
       "sso-openid-connect",
       "context-banner",
