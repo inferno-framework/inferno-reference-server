@@ -8,7 +8,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +21,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -60,10 +58,10 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class AuthorizationController {
 
-  private static final String BULK_EXPECTED_GRANT_TYPE = "client_credentials";
+  private static final String CLIENT_CREDENTIALS_GRANT_TYPE = "client_credentials";
   private static final String AUTHORIZATION_CODE_GRANT_TYPE = "authorization_code";
   private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
-  private static final String BULK_EXPECTED_CLIENT_ASSERTION_TYPE =
+  private static final String JWT_BEARER_CLIENT_ASSERTION_TYPE =
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 
   @PostConstruct
@@ -107,15 +105,15 @@ public class AuthorizationController {
     validateBulkDataScopes(scopeString);
 
     // check grant_type
-    if (!BULK_EXPECTED_GRANT_TYPE.equals(grantType)) {
+    if (!CLIENT_CREDENTIALS_GRANT_TYPE.equals(grantType)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Grant Type should be " + BULK_EXPECTED_GRANT_TYPE);
+          "Grant Type should be " + CLIENT_CREDENTIALS_GRANT_TYPE);
     }
 
     // check client_assertion_type
-    if (!BULK_EXPECTED_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
+    if (!JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Client Assertion Type should be " + BULK_EXPECTED_CLIENT_ASSERTION_TYPE);
+          "Client Assertion Type should be " + JWT_BEARER_CLIENT_ASSERTION_TYPE);
     }
 
     // validate client_assertion (jwt)
@@ -214,7 +212,7 @@ public class AuthorizationController {
 
     Log.info("code is " + code);
 
-    if (BULK_EXPECTED_GRANT_TYPE.equals(grantType)) {
+    if (CLIENT_CREDENTIALS_GRANT_TYPE.equals(grantType)) {
       return getTokenByBackendServiceAuthorization(
                                                    scopes,
                                                    grantType,
@@ -228,10 +226,8 @@ public class AuthorizationController {
                                         "Bad Grant Type: " + grantType);
     }
 
-    String clientId = validateClient(request, clientIdRequestParam, clientAssertionType, clientAssertion);
-
-    String patientId = "";
-    String encounterId = "";
+    String clientId =
+        validateClient(request, clientIdRequestParam, clientAssertionType, clientAssertion);
 
     if (code != null) {
       return validateCode(request, code, clientId, codeVerifier);
@@ -240,8 +236,8 @@ public class AuthorizationController {
       try {
         if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
           Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
-          patientId = refreshToken.getPatientId();
-          encounterId = refreshToken.getEncounterId();
+          String patientId = refreshToken.getPatientId();
+          String encounterId = refreshToken.getEncounterId();
           String refreshTokenScopes = refreshToken.getScopesString();
           return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
            encounterId);
@@ -255,14 +251,14 @@ public class AuthorizationController {
                                       "No code or refresh token provided.");
   }
 
-  private static String validateClient(HttpServletRequest request, String clientIdRequestParam, String clientAssertionType, String clientAssertion) {
+  private static String validateClient(HttpServletRequest request, String clientIdRequestParam,
+      String clientAssertionType, String clientAssertion) {
     String clientId;
     String clientSecret = null;
 
     if (clientAssertionType == null) {
       // check client id and client secret if the server is confidential
       String basicHeader = getBasicHeader(request);
-
 
       // if basic header exists, extract clientId and clientSecret from basic header
       if (basicHeader != null) {
@@ -277,7 +273,7 @@ public class AuthorizationController {
         // if no basic auth, client id should be supplied as request param
         clientId = clientIdRequestParam;
       }
-    } else if (BULK_EXPECTED_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
+    } else if (JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
       // confindential asymmetric
       DecodedJWT decodedJwt = JWT.decode(clientAssertion);
       clientId = decodedJwt.getIssuer();
