@@ -252,6 +252,24 @@
         },
         "status": "active",
         "name": "PCP87052",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad"
+          }
+        ],
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "ORTHO",
+                "display": "Orthopedics clinic"
+              }
+            ],
+            "text": "Orthopedics clinic"
+          }
+        ],
         "telecom": [
           {
             "system": "phone",
