@@ -4,13 +4,22 @@ package org.mitre.fhir.authorization;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import com.auth0.jwk.InvalidPublicKeyException;
+import com.auth0.jwk.Jwk;
+import com.auth0.jwk.JwkException;
+import com.auth0.jwk.JwkProvider;
+import com.auth0.jwk.SigningKeyNotFoundException;
+import com.auth0.jwk.UrlJwkProvider;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -274,9 +283,50 @@ public class AuthorizationController {
         clientId = clientIdRequestParam;
       }
     } else if (JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
-      // confindential asymmetric
+      // confidential asymmetric
       DecodedJWT decodedJwt = JWT.decode(clientAssertion);
       clientId = decodedJwt.getIssuer();
+
+      try {
+        // In this case we cache the JWKS file locally, but
+        // this verification is normally done against the registered JWKS for the given client, eg:
+        // JwkProvider provider = new UrlJwkProvider("https://inferno.healthit.gov/suites/custom/smart_stu2/");
+        HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
+        URL jwks = AuthorizationController.class.getResource(properties.getAsymmetricClientJwks());
+        JwkProvider provider = new UrlJwkProvider(jwks);
+        Jwk jwk = provider.get(decodedJwt.getKeyId());
+        Algorithm algorithm;
+        if (decodedJwt.getAlgorithm().equals("RS384")) {
+          algorithm = Algorithm.RSA384((RSAPublicKey) jwk.getPublicKey(), null);
+        } else if (decodedJwt.getAlgorithm().equals("ES384")) {
+          algorithm = Algorithm.ECDSA384((ECPublicKey) jwk.getPublicKey(), null);
+        } else {
+          // the above are the only 2 options supported in the SMART app launch test kit.
+          // if more are added, report support for them in the WellKnownAuthorizationEndpointController
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+              "Unsupported encryption method " + decodedJwt.getAlgorithm());
+        }
+
+        algorithm.verify(decodedJwt);
+      } catch (SignatureVerificationException e) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Client Assertion JWT failed signature verification", e);
+      } catch (SigningKeyNotFoundException e) {
+        // thrown by provider.get(jwt.kid) above
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "No key found with kid " + decodedJwt.getKeyId(), e);
+      } catch (InvalidPublicKeyException e) {
+        // thrown by jwk.getPublicKey above, should never happen
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "Failed to parse public key", e);
+      } catch (JwkException e) {
+        // thrown by provider.get(jwt.kid) above,
+        // shouldn't be possible in practice as the method only throws
+        //  the more specific SigningKeyNotFound
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "Unknown error occurred", e);
+      }
+
     } else {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "Unexpected Client Assertion Type: " + clientAssertionType);
@@ -554,7 +604,8 @@ public class AuthorizationController {
   private static void authorizeClientId(String clientId) {
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
     if (!properties.getPublicClientId().equals(clientId)
-        && !properties.getConfidentialClientId().equals(clientId)) {
+        && !properties.getConfidentialClientId().equals(clientId)
+        && !properties.getAsymmetricClientId().equals(clientId)) {
       throw new InvalidClientIdException(clientId);
     }
   }

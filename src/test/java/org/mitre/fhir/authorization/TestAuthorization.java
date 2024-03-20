@@ -6,6 +6,7 @@ import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import ca.uhn.fhir.rest.server.exceptions.AuthenticationException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -16,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPrivateKey;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -623,6 +625,70 @@ public class TestAuthorization {
 
     AuthorizationController authorizationController = new AuthorizationController();
     authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, null, "authorization_code", null, null, null, request);
+  }
+  
+  @Test
+  public void testGetTokenWithhWithConfidentialAsymmetricClient()
+      throws Exception {
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+
+    String scopes = "";
+    
+    String asymmetricClientID = "SAMPLE_ASYMMETRIC_CLIENT_ID";
+    // the key at src/test/resources/client_signing_key.key was generated via a JWK-to-PEM with the RSA private key from
+    // https://github.com/inferno-framework/smart-app-launch-test-kit/blob/main/lib/smart_app_launch/smart_jwks.json
+    RSAPrivateKey privateKey = RsaUtils.getRsaPrivateKey("/client_signing_key.key");
+    Algorithm algorithm = Algorithm.RSA384(null, privateKey);
+    
+    String clientAssertionType = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    String clientAssertion = JWT.create()
+        .withIssuer(asymmetricClientID)
+        .withSubject(asymmetricClientID)
+        .withKeyId("b41528b6f37a9500edb8a905a595bdd7")
+        .sign(algorithm);
+
+    AuthorizationController authorizationController = new AuthorizationController();
+    // no error should be thrown
+    authorizationController.getToken(
+        FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart()), null,
+        null, null, "authorization_code", null, clientAssertionType, clientAssertion, request);
+  }
+
+  @Test
+  public void testGetTokenWithBasicAuthWithInvalidSignature()
+      throws JSONException, BearerTokenException, TokenNotFoundException, RsaKeyException {
+    String serverBaseUrl = "";
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setLocalAddr("localhost");
+    request.setRequestURI(serverBaseUrl);
+    request.setServerPort(TestUtils.TEST_PORT);
+
+    String asymmetricClientID = "SAMPLE_ASYMMETRIC_CLIENT_ID";
+    // the private key of this server doesn't match the private key of the client
+    // so signing with it should produce an error
+    RSAPrivateKey privateKey = RsaUtils.getRsaPrivateKey();
+    Algorithm algorithm = Algorithm.RSA384(null, privateKey);
+    
+    String clientAssertionType = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    String clientAssertion = JWT.create()
+        .withIssuer(asymmetricClientID)
+        .withSubject(asymmetricClientID)
+        .withKeyId("b41528b6f37a9500edb8a905a595bdd7")
+        .sign(algorithm);
+    
+    AuthorizationController authorizationController = new AuthorizationController();
+    
+    try {
+      authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, null, "authorization_code", null,
+          clientAssertionType, clientAssertion, request);
+      Assert.fail("Token request should have thrown an exception for invalid signature");
+    } catch (ResponseStatusException e) {
+      Assert.assertTrue(e.getCause() instanceof SignatureVerificationException); 
+    }
   }
 
   @Test

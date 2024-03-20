@@ -4,6 +4,7 @@ import com.github.dnault.xmlpatch.internal.Log;
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
@@ -95,6 +96,9 @@ public class WellKnownAuthorizationEndpointController {
         FhirReferenceServerUtils.getFhirServerBaseUrl(theRequest) + "/.well-known/jwk");
     wellKnownJson.put(WELL_KNOWN_INTROSPECTION_ENDPOINT_KEY,
         ServerConformanceWithAuthorizationProvider.getIntrospectExtensionUri(theRequest));
+    wellKnownJson.put("token_endpoint_auth_methods_supported", List.of("private_key_jwt"));
+    wellKnownJson.put("token_endpoint_auth_signing_alg_values_supported",
+        List.of("RS384", "ES384"));
 
     return wellKnownJson.toString();
   }
