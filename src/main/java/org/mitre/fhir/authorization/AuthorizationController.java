@@ -302,7 +302,7 @@ public class AuthorizationController {
           algorithm = Algorithm.ECDSA384((ECPublicKey) jwk.getPublicKey(), null);
         } else {
           // the above are the only 2 options supported in the SMART app launch test kit.
-          // if more are added, report support for them in the WellKnownAuthorizationEndpointController
+          // if more are added, report support for them in WellKnownAuthorizationEndpointController
           throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
               "Unsupported encryption method " + decodedJwt.getAlgorithm());
         }
