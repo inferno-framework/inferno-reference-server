@@ -38,6 +38,8 @@ public class HapiReferenceServerProperties {
   private static final String CONFIDENTIAL_CLIENT_ID_KEY = "inferno.confidential_client_id";
   private static final String CONFIDENTIAL_CLIENT_SECRET_KEY = "inferno.confidential_client_secret";
   private static final String BULK_CLIENT_ID = "inferno.bulk_client_id";
+  private static final String ASYMMETRIC_CLIENT_ID = "inferno.asymmetric_client_id";
+  private static final String ASYMMETRIC_CLIENT_JWKS = "inferno.asymmetric_client_jwks";
   private static final String GROUP_ID = "inferno.group_id";
   private static final String RESOURCES_FOLDER = "inferno.resources_folder";
 
@@ -294,6 +296,26 @@ public class HapiReferenceServerProperties {
   public String getBulkClientId() {
     String bulkClientId = properties.getProperty(BULK_CLIENT_ID);
     return bulkClientId;
+  }
+
+  /**
+   * Returns the Asymmetric Client ID Property.
+   *
+   * @return the property
+   */
+  public String getAsymmetricClientId() {
+    String asymmetricClientId = properties.getProperty(ASYMMETRIC_CLIENT_ID);
+    return asymmetricClientId;
+  }
+
+  /**
+   * Returns the Asymmetric Client JWKS Property.
+   *
+   * @return the property
+   */
+  public String getAsymmetricClientJwks() {
+    String asymmetricClientJwks = properties.getProperty(ASYMMETRIC_CLIENT_JWKS);
+    return asymmetricClientJwks;
   }
 
   /**

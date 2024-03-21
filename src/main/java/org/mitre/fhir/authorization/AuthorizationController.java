@@ -4,14 +4,22 @@ package org.mitre.fhir.authorization;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import com.auth0.jwk.InvalidPublicKeyException;
+import com.auth0.jwk.Jwk;
+import com.auth0.jwk.JwkException;
+import com.auth0.jwk.JwkProvider;
+import com.auth0.jwk.SigningKeyNotFoundException;
+import com.auth0.jwk.UrlJwkProvider;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
-import java.math.BigInteger;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -22,7 +30,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -60,10 +67,10 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class AuthorizationController {
 
-  private static final String BULK_EXPECTED_GRANT_TYPE = "client_credentials";
+  private static final String CLIENT_CREDENTIALS_GRANT_TYPE = "client_credentials";
   private static final String AUTHORIZATION_CODE_GRANT_TYPE = "authorization_code";
   private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
-  private static final String BULK_EXPECTED_CLIENT_ASSERTION_TYPE =
+  private static final String JWT_BEARER_CLIENT_ASSERTION_TYPE =
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
 
   @PostConstruct
@@ -107,15 +114,15 @@ public class AuthorizationController {
     validateBulkDataScopes(scopeString);
 
     // check grant_type
-    if (!BULK_EXPECTED_GRANT_TYPE.equals(grantType)) {
+    if (!CLIENT_CREDENTIALS_GRANT_TYPE.equals(grantType)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Grant Type should be " + BULK_EXPECTED_GRANT_TYPE);
+          "Grant Type should be " + CLIENT_CREDENTIALS_GRANT_TYPE);
     }
 
     // check client_assertion_type
-    if (!BULK_EXPECTED_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
+    if (!JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Client Assertion Type should be " + BULK_EXPECTED_CLIENT_ASSERTION_TYPE);
+          "Client Assertion Type should be " + JWT_BEARER_CLIENT_ASSERTION_TYPE);
     }
 
     // validate client_assertion (jwt)
@@ -127,7 +134,7 @@ public class AuthorizationController {
         + "0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4";
     if (!clientId.equals(decodedJwt.getIssuer())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Issuer should be " + BULK_EXPECTED_CLIENT_ASSERTION_TYPE);
+          "Issuer should be " + clientId);
     }
 
     TokenManager tokenManager = TokenManager.getInstance();
@@ -214,7 +221,7 @@ public class AuthorizationController {
 
     Log.info("code is " + code);
 
-    if (BULK_EXPECTED_GRANT_TYPE.equals(grantType)) {
+    if (CLIENT_CREDENTIALS_GRANT_TYPE.equals(grantType)) {
       return getTokenByBackendServiceAuthorization(
                                                    scopes,
                                                    grantType,
@@ -228,10 +235,8 @@ public class AuthorizationController {
                                         "Bad Grant Type: " + grantType);
     }
 
-    String clientId = validateClient(request, clientIdRequestParam);
-
-    String patientId = "";
-    String encounterId = "";
+    String clientId =
+        validateClient(request, clientIdRequestParam, clientAssertionType, clientAssertion);
 
     if (code != null) {
       return validateCode(request, code, clientId, codeVerifier);
@@ -240,8 +245,8 @@ public class AuthorizationController {
       try {
         if (TokenManager.getInstance().authenticateRefreshToken(refreshTokenValue)) {
           Token refreshToken = TokenManager.getInstance().getRefreshToken(refreshTokenValue);
-          patientId = refreshToken.getPatientId();
-          encounterId = refreshToken.getEncounterId();
+          String patientId = refreshToken.getPatientId();
+          String encounterId = refreshToken.getEncounterId();
           String refreshTokenScopes = refreshToken.getScopesString();
           return generateBearerTokenResponse(request, clientId, refreshTokenScopes, patientId,
            encounterId);
@@ -255,25 +260,76 @@ public class AuthorizationController {
                                       "No code or refresh token provided.");
   }
 
-  private static String validateClient(HttpServletRequest request, String clientIdRequestParam) {
-    // check client id and client secret if the server is confidential
-    String basicHeader = getBasicHeader(request);
-
+  private static String validateClient(HttpServletRequest request, String clientIdRequestParam,
+      String clientAssertionType, String clientAssertion) {
     String clientId;
     String clientSecret = null;
 
-    // if basic header exists, extract clientId and clientSecret from basic header
-    if (basicHeader != null) {
-      String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
-      String[] splitDecodedValue = decodedValue.split(":");
-      // client id is username, and should be before ':'
-      clientId = splitDecodedValue[0];
-      // client secret is password, and should be after ':'
+    if (clientAssertionType == null) {
+      // check client id and client secret if the server is confidential
+      String basicHeader = getBasicHeader(request);
 
-      clientSecret = splitDecodedValue.length >= 2 ? splitDecodedValue[1] : "";
+      // if basic header exists, extract clientId and clientSecret from basic header
+      if (basicHeader != null) {
+        String decodedValue = getDecodedBasicAuthorizationString(basicHeader);
+        String[] splitDecodedValue = decodedValue.split(":");
+        // client id is username, and should be before ':'
+        clientId = splitDecodedValue[0];
+        // client secret is password, and should be after ':'
+
+        clientSecret = splitDecodedValue.length >= 2 ? splitDecodedValue[1] : "";
+      } else {
+        // if no basic auth, client id should be supplied as request param
+        clientId = clientIdRequestParam;
+      }
+    } else if (JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
+      // confidential asymmetric
+      DecodedJWT decodedJwt = JWT.decode(clientAssertion);
+      clientId = decodedJwt.getIssuer();
+
+      try {
+        // In this case we cache the JWKS file locally, but
+        // this verification is normally done against the registered JWKS for the given client, eg:
+        // JwkProvider provider = new UrlJwkProvider("https://inferno.healthit.gov/suites/custom/smart_stu2/");
+        HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
+        URL jwks = AuthorizationController.class.getResource(properties.getAsymmetricClientJwks());
+        JwkProvider provider = new UrlJwkProvider(jwks);
+        Jwk jwk = provider.get(decodedJwt.getKeyId());
+        Algorithm algorithm;
+        if (decodedJwt.getAlgorithm().equals("RS384")) {
+          algorithm = Algorithm.RSA384((RSAPublicKey) jwk.getPublicKey(), null);
+        } else if (decodedJwt.getAlgorithm().equals("ES384")) {
+          algorithm = Algorithm.ECDSA384((ECPublicKey) jwk.getPublicKey(), null);
+        } else {
+          // the above are the only 2 options supported in the SMART app launch test kit.
+          // if more are added, report support for them in WellKnownAuthorizationEndpointController
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+              "Unsupported encryption method " + decodedJwt.getAlgorithm());
+        }
+
+        algorithm.verify(decodedJwt);
+      } catch (SignatureVerificationException e) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Client Assertion JWT failed signature verification", e);
+      } catch (SigningKeyNotFoundException e) {
+        // thrown by provider.get(jwt.kid) above
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "No key found with kid " + decodedJwt.getKeyId(), e);
+      } catch (InvalidPublicKeyException e) {
+        // thrown by jwk.getPublicKey above, should never happen
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "Failed to parse public key", e);
+      } catch (JwkException e) {
+        // thrown by provider.get(jwt.kid) above,
+        // shouldn't be possible in practice as the method only throws
+        //  the more specific SigningKeyNotFound
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "Unknown error occurred", e);
+      }
+
     } else {
-      // if no basic auth, client id should be supplied as request param
-      clientId = clientIdRequestParam;
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "Unexpected Client Assertion Type: " + clientAssertionType);
     }
 
     authenticateClientIdAndClientSecret(clientId, clientSecret);
@@ -548,7 +604,8 @@ public class AuthorizationController {
   private static void authorizeClientId(String clientId) {
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
     if (!properties.getPublicClientId().equals(clientId)
-        && !properties.getConfidentialClientId().equals(clientId)) {
+        && !properties.getConfidentialClientId().equals(clientId)
+        && !properties.getAsymmetricClientId().equals(clientId)) {
       throw new InvalidClientIdException(clientId);
     }
   }
