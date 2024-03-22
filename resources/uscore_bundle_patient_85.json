@@ -18329,6 +18329,12 @@
               "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
               "display": "Dr. Willena258 Oberbrunner298"
             }
+          },
+          {
+            "actor":
+            {
+              "reference": "urn:uuid:8e81b028-5271-9eda-b6c0-0e308770ee50"
+            }
           }
         ],
         "authorizingPrescription":
@@ -18384,6 +18390,11 @@
             "actor": {
               "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
               "display": "Dr. Melvin857 Torp761"
+            }
+          },
+          {
+            "actor": {
+              "reference": "urn:uuid:9482b2d2-b99e-f930-06bd-6129c921328f"
             }
           },
           {
