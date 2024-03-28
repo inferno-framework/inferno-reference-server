@@ -8,7 +8,6 @@ import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import com.github.dnault.xmlpatch.internal.Log;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Base64;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -20,12 +19,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
+import org.mitre.fhir.authorization.exception.OAuth2Exception;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.TestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.server.ResponseStatusException;
 
 
 
@@ -43,7 +42,7 @@ public class TestAuthorizationWithNoData {
   private static Server ourServer;
   private static String ourServerBase;
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testGetTokenNoEncounterProvided() throws IOException, BearerTokenException {
     Patient pt = new Patient();
     pt.addName().setFamily("Test");
@@ -83,7 +82,7 @@ public class TestAuthorizationWithNoData {
         .execute();
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testGetTokenNoPatientProvided() throws IOException, BearerTokenException {
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
@@ -113,7 +112,7 @@ public class TestAuthorizationWithNoData {
 
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testGetTokenNoPatientOrEncounter() throws IOException, BearerTokenException {
 
     String serverBaseUrl = "";

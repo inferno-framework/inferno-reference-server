@@ -39,11 +39,11 @@ import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
 import org.json.JSONObject;
 import org.mitre.fhir.HapiReferenceServerProperties;
-import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
-import org.mitre.fhir.authorization.exception.InvalidScopesException;
+import org.mitre.fhir.authorization.exception.OAuth2Exception;
+import org.mitre.fhir.authorization.exception.OAuth2Exception.ErrorCode;
 import org.mitre.fhir.authorization.exception.OpenIdTokenGenerationException;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
@@ -55,13 +55,14 @@ import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -88,7 +89,7 @@ public class AuthorizationController {
    */
   @GetMapping(path = "authorizeClientId/{clientId}", produces = {"application/json"})
   public String validateClientId(@PathVariable String clientId, HttpServletRequest request) {
-    authorizeClientId(clientId);
+    authorizeClientId(clientId, false);
     IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
     Bundle patientsBundle = FhirUtils.getPatientsBundle(client);
     return FhirContext.forR4().newJsonParser().encodeResourceToString(patientsBundle);
@@ -98,42 +99,32 @@ public class AuthorizationController {
    * Get service to validate the client id.
    * 
    * @param scopeString client id to be validated
-   * @param grantType the web service request
    * @param clientAssertionType the client assertion_type
    * @param clientAssertion the client assertion
    * @return auth token
    */
   public ResponseEntity<String> getTokenByBackendServiceAuthorization(
       String scopeString,
-      String grantType,
       String clientAssertionType,
       String clientAssertion,
-      HttpServletRequest request) throws BearerTokenException {
+      HttpServletRequest request) {
 
     // validate scopes
     validateBulkDataScopes(scopeString);
 
-    // check grant_type
-    if (!CLIENT_CREDENTIALS_GRANT_TYPE.equals(grantType)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "Grant Type should be " + CLIENT_CREDENTIALS_GRANT_TYPE);
-    }
-
     // check client_assertion_type
     if (!JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
           "Client Assertion Type should be " + JWT_BEARER_CLIENT_ASSERTION_TYPE);
     }
 
     // validate client_assertion (jwt)
     DecodedJWT decodedJwt = JWT.decode(clientAssertion);
 
-    String clientId = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9"
-        + ".eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi"
-        + "9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX"
-        + "0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4";
+    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
+    String clientId = properties.getBulkClientId();
     if (!clientId.equals(decodedJwt.getIssuer())) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
           "Issuer should be " + clientId);
     }
 
@@ -194,8 +185,7 @@ public class AuthorizationController {
        invalidScopesString.length() - 1));
 
       String message = "The following scopes are invalid for bulk data : " + invalidScopesString;
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message,
-          new InvalidScopesException(message));
+      throw new OAuth2Exception(ErrorCode.INVALID_SCOPE, message);
     }
   }
 
@@ -204,7 +194,6 @@ public class AuthorizationController {
    *
    * @param code code to get token
    * @return bearer token to be used for authorization
-   * @throws BearerTokenException error generating a bearer token
    */
   @PostMapping(path = "/token", produces = {"application/json"})
   public ResponseEntity<String> getToken(
@@ -212,27 +201,28 @@ public class AuthorizationController {
       @RequestParam(name = "client_id", required = false) String clientIdRequestParam,
       @RequestParam(name = "refresh_token", required = false) String refreshTokenValue,
       @RequestParam(name = "code_verifier", required = false) String codeVerifier,
-      @RequestParam(name = "grant_type", required = true) String grantType,
+      @RequestParam(name = "grant_type", required = false) String grantType,
       @RequestParam(name = "scope", required = false) String scopes,
       @RequestParam(name = "client_assertion_type", required = false) String clientAssertionType,
       @RequestParam(name = "client_assertion", required = false) String clientAssertion,
       HttpServletRequest request
-  ) throws ResponseStatusException, BearerTokenException {
+  ) {
 
     Log.info("code is " + code);
+    if (grantType == null) {
+      throw new OAuth2Exception(ErrorCode.INVALID_REQUEST, "No grant_type provided.");
+    }
 
     if (CLIENT_CREDENTIALS_GRANT_TYPE.equals(grantType)) {
       return getTokenByBackendServiceAuthorization(
                                                    scopes,
-                                                   grantType,
                                                    clientAssertionType,
                                                    clientAssertion,
                                                    request
                                                   );
     } else if (!(AUTHORIZATION_CODE_GRANT_TYPE.equals(grantType)
               || REFRESH_TOKEN_GRANT_TYPE.equals(grantType))) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                                        "Bad Grant Type: " + grantType);
+      throw new OAuth2Exception(ErrorCode.UNSUPPORTED_GRANT_TYPE, "Bad Grant Type: " + grantType);
     }
 
     String clientId =
@@ -252,22 +242,22 @@ public class AuthorizationController {
            encounterId);
         }
       } catch (TokenNotFoundException | InvalidBearerTokenException tokenNotFoundException) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+        throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
             "Refresh Token " + refreshTokenValue + " was not found");
       }
     }
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                                      "No code or refresh token provided.");
+    throw new OAuth2Exception(ErrorCode.INVALID_REQUEST, "No code or refresh token provided.");
   }
 
   private static String validateClient(HttpServletRequest request, String clientIdRequestParam,
       String clientAssertionType, String clientAssertion) {
     String clientId;
     String clientSecret = null;
+    String basicHeader = null;
 
     if (clientAssertionType == null) {
       // check client id and client secret if the server is confidential
-      String basicHeader = getBasicHeader(request);
+      basicHeader = getBasicHeader(request);
 
       // if basic header exists, extract clientId and clientSecret from basic header
       if (basicHeader != null) {
@@ -303,35 +293,36 @@ public class AuthorizationController {
         } else {
           // the above are the only 2 options supported in the SMART app launch test kit.
           // if more are added, report support for them in WellKnownAuthorizationEndpointController
-          throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
               "Unsupported encryption method " + decodedJwt.getAlgorithm());
         }
 
         algorithm.verify(decodedJwt);
       } catch (SignatureVerificationException e) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+        throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
           "Client Assertion JWT failed signature verification", e);
       } catch (SigningKeyNotFoundException e) {
         // thrown by provider.get(jwt.kid) above
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+        throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
           "No key found with kid " + decodedJwt.getKeyId(), e);
       } catch (InvalidPublicKeyException e) {
         // thrown by jwk.getPublicKey above, should never happen
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-          "Failed to parse public key", e);
+        throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Failed to parse public key", e)
+            .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
       } catch (JwkException e) {
         // thrown by provider.get(jwt.kid) above,
         // shouldn't be possible in practice as the method only throws
         //  the more specific SigningKeyNotFound
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-          "Unknown error occurred", e);
+        throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Unknown error occurred", e)
+          .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
       }
 
     } else {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
           "Unexpected Client Assertion Type: " + clientAssertionType);
     }
 
+    authorizeClientId(clientId, basicHeader != null);
     authenticateClientIdAndClientSecret(clientId, clientSecret);
 
     return clientId;
@@ -342,7 +333,7 @@ public class AuthorizationController {
       String encodedCodeString,
       String clientId,
       String codeVerifier
-  ) throws ResponseStatusException, BearerTokenException {
+  ) {
     try {
       String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
       JSONObject codeObject = new JSONObject(rawCodeString);
@@ -378,10 +369,10 @@ public class AuthorizationController {
         return generateBearerTokenResponse(request, clientId, scopes, patientId, encounterId);
       }
     } catch (IllegalArgumentException exception) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
+      throw new OAuth2Exception(ErrorCode.INVALID_GRANT, "Invalid code");
     }
 
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code");
+    throw new OAuth2Exception(ErrorCode.INVALID_GRANT, "Invalid code");
   }
 
   private void validatePkce(
@@ -389,7 +380,7 @@ public class AuthorizationController {
         String codeChallenge,
         String codeVerifier,
         String scopes
-  ) throws ResponseStatusException {
+  ) {
     String[] scopeList = scopes == null ? new String[0] : scopes.split(" ");
 
     Boolean v2ScopeFound = false;
@@ -406,18 +397,17 @@ public class AuthorizationController {
     }
 
     if (codeChallengeMethod != null && !"S256".equalsIgnoreCase(codeChallengeMethod)) {
-      throw new ResponseStatusException(
-          HttpStatus.BAD_REQUEST,
+      throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
           "Only S256 PKCE code challenge method is supported"
       );
     }
 
     if (codeChallenge == null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No code challenge received");
+      throw new OAuth2Exception(ErrorCode.INVALID_GRANT, "No code challenge received");
     }
 
     if (codeVerifier == null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No code verifier received");
+      throw new OAuth2Exception(ErrorCode.INVALID_GRANT, "No code verifier received");
     }
 
     try {
@@ -426,19 +416,19 @@ public class AuthorizationController {
       String hash = Base64.getUrlEncoder().withoutPadding().encodeToString(rawHash);
 
       if (!codeChallenge.equalsIgnoreCase(hash)) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid code verifier");
+        throw new OAuth2Exception(ErrorCode.INVALID_GRANT, "Invalid code verifier");
       }
     } catch (NoSuchAlgorithmException exception) {
-      // This should not be reachable
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to process code verifier");
+      // Thrown by MessageDigest.getInstance("SHA-256"), should not be reachable
+      throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Unable to process code verifier")
+        .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return;
   }
 
   private ResponseEntity<String> generateBearerTokenResponse(HttpServletRequest request,
-      String clientId, String scopes, String patientId, String encounterId)
-        throws BearerTokenException {
+      String clientId, String scopes, String patientId, String encounterId) {
     HttpHeaders headers = new HttpHeaders();
     headers.setCacheControl(CacheControl.noStore());
     headers.setPragma("no-cache");
@@ -451,10 +441,9 @@ public class AuthorizationController {
    * Generates Token in Oauth2 expected format.
    *
    * @return token JSON String
-   * @throws BearerTokenException if token generation runs into an error
    */
   private String generateBearerToken(HttpServletRequest request, String clientId, String scopes,
-      String patientId, String encounterId) throws BearerTokenException {
+      String patientId, String encounterId) {
 
     IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
 
@@ -473,8 +462,8 @@ public class AuthorizationController {
       refreshToken.setEncounterId(encounterId);
       refreshToken.setClientId(clientId);
       refreshTokenValue = refreshToken.getTokenValue();
-    } catch (Exception exception) {
-      throw new BearerTokenException(exception);
+    } catch (TokenNotFoundException e) {
+      throw new OAuth2Exception(ErrorCode.INVALID_GRANT, e);
     }
 
     String accessToken = token.getTokenValue();
@@ -489,7 +478,8 @@ public class AuthorizationController {
     tokenJson.put("need_patient_banner", false);
 
     if ("".equals(patientId) || patientId == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No patients found");
+      throw new OAuth2Exception(ErrorCode.UNAUTHORIZED_CLIENT, "No patients found")
+        .withResponseStatus(HttpStatus.UNAUTHORIZED);
     }
 
     List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopes);
@@ -503,7 +493,8 @@ public class AuthorizationController {
         Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
         if (encounter == null) {
-          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No encounters found");
+          throw new OAuth2Exception(ErrorCode.UNAUTHORIZED_CLIENT, "No encounters found")
+            .withResponseStatus(HttpStatus.UNAUTHORIZED);
         }
 
         encounterId = encounter.getIdElement().getIdPart();
@@ -517,7 +508,8 @@ public class AuthorizationController {
       try {
         tokenJson.put("id_token", generateSampleOpenIdToken(request, clientId, patientId));
       } catch (OpenIdTokenGenerationException openIdTokenGenerationException) {
-        throw new BearerTokenException(openIdTokenGenerationException);
+        throw new OAuth2Exception(ErrorCode.SERVER_ERROR, openIdTokenGenerationException)
+            .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
     return tokenJson.toString();
@@ -555,6 +547,28 @@ public class AuthorizationController {
     } catch (RsaKeyException rsaKeyException) {
       throw new OpenIdTokenGenerationException(rsaKeyException);
     }
+  }
+
+  /**
+   * Exception handler for OAuth2Exception and subclasses.
+   * Errors in the access token flow are rendered as JSON with an "error"
+   * and optionally "error_description" field, per RFC 6749, section 5.2
+   * https://datatracker.ietf.org/doc/html/rfc6749#section-5.2
+   * @param ex The raised exception
+   * @return error response content
+   */
+  @ExceptionHandler(OAuth2Exception.class)
+  public ResponseEntity<String> handleOAuth2Exception(OAuth2Exception ex) {
+    JSONObject json = new JSONObject();
+    json.put("error", ex.getError());
+    if (ex.getErrorDescription() != null) {
+      json.put("error_description", ex.getErrorDescription());
+    }
+    return ResponseEntity
+              .status(ex.getResponseStatus())
+              .contentType(MediaType.APPLICATION_JSON)
+              .headers(ex.getResponseHeaders())
+              .body(json.toString());
   }
 
   private Encounter getFirstEncounterByPatientId(IGenericClient client, String patientId) {
@@ -601,21 +615,17 @@ public class AuthorizationController {
     return new String(decoder.decode(encodedValue));
   }
 
-  private static void authorizeClientId(String clientId) {
+  private static void authorizeClientId(String clientId, boolean basicAuth) {
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
     if (!properties.getPublicClientId().equals(clientId)
         && !properties.getConfidentialClientId().equals(clientId)
         && !properties.getAsymmetricClientId().equals(clientId)) {
-      throw new InvalidClientIdException(clientId);
+      throw new InvalidClientIdException(clientId, basicAuth);
     }
   }
 
   private static void authenticateClientIdAndClientSecret(String clientId, String clientSecret) {
-
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-
-    authorizeClientId(clientId);
-
     if (properties.getConfidentialClientId().equals(clientId)
         && !properties.getConfidentialClientSecret().equals(clientSecret)) {
       throw new InvalidClientSecretException();
