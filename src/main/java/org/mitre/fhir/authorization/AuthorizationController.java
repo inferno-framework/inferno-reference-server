@@ -28,7 +28,9 @@ import java.util.Base64.Decoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -558,8 +560,8 @@ public class AuthorizationController {
    * @return error response content
    */
   @ExceptionHandler(OAuth2Exception.class)
-  public ResponseEntity<String> handleOAuth2Exception(OAuth2Exception ex) {
-    JSONObject json = new JSONObject();
+  public ResponseEntity<Map<String, String>> handleOAuth2Exception(OAuth2Exception ex) {
+    Map<String, String> json = new HashMap<>();
     json.put("error", ex.getError());
     if (ex.getErrorDescription() != null) {
       json.put("error_description", ex.getErrorDescription());
@@ -568,7 +570,7 @@ public class AuthorizationController {
               .status(ex.getResponseStatus())
               .contentType(MediaType.APPLICATION_JSON)
               .headers(ex.getResponseHeaders())
-              .body(json.toString());
+              .body(json);
   }
 
   private Encounter getFirstEncounterByPatientId(IGenericClient client, String patientId) {
