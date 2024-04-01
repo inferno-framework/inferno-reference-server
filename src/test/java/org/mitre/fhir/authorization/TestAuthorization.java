@@ -46,6 +46,7 @@ import org.junit.Test;
 import org.mitre.fhir.authorization.exception.BearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
+import org.mitre.fhir.authorization.exception.OAuth2Exception;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.authorization.token.TokenNotFoundException;
@@ -57,7 +58,6 @@ import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.server.ResponseStatusException;
 
 public class TestAuthorization {
 
@@ -181,8 +181,8 @@ public class TestAuthorization {
 
       authorizationController.getToken("{\"code\":\"INVALID_CODE\"}", null, null, null, "authorization_code", null, null, null, request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
-    } catch (ResponseStatusException rse) {
-      if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
+    } catch (OAuth2Exception rse) {
+      if (!HttpStatus.UNAUTHORIZED.equals(rse.getResponseStatus())) {
         throw rse;
       }
     }
@@ -202,8 +202,8 @@ public class TestAuthorization {
 
       authorizationController.getToken(null, null, "SAMPLE_CLIENT_ID", null, "authorization_code", null, null, null, request);
       Assert.fail("Did not get expected Unauthorized ResponseStatusException");
-    } catch (ResponseStatusException rse) {
-      if (!HttpStatus.UNAUTHORIZED.equals(rse.getStatus())) {
+    } catch (OAuth2Exception rse) {
+      if (!HttpStatus.UNAUTHORIZED.equals(rse.getResponseStatus())) {
         throw rse;
       }
     }
@@ -436,7 +436,7 @@ public class TestAuthorization {
     );
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testGetTokenNoPatientScopeProvided()
       throws JSONException, BearerTokenException, TokenNotFoundException {
     String serverBaseUrl = "";
@@ -686,7 +686,7 @@ public class TestAuthorization {
       authorizationController.getToken(FhirReferenceServerUtils.SAMPLE_CODE, null, null, null, "authorization_code", null,
           clientAssertionType, clientAssertion, request);
       Assert.fail("Token request should have thrown an exception for invalid signature");
-    } catch (ResponseStatusException e) {
+    } catch (OAuth2Exception e) {
       Assert.assertTrue(e.getCause() instanceof SignatureVerificationException); 
     }
   }
@@ -828,7 +828,7 @@ public class TestAuthorization {
     Assert.assertEquals(newPatientId, patientId);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testTestAuthorizationNoCodeAndNoRefreshToken()
       throws IOException, JSONException, BearerTokenException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -843,7 +843,7 @@ public class TestAuthorization {
       authorizationController.getToken(null, "SAMPLE_PUBLIC_CLIENT_ID", null, null, "authorization_code", null, null, null, request);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testTestAuthorizationInvalidRefreshToken()
       throws IOException, JSONException, BearerTokenException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -912,7 +912,7 @@ public class TestAuthorization {
       authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier, "authorization_code", null, null, null, request);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testPKCERequiresValidCodeVerifier() throws IOException, JSONException, NoSuchAlgorithmException,
                                 BearerTokenException, TokenNotFoundException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -934,7 +934,7 @@ public class TestAuthorization {
       authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier + "X", "authorization_code", null, null, null, request);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testPKCERequiresCodeVerifier() throws IOException, JSONException, NoSuchAlgorithmException,
                                 BearerTokenException, TokenNotFoundException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -956,7 +956,7 @@ public class TestAuthorization {
       authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, "authorization_code", null, null, null, request);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testPKCERequiresCodeChallenge() throws IOException, JSONException, NoSuchAlgorithmException,
                                 BearerTokenException, TokenNotFoundException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -978,7 +978,7 @@ public class TestAuthorization {
       authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier, "authorization_code", null, null, null, request);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testPKCERequiresS256() throws IOException, JSONException, NoSuchAlgorithmException,
                                 BearerTokenException, TokenNotFoundException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
@@ -998,7 +998,7 @@ public class TestAuthorization {
       authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, codeVerifier, "authorization_code", null, null, null, request);
   }
 
-  @Test(expected = ResponseStatusException.class)
+  @Test(expected = OAuth2Exception.class)
   public void testPKCERequiredWithV2Scopes() throws IOException, JSONException,
       BearerTokenException, TokenNotFoundException, TokenNotFoundException {
     AuthorizationController authorizationController = new AuthorizationController();
