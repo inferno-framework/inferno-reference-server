@@ -17954,7 +17954,7 @@
       },
       "request": {
         "method": "POST",
-        "url": "Obervation"
+        "url": "Observation"
       }
     },
     {

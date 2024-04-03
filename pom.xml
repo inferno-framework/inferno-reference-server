@@ -12,8 +12,8 @@
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-    <hapi.version>5.5.3</hapi.version>
-    <jetty_version>9.4.54.v20240208</jetty_version>
+    <hapi.version>7.0.2</hapi.version>
+    <jetty_version>12.0.3</jetty_version>
     <checkstyle.plugin.version>3.3.0</checkstyle.plugin.version>
     <checkstyle.version>10.12.4</checkstyle.version>
     <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
@@ -45,6 +45,13 @@
       <version>${hapi.version}</version>
     </dependency>
 
+    <!-- TODO: figure out why this is needed and remove it. get a noclassdeffounderror without it -->
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-jpaserver-hfql</artifactId>
+      <version>${hapi.version}</version>
+    </dependency>
+
     <!-- HAPI-FHIR tester web app overlay. Delete if not needed. -->
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
@@ -62,16 +69,16 @@
     </dependency>
 
     <!-- Required for Jetty to work with websockets. -->
-    <dependency>
-      <groupId>org.eclipse.jetty.websocket</groupId>
-      <artifactId>websocket-api</artifactId>
-      <version>${jetty_version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.websocket</groupId>
-      <artifactId>websocket-client</artifactId>
-      <version>${jetty_version}</version>
-    </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+        <artifactId>jetty-ee10-websocket-jakarta-client</artifactId>
+        <version>${jetty_version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+        <artifactId>jetty-ee10-websocket-jakarta-server</artifactId>
+        <version>${jetty_version}</version>
+      </dependency>
 
     <!-- Required for logging to work. -->
     <dependency>
@@ -82,23 +89,10 @@
 
     <!-- Required for JEE/Servlet support. -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-      <version>3.1.0</version>
-    </dependency>
-
-    <!-- Required CORS support. -->
-    <dependency>
-      <groupId>org.ebaysf.web</groupId>
-      <artifactId>cors-filter</artifactId>
-      <version>1.0.1</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>servlet-api</artifactId>
-          <groupId>javax.servlet</groupId>
-        </exclusion>
-      </exclusions>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>6.0.0</version>
+        <scope>provided</scope>
     </dependency>
 
     <!-- You may not need this if you are deploying to an application server -->
@@ -117,11 +111,13 @@
     </dependency>
 
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-webapp</artifactId>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-webapp</artifactId>
       <scope>test</scope>
       <version>${jetty_version}</version>
 		</dependency>
+
+
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 		<dependency>
@@ -222,6 +218,11 @@
 			<version>2.29.4</version>
 		</dependency>
 
+      <dependency>
+        <groupId>org.webjars.npm</groupId>
+        <artifactId>ace-builds</artifactId>
+        <version>1.22.0</version>
+      </dependency>
 		
 		<!-- For testing with custom env variables -->
 		<dependency>
@@ -247,51 +248,51 @@
     (Assuming the new version is still compatible, etc)
     This section should be reviewed every time we bump direct dependencies.
   -->
-  <dependencyManagement>
+  <!-- dependencyManagement>
     <dependencies>
-      <!-- nested dependency of fhir-validation / hapi-fhir-jpaserver-base -->
+      <!- - nested dependency of fhir-validation / hapi-fhir-jpaserver-base - ->
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.26.0</version>
       </dependency>
 
-      <!-- nested dependency of hapi-fhir-sql-migrate / hapi-fhir-jpaserver-base -->
+      <!- - nested dependency of hapi-fhir-sql-migrate / hapi-fhir-jpaserver-base - ->
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.33</version>
       </dependency>
 
-      <!-- dependency of hapi-fhir-base -->
+      <!- - dependency of hapi-fhir-base - ->
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-text</artifactId>
         <version>1.10.0</version>
       </dependency>
 
-      <!-- nested dependency of elasticsearch / hapi-fhir-jpaserver-base -->
+      <!- - nested dependency of elasticsearch / hapi-fhir-jpaserver-base - ->
       <dependency>
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
         <version>2.2</version>
       </dependency>
 
-      <!-- nested dependency of springdoc-openapi-ui / hapi-fhir-jpaserver-base -->
+      <!- - nested dependency of springdoc-openapi-ui / hapi-fhir-jpaserver-base - ->
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-autoconfigure</artifactId>
         <version>2.7.16</version>
       </dependency>
 
-      <!-- dependency of hapi-fhir-testpage-overlay -->
+      <!- - dependency of hapi-fhir-testpage-overlay - ->
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>
         <version>5.3.30</version>
       </dependency>
 
-      <!-- dependencies of hapi-fhir-jpaserver-base -->
+      <!- - dependencies of hapi-fhir-jpaserver-base - ->
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
@@ -356,14 +357,14 @@
 
 
 
-      <!-- dependency of hapi-fhir-base -->
+      <!- - dependency of hapi-fhir-base - ->
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>32.1.2-jre</version>
       </dependency>
     </dependencies>
-  </dependencyManagement>
+  </dependencyManagement -->
 
   <build>
     <finalName>inferno-fhir-reference-server</finalName>
@@ -373,8 +374,8 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.eclipse.jetty</groupId>
-          <artifactId>jetty-maven-plugin</artifactId>
+          <groupId>org.eclipse.jetty.ee10</groupId>
+          <artifactId>jetty-ee10-maven-plugin</artifactId>
           <version>${jetty_version}</version>
           <configuration>
             <webApp>
@@ -400,6 +401,7 @@
 	            <overlay>
 	              <groupId>ca.uhn.hapi.fhir</groupId>
 	              <artifactId>hapi-fhir-testpage-overlay</artifactId>
+	              <excludes><exclude>META-INF</exclude></excludes>
 	            </overlay>
 	          </overlays>
 	          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>

@@ -2,7 +2,7 @@ package org.mitre.fhir.authorization.token;
 
 
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.springframework.http.HttpStatus;

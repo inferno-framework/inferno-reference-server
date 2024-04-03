@@ -5,7 +5,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.json.JSONObject;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;

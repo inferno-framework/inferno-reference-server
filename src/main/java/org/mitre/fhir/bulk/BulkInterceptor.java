@@ -3,20 +3,21 @@ package org.mitre.fhir.bulk;
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Interceptor;
 import ca.uhn.fhir.interceptor.api.Pointcut;
-import ca.uhn.fhir.jpa.model.util.JpaConstants;
+import ca.uhn.fhir.rest.server.provider.ProviderConstants;
+
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Interceptor
 public class BulkInterceptor {
 
   private static final String DELETE = "DELETE";
   private static final String EXPORT_POLL_STATUS_PATH_INFO =
-      "/" + JpaConstants.OPERATION_EXPORT_POLL_STATUS;
+      "/" + ProviderConstants.OPERATION_EXPORT_POLL_STATUS;
   private static final String POST = "POST";
 
   /**

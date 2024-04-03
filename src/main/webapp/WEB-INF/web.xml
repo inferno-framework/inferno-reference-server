@@ -122,7 +122,7 @@
 
     <!-- This filters provide support for Cross Origin Resource Sharing (CORS) -->
 
-    <filter>
+    <!-- filter>
         <filter-name>CORS Filter</filter-name>
         <filter-class>org.ebaysf.web.cors.CORSFilter</filter-class>
         <init-param>
@@ -183,6 +183,6 @@
     <filter-mapping>
         <filter-name>CORS Filter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping -->
 
 </web-app>
