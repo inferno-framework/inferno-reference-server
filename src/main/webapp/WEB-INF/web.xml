@@ -63,7 +63,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                org.mitre.fhir.wellknown.WellKnownAuthorizationEndpointController
+                org.mitre.fhir.wellknown.WellknownConfig
             </param-value>
         </init-param>
         <load-on-startup>3</load-on-startup>

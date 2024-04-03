@@ -130,7 +130,7 @@ public class MitreJpaServer extends RestfulServer {
             + "ResponseEncoding[${responseEncodingNoDefault}]");
     registerInterceptor(loggingInterceptor);
 
-    registerInterceptor(new BulkInterceptor());
+    registerInterceptor(new BulkInterceptor(this.getFhirContext()));
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 

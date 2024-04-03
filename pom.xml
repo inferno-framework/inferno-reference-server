@@ -10,8 +10,8 @@
   <name>Inferno FHIR Reference Server</name>
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <hapi.version>7.0.2</hapi.version>
     <jetty_version>12.0.3</jetty_version>
     <checkstyle.plugin.version>3.3.0</checkstyle.plugin.version>
@@ -456,6 +456,15 @@
             </activeRecipes>
           </configuration>
         </plugin>
+        <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		    <configuration>
+		        <compilerArgs>
+		            <arg>-parameters</arg>
+		        </compilerArgs>
+		    </configuration>
+		</plugin>
       </plugins>
     </pluginManagement>
 

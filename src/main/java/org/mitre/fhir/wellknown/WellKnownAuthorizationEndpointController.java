@@ -13,9 +13,11 @@ import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RsaKeyException;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Configuration
 @RestController
 public class WellKnownAuthorizationEndpointController {
 
