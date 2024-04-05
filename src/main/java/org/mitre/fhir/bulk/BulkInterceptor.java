@@ -43,10 +43,14 @@ public class BulkInterceptor {
   @Hook(Pointcut.SERVER_INCOMING_REQUEST_PRE_PROCESSED)
   public boolean incomingRequestPreProcessed(HttpServletRequest theRequest,
       HttpServletResponse theResponse) throws ServletException, IOException {
-    if (EXPORT_POLL_STATUS_PATH_INFO.equals(theRequest.getPathInfo())) {
+    String pathInfo = theRequest.getPathInfo();
+    if (pathInfo == null) {
+      return true;
+    } else if (pathInfo.equals(EXPORT_POLL_STATUS_PATH_INFO)) {
       String jobId = theRequest.getParameter(JpaConstants.PARAM_EXPORT_POLL_STATUS_JOB_ID);
       if (theRequest.getMethod().equals(DELETE)) {
         cancelledJobs.add(jobId);
+        return true;
       } else if (theRequest.getMethod().equals("GET") && cancelledJobs.contains(jobId)) {
         // override the response to be a 404
         // hapi currently returns a 202 with header X-Progress="Build in progress - Status set to CANCELLED at (time)"
@@ -63,7 +67,7 @@ public class BulkInterceptor {
 
         return false;
       }
-    } else if (theRequest.getPathInfo().endsWith(EXPORT_PATH_INFO)) {
+    } else if (pathInfo.endsWith(EXPORT_PATH_INFO)) {
       String outputFormat = theRequest.getParameter(JpaConstants.PARAM_EXPORT_OUTPUT_FORMAT);
       if ("application/ndjson".equals(outputFormat) || "ndjson".equals(outputFormat)) {
         // rewrite it - hapi doesn't support these but they are SHALL-accept in the spec
