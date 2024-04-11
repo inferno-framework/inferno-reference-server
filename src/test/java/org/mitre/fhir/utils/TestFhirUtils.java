@@ -4,7 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.junit.AfterClass;
@@ -63,7 +63,7 @@ public class TestFhirUtils {
     WebAppContext webAppContext = new WebAppContext();
     webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setBaseResourceAsString(path + "/src/main/webapp/WEB-INF/");
     webAppContext.setParentLoaderPriority(true);
 
     ourServer.setHandler(webAppContext);
@@ -125,43 +125,44 @@ public class TestFhirUtils {
   @AfterClass
   public static void afterClass() throws Exception {
     // delete test patient and encounter
+    try {
+      ourClient.delete().resourceById("Encounter", testFirstEncounterId.getIdPart())
+       .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+       .execute();
 
-    ourClient.delete().resourceById("Encounter", testFirstEncounterId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
+      ourClient.delete().resourceById("Encounter", testSecondEncounterId.getIdPart())
+       .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+       .execute();
 
-    ourClient.delete().resourceById("Encounter", testSecondEncounterId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
+      ourClient.delete().resourceById("Encounter", testThirdEncounterId.getIdPart())
+       .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+       .execute();
 
-    ourClient.delete().resourceById("Encounter", testThirdEncounterId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
+      ourClient.delete().resourceById("Patient", testFirstPatientId.getIdPart())
+       .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+       .execute();
 
-    ourClient.delete().resourceById("Patient", testFirstPatientId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
+      ourClient.delete().resourceById("Patient", testSecondPatientId.getIdPart())
+       .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+       .execute();
 
-    ourClient.delete().resourceById("Patient", testSecondPatientId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
+      System.setProperty("READ_ONLY", "true");
 
-    System.setProperty("READ_ONLY", "true");
+      testFirstPatientId = null;
+      testSecondPatientId = null;
+      testFirstEncounterId = null;
+      testSecondEncounterId = null;
+      testThirdEncounterId = null;
 
-    testFirstPatientId = null;
-    testSecondPatientId = null;
-    testFirstEncounterId = null;
-    testSecondEncounterId = null;
-    testThirdEncounterId = null;
-
-    // clear db just in case there are any erroneous patients or encounters
-    TestUtils.clearDB(ourClient);
-
-    ourServer.stop();
+      // clear db just in case there are any erroneous patients or encounters
+      TestUtils.clearDB(ourClient);
+    } finally {
+      ourServer.stop();
+    }
   }
 }

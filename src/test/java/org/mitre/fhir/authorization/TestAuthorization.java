@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
@@ -1019,27 +1019,29 @@ public class TestAuthorization {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    // delete test patient and encounter
+    try {
+        // delete test patient and encounter
 
-    ourClient.delete().resourceById(testEncounterId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
+        ourClient.delete().resourceById(testEncounterId)
+            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+                FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+            .execute();
 
-    ourClient.delete().resourceById(testPatientId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
+        ourClient.delete().resourceById(testPatientId)
+            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+                FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+            .execute();
 
-    testPatientId = null;
-    testEncounterId = null;
+        testPatientId = null;
+        testEncounterId = null;
 
-    System.setProperty("READ_ONLY", "true");
+        System.setProperty("READ_ONLY", "true");
 
-    // clear db just in case there are any erroneous patients or encounters
-    TestUtils.clearDB(ourClient);
-
-    ourServer.stop();
+        // clear db just in case there are any erroneous patients or encounters
+        TestUtils.clearDB(ourClient);
+    } finally {
+        ourServer.stop();
+    }
   }
 
   @BeforeClass
@@ -1061,7 +1063,7 @@ public class TestAuthorization {
     webAppContext.setContextPath("");
     webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setBaseResourceAsString(path + "/src/main/webapp/WEB-INF/");
     webAppContext.setParentLoaderPriority(true);
 
     ourServer.setHandler(webAppContext);

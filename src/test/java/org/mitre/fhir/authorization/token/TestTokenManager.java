@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
-import com.github.stefanbirkner.systemlambda.SystemLambda;
+import uk.org.webcompere.systemstubs.SystemStubs;
 
 public class TestTokenManager {
 
@@ -120,7 +120,7 @@ public class TestTokenManager {
 
     String customTokenValue = "MY-CUSTOM-BEARER-TOKEN";
 
-    SystemLambda.withEnvironmentVariable("CUSTOM_BEARER_TOKEN", customTokenValue)
+    SystemStubs.withEnvironmentVariable("CUSTOM_BEARER_TOKEN", customTokenValue)
         .execute(() -> Assert
             .assertTrue(TokenManager.getInstance().authenticateBearerToken(customTokenValue)));
 

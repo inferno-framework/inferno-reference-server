@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
@@ -74,9 +74,7 @@ public class AuthorizationBulkDataExportProviderTest {
 
       if (numOfResourcesMap.containsKey(resourceName)) {
         numOfResourcesMap.put(resourceName, numOfResourcesMap.get(resourceName) + 1);
-      }
-
-      else {
+      } else {
         numOfResourcesMap.put(resourceName, 1);
       }
     }
@@ -148,8 +146,6 @@ public class AuthorizationBulkDataExportProviderTest {
 
     String contentUrl = conn.getHeaderField("Content-Location");
 
-
-
     conn.disconnect();
 
     return contentUrl;
@@ -175,7 +171,7 @@ public class AuthorizationBulkDataExportProviderTest {
     webAppContext.setContextPath("");
     webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setBaseResourceAsString(path + "/src/main/webapp/WEB-INF/");
     webAppContext.setParentLoaderPriority(true);
 
     ourServer.setHandler(webAppContext);
@@ -203,16 +199,17 @@ public class AuthorizationBulkDataExportProviderTest {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
-
-    Encounter encounter = new Encounter();
-    encounter.setSubject(new Reference().setReference("Patient/" + testPatientId.getIdPart()));
-    testEncounterId = ourClient.create().resource(encounter)
+    
+    Organization organization = new Organization();
+    testOrganizationId = ourClient.create().resource(organization)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
 
-    Organization organization = new Organization();
-    testOrganizationId = ourClient.create().resource(organization)
+    Encounter encounter = new Encounter();
+    encounter.setSubject(new Reference().setReference("Patient/" + testPatientId.getIdPart()));
+    encounter.setServiceProvider(new Reference().setReference("Organization/" + testOrganizationId.getIdPart()));
+    testEncounterId = ourClient.create().resource(encounter)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
@@ -231,36 +228,36 @@ public class AuthorizationBulkDataExportProviderTest {
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
 
-    // TransactionSynchronizationManager.
   }
 
   @AfterClass
   public static void afterClass() throws Exception {
+    try {
+      ourClient.delete().resourceById(groupId)
+      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+          FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+      .execute();
 
-    ourClient.delete().resourceById(groupId)
-    .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-    .execute();
+      ourClient.delete().resourceById(testEncounterId)
+      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+          FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+      .execute();
+      
+      ourClient.delete().resourceById(testOrganizationId)
+      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+          FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+      .execute();
 
-    ourClient.delete().resourceById(testOrganizationId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
+      ourClient.delete().resourceById(testPatientId)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+          .execute();
 
-    ourClient.delete().resourceById(testEncounterId)
-    .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-    .execute();
-
-    ourClient.delete().resourceById(testPatientId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
-
-    System.setProperty("READ_ONLY", "true");
-    // clear db just in case there are any erroneous patients or encounters
-    TestUtils.clearDB(ourClient);
-
-    ourServer.stop();
+      System.setProperty("READ_ONLY", "true");
+      // clear db just in case there are any erroneous patients or encounters
+      TestUtils.clearDB(ourClient);
+    } finally {
+      ourServer.stop();
+    }
   }
 }

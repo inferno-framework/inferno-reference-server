@@ -8,7 +8,7 @@ import org.hl7.fhir.r4.model.Patient;
 import org.mitre.fhir.utils.TestUtils;
 import org.eclipse.jetty.server.Server;
 import ca.uhn.fhir.context.FhirContext;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.mitre.fhir.authorization.token.Token;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
@@ -87,7 +87,7 @@ public class TestReadOnlyInterceptor {
     webAppContext.setContextPath("");
     webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setBaseResourceAsString(path + "/src/main/webapp/WEB-INF/");
     webAppContext.setParentLoaderPriority(true);
 
     ourServer.setHandler(webAppContext);
