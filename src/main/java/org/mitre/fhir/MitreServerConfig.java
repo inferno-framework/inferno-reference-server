@@ -5,24 +5,18 @@ import ca.uhn.fhir.context.ConfigurationException;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.jpa.api.IDaoRegistry;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
-import ca.uhn.fhir.jpa.api.config.ThreadPoolFactoryConfig;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings.ClientIdStrategyEnum;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings.IdStrategyEnum;
+import ca.uhn.fhir.jpa.api.config.ThreadPoolFactoryConfig;
 import ca.uhn.fhir.jpa.batch2.JpaBatch2Config;
-import ca.uhn.fhir.jpa.bulk.export.job.BulkExportJobConfig;
-import ca.uhn.fhir.jpa.model.entity.StorageSettings.IndexEnabledEnum;
-//import ca.uhn.fhir.jpa.batch.config.NonPersistedBatchConfigurer;
-//import ca.uhn.fhir.jpa.bulk.export.job.GroupBulkItemReader;
-//import ca.uhn.fhir.jpa.config.BaseJavaConfigR4;
+import ca.uhn.fhir.jpa.config.r4.JpaR4Config;
 import ca.uhn.fhir.jpa.config.util.HapiEntityManagerFactoryUtil;
 import ca.uhn.fhir.jpa.config.util.ValidationSupportConfigUtil;
 import ca.uhn.fhir.jpa.dao.DaoSearchParamProvider;
 import ca.uhn.fhir.jpa.model.config.PartitionSettings;
+import ca.uhn.fhir.jpa.model.entity.StorageSettings.IndexEnabledEnum;
 import ca.uhn.fhir.jpa.provider.DaoRegistryResourceSupportedSvc;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
-
-//import ca.uhn.fhir.jpa.model.entity.ModelConfig;
-//import ca.uhn.fhir.jpa.search.HapiLuceneAnalysisConfigurer;
 import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamProvider;
 import ca.uhn.fhir.jpa.searchparam.registry.SearchParamRegistryImpl;
 import ca.uhn.fhir.jpa.subscription.channel.config.SubscriptionChannelConfig;
@@ -35,35 +29,24 @@ import ca.uhn.fhir.rest.api.IResourceSupportedSvc;
 import ca.uhn.fhir.rest.server.interceptor.CorsInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
+import jakarta.persistence.EntityManagerFactory;
 import java.sql.Driver;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.hibernate.search.backend.lucene.cfg.LuceneBackendSettings;
-import org.hibernate.search.backend.lucene.cfg.LuceneIndexSettings;
-import org.hibernate.search.engine.cfg.BackendSettings;
-import org.hibernate.search.mapper.orm.cfg.HibernateOrmMapperSettings;
 import org.hl7.fhir.common.hapi.validation.support.CachingValidationSupport;
-//import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
-//import org.mitre.fhir.bulk.InfernoGroupBulkItemReader;
-//import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
-//import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
-
-import ca.uhn.fhir.jpa.config.r4.JpaR4Config;
-
-import org.springframework.context.annotation.Import;
 
 /**
  * Configures the Server and Database.
@@ -72,9 +55,10 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @EnableTransactionManagement
-@Import({ JpaR4Config.class, Batch2JobsConfig.class, JpaBatch2Config.class, SubscriptionSubmitterConfig.class,
-		SubscriptionProcessorConfig.class, SubscriptionChannelConfig.class, WebsocketDispatcherConfig.class, ThreadPoolFactoryConfig.class})
-
+@Import({JpaR4Config.class, Batch2JobsConfig.class, JpaBatch2Config.class,
+    SubscriptionSubmitterConfig.class, SubscriptionProcessorConfig.class,
+    SubscriptionChannelConfig.class, WebsocketDispatcherConfig.class,
+    ThreadPoolFactoryConfig.class})
 public class MitreServerConfig {
 
   /**
@@ -98,16 +82,6 @@ public class MitreServerConfig {
     config.setResourceServerIdStrategy(IdStrategyEnum.UUID);
     return config;
   }
-//
-//  /**
-//   * Returns the model configuration.
-//   * 
-//   * @return the model configuration
-//   */
-//  @Bean
-//  public ModelConfig modelConfig() {
-//    return daoConfig().getModelConfig();
-//  }
 
   /**
    * Returns the data source for the server.
@@ -161,17 +135,17 @@ public class MitreServerConfig {
       DataSource myDataSource,
       ConfigurableListableBeanFactory myConfigurableListableBeanFactory,
       FhirContext theFhirContext, JpaStorageSettings theStorageSettings) {
-      LocalContainerEntityManagerFactoryBean retVal =
-              HapiEntityManagerFactoryUtil.newEntityManagerFactory(myConfigurableListableBeanFactory, theFhirContext, theStorageSettings);
-      retVal.setPersistenceUnitName("HAPI_PU");
+    LocalContainerEntityManagerFactoryBean retVal =
+        HapiEntityManagerFactoryUtil.newEntityManagerFactory(myConfigurableListableBeanFactory, theFhirContext, theStorageSettings);
+    retVal.setPersistenceUnitName("HAPI_PU");
 
-      try {
-          retVal.setDataSource(myDataSource);
-      } catch (Exception e) {
-          throw new ConfigurationException("Could not set the data source due to a configuration issue", e);
-      }
-      retVal.setJpaProperties(jpaProperties());
-      return retVal;
+    try {
+      retVal.setDataSource(myDataSource);
+    } catch (Exception e) {
+      throw new ConfigurationException("Could not set the data source due to a configuration issue", e);
+    }
+    retVal.setJpaProperties(jpaProperties());
+    return retVal;
   }
 
   private Properties jpaProperties() {
@@ -201,45 +175,45 @@ public class MitreServerConfig {
     return extraProperties;
   }
   
-	@Bean
-	public CorsInterceptor corsInterceptor() {
-		// Define your CORS configuration. This is an example
-		// showing a typical setup. You should customize this
-		// to your specific needs
-//		ourLog.info("CORS is enabled on this server");
-		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedHeader(HttpHeaders.ORIGIN);
-		config.addAllowedHeader(HttpHeaders.ACCEPT);
-		config.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
-		config.addAllowedHeader(HttpHeaders.AUTHORIZATION);
-		config.addAllowedHeader(HttpHeaders.CACHE_CONTROL);
-		config.addAllowedHeader("x-fhir-starter");
-		config.addAllowedHeader("X-Requested-With");
-		config.addAllowedHeader("Prefer");
+  @Bean
+  public CorsInterceptor corsInterceptor() {
+    // Define your CORS configuration. This is an example
+    // showing a typical setup. You should customize this
+    // to your specific needs
+//    ourLog.info("CORS is enabled on this server");
+    CorsConfiguration config = new CorsConfiguration();
+    config.addAllowedHeader(HttpHeaders.ORIGIN);
+    config.addAllowedHeader(HttpHeaders.ACCEPT);
+    config.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
+    config.addAllowedHeader(HttpHeaders.AUTHORIZATION);
+    config.addAllowedHeader(HttpHeaders.CACHE_CONTROL);
+    config.addAllowedHeader("x-fhir-starter");
+    config.addAllowedHeader("X-Requested-With");
+    config.addAllowedHeader("Prefer");
 
-		List<String> allAllowedCORSOrigins = List.of("*"); //appProperties.getCors().getAllowed_origin();
-		allAllowedCORSOrigins.forEach(config::addAllowedOriginPattern);
-//		ourLog.info("CORS allows the following origins: " + String.join(", ", allAllowedCORSOrigins));
+    List<String> allAllowedCORSOrigins = List.of("*"); //appProperties.getCors().getAllowed_origin();
+    allAllowedCORSOrigins.forEach(config::addAllowedOriginPattern);
+//    ourLog.info("CORS allows the following origins: " + String.join(", ", allAllowedCORSOrigins));
 
-		config.addExposedHeader("Location");
-		config.addExposedHeader("Content-Location");
-		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
-//		config.setAllowCredentials(appProperties.getCors().getAllow_Credentials());
+    config.addExposedHeader("Location");
+    config.addExposedHeader("Content-Location");
+    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
+//    config.setAllowCredentials(appProperties.getCors().getAllow_Credentials());
 
-		// Create the interceptor and register it
-		return new CorsInterceptor(config);
-	}
+    // Create the interceptor and register it
+    return new CorsInterceptor(config);
+  }
 
   @Bean
   public ResponseHighlighterInterceptor responseHighlighterInterceptor() {
     return new ResponseHighlighterInterceptor();
   }
 
-	@Primary
-	@Bean
-	public CachingValidationSupport validationSupportChain(JpaValidationSupportChain theJpaValidationSupportChain) {
-		return ValidationSupportConfigUtil.newCachingValidationSupport(theJpaValidationSupportChain);
-	}
+  @Primary
+  @Bean
+  public CachingValidationSupport validationSupportChain(JpaValidationSupportChain theJpaValidationSupportChain) {
+    return ValidationSupportConfigUtil.newCachingValidationSupport(theJpaValidationSupportChain);
+  }
   
   /**
    * Returns the JpaTransactionManager.
@@ -273,43 +247,20 @@ public class MitreServerConfig {
     return new SearchParamRegistryImpl();
   }
   
-	@Bean
-	public IResourceSupportedSvc resourceSupportedSvc(IDaoRegistry theDaoRegistry) {
-		return new DaoRegistryResourceSupportedSvc(theDaoRegistry);
-	}
+  @Bean
+  public IResourceSupportedSvc resourceSupportedSvc(IDaoRegistry theDaoRegistry) {
+    return new DaoRegistryResourceSupportedSvc(theDaoRegistry);
+  }
 
-	@Bean
-	public DatabaseBackedPagingProvider databaseBackedPagingProvider() {
-		return new DatabaseBackedPagingProvider();
-	}
-	
-	
-	@Bean
-	public IEmailSender emailSender() {
-
-		// Return a dummy anonymous function instead of null. Spring does not like null beans.
-		return theDetails -> {};
-	}
-
-	
-//  @Bean
-//  public BatchConfigurer batchConfigurer() {
-//    return new NonPersistedBatchConfigurer();
-//  }
-//
-//  @Bean
-//  public AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider() {
-//    return new AuthorizationBulkDataExportProvider();
-//  }
-//
-//  @Bean
-//  public AuthorizationBulkDataExportProvider authorizationBulkDataExport() {
-//    return new AuthorizationBulkDataExportProvider();
-//  }
-//
-//  @Bean
-//  @StepScope
-//  public GroupBulkItemReader groupBulkItemReader() {
-//    return new InfernoGroupBulkItemReader();
-//  }
+  @Bean
+  public DatabaseBackedPagingProvider databaseBackedPagingProvider() {
+    return new DatabaseBackedPagingProvider();
+  }
+  
+  
+  @Bean
+  public IEmailSender emailSender() {
+    // Return a dummy anonymous function instead of null. Spring does not like null beans.
+    return theDetails -> {};
+  }
 }

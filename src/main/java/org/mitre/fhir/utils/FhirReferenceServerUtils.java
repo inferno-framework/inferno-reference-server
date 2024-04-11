@@ -1,8 +1,8 @@
-
 package org.mitre.fhir.utils;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 
 public class FhirReferenceServerUtils {

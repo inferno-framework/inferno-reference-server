@@ -1,12 +1,11 @@
-
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
 import org.mitre.fhir.authorization.token.TokenManager;

@@ -2,7 +2,6 @@ package org.mitre.fhir;
 
 import ca.uhn.fhir.to.mvc.AnnotationMethodHandlerAdapterConfigurer;
 import ca.uhn.fhir.to.util.WebUtil;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +35,6 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
     theRegistry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
     theRegistry.addResourceHandler("/img/**").addResourceLocations("/img/");
     theRegistry.addResourceHandler("/js/**").addResourceLocations("/js/");
-
   }
 
   /**
@@ -59,11 +57,11 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
    * 
    * @return AnnotationMethodHandlerAdapterConfigurer
    */
-	@Bean
-	public AnnotationMethodHandlerAdapterConfigurer annotationMethodHandlerAdapterConfigurer(
-			@Qualifier("requestMappingHandlerAdapter") RequestMappingHandlerAdapter theAdapter) {
-		return new AnnotationMethodHandlerAdapterConfigurer(theAdapter);
-	}
+  @Bean
+  public AnnotationMethodHandlerAdapterConfigurer annotationMethodHandlerAdapterConfigurer(
+      @Qualifier("requestMappingHandlerAdapter") RequestMappingHandlerAdapter theAdapter) {
+    return new AnnotationMethodHandlerAdapterConfigurer(theAdapter);
+  }
 
   /**
    * Configuration of ThymeleafViewResolver.
@@ -90,5 +88,4 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
 
     return templateEngine;
   }
-
 }

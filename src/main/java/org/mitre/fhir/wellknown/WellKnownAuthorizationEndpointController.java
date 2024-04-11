@@ -1,12 +1,12 @@
 package org.mitre.fhir.wellknown;
 
 import com.github.dnault.xmlpatch.internal.Log;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 import java.util.List;
-import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;

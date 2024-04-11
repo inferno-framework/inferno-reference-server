@@ -1,13 +1,5 @@
 package org.mitre.fhir.bulk;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
-
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Interceptor;
@@ -19,6 +11,12 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 
 @Interceptor
 public class BulkInterceptor {
@@ -38,7 +36,7 @@ public class BulkInterceptor {
   }
 
   /**
-   * Keep
+   * Interceptor method to address a couple limitations in HAPI's bulk export service.
    */
   @Hook(Pointcut.SERVER_INCOMING_REQUEST_PRE_PROCESSED)
   public boolean incomingRequestPreProcessed(HttpServletRequest theRequest,
@@ -53,7 +51,8 @@ public class BulkInterceptor {
         return true;
       } else if (theRequest.getMethod().equals("GET") && cancelledJobs.contains(jobId)) {
         // override the response to be a 404
-        // hapi currently returns a 202 with header X-Progress="Build in progress - Status set to CANCELLED at (time)"
+        // hapi currently returns a 202 with header:
+        // X-Progress="Build in progress - Status set to CANCELLED at (time)"
         theResponse.setStatus(ca.uhn.fhir.rest.api.Constants.STATUS_HTTP_404_NOT_FOUND);
 
         IBaseOperationOutcome oo = OperationOutcomeUtil.newInstance(fhirContext);
