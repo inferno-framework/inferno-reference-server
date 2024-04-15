@@ -13,7 +13,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <hapi.version>7.0.2</hapi.version>
-    <jetty_version>12.0.3</jetty_version>
+    <jetty_version>12.0.8</jetty_version>
     <checkstyle.plugin.version>3.3.1</checkstyle.plugin.version>
     <checkstyle.version>10.15.0</checkstyle.version>
     <checkstyle.config>config/checkstyle/checkstyle.xml</checkstyle.config>
