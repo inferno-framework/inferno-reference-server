@@ -337,28 +337,33 @@ public class AuthorizationController {
     try {
       String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
       JSONObject codeObject = new JSONObject(rawCodeString);
-      String scopes = null;
-      String patientId = null;
-      String encounterId = null;
-      String codeChallenge = null;
-      String codeChallengeMethod = null;
-      String code = null;
 
+      String scopes = null;
       if (codeObject.has("scopes")) {
         scopes = (String) codeObject.get("scopes");
       }
+
+      String patientId = null;
       if (codeObject.has("patientId")) {
         patientId = (String) codeObject.get("patientId");
       }
+
+      String encounterId = null;
       if (codeObject.has("encounterId")) {
         encounterId = (String) codeObject.get("encounterId");
       }
+
+      String codeChallenge = null;
       if (codeObject.has("codeChallenge")) {
         codeChallenge = (String) codeObject.get("codeChallenge");
       }
+
+      String codeChallengeMethod = null;
       if (codeObject.has("codeChallengeMethod")) {
         codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
       }
+
+      String code = null;
       if (codeObject.has("code")) {
         code = (String) codeObject.get("code");
       }
@@ -444,9 +449,6 @@ public class AuthorizationController {
    */
   private String generateBearerToken(HttpServletRequest request, String clientId, String scopes,
       String patientId, String encounterId) {
-
-    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
-
     Long expiresIn = 3600L;
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken(scopes);
@@ -490,6 +492,8 @@ public class AuthorizationController {
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
       if (Objects.equals(encounterId, "") || encounterId == null) {
+        IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
+
         Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
         if (encounter == null) {

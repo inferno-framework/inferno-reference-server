@@ -1,7 +1,6 @@
 package org.mitre.fhir;
 
 import ca.uhn.fhir.batch2.jobs.config.Batch2JobsConfig;
-import ca.uhn.fhir.context.ConfigurationException;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.jpa.api.IDaoRegistry;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
@@ -17,13 +16,11 @@ import ca.uhn.fhir.jpa.model.config.PartitionSettings;
 import ca.uhn.fhir.jpa.model.entity.StorageSettings.IndexEnabledEnum;
 import ca.uhn.fhir.jpa.provider.DaoRegistryResourceSupportedSvc;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
+import ca.uhn.fhir.jpa.search.HapiHSearchAnalysisConfigurers;
 import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamProvider;
 import ca.uhn.fhir.jpa.searchparam.registry.SearchParamRegistryImpl;
 import ca.uhn.fhir.jpa.subscription.channel.config.SubscriptionChannelConfig;
-import ca.uhn.fhir.jpa.subscription.match.config.SubscriptionProcessorConfig;
-import ca.uhn.fhir.jpa.subscription.match.config.WebsocketDispatcherConfig;
 import ca.uhn.fhir.jpa.subscription.match.deliver.email.IEmailSender;
-import ca.uhn.fhir.jpa.subscription.submit.config.SubscriptionSubmitterConfig;
 import ca.uhn.fhir.jpa.validation.JpaValidationSupportChain;
 import ca.uhn.fhir.rest.api.IResourceSupportedSvc;
 import ca.uhn.fhir.rest.server.interceptor.CorsInterceptor;
@@ -32,10 +29,12 @@ import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import jakarta.persistence.EntityManagerFactory;
 import java.sql.Driver;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.search.backend.lucene.cfg.LuceneBackendSettings;
+import org.hibernate.search.backend.lucene.cfg.LuceneIndexSettings;
+import org.hibernate.search.engine.cfg.BackendSettings;
 import org.hl7.fhir.common.hapi.validation.support.CachingValidationSupport;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -56,9 +55,7 @@ import org.springframework.web.cors.CorsConfiguration;
 @Configuration
 @EnableTransactionManagement
 @Import({JpaR4Config.class, Batch2JobsConfig.class, JpaBatch2Config.class,
-    SubscriptionSubmitterConfig.class, SubscriptionProcessorConfig.class,
-    SubscriptionChannelConfig.class, WebsocketDispatcherConfig.class,
-    ThreadPoolFactoryConfig.class})
+    SubscriptionChannelConfig.class, ThreadPoolFactoryConfig.class})
 public class MitreServerConfig {
 
   /**
@@ -135,17 +132,13 @@ public class MitreServerConfig {
       DataSource myDataSource,
       ConfigurableListableBeanFactory myConfigurableListableBeanFactory,
       FhirContext theFhirContext, JpaStorageSettings theStorageSettings) {
-    LocalContainerEntityManagerFactoryBean retVal =
-        HapiEntityManagerFactoryUtil.newEntityManagerFactory(myConfigurableListableBeanFactory, theFhirContext, theStorageSettings);
-    retVal.setPersistenceUnitName("HAPI_PU");
-
-    try {
-      retVal.setDataSource(myDataSource);
-    } catch (Exception e) {
-      throw new ConfigurationException("Could not set the data source due to a configuration issue", e);
-    }
-    retVal.setJpaProperties(jpaProperties());
-    return retVal;
+    LocalContainerEntityManagerFactoryBean manager = HapiEntityManagerFactoryUtil
+        .newEntityManagerFactory(myConfigurableListableBeanFactory, theFhirContext,
+            theStorageSettings);
+    manager.setPersistenceUnitName("HAPI_PU");
+    manager.setDataSource(myDataSource);
+    manager.setJpaProperties(jpaProperties());
+    return manager;
   }
 
   private Properties jpaProperties() {
@@ -163,24 +156,23 @@ public class MitreServerConfig {
     extraProperties.put("hibernate.search.enabled", "false");
 
     // lucene hibernate search properties
-//    extraProperties.put(BackendSettings.backendKey(BackendSettings.TYPE), "lucene");
-//    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.ANALYSIS_CONFIGURER),
-//        ca.uhn.fhir.jpa.search.HapiHSearchAnalysisConfigurers.HapiLuceneAnalysisConfigurer.class.getName());
-//    extraProperties.put(BackendSettings.backendKey(LuceneIndexSettings.DIRECTORY_TYPE),
-//        "local-heap");
-//    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION),
-//        "LUCENE_CURRENT");
-//    extraProperties.put(HibernateOrmMapperSettings.ENABLED, "true");
+    extraProperties.put(BackendSettings.backendKey(BackendSettings.TYPE), "lucene");
+    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.ANALYSIS_CONFIGURER),
+        HapiHSearchAnalysisConfigurers.HapiLuceneAnalysisConfigurer.class.getName());
+    extraProperties.put(BackendSettings.backendKey(LuceneIndexSettings.DIRECTORY_TYPE),
+        "local-heap");
+    extraProperties.put(BackendSettings.backendKey(LuceneBackendSettings.LUCENE_VERSION),
+        "LUCENE_CURRENT");
 
     return extraProperties;
   }
   
+  /**
+   * Define the CORS settings for this server.
+   * In this case we allow all origins and methods.
+   */
   @Bean
   public CorsInterceptor corsInterceptor() {
-    // Define your CORS configuration. This is an example
-    // showing a typical setup. You should customize this
-    // to your specific needs
-//    ourLog.info("CORS is enabled on this server");
     CorsConfiguration config = new CorsConfiguration();
     config.addAllowedHeader(HttpHeaders.ORIGIN);
     config.addAllowedHeader(HttpHeaders.ACCEPT);
@@ -190,17 +182,13 @@ public class MitreServerConfig {
     config.addAllowedHeader("x-fhir-starter");
     config.addAllowedHeader("X-Requested-With");
     config.addAllowedHeader("Prefer");
-
-    List<String> allAllowedCORSOrigins = List.of("*"); //appProperties.getCors().getAllowed_origin();
-    allAllowedCORSOrigins.forEach(config::addAllowedOriginPattern);
-//    ourLog.info("CORS allows the following origins: " + String.join(", ", allAllowedCORSOrigins));
-
+    config.addAllowedOrigin("*");
     config.addExposedHeader("Location");
     config.addExposedHeader("Content-Location");
-    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
-//    config.setAllowCredentials(appProperties.getCors().getAllow_Credentials());
+    config.setAllowedMethods(
+        Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
+    config.setAllowCredentials(true);
 
-    // Create the interceptor and register it
     return new CorsInterceptor(config);
   }
 
@@ -211,7 +199,8 @@ public class MitreServerConfig {
 
   @Primary
   @Bean
-  public CachingValidationSupport validationSupportChain(JpaValidationSupportChain theJpaValidationSupportChain) {
+  public CachingValidationSupport validationSupportChain(
+      JpaValidationSupportChain theJpaValidationSupportChain) {
     return ValidationSupportConfigUtil.newCachingValidationSupport(theJpaValidationSupportChain);
   }
   
