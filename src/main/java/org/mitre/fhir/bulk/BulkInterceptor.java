@@ -1,5 +1,7 @@
 package org.mitre.fhir.bulk;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.interceptor.api.Hook;
 import ca.uhn.fhir.interceptor.api.Interceptor;
@@ -70,10 +72,11 @@ public class BulkInterceptor {
       String outputFormat = theRequest.getParameter(JpaConstants.PARAM_EXPORT_OUTPUT_FORMAT);
       if ("application/ndjson".equals(outputFormat) || "ndjson".equals(outputFormat)) {
         // rewrite it - hapi doesn't support these but they are SHALL-accept in the spec
-        
-        String queryString = theRequest.getQueryString()
-            .replace(URLEncoder.encode(outputFormat, "UTF-8"), URLEncoder.encode("application/fhir+ndjson", "UTF-8"));
-        String newPath = theRequest.getServletPath() + theRequest.getPathInfo()  + "?" + queryString;
+
+        String oldFormatEnc = URLEncoder.encode(outputFormat, UTF_8);
+        String newFormatEnc = URLEncoder.encode("application/fhir+ndjson", UTF_8);
+        String queryStr = theRequest.getQueryString().replace(oldFormatEnc, newFormatEnc);
+        String newPath = theRequest.getServletPath() + theRequest.getPathInfo()  + "?" + queryStr;
         RequestDispatcher requestDispatcher = theRequest.getRequestDispatcher(newPath);
         requestDispatcher.forward(theRequest, theResponse);
         return false;

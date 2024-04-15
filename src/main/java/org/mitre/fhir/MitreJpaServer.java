@@ -10,6 +10,7 @@ import ca.uhn.fhir.jpa.provider.JpaSystemProvider;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
 import ca.uhn.fhir.rest.api.EncodingEnum;
+import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
@@ -188,7 +189,7 @@ public class MitreJpaServer extends RestfulServer {
           // That version number causes pain here, so remove it.
           resource.setId(resourceType + "/" + resource.getIdElement().getIdPart());
 
-          registry.getResourceDao(resource.fhirType()).update(resource);
+          registry.getResourceDao(resource.fhirType()).update(resource, (RequestDetails) null);
         }
       } catch (Exception e) {
         System.out.println("Unable to load " + file.getName());
