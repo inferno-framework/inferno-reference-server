@@ -4,7 +4,7 @@
     {
       "fullUrl": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2",
       "resource": {
-        "id": "e91975f5-9445-c11f-cabf-c3c6dae161f2",
+        "id": "355",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -33922,7 +33922,7 @@
       },
       "request": {
         "method": "POST",
-        "rul": "Condition"
+        "url": "Condition"
       }
     },
     {

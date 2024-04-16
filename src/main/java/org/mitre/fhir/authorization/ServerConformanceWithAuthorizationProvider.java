@@ -1,16 +1,16 @@
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.jpa.api.config.DaoConfig;
+import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.JpaCapabilityStatementProvider;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CapabilityStatement;
 import org.hl7.fhir.r4.model.Meta;
@@ -31,7 +31,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaCapabilitySta
   private CapabilityStatement capabilityStatement;
 
   public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
-      IFhirSystemDao<Bundle, Meta> theSystemDao, DaoConfig theDaoConfig,
+      IFhirSystemDao<Bundle, Meta> theSystemDao, JpaStorageSettings theDaoConfig,
       ISearchParamRegistry searchParamRegistry) {
     super(theRestfulServer, theSystemDao, theDaoConfig, searchParamRegistry, null);
   }

@@ -6,8 +6,9 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
@@ -112,7 +113,7 @@ public class TestBulkInterceptor {
     webAppContext.setContextPath("");
     webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setBaseResourceAsString(path + "/src/main/webapp/WEB-INF/");
     webAppContext.setParentLoaderPriority(true);
 
     ourServer.setHandler(webAppContext);
@@ -170,6 +171,7 @@ public class TestBulkInterceptor {
 
   @AfterClass
   public static void afterClass() throws Exception {
+    try {
     // delete test patient and group
     ourClient.delete().resourceById(groupId)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
@@ -191,7 +193,8 @@ public class TestBulkInterceptor {
 
     // clear db just in case there are any erroneous patients or encounters
     TestUtils.clearDB(ourClient);
-
-    ourServer.stop();
+    } finally {
+      ourServer.stop();
+    }
   }
 }

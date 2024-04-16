@@ -1,25 +1,27 @@
 package org.mitre.fhir;
 
+import ca.uhn.fhir.batch2.jobs.export.BulkDataExportProvider;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import ca.uhn.fhir.jpa.api.config.DaoConfig;
+import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
 import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
+import ca.uhn.fhir.jpa.provider.JpaSystemProvider;
 import ca.uhn.fhir.jpa.provider.TerminologyUploaderProvider;
-import ca.uhn.fhir.jpa.provider.r4.JpaSystemProviderR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
 import ca.uhn.fhir.rest.api.EncodingEnum;
+import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.ETagSupportEnum;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
+import jakarta.servlet.ServletException;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
-import javax.servlet.ServletException;
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.r4.formats.JsonParser;
 import org.hl7.fhir.r4.model.Bundle;
@@ -27,7 +29,6 @@ import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
-import org.mitre.fhir.bulk.AuthorizationBulkDataExportProvider;
 import org.mitre.fhir.bulk.BulkInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -49,7 +50,7 @@ public class MitreJpaServer extends RestfulServer {
   protected ISearchParamRegistry searchParamRegistry;
 
   @Autowired
-  AuthorizationBulkDataExportProvider authorizationBulkDataExportProvider;
+  BulkDataExportProvider bulkDataExportProvider;
 
   public MitreJpaServer() {
     // Required for Autowiring searchParamRegistry
@@ -83,8 +84,8 @@ public class MitreJpaServer extends RestfulServer {
     // mySystemProviderR4 is generated as a part of hapi-fhir-jpaserver-base.
     // The system provider implements non-resource-type methods,
     // such as transaction, and global history.
-    JpaSystemProviderR4 systemProvider =
-        appContext.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
+    JpaSystemProvider systemProvider =
+        appContext.getBean("mySystemProviderR4", JpaSystemProvider.class);
     registerProvider(systemProvider);
 
     // mySystemDaoR4 is generated as a part of hapi-fhir-jpaserver-base.
@@ -97,7 +98,7 @@ public class MitreJpaServer extends RestfulServer {
 
     ServerConformanceWithAuthorizationProvider confProvider =
         new ServerConformanceWithAuthorizationProvider(this, systemDao,
-            appContext.getBean(DaoConfig.class), searchParamRegistry);
+            appContext.getBean(JpaStorageSettings.class), searchParamRegistry);
     confProvider.setImplementationDescription("HAPI FHIR R4 Server");
     setServerConformanceProvider(confProvider);
 
@@ -130,7 +131,7 @@ public class MitreJpaServer extends RestfulServer {
             + "ResponseEncoding[${responseEncodingNoDefault}]");
     registerInterceptor(loggingInterceptor);
 
-    registerInterceptor(new BulkInterceptor());
+    registerInterceptor(new BulkInterceptor(this.getFhirContext()));
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
@@ -139,7 +140,7 @@ public class MitreJpaServer extends RestfulServer {
     }
 
     // enable Bulk Export
-    registerProvider(authorizationBulkDataExportProvider);
+    registerProvider(bulkDataExportProvider);
 
     try {
       String resourcesFolder = new HapiReferenceServerProperties().getResourcesFolder();
@@ -188,7 +189,7 @@ public class MitreJpaServer extends RestfulServer {
           // That version number causes pain here, so remove it.
           resource.setId(resourceType + "/" + resource.getIdElement().getIdPart());
 
-          registry.getResourceDao(resource.fhirType()).update(resource);
+          registry.getResourceDao(resource.fhirType()).update(resource, (RequestDetails) null);
         }
       } catch (Exception e) {
         System.out.println("Unable to load " + file.getName());

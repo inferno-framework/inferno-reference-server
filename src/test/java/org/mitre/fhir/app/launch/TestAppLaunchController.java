@@ -9,7 +9,7 @@ import org.apache.jena.atlas.json.JSON;
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.atlas.json.JsonString;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
@@ -72,7 +72,7 @@ public class TestAppLaunchController {
     WebAppContext webAppContext = new WebAppContext();
     webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-    webAppContext.setResourceBase(path + "/target/mitre-fhir-starter");
+    webAppContext.setBaseResourceAsString(path + "/src/main/webapp/WEB-INF/");
     webAppContext.setParentLoaderPriority(true);
 
     ourServer.setHandler(webAppContext);
@@ -110,25 +110,27 @@ public class TestAppLaunchController {
 
   @AfterClass
   public static void afterClass() throws Exception {
-    // delete test patient and encounter
-    ourClient.delete().resourceById("Encounter", testFirstEncounterId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
-
-    ourClient.delete().resourceById("Patient", testFirstPatientId.getIdPart())
-     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-     .execute();
-
-    System.setProperty("READ_ONLY", "true");
-
-    testFirstPatientId = null;
-    testFirstEncounterId = null;
-
-    // clear db just in case there are any erroneous patients or encounters
-    TestUtils.clearDB(ourClient);
-
-    ourServer.stop();
+	try {
+	    // delete test patient and encounter
+	    ourClient.delete().resourceById("Encounter", testFirstEncounterId.getIdPart())
+	     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+	      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+	     .execute();
+	
+	    ourClient.delete().resourceById("Patient", testFirstPatientId.getIdPart())
+	     .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+	      FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+	     .execute();
+	
+	    System.setProperty("READ_ONLY", "true");
+	
+	    testFirstPatientId = null;
+	    testFirstEncounterId = null;
+	
+	    // clear db just in case there are any erroneous patients or encounters
+	    TestUtils.clearDB(ourClient);
+	} finally {
+      ourServer.stop();
+	}
   }
 }

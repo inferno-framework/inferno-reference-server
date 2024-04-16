@@ -2,14 +2,16 @@ package org.mitre.fhir;
 
 import ca.uhn.fhir.to.mvc.AnnotationMethodHandlerAdapterConfigurer;
 import ca.uhn.fhir.to.util.WebUtil;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
 // Based off of ca.uhn.fhir.to.FhirTesterMvcConfig
@@ -33,7 +35,6 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
     theRegistry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
     theRegistry.addResourceHandler("/img/**").addResourceLocations("/img/");
     theRegistry.addResourceHandler("/js/**").addResourceLocations("/js/");
-
   }
 
   /**
@@ -57,8 +58,9 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
    * @return AnnotationMethodHandlerAdapterConfigurer
    */
   @Bean
-  public AnnotationMethodHandlerAdapterConfigurer annotationMethodHandlerAdapterConfigurer() {
-    return new AnnotationMethodHandlerAdapterConfigurer();
+  public AnnotationMethodHandlerAdapterConfigurer annotationMethodHandlerAdapterConfigurer(
+      @Qualifier("requestMappingHandlerAdapter") RequestMappingHandlerAdapter theAdapter) {
+    return new AnnotationMethodHandlerAdapterConfigurer(theAdapter);
   }
 
   /**
@@ -86,5 +88,4 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
 
     return templateEngine;
   }
-
 }

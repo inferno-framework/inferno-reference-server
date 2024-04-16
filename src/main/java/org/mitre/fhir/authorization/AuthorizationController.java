@@ -1,4 +1,3 @@
-
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -15,6 +14,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -34,8 +35,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
@@ -65,7 +64,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 public class AuthorizationController {
@@ -339,28 +337,33 @@ public class AuthorizationController {
     try {
       String rawCodeString = new String(Base64.getDecoder().decode(encodedCodeString));
       JSONObject codeObject = new JSONObject(rawCodeString);
-      String scopes = null;
-      String patientId = null;
-      String encounterId = null;
-      String codeChallenge = null;
-      String codeChallengeMethod = null;
-      String code = null;
 
+      String scopes = null;
       if (codeObject.has("scopes")) {
         scopes = (String) codeObject.get("scopes");
       }
+
+      String patientId = null;
       if (codeObject.has("patientId")) {
         patientId = (String) codeObject.get("patientId");
       }
+
+      String encounterId = null;
       if (codeObject.has("encounterId")) {
         encounterId = (String) codeObject.get("encounterId");
       }
+
+      String codeChallenge = null;
       if (codeObject.has("codeChallenge")) {
         codeChallenge = (String) codeObject.get("codeChallenge");
       }
+
+      String codeChallengeMethod = null;
       if (codeObject.has("codeChallengeMethod")) {
         codeChallengeMethod = (String) codeObject.get("codeChallengeMethod");
       }
+
+      String code = null;
       if (codeObject.has("code")) {
         code = (String) codeObject.get("code");
       }
@@ -446,9 +449,6 @@ public class AuthorizationController {
    */
   private String generateBearerToken(HttpServletRequest request, String clientId, String scopes,
       String patientId, String encounterId) {
-
-    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
-
     Long expiresIn = 3600L;
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken(scopes);
@@ -492,6 +492,8 @@ public class AuthorizationController {
 
     if (scopesList.contains("launch") || scopesList.contains("launch/encounter")) {
       if (Objects.equals(encounterId, "") || encounterId == null) {
+        IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
+
         Encounter encounter = getFirstEncounterByPatientId(client, patientId);
 
         if (encounter == null) {
