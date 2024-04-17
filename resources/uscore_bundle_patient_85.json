@@ -16629,6 +16629,18 @@
           },
           {
             "reference": "urn:uuid:bef6c601-bc94-4f55-9f87-7f46afcc2943"
+          },
+          {
+            "reference": "urn:uuid:a6b1a885-b8e6-4cdd-afbd-9623a12ea8e8"
+          },
+          {
+            "reference": "urn:uuid:f606cfc9-4be2-42ad-80a6-4ad9fda0d7dc"
+          },
+          {
+            "reference": "urn:uuid:3263c8c2-79b8-4500-b295-ba091e66fa39"
+          },
+          {
+            "reference": "urn:uuid:43c38130-3c10-4183-93bc-f80edbeddd8d"
           }
         ],
         "recorded": "1977-07-15T01:11:45.131-04:00",
@@ -18311,6 +18323,12 @@
               "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
               "display": "Dr. Willena258 Oberbrunner298"
             }
+          },
+          {
+            "actor":
+            {
+              "reference": "urn:uuid:8e81b028-5271-9eda-b6c0-0e308770ee50"
+            }
           }
         ],
         "authorizingPrescription":
@@ -18366,6 +18384,11 @@
             "actor": {
               "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
               "display": "Dr. Melvin857 Torp761"
+            }
+          },
+          {
+            "actor": {
+              "reference": "urn:uuid:9482b2d2-b99e-f930-06bd-6129c921328f"
             }
           },
           {
@@ -18426,6 +18449,477 @@
       "request": {
         "method": "POST",
         "url": "MedicationDispense"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a6b1a885-b8e6-4cdd-afbd-9623a12ea8e8",
+      "resource": {
+        "resourceType" : "QuestionnaireResponse",
+        "id" : "a6b1a885-b8e6-4cdd-afbd-9623a12ea8e8",
+        "meta" : {
+          "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-questionnaireresponse"]
+        },
+        "identifier": {
+          "system": "urn:ietf:rfc:3986",
+          "value": "urn:uuid:63c25911-a18e-4ccd-892a-8949c01d01b1"
+        },
+        "_questionnaire" : {
+          "extension" : [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/display",
+              "valueString": "Glascow Coma Score"
+            },
+            {
+            "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-extension-questionnaire-uri",
+            "valueUri" : "https://www.cdc.gov/masstrauma/resources/gcs.pdf"
+            }
+          ]
+        },
+        "status" : "completed",
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "authored" : "2014-12-11T04:44:16Z",
+        "author" : {
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        },
+        "item" : [{
+          "linkId" : "1",
+          "text" : "Eye Opening Response",
+          "answer" : [{
+            "valueDecimal" : 4
+          }]
+        },
+        {
+          "linkId" : "2",
+          "text" : "Verbal Response",
+          "answer" : [{
+            "valueDecimal" : 4
+          }]
+        },
+        {
+          "linkId" : "3",
+          "text" : "Motor Response",
+          "answer" : [{
+            "valueString" : "4"
+          }]
+        }]
+      },
+      "request": {
+        "method": "POST",
+        "url": "QuestionnaireResponse"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f606cfc9-4be2-42ad-80a6-4ad9fda0d7dc",
+      "resource": {
+        "resourceType" : "QuestionnaireResponse",
+        "id" : "f606cfc9-4be2-42ad-80a6-4ad9fda0d7dc",
+        "meta" : {
+          "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-questionnaireresponse"]
+        },
+        "questionnaire" : "http://hl7.org/fhir/us/core/Questionnaire/prapare-example",
+        "status" : "completed",
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "authored" : "2022-03-28T18:30:40-07:00",
+        "item" : [{
+          "linkId" : "/93025-5",
+          "text" : "Protocol for Responding to and Assessing Patients' Assets, Risks, and Experiences [PRAPARE]",
+          "item" : [{
+            "linkId" : "/93043-8",
+            "text" : "Personal characteristics",
+            "item" : [{
+              "linkId" : "/93043-8/56051-6",
+              "text" : "Do you consider yourself Hispanic/Latino?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA32-8",
+                  "display" : "No"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93043-8/32624-9",
+              "text" : "Race",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA4457-3",
+                  "display" : "White"
+                }
+              },
+              {
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30187-1",
+                  "display" : "Pacific Islander"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93043-8/93035-4",
+              "text" : "At any point in the past 2 years, has season or migrant farm work been your or your family's main source of income?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA33-6",
+                  "display" : "Yes"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93043-8/93034-7",
+              "text" : "Have you been discharged from the armed forces of the United States?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA32-8",
+                  "display" : "No"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93043-8/54899-0",
+              "text" : "Preferred language",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA43-5",
+                  "display" : "English"
+                }
+              }]
+            }]
+          },
+          {
+            "linkId" : "/93042-0",
+            "text" : "Family and home",
+            "item" : [{
+              "linkId" : "/93042-0/63512-8",
+              "text" : "How many people are living or staying at this address?",
+              "answer" : [{
+                "valueInteger" : 6
+              }]
+            },
+            {
+              "linkId" : "/93042-0/71802-3",
+              "text" : "Housing status",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30190-5",
+                  "display" : "I do not have housing (staying with others, in a hotel, in a shelter, living outside on the street, on a beach, in a car, or in a park)"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93042-0/93033-9",
+              "text" : "Are you worried about losing your housing?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30122-8",
+                  "display" : "I choose not to answer this question"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93042-0/56799-0",
+              "text" : "Address",
+              "answer" : [{
+                "valueString" : "Broadway"
+              }]
+            }]
+          },
+          {
+            "linkId" : "/93041-2",
+            "text" : "Money and resources",
+            "item" : [{
+              "linkId" : "/93041-2/82589-3",
+              "text" : "Highest level of educ",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30191-3",
+                  "display" : "Less than high school degree"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93041-2/67875-5",
+              "text" : "Employment status current",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA17956-6",
+                  "display" : "Unemployed"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93041-2/76437-3",
+              "text" : "Primary insurance",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA17849-3",
+                  "display" : "Medicaid"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93041-2/63586-2",
+              "text" : "What was your best estimate of the total income of all family members from all sources, before taxes, in last year?",
+              "answer" : [{
+                "valueDecimal" : 25000
+              }]
+            },
+            {
+              "linkId" : "/93041-2/93031-3",
+              "text" : "In the past year, have you or any family members you live with been unable to get any of the following when it was really needed?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30126-9",
+                  "display" : "Clothing"
+                }
+              },
+              {
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30127-7",
+                  "display" : "Child care"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93041-2/93030-5",
+              "text" : "Has lack of transportation kept you from medical appointments, meetings, work, or from getting things needed for daily living",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30134-3",
+                  "display" : "Yes, it has kept me from non-medical meetings, appointments, work, or from getting things that I need"
+                }
+              }]
+            }]
+          },
+          {
+            "linkId" : "/93040-4",
+            "text" : "Social and emotional health",
+            "item" : [{
+              "linkId" : "/93040-4/93029-7",
+              "text" : "How often do you see or talk to people that you care about and feel close to (For example: talking to friends on the phone, visiting friends or family, going to church or club meetings)?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA30130-1",
+                  "display" : "1 or 2 times a week"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93040-4/93038-8",
+              "text" : "Stress is when someone feels tense, nervous, anxious or can't sleep at night because their mind is troubled. How stressed are you?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA13909-9",
+                  "display" : "Somewhat"
+                }
+              }]
+            }]
+          },
+          {
+            "linkId" : "/93039-6",
+            "text" : "Optional additional questions",
+            "item" : [{
+              "linkId" : "/93039-6/93028-9",
+              "text" : "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA32-8",
+                  "display" : "No"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93039-6/93027-1",
+              "text" : "Are you a refugee?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA32-8",
+                  "display" : "No"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93039-6/93026-3",
+              "text" : "Do you feel physically and emotionally safe where you currently live?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA32-8",
+                  "display" : "No"
+                }
+              }]
+            },
+            {
+              "linkId" : "/93039-6/76501-6",
+              "text" : "Within the last year, have you been afraid of your partner or ex-partner?",
+              "answer" : [{
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA32-8",
+                  "display" : "No"
+                }
+              }]
+            }]
+          }]
+        }]
+      },
+      "request": {
+        "method": "POST",
+        "url": "QuestionnaireResponse"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3263c8c2-79b8-4500-b295-ba091e66fa39",
+      "resource": {
+        "resourceType" : "QuestionnaireResponse",
+        "id" : "3263c8c2-79b8-4500-b295-ba091e66fa39",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-questionnaireresponse"
+          ]
+        },
+        "questionnaire" : "http://hl7.org/fhir/us/core/Questionnaire/AUDIT-C",
+        "status" : "completed",
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "authored" : "2023-08-14T20:40:49.675Z",
+        "author" : {
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        },
+        "item" : [
+          {
+            "linkId" : "/68517-2",
+            "text" : "How many times in the past year have you have X or more drinks in a day?",
+            "answer" : [
+              {
+                "valueDecimal" : 0
+              }
+            ]
+          },
+          {
+            "linkId" : "/68519-8",
+            "text" : "How many standard drinks containing alcohol do you have on a typical day?",
+            "answer" : [
+              {
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA15694-5",
+                  "display" : "1 or 2"
+                }
+              }
+            ]
+          },
+          {
+            "linkId" : "/68520-6",
+            "text" : "How often do you have 6 or more drinks on 1 occasion?",
+            "answer" : [
+              {
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA6270-8",
+                  "display" : "Never"
+                }
+              }
+            ]
+          },
+          {
+            "linkId" : "/75626-2",
+            "text" : "Total score [AUDIT-C]",
+            "answer" : [
+              {
+                "valueDecimal" : 0
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "QuestionnaireResponse"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:43c38130-3c10-4183-93bc-f80edbeddd8d",
+      "resource": {
+        "resourceType" : "QuestionnaireResponse",
+        "id" : "43c38130-3c10-4183-93bc-f80edbeddd8d",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-questionnaireresponse"
+          ]
+        },
+        "_questionnaire" : {
+          "extension" : [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/display",
+              "valueString": "Part of SDC-LOINC USSG Family History"
+            }
+          ]
+        },
+        "status" : "completed",
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "authored" : "2023-08-14T20:40:49.675Z",
+        "item" : [
+          {
+            "linkId" : "2.1.1.4",
+            "definition" : "http://loinc.org/fhir/DataElement/54139-1",
+            "text" : "Living?",
+            "answer" : [
+              {
+                "valueCoding" : {
+                  "system" : "http://loinc.org",
+                  "code" : "LA33-6",
+                  "display" : "Yes"
+                },
+                "item" : [
+                  {
+                    "linkId" : "2.1.1.4.2",
+                    "item" : [
+                      {
+                        "linkId" : "2.1.1.4.2.2",
+                        "definition" : "http://loinc.org/fhir/DataElement/54141-7",
+                        "text" : "Age",
+                        "answer" : [
+                          {
+                            "valueDecimal" : 30
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "QuestionnaireResponse"
       }
     }
   ],
