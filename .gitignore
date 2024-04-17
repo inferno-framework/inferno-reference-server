@@ -17,6 +17,8 @@ Thumbs.db
 *.rar
 target/
 
+!.mvn/wrapper/maven-wrapper.jar
+
 fhir-pgdata/
 
 build.sh
