@@ -1,21 +1,18 @@
 package org.mitre.fhir.utils;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.security.interfaces.RSAPublicKey;
-
+import net.sf.ehcache.util.concurrent.ThreadLocalRandom;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.exception.RsaKeyException;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
-import net.sf.ehcache.util.concurrent.ThreadLocalRandom;
 
 public class TestRSAUtils {
 

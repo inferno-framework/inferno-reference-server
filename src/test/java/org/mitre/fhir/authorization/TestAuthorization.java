@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
@@ -226,7 +226,7 @@ public class TestAuthorization {
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, "authorization_code", null, null, null, request);
+        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, "authorization_code", null, null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -476,7 +476,7 @@ public class TestAuthorization {
         FhirReferenceServerUtils.createCode(SAMPLE_CODE, scopes, testPatientId.getIdPart());
 
     ResponseEntity<String> tokenResponseEntity =
-      authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, "authorization_code", null, null, null, request);
+        authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, "authorization_code", null, null, null, request);
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -745,7 +745,6 @@ public class TestAuthorization {
   @Test
   public void testTestAuthorizationWithRefreshToken() throws IOException, JSONException,
       BearerTokenException, TokenNotFoundException, TokenNotFoundException {
-    AuthorizationController authorizationController = new AuthorizationController();
     String serverBaseUrl = "";
     MockHttpServletRequest request = new MockHttpServletRequest();
     request.setLocalAddr("localhost");
@@ -760,6 +759,7 @@ public class TestAuthorization {
 
     String refreshTokenValue = refreshToken.getTokenValue();
 
+    AuthorizationController authorizationController = new AuthorizationController();
     ResponseEntity<String> tokenResponseEntity = authorizationController.getToken(
       null,
       "SAMPLE_PUBLIC_CLIENT_ID",
@@ -1020,27 +1020,27 @@ public class TestAuthorization {
   @AfterClass
   public static void afterClass() throws Exception {
     try {
-        // delete test patient and encounter
+      // delete test patient and encounter
 
-        ourClient.delete().resourceById(testEncounterId)
-            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-            .execute();
+      ourClient.delete().resourceById(testEncounterId)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+          .execute();
 
-        ourClient.delete().resourceById(testPatientId)
-            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-            .execute();
+      ourClient.delete().resourceById(testPatientId)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+          .execute();
 
-        testPatientId = null;
-        testEncounterId = null;
+      testPatientId = null;
+      testEncounterId = null;
 
-        System.setProperty("READ_ONLY", "true");
+      System.setProperty("READ_ONLY", "true");
 
-        // clear db just in case there are any erroneous patients or encounters
-        TestUtils.clearDB(ourClient);
+      // clear db just in case there are any erroneous patients or encounters
+      TestUtils.clearDB(ourClient);
     } finally {
-        ourServer.stop();
+      ourServer.stop();
     }
   }
 

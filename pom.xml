@@ -298,11 +298,11 @@
 	        <version>${checkstyle.plugin.version}</version>
 	        <configuration>
 	          <configLocation>${checkstyle.config}</configLocation>
-	          <encoding>UTF-8</encoding>
 	          <consoleOutput>true</consoleOutput>
 	          <failsOnError>true</failsOnError>
 	          <violationSeverity>warning</violationSeverity>
 	          <linkXRef>false</linkXRef>
+	          <includeTestSourceDirectory>true</includeTestSourceDirectory>
 	        </configuration>
 	        <dependencies>
 	          <dependency>

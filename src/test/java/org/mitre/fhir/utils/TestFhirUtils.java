@@ -1,23 +1,28 @@
 package org.mitre.fhir.utils;
 
+import static org.junit.Assert.assertTrue;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.ee10.webapp.WebAppContext;
-import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r4.model.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.mitre.fhir.authorization.token.Token;
-import org.mitre.fhir.authorization.token.TokenManager;
-
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
+import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 
 public class TestFhirUtils {
 
@@ -34,18 +39,18 @@ public class TestFhirUtils {
   @Test
   public void testGetAllEncountersWithPatientId() {
     List<Bundle.BundleEntryComponent> bundle = FhirUtils.getAllEncountersWithPatientId(ourClient, testFirstPatientId.getIdPart());
-    assert(bundle.size() == 2);
+    assertTrue(bundle.size() == 2);
     Resource firstEntry = bundle.get(0).getResource();
     Resource secondEntry = bundle.get(1).getResource();
-    assert(firstEntry.getClass() == Encounter.class && secondEntry.getClass() == Encounter.class);
-    assert(Objects.equals(firstEntry.getId(), testFirstEncounterId.toString()));
-    assert(Objects.equals(secondEntry.getId(), testSecondEncounterId.toString()));
+    assertTrue(firstEntry.getClass() == Encounter.class && secondEntry.getClass() == Encounter.class);
+    assertTrue(Objects.equals(firstEntry.getId(), testFirstEncounterId.toString()));
+    assertTrue(Objects.equals(secondEntry.getId(), testSecondEncounterId.toString()));
 
     bundle = FhirUtils.getAllEncountersWithPatientId(ourClient, testSecondPatientId.getIdPart());
-    assert(bundle.size() == 1);
+    assertTrue(bundle.size() == 1);
     firstEntry = bundle.get(0).getResource();
-    assert(firstEntry.getClass() == Encounter.class);
-    assert(Objects.equals(firstEntry.getId(), testThirdEncounterId.toString()));
+    assertTrue(firstEntry.getClass() == Encounter.class);
+    assertTrue(Objects.equals(firstEntry.getId(), testThirdEncounterId.toString()));
   }
 
   @BeforeClass
@@ -55,7 +60,9 @@ public class TestFhirUtils {
     testToken = TokenManager.getInstance().getServerToken();
     FhirContext ourCtx = FhirContext.forR4();
 
-    if (ourPort == 0) { ourPort = TestUtils.TEST_PORT; };
+    if (ourPort == 0) {
+      ourPort = TestUtils.TEST_PORT;
+    }
     ourServer = new Server(ourPort);
 
     String path = Paths.get("").toAbsolutePath().toString();

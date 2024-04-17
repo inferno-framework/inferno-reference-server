@@ -66,24 +66,13 @@ public class TestTokenManager {
     tokenManager.revokeToken(token.getTokenValue());
 
     // should fail because token was revoked
-    try {
+    Assert.assertThrows(InvalidBearerTokenException.class, () -> {
       tokenManager.authenticateBearerToken(token.getTokenValue());
-      Assert.fail();
-    }
+    });
 
-    catch (InvalidBearerTokenException invalidBearerTokenException) {
-
-    }
-
-
-    try {
+    Assert.assertThrows(InvalidBearerTokenException.class, () -> {
       tokenManager.authenticateRefreshToken(refreshToken.getTokenValue());
-      Assert.fail();
-    }
-
-    catch (InvalidBearerTokenException invalidBearerTokenException) {
-
-    }
+    });
   }
 
   @Test(expected = TokenNotFoundException.class)
@@ -102,12 +91,10 @@ public class TestTokenManager {
     tokenManager.revokeToken(token.getTokenValue());
     // token should be revoked, so inactive
     tokenManager.revokeToken(token.getTokenValue());
-
   }
 
   @Test
   public void testCustomBearerToken() throws Exception {
-
     /*
      * Unfortunately due to it being a singleton, TokenManager if used previously will have an
      * existing instance in memory, thus it won't read any env variable added after the first time
@@ -116,7 +103,7 @@ public class TestTokenManager {
      */
     Field singletonInstanceField = TokenManager.class.getDeclaredField("instance");
     singletonInstanceField.setAccessible(true);
-    singletonInstanceField.set(null, null);// set the static variable to null
+    singletonInstanceField.set(null, null); // set the static variable to null
 
     String customTokenValue = "MY-CUSTOM-BEARER-TOKEN";
 

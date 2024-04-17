@@ -1,11 +1,9 @@
 package org.mitre.fhir.utils;
 
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 

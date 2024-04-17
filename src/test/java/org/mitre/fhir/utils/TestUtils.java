@@ -2,6 +2,9 @@
 package org.mitre.fhir.utils;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import java.util.Base64;
+import java.util.Base64.Encoder;
+import java.util.List;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
@@ -9,11 +12,6 @@ import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
-
-
-import java.util.Base64;
-import java.util.Base64.Encoder;
-import java.util.List;
 
 public class TestUtils {
 
