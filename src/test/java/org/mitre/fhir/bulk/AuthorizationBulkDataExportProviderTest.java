@@ -149,14 +149,16 @@ public class AuthorizationBulkDataExportProviderTest {
     return contentUrl;
   }
 
-
+  /**
+   * Common setup, run once per class not per test.
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
 
-    ourCtx = FhirContext.forR4();
+    ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
 
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
@@ -206,7 +208,7 @@ public class AuthorizationBulkDataExportProviderTest {
 
     Encounter encounter = new Encounter();
     encounter.setSubject(new Reference().setReference("Patient/" + testPatientId.getIdPart()));
-    encounter.setServiceProvider(new Reference().setReference("Organization/" + testOrganizationId.getIdPart()));
+    encounter.setServiceProvider(new Reference("Organization/" + testOrganizationId.getIdPart()));
     testEncounterId = ourClient.create().resource(encounter)
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
@@ -227,6 +229,9 @@ public class AuthorizationBulkDataExportProviderTest {
         .execute().getId();
   }
 
+  /**
+   * Common cleanup, run once per class not per test.
+   */
   @AfterClass
   public static void afterClass() throws Exception {
     try {

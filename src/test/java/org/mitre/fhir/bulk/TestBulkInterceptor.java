@@ -92,14 +92,16 @@ public class TestBulkInterceptor {
     return contentUrl;
   }
 
-
+  /**
+   * Common setup, run once per class not per test.
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
 
-    ourCtx = FhirContext.forR4();
+    ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
 
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
@@ -168,6 +170,9 @@ public class TestBulkInterceptor {
         .execute().getId();
   }
 
+  /**
+   * Common cleanup, run once per class not per test.
+   */
   @AfterClass
   public static void afterClass() throws Exception {
     try {

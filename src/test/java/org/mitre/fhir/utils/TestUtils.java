@@ -29,17 +29,22 @@ public class TestUtils {
   }
 
   public static String getEncodedBasicAuthorizationHeaderWithPublicClient() {
-    return getEncodedBasicAuthorizationHeader(
-        SAMPLE_PUBLIC_CLIENT_ID,
-        "");
+    return getEncodedBasicAuthorizationHeader(SAMPLE_PUBLIC_CLIENT_ID, "");
   }
   
+  /**
+   * Get the Authorization header for the default sample confidential client.
+   */
   public static String getEncodedBasicAuthorizationHeader() {
     return getEncodedBasicAuthorizationHeader(
         SAMPLE_CONFIDENTIAL_CLIENT_ID,
         SAMPLE_CONFIDENTIAL_CLIENT_SECRET);
   }
 
+  /**
+   * Create an Authorization header using Basic Auth for the given client id/secret.
+   * @return "Basic " + encoded id/secret
+   */
   public static String getEncodedBasicAuthorizationHeader(String clientId, String clientSecret) {
     Encoder encoder = Base64.getUrlEncoder();
     String decodedValue = getBasicAuthorizationString(clientId, clientSecret);
@@ -47,6 +52,9 @@ public class TestUtils {
     return "Basic " + encodedValue;
   }
 
+  /**
+   * Clear out the DB associated to the given client.
+   */
   public static void clearDB(IGenericClient ourClient) {
 
     // confirm that this is only being called on test data

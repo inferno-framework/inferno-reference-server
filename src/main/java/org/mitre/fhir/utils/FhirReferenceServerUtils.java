@@ -23,6 +23,13 @@ public class FhirReferenceServerUtils {
 
   public static final String DEFAULT_SCOPE = "launch/patient patient/*";
 
+  /**
+   * FHIR Context for this server.
+   * FhirContext objects are expensive to create, so only create one per-app
+   * and reuse it everywhere.
+   */
+  public static final FhirContext FHIR_CONTEXT_R4 = FhirContext.forR4();
+
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final int HTTP_DEFAULT_PORT = 80;
@@ -173,7 +180,7 @@ public class FhirReferenceServerUtils {
       return clients.get(fhirServerBaseUrl);
     }
 
-    IGenericClient newClient = FhirContext.forR4().newRestfulGenericClient(fhirServerBaseUrl);
+    IGenericClient newClient = FHIR_CONTEXT_R4.newRestfulGenericClient(fhirServerBaseUrl);
     clients.put(fhirServerBaseUrl, newClient);
 
     return newClient;

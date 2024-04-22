@@ -21,7 +21,8 @@ public class TestWellKnownEndpoint {
 
   @Test
   public void testWellKnownEndpoint() throws IOException {
-    WellKnownAuthorizationEndpointController wellKnownEndpoint = new WellKnownAuthorizationEndpointController();
+    WellKnownAuthorizationEndpointController wellKnownEndpoint =
+        new WellKnownAuthorizationEndpointController();
     MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
     mockHttpServletRequest.setScheme("http");
@@ -44,7 +45,8 @@ public class TestWellKnownEndpoint {
 
   @Test
   public void testGetJwkModulusAndExponent() throws IllegalArgumentException, RsaKeyException {
-    WellKnownAuthorizationEndpointController wellKnownEndpoint = new WellKnownAuthorizationEndpointController();
+    WellKnownAuthorizationEndpointController wellKnownEndpoint =
+        new WellKnownAuthorizationEndpointController();
     MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
     mockHttpServletRequest.setScheme("http");

@@ -46,7 +46,8 @@ public class TestAppLaunchController {
     mockHttpServletRequest.setServerName("localhost:" + ourServer.getURI().getPort());
     mockHttpServletRequest.setRequestURI("/app/ehr-launch-context-options");
 
-    ResponseEntity<String> response = appLaunchController.getEhrLaunchContextOptions(mockHttpServletRequest);
+    ResponseEntity<String> response =
+        appLaunchController.getEhrLaunchContextOptions(mockHttpServletRequest);
 
     String patientId = testFirstPatientId.getIdPart();
     JsonObject jsonResponseBody = JSON.parse(Objects.requireNonNull(response.getBody()));
@@ -55,12 +56,14 @@ public class TestAppLaunchController {
     assertTrue(Objects.equals(encounterId, returnedEncounterId));
   }
 
+  /**
+   * Common setup, run once per class not per test.
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
-    FhirContext ourCtx = FhirContext.forR4();
 
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
@@ -78,6 +81,7 @@ public class TestAppLaunchController {
     ourServer.setHandler(webAppContext);
     ourServer.start();
 
+    FhirContext ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
     ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
     ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
     String ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
@@ -101,13 +105,16 @@ public class TestAppLaunchController {
      .execute().getId();
 
     Encounter firstEncounter = new Encounter();
-    firstEncounter.setSubject(new Reference().setReference("Patient/" + testFirstPatientId.getIdPart()));
+    firstEncounter.setSubject(new Reference("Patient/" + testFirstPatientId.getIdPart()));
     testFirstEncounterId = ourClient.create().resource(firstEncounter)
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute().getId();
   }
 
+  /**
+   * Common cleanup, run once per class not per test.
+   */
   @AfterClass
   public static void afterClass() throws Exception {
     try {

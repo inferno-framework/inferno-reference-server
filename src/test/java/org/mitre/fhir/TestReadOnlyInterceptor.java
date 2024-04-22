@@ -1,5 +1,7 @@
 package org.mitre.fhir;
 
+import static org.mitre.fhir.utils.FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
@@ -44,9 +46,10 @@ public class TestReadOnlyInterceptor {
   private void createPatient() throws MethodNotAllowedException {
     Patient pt = new Patient();
     pt.addName().setFamily("Test");
+    String authHeaderValue =
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue());
     ourClient.create().resource(pt)
-            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                    FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+            .withAdditionalHeader(AUTHORIZATION_HEADER_NAME, authHeaderValue)
             .execute();
   }
 
@@ -54,9 +57,10 @@ public class TestReadOnlyInterceptor {
     Patient pt = new Patient();
     pt.addName().setFamily("Test");
     pt.setId("1234");
+    String authHeaderValue =
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue());
     ourClient.update().resource(pt)
-            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                    FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+            .withAdditionalHeader(AUTHORIZATION_HEADER_NAME, authHeaderValue)
             .execute();
   }
 
@@ -64,17 +68,21 @@ public class TestReadOnlyInterceptor {
     Patient pt = new Patient();
     pt.addName().setFamily("Test");
     pt.setId("Patient/1234");
+    String authHeaderValue =
+        FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue());
     ourClient.delete().resource(pt)
-            .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-                    FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+            .withAdditionalHeader(AUTHORIZATION_HEADER_NAME, authHeaderValue)
             .execute();
   }
 
+  /**
+   * Common setup, run once per class not per test.
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
 
     testToken = TokenManager.getInstance().getServerToken();
-    ourCtx = FhirContext.forR4();
+    ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
 
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
