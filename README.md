@@ -33,7 +33,7 @@ If you cannot run docker, you will need to create a postgres database.
 
 Once you have done that, update the `src/main/resources/hapi.properties` to connect datasource.url, datasource.username, datasource.password, datasource.schema (or make your existing postgres db have the provided values).
 
-Once that is done, you can run an instance of the fhir-reference server using `mvn jetty:run`.  You should be able to go to localhost:8080 to see information about the fhir server.
+Once that is done, you can run an instance of the fhir-reference server using `./mvnw jetty:run` (Linux/Mac) or `.\mvnw.cmd jetty:run` (Windows).  You should be able to go to localhost:8080 to see information about the fhir server.
 
 ## Using with Apps
 
@@ -72,14 +72,14 @@ modifying the state of the server are not supported. For example, requests to
 CREATE, UPDATE, or DELETE a resource will receive a `405 Method Not Allowed`
 error. To adjust this while running Docker, change the `READ_ONLY` environment
 variable to `false` in `./docker-compose.yml`. If running without Docker, run
-`mvn jetty:run -DREAD_ONLY=false` when starting the server.
+`./mvnw jetty:run -DREAD_ONLY=false` when starting the server.
 
 ## Running Tests
 
 Tests can be run with:
 
 ```shell
-mvn test
+./mvnw test
 ```
 
 ## Running Checkstyle
@@ -87,7 +87,7 @@ mvn test
 Checkstyle can be run with:
 
 ```shell
-mvn checkstyle:check
+./mvnw checkstyle:check
 ```
 
 ## Contact Us
