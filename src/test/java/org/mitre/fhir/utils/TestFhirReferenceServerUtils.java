@@ -1,11 +1,9 @@
 package org.mitre.fhir.utils;
 
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -127,16 +125,17 @@ public class TestFhirReferenceServerUtils {
     IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(getMockRequest());
     Assert.assertEquals(client.getServerBase(), "http://www.example.org/reference-server/r4");
 
-    MockHttpServletRequest differentMockRequest = new MockHttpServletRequest();
-    differentMockRequest.setScheme("https");
-    differentMockRequest.setServerName("www.notexample.org");
+    MockHttpServletRequest newMockRequest = new MockHttpServletRequest();
+    newMockRequest.setScheme("https");
+    newMockRequest.setServerName("www.notexample.org");
 
-    IGenericClient differentClient = FhirReferenceServerUtils.getClientFromRequest(differentMockRequest);
-    Assert.assertEquals(differentClient.getServerBase(), "https://www.notexample.org:80/reference-server/r4");
+    IGenericClient differentClient = FhirReferenceServerUtils.getClientFromRequest(newMockRequest);
+    Assert.assertEquals(differentClient.getServerBase(),
+        "https://www.notexample.org:80/reference-server/r4");
     Assert.assertNotEquals(client, differentClient);
   }
 
-  public static MockHttpServletRequest getMockRequest() {
+  private static MockHttpServletRequest getMockRequest() {
     MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 
     mockRequest.setScheme("http");

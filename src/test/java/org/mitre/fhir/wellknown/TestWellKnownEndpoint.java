@@ -4,6 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -12,17 +17,12 @@ import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Base64;
-import java.util.Base64.Decoder;
-
 public class TestWellKnownEndpoint {
 
   @Test
   public void testWellKnownEndpoint() throws IOException {
-    WellKnownAuthorizationEndpointController wellKnownEndpoint = new WellKnownAuthorizationEndpointController();
+    WellKnownAuthorizationEndpointController wellKnownEndpoint =
+        new WellKnownAuthorizationEndpointController();
     MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
     mockHttpServletRequest.setScheme("http");
@@ -30,10 +30,10 @@ public class TestWellKnownEndpoint {
     mockHttpServletRequest.setServerPort(123);
     mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 
-    String jSONString = wellKnownEndpoint.getWellKnownJson(mockHttpServletRequest);
+    String jsonString = wellKnownEndpoint.getWellKnownJson(mockHttpServletRequest);
 
     ObjectMapper mapper = new ObjectMapper();
-    JsonNode jsonNode = mapper.readTree(jSONString);
+    JsonNode jsonNode = mapper.readTree(jsonString);
 
     String authorizationEndpoint = jsonNode.get("authorization_endpoint").asText();
     Assert.assertEquals("http://www.example.org:123/reference-server/oauth/authorization", authorizationEndpoint);
@@ -44,8 +44,9 @@ public class TestWellKnownEndpoint {
   }
 
   @Test
-  public void testGetJWKModulusAndExponent() throws IllegalArgumentException, RsaKeyException {
-    WellKnownAuthorizationEndpointController wellKnownEndpoint = new WellKnownAuthorizationEndpointController();
+  public void testGetJwkModulusAndExponent() throws IllegalArgumentException, RsaKeyException {
+    WellKnownAuthorizationEndpointController wellKnownEndpoint =
+        new WellKnownAuthorizationEndpointController();
     MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
     mockHttpServletRequest.setScheme("http");
@@ -53,8 +54,8 @@ public class TestWellKnownEndpoint {
     mockHttpServletRequest.setServerPort(123);
     mockHttpServletRequest.setRequestURI("/.well-known/smart-configuration");
 
-    String jSONString = wellKnownEndpoint.getJwk(mockHttpServletRequest);
-    JSONObject jsonObject = new JSONObject(jSONString);
+    String jsonString = wellKnownEndpoint.getJwk(mockHttpServletRequest);
+    JSONObject jsonObject = new JSONObject(jsonString);
     JSONArray keys = (JSONArray) jsonObject.get("keys");
     JSONObject firstKey = (JSONObject) (keys.get(0));
     String modulusString = (String) firstKey.get("n");
@@ -67,7 +68,7 @@ public class TestWellKnownEndpoint {
     Algorithm algorithm = Algorithm.RSA256(RsaUtils.getRsaPublicKey(), RsaUtils.getRsaPrivateKey());
     String token = JWT.create().withIssuer("issuer").sign(algorithm);
 
-    RSAPublicKey publicKeyFromJWK = new RSAPublicKey() {
+    RSAPublicKey publicKeyFromJwk = new RSAPublicKey() {
 
       private static final long serialVersionUID = 1L;
 
@@ -101,7 +102,7 @@ public class TestWellKnownEndpoint {
 
     };
 
-    Algorithm algorithm2 = Algorithm.RSA256(publicKeyFromJWK, null);
+    Algorithm algorithm2 = Algorithm.RSA256(publicKeyFromJwk, null);
 
     //will throw an exception if wrong key
     JWT.require(algorithm2).build().verify(token);

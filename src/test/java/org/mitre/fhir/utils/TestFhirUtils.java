@@ -1,23 +1,28 @@
 package org.mitre.fhir.utils;
 
+import static org.junit.Assert.assertTrue;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.ee10.webapp.WebAppContext;
-import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r4.model.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.mitre.fhir.authorization.token.Token;
-import org.mitre.fhir.authorization.token.TokenManager;
-
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
+import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mitre.fhir.authorization.token.Token;
+import org.mitre.fhir.authorization.token.TokenManager;
 
 public class TestFhirUtils {
 
@@ -33,29 +38,35 @@ public class TestFhirUtils {
 
   @Test
   public void testGetAllEncountersWithPatientId() {
-    List<Bundle.BundleEntryComponent> bundle = FhirUtils.getAllEncountersWithPatientId(ourClient, testFirstPatientId.getIdPart());
-    assert(bundle.size() == 2);
+    List<Bundle.BundleEntryComponent> bundle =
+        FhirUtils.getAllEncountersWithPatientId(ourClient, testFirstPatientId.getIdPart());
+    assertTrue(bundle.size() == 2);
     Resource firstEntry = bundle.get(0).getResource();
     Resource secondEntry = bundle.get(1).getResource();
-    assert(firstEntry.getClass() == Encounter.class && secondEntry.getClass() == Encounter.class);
-    assert(Objects.equals(firstEntry.getId(), testFirstEncounterId.toString()));
-    assert(Objects.equals(secondEntry.getId(), testSecondEncounterId.toString()));
+    assertTrue(firstEntry.getClass() == Encounter.class);
+    assertTrue(secondEntry.getClass() == Encounter.class);
+    assertTrue(Objects.equals(firstEntry.getId(), testFirstEncounterId.toString()));
+    assertTrue(Objects.equals(secondEntry.getId(), testSecondEncounterId.toString()));
 
     bundle = FhirUtils.getAllEncountersWithPatientId(ourClient, testSecondPatientId.getIdPart());
-    assert(bundle.size() == 1);
+    assertTrue(bundle.size() == 1);
     firstEntry = bundle.get(0).getResource();
-    assert(firstEntry.getClass() == Encounter.class);
-    assert(Objects.equals(firstEntry.getId(), testThirdEncounterId.toString()));
+    assertTrue(firstEntry.getClass() == Encounter.class);
+    assertTrue(Objects.equals(firstEntry.getId(), testThirdEncounterId.toString()));
   }
 
+  /**
+   * Common setup, run once per class not per test.
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
-    FhirContext ourCtx = FhirContext.forR4();
 
-    if (ourPort == 0) { ourPort = TestUtils.TEST_PORT; };
+    if (ourPort == 0) {
+      ourPort = TestUtils.TEST_PORT;
+    }
     ourServer = new Server(ourPort);
 
     String path = Paths.get("").toAbsolutePath().toString();
@@ -69,6 +80,7 @@ public class TestFhirUtils {
     ourServer.setHandler(webAppContext);
     ourServer.start();
 
+    FhirContext ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
     ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
     ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
     String ourServerBase = "http://localhost:" + ourPort + "/reference-server/r4/";
@@ -99,29 +111,32 @@ public class TestFhirUtils {
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute().getId();
-
+    
     Encounter firstEncounter = new Encounter();
-    firstEncounter.setSubject(new Reference().setReference("Patient/" + testFirstPatientId.getIdPart()));
+    firstEncounter.setSubject(new Reference("Patient/" + testFirstPatientId.getIdPart()));
     testFirstEncounterId = ourClient.create().resource(firstEncounter)
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute().getId();
 
     Encounter secondEncounter = new Encounter();
-    secondEncounter.setSubject(new Reference().setReference("Patient/" + testFirstPatientId.getIdPart()));
+    secondEncounter.setSubject(new Reference("Patient/" + testFirstPatientId.getIdPart()));
     testSecondEncounterId = ourClient.create().resource(secondEncounter)
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute().getId();
 
     Encounter thirdEncounter = new Encounter();
-    thirdEncounter.setSubject(new Reference().setReference("Patient/" + testSecondPatientId.getIdPart()));
+    thirdEncounter.setSubject(new Reference("Patient/" + testSecondPatientId.getIdPart()));
     testThirdEncounterId = ourClient.create().resource(thirdEncounter)
      .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
       FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
      .execute().getId();
   }
 
+  /**
+   * Common cleanup, run once per class not per test.
+   */
   @AfterClass
   public static void afterClass() throws Exception {
     // delete test patient and encounter

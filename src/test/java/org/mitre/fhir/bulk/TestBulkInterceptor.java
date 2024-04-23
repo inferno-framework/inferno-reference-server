@@ -1,12 +1,15 @@
 package org.mitre.fhir.bulk;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
+import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
-
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -23,10 +26,6 @@ import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.TestUtils;
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
 public class TestBulkInterceptor {
 
@@ -93,14 +92,16 @@ public class TestBulkInterceptor {
     return contentUrl;
   }
 
-
+  /**
+   * Common setup, run once per class not per test.
+   */
   @BeforeClass
   public static void beforeClass() throws Exception {
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
 
-    ourCtx = FhirContext.forR4();
+    ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
 
     if (ourPort == 0) {
       ourPort = TestUtils.TEST_PORT;
@@ -169,30 +170,33 @@ public class TestBulkInterceptor {
         .execute().getId();
   }
 
+  /**
+   * Common cleanup, run once per class not per test.
+   */
   @AfterClass
   public static void afterClass() throws Exception {
     try {
-    // delete test patient and group
-    ourClient.delete().resourceById(groupId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
+      // delete test patient and group
+      ourClient.delete().resourceById(groupId)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+          .execute();
 
 
-    ourClient.delete().resourceById(testEncounterId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
+      ourClient.delete().resourceById(testEncounterId)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+          .execute();
 
-    ourClient.delete().resourceById(testPatientId)
-        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
-            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
-        .execute();
+      ourClient.delete().resourceById(testPatientId)
+          .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+              FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+          .execute();
 
-    System.setProperty("READ_ONLY", "true");
+      System.setProperty("READ_ONLY", "true");
 
-    // clear db just in case there are any erroneous patients or encounters
-    TestUtils.clearDB(ourClient);
+      // clear db just in case there are any erroneous patients or encounters
+      TestUtils.clearDB(ourClient);
     } finally {
       ourServer.stop();
     }

@@ -1,6 +1,5 @@
 package org.mitre.fhir.authorization;
 
-import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import com.auth0.jwk.InvalidPublicKeyException;
@@ -92,7 +91,8 @@ public class AuthorizationController {
     authorizeClientId(clientId, false);
     IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
     Bundle patientsBundle = FhirUtils.getPatientsBundle(client);
-    return FhirContext.forR4().newJsonParser().encodeResourceToString(patientsBundle);
+    return FhirReferenceServerUtils.FHIR_CONTEXT_R4.newJsonParser()
+        .encodeResourceToString(patientsBundle);
   }
 
   /**

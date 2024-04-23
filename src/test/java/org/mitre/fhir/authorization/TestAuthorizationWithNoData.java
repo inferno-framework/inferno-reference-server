@@ -1,6 +1,5 @@
 package org.mitre.fhir.authorization;
 
-
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
@@ -8,8 +7,8 @@ import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import com.github.dnault.xmlpatch.internal.Log;
 import java.io.IOException;
 import java.nio.file.Paths;
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.server.Server;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Patient;
@@ -26,10 +25,9 @@ import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.TestUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-
-
 /**
- * Test cases without preinserting any data for testing things like missing data.
+ * Test cases without preinserting any data for testing things like missing
+ * data.
  *
  * @author HERSHIL
  *
@@ -58,16 +56,8 @@ public class TestAuthorizationWithNoData {
     AuthorizationController authorizationController = new AuthorizationController();
 
     authorizationController.getToken(
-        FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null),
-        "SAMPLE_PUBLIC_CLIENT_ID",
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        request
-    );
+        FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID",
+        null, null, null, null, null, null, request);
 
     Token testToken = TokenManager.getInstance().getServerToken();
 
@@ -91,10 +81,11 @@ public class TestAuthorizationWithNoData {
     request.setServerPort(1234);
 
     String scope = "launch/patient launch/encounter";
+    String code = FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null);
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null, null, null, null, null,
-        request);
+    authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null, null, null, null,
+        null, request);
 
     Token testToken = TokenManager.getInstance().getServerToken();
 
@@ -124,18 +115,20 @@ public class TestAuthorizationWithNoData {
     String scope = "launch/patient launch/encounter";
 
     AuthorizationController authorizationController = new AuthorizationController();
-    authorizationController.getToken(FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID", null, null, null, null, null, null,
-        request);
+    authorizationController.getToken(
+        FhirReferenceServerUtils.createCode("SAMPLE_CODE", scope, null), "SAMPLE_PUBLIC_CLIENT_ID",
+        null, null, null, null, null, null, request);
   }
 
   /**
    * Sets up test server with test data.
+   * 
    * @throws Exception if server starts incorrectly
    */
   @BeforeClass
   public static void beforeClass() throws Exception {
 
-    ourCtx = FhirContext.forR4();
+    ourCtx = FhirReferenceServerUtils.FHIR_CONTEXT_R4;
 
     String path = Paths.get("").toAbsolutePath().toString();
 

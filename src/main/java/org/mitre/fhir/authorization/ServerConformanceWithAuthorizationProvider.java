@@ -1,6 +1,5 @@
 package org.mitre.fhir.authorization;
 
-import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.JpaCapabilityStatementProvider;
@@ -60,8 +59,7 @@ public class ServerConformanceWithAuthorizationProvider extends JpaCapabilitySta
       return capabilityStatement;
     }
 
-    FhirContext context = FhirContext.forR4();
-    IParser parser = context.newJsonParser();
+    IParser parser = FhirReferenceServerUtils.FHIR_CONTEXT_R4.newJsonParser();
 
     String jsonString = getCapabilityStatementJsonString(theRequest);
 
