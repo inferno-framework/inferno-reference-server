@@ -20,7 +20,7 @@
     {
       "resource": {
         "resourceType" : "Encounter",
-        "id" : "pdex-encounter",
+        "id" : "pdex-Encounter",
         "meta" : {
           "lastUpdated" : "2019-07-14T19:26:23.217+00:00",
           "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"]
@@ -52,8 +52,1219 @@
         }
       },
       "request": {
-        "method": "POST",
-        "url": "Encounter"
+        "method": "PUT",
+        "url": "Encounter/pdex-Encounter"
+      }
+    },
+    {
+      "resource": {
+        "resourceType" : "Device",
+        "id" : "pdex-Device",
+        "meta" : {
+          "versionId" : "1",
+          "lastUpdated" : "2020-09-28T09:26:23.217+00:00",
+          "profile" : ["http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-device"]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Device</b><a name=\"543210\"> </a><a name=\"hc543210\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Device &quot;543210&quot; Version &quot;1&quot; Updated &quot;2020-09-28 09:26:23+0000&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-pdex-device.html\">PDex Device</a></p></div><h3>UdiCarriers</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>DeviceIdentifier</b></td></tr><tr><td style=\"display: none\">*</td><td>23366006</td></tr></table><p><b>status</b>: active</p><p><b>manufacturer</b>: Motorized Wheelchair Company, Inc.</p><h3>DeviceNames</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Name</b></td><td><b>Type</b></td></tr><tr><td style=\"display: none\">*</td><td>MotorChairPro</td><td>user-friendly-name</td></tr></table><p><b>type</b>: Motorized wheelchair device (physical object) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[US]</a>#23366006)</span></p><p><b>patient</b>: <a href=\"Patient-1.html\">Patient/1</a> &quot; APPLESEED&quot;</p></div>"
+        },
+        "udiCarrier" : [{
+          "deviceIdentifier" : "23366006"
+        }],
+        "status" : "active",
+        "manufacturer" : "Motorized Wheelchair Company, Inc.",
+        "deviceName" : [{
+          "name" : "MotorChairPro",
+          "type" : "user-friendly-name"
+        }],
+        "type" : {
+          "coding" : [{
+            "system" : "http://snomed.info/sct",
+            "version" : "http://snomed.info/sct/731000124108",
+            "code" : "23366006"
+          }]
+        },
+        "patient" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/pdex-Device"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "DocumentReference",
+        "id" : "pdex-DocumentReference",
+        "meta" : {
+          "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"123456\"> </a><a name=\"hc123456\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;123456&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html\">US Core DocumentReference Profile</a></p></div><p><b>status</b>: current</p><p><b>type</b>: Letter <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#51852-2)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU6.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-1.html\">Patient/1</a> &quot; APPLESEED&quot;</p><p><b>date</b>: Oct 9, 2020, 3:26:23\u202fPM</p><p><b>author</b>: <a href=\"Organization-ProviderOrg1.html\">Organization/ProviderOrg1</a> &quot;Provider 1&quot;</p><p><b>custodian</b>: <a href=\"Organization-Payer1.html\">Organization/Payer1</a> &quot;Payer 1&quot;</p><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Url</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>application/pdf</td><td><code>/Binary/1-pdf</code></td><td>Uri where the data can be found = [base]/Binary/1-pdf\nor base64encode document and include in content.attachment.data element</td></tr></table><p><b>format</b>: urn:ihe:iti:xds:2017:mimeTypeSufficient (Details: http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem code null = 'null', stated as 'urn:ihe:iti:xds:2017:mimeTypeSufficient')</p></blockquote></div>"
+        },
+        "status" : "current",
+        "type" : {
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "51852-2"
+          }]
+        },
+        "category" : [{
+          "coding" : [{
+            "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+            "code" : "clinical-note"
+          }]
+        }],
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "date" : "2020-10-09T15:26:23.217+00:00",
+        "content" : [{
+          "attachment": {
+            "contentType": "text/plain",
+            "data": "CjE5NDAtMDktMDYKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkx1Y2llbjQwOCBpcyBhIDUgbW9udGgtb2xkIG5vbi1oaXNwYW5pYyB3aGl0ZSBtYWxlLgoKIyBTb2NpYWwgSGlzdG9yeQogUGF0aWVudCBoYXMgbmV2ZXIgc21va2VkIGFuZCBpcyBhbiBhbGNvaG9saWMuCgpQYXRpZW50IGNvbWVzIGZyb20gYSBoaWdoIHNvY2lvZWNvbm9taWMgYmFja2dyb3VuZC4gUGF0aWVudCBjdXJyZW50bHkgaGFzIEJsdWUgQ3Jvc3MgQmx1ZSBTaGllbGQuCgojIEFsbGVyZ2llcwpObyBLbm93biBBbGxlcmdpZXMuCgojIE1lZGljYXRpb25zCk5vIEFjdGl2ZSBNZWRpY2F0aW9ucy4KCiMgQXNzZXNzbWVudCBhbmQgUGxhbgoKCiMjIFBsYW4KClRoZSBmb2xsb3dpbmcgcHJvY2VkdXJlcyB3ZXJlIGNvbmR1Y3RlZDoKLSBtZWRpY2F0aW9uIHJlY29uY2lsaWF0aW9uIChwcm9jZWR1cmUpCg=="
+          },
+          "format": {
+            "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+            "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+            "display": "mimeType Sufficient"
+          }
+        }]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "DocumentReference/pdex-DocumentReference"
+      }
+    },
+    {
+      "resource" : {
+        "resourceType" : "Condition",
+        "id" : "pdex-Condition",
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><a name=\"Condition_101\"> </a><p><b>Generated Narrative: Condition</b><a name=\"101\"> </a><a name=\"hc101\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Condition &quot;101&quot; </p></div><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-condition-clinical.html\">Condition Clinical Status Codes</a>#active)</span></p><p><b>verificationStatus</b>: Confirmed <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-condition-ver-status.html\">ConditionVerificationStatus</a>#confirmed)</span></p><p><b>category</b>: Problem List Item <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-condition-category.html\">Condition Category Codes</a>#problem-list-item)</span></p><p><b>code</b>: liveborn born in hospital <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#442311008)</span></p><p><b>subject</b>: <a href=\"Patient-1.html\">Patient/1</a> &quot; APPLESEED&quot;</p><p><b>onset</b>: 1995-09-20</p></div>"
+        },
+        "clinicalStatus" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/condition-clinical",
+            "code" : "active"
+          }]
+        },
+        "verificationStatus" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+            "code" : "confirmed"
+          }]
+        },
+        "category" : [{
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/condition-category",
+            "code" : "problem-list-item"
+          }]
+        }],
+        "code" : {
+          "coding" : [{
+            "system" : "http://snomed.info/sct",
+            "code" : "442311008",
+            "display" : "liveborn born in hospital"
+          }]
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "onsetDateTime" : "1995-09-20"
+      },
+      "request" : {
+        "method" : "PUT",
+        "url" : "Condition/pdex-Condition"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "AllergyIntolerance",
+        "id" : "pdex-AllergyIntolerance",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: example</p><p><b>meta</b>: </p><p><b>clinicalStatus</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical active}\">Active</span></p><p><b>verificationStatus</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/allergyintolerance-verification confirmed}\">Confirmed</span></p><p><b>category</b>: medication</p><p><b>criticality</b>: high</p><p><b>code</b>: <span title=\"Codes: {http://snomed.info/sct 387406002}\">sulfonamide antibacterial</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><h3>Reactions</h3><table class=\"grid\"><tr><td>-</td><td><b>Manifestation</b></td><td><b>Severity</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://snomed.info/sct 271807003}\">skin rash</span></td><td>mild</td></tr></table></div>"
+        },
+        "clinicalStatus" : {
+          "coding" : [
+            {
+              "system" : "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code" : "active"
+            }
+          ]
+        },
+        "verificationStatus" : {
+          "coding" : [
+            {
+              "system" : "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code" : "confirmed"
+            }
+          ]
+        },
+        "category" : [
+          "medication"
+        ],
+        "criticality" : "high",
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://snomed.info/sct",
+              "code" : "387406002",
+              "display" : "Sulfonamide (substance)"
+            }
+          ],
+          "text" : "sulfonamide antibacterial"
+        },
+        "patient" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "reaction" : [
+          {
+            "manifestation" : [
+              {
+                "coding" : [
+                  {
+                    "system" : "http://snomed.info/sct",
+                    "code" : "271807003",
+                    "display" : "skin rash"
+                  }
+                ],
+                "text" : "skin rash"
+              }
+            ],
+            "severity" : "mild"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "AllergyIntolerance/pdex-AllergyIntolerance"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "CarePlan",
+        "id" : "pdex-CarePlan",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+          ]
+        },
+        "text" : {
+          "status" : "additional",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t\t<strong>Assessment</strong>\n\t\t\t<ol>\n\t\t\t\t<li>Recurrent GI bleed of unknown etiology; hypotension perhaps secondary to this but as likely secondary to polypharmacy.</li>\n\t\t\t\t<li>Acute on chronic anemia secondary to #1.</li>\n\t\t\t\t<li>Azotemia, acute renal failure with volume loss secondary to #1.</li>\n\t\t\t\t<li>Hyperkalemia secondary to #3 and on ACE and K+ supplement.</li>\n\t\t\t\t<li>Other chronic diagnoses as noted above, currently stable.</li>\n\t\t\t</ol>\n\t\t\t<table>\n\t\t\t\t<thead>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<th>Planned Activity</th>\n\t\t\t\t\t\t<th>Planned Date</th>\n\t\t\t\t\t</tr>\n\t\t\t\t</thead>\n\t\t\t\t<tbody>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td>Colonoscopy</td>\n\t\t\t\t\t\t<td>April 21, 2000</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</div>"
+        },
+        "status" : "active",
+        "intent" : "order",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                "code" : "assess-plan"
+              }
+            ]
+          }
+        ],
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        }
+      },
+      "request":{
+        "method": "PUT",
+        "url": "CarePlan/pdex-CarePlan"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "CareTeam",
+        "id" : "pdex-CareTeam",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: example</p><p><b>meta</b>: </p><p><b>status</b>: active</p><p><b>name</b>: US-Core example CareTeam</p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><blockquote><p><b>participant</b></p><p><b>role</b>: <span title=\"Codes: {http://nucc.org/provider-taxonomy 207RC0000X}\">Cardiovascular Disease</span></p><p><b>member</b>: <a href=\"Practitioner-practitioner-1.html\">Ronald Bone, MD. Generated Summary: id: practitioner-1; id: 9941339108, id: 25456; Ronald Bone </a></p></blockquote><blockquote><p><b>participant</b></p><p><b>role</b>: <span title=\"Codes: {http://nucc.org/provider-taxonomy 208D00000X}\">General Practice</span></p><p><b>member</b>: <a href=\"Practitioner-practitioner-2.html\">Kathy Fielding, MD. Generated Summary: id: practitioner-2; id: 1245319599, id: 456789; Fielding Kathy ; Kathy.Fielding@direct.ExampleMedicalPractice.net(WORK)</a></p></blockquote><blockquote><p><b>participant</b></p><p><b>role</b>: <span title=\"Codes: {http://snomed.info/sct 116154003}\">Patient (person)</span></p><p><b>member</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p></blockquote></div>"
+        },
+        "status" : "active",
+        "name" : "US-Core example CareTeam",
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "participant" : [
+          {
+            "role" : [
+              {
+                "coding" : [
+                  {
+                    "system" : "http://nucc.org/provider-taxonomy",
+                    "code" : "207RC0000X",
+                    "display" : "Cardiovascular Disease"
+                  }
+                ]
+              }
+            ],
+            "member" : {
+              "reference" : "Practitioner/pdex-Practitioner"
+            }
+          },
+          {
+            "role" : [
+              {
+                "coding" : [
+                  {
+                    "system" : "http://snomed.info/sct",
+                    "code" : "116154003",
+                    "display" : "Patient (person)"
+                  }
+                ]
+              }
+            ],
+            "member" : {
+              "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+            }
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "CareTeam/pdex-CareTeam"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "DiagnosticReport",
+        "id" : "pdex-DiagnosticReport",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 58410-2}\">CBC panel - Blood by Automated count</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>Amy V. Shaw </b>  1987-02-20 ( Medical Record Number: 1032702 (USUAL))</td></tr><tr><td>When For</td><td>2005-07-05</td></tr><tr><td>Reported</td><td>06/07/2005 10:45:33 AM</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>When For</b></td></tr><tr><td><a href=\"Observation-neutrophils.html\"><span title=\"Codes: {http://loinc.org 770-8}\">Neutrophils %</span></a></td><td>40.0 %</td><td>37.0 % - 67.0 % for <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/referencerange-meaning normal}\">Normal Range</span></td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-mchc.html\"><span title=\"Codes: {http://loinc.org 786-4}\">MCHC RBC Auto-mCnc</span></a></td><td>34.7 g/dL</td><td>30.0 g/dL - 34.0 g/dL for <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/referencerange-meaning normal}\">Normal Range</span></td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-hemoglobin.html\"><span title=\"Codes: {http://loinc.org 718-7}\">Hgb Bld-mCnc</span></a></td><td>17.0 g/dL</td><td>16.5 g/dL - 21.5 g/dL for <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/referencerange-meaning normal}\">Normal Range</span></td><td>2005-07-05</td></tr><tr><td><a href=\"Observation-erythrocytes.html\"><span title=\"Codes: {http://loinc.org 789-8}\">RBC # Bld Auto</span></a></td><td>4.58 10*6/uL</td><td>4.1 10*6/uL - 6.1 10*6/uL for <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/referencerange-meaning normal}\">Normal Range</span></td><td>2005-07-05</td></tr></table></div>"
+        },
+        "status" : "final",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code" : "LAB",
+                "display" : "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "58410-2",
+              "display" : "CBC panel - Blood by Automated count"
+            }
+          ]
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "effectiveDateTime" : "2005-07-05",
+        "issued" : "2005-07-06T11:45:33+11:00",
+        "performer" : [
+          {
+            "reference" : "Organization/pdex-Organization"
+          }
+        ],
+        "result" : [
+          {
+            "reference" : "Observation/pdex-Observation"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "DiagnosticReport/pdex-DiagnosticReport"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Goal",
+        "id" : "pdex-Goal",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: goal-1</p><p><b>meta</b>: </p><p><b>lifecycleStatus</b>: active</p><p><b>description</b>: <span title=\"Codes: \">Patient is targeting a pulse oximetry of 92% and a weight of 195 lbs</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><h3>Targets</h3><table class=\"grid\"><tr><td>-</td><td><b>Due[x]</b></td></tr><tr><td>*</td><td>2016-04-05</td></tr></table></div>"
+        },
+        "lifecycleStatus" : "active",
+        "description" : {
+          "text" : "Patient is targeting a pulse oximetry of 92% and a weight of 195 lbs"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "target" : [
+          {
+            "dueDate" : "2016-04-05"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Goal/pdex-Goal"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Immunization",
+        "id" : "pdex-Immunization",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: imm-1</p><p><b>meta</b>: </p><p><b>status</b>: completed</p><p><b>vaccineCode</b>: <span title=\"Codes: {http://hl7.org/fhir/sid/cvx 158}, {http://hl7.org/fhir/sid/ndc 49281-0631-15}\">influenza, injectable, quadrivalent</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>occurrence</b>: 2016-01-08</p><p><b>primarySource</b>: false</p></div>"
+        },
+        "status" : "completed",
+        "vaccineCode" : {
+          "coding" : [
+            {
+              "system" : "http://hl7.org/fhir/sid/cvx",
+              "code" : "158",
+              "display" : "influenza, injectable, quadrivalent"
+            },
+            {
+              "system" : "http://hl7.org/fhir/sid/ndc",
+              "code" : "49281-0631-15",
+              "display" : "FLUZONE QUADRIVALENT"
+            }
+          ]
+        },
+        "patient" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "occurrenceDateTime" : "2016-01-08",
+        "primarySource" : false
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Immunization/pdex-Immunization"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "MedicationRequest",
+        "id" : "pdex-MedicationRequest",
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: self-tylenol</p><p><b>identifier</b>: id: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: plan</p><p><b>reported</b>: true</p><p><b>medication</b>: <span title=\"Codes: {http://www.nlm.nih.gov/research/umls/rxnorm 1187314}\">Tylenol PM Pill</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>encounter</b>: <a href=\"Encounter-example-1.html\">Office Visit. Generated Summary: id: example-1; status: finished; <span title=\"{http://terminology.hl7.org/CodeSystem/v3-ActCode AMB}\">ambulatory</span>; <span title=\"Codes: {http://www.ama-assn.org/go/cpt 99201}\">Office Visit</span>; period: 02/11/2015 9:00:14 AM --&gt; 02/11/2015 10:00:14 AM</a></p><p><b>authoredOn</b>: 2019-06-24</p><p><b>requester</b>: <a href=\"Patient-example.html\">**self-prescribed**. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>dosageInstruction</b>: </p></div>"
+        },
+        "identifier" : [
+          {
+            "use" : "official",
+            "system" : "http://acme.org/prescriptions",
+            "value" : "12345689"
+          }
+        ],
+        "status" : "active",
+        "intent" : "plan",
+        "reportedBoolean" : true,
+        "medicationCodeableConcept" : {
+          "coding" : [
+            {
+              "system" : "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code" : "1187314",
+              "display" : "Tylenol PM Pill"
+            }
+          ],
+          "text" : "Tylenol PM Pill"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "encounter" : {
+          "reference" : "Encounter/pdex-Encounter"
+        },
+        "authoredOn" : "2019-06-24",
+        "requester" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "dosageInstruction" : [
+          {
+            "text" : "Takes 1-2 tablets once daily at bedtime as needed for restless legs"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "MedicationRequest/pdex-MedicationRequest"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Observation",
+        "id" : "pdex-Observation",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: bmi</p><p><b>meta</b>: </p><p></p><p><b>category</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}\">Vital Signs</span></p><p><b>code</b>: <span title=\"Codes: {http://loinc.org 39156-5}\">BMI</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>encounter</b>: <span>GP Visit</span></p><p><b>effective</b>: 1999-07-02</p><p><b>value</b>: 16.2 kg/m2</p></div>"
+        },
+        "status" : "final",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code" : "vital-signs",
+                "display" : "Vital Signs"
+              }
+            ],
+            "text" : "Vital Signs"
+          }
+        ],
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "39156-5",
+              "display" : "Body mass index (BMI) [Ratio]"
+            }
+          ],
+          "text" : "BMI"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "encounter" : {
+          "display" : "GP Visit"
+        },
+        "effectiveDateTime" : "1999-07-02",
+        "valueQuantity" : {
+          "value" : 16.2,
+          "unit" : "kg/m2",
+          "system" : "http://unitsofmeasure.org",
+          "code" : "kg/m2"
+        }
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Observation/pdex-Observation"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Procedure",
+        "id" : "pdex-Procedure",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: defib-implant</p><p><b>meta</b>: </p><p><b>identifier</b>: id: urn:uuid:b2a737f2-2fdb-49c1-b097-dac173d07aff</p><p><b>status</b>: completed</p><p><b>code</b>: <span title=\"Codes: {http://www.ama-assn.org/go/cpt 33249}\">Insertion or replacement of permanent implantable defibrillator system with transvenous lead(s), single or dual chamber</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Generated Summary: id: example; Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>performed</b>: 27/03/2019 6:55:26 AM --&gt; 27/03/2019 7:25:26 AM</p><h3>Performers</h3><table class=\"grid\"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href=\"Practitioner-practitioner-1.html\">Generated Summary: id: practitioner-1; id: 9941339108, id: 25456; Ronald Bone </a></td></tr></table><h3>FocalDevices</h3><table class=\"grid\"><tr><td>-</td><td><b>Manipulated</b></td></tr><tr><td>*</td><td><a href=\"Device-udi-2.html\">Generated Summary: id: udi-2; status: active; manufacturer: ACME Biomedical; expirationDate: 2022-01-01; lotNumber: M320; serialNumber: AC221; modelNumber: 1.0; <span title=\"Codes: {http://snomed.info/sct 19257004}\">Implant</span></a></td></tr></table></div>"
+        },
+        "identifier" : [
+          {
+            "system" : "urn:ietf:rfc:3986",
+            "value" : "urn:uuid:b2a737f2-2fdb-49c1-b097-dac173d07aff"
+          }
+        ],
+        "status" : "completed",
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://www.ama-assn.org/go/cpt",
+              "code" : "33249"
+            }
+          ],
+          "text" : "Insertion or replacement of permanent implantable defibrillator system with transvenous lead(s), single or dual chamber"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "performedPeriod" : {
+          "start" : "2019-03-26T12:55:26-07:00",
+          "end" : "2019-03-26T13:25:26-07:00"
+        },
+        "performer" : [
+          {
+            "actor" : {
+              "reference" : "Practitioner/pdex-Practitioner"
+            }
+          }
+        ],
+        "focalDevice" : [
+          {
+            "manipulated" : {
+              "reference" : "Device/pdex-Device"
+            }
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Procedure/pdex-Procedure"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "PractitionerRole",
+        "id" : "pdex-PractitionerRole",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: PractitionerRole</b><a name=\"PractitionerRole-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource PractitionerRole &quot;PractitionerRole-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-practitionerrole.html\">US Core PractitionerRole Profile</a></p></div><p><b>practitioner</b>: <a href=\"#Practitioner_Practitioner-1011\">See above (Practitioner/Practitioner-1011: Brenda Jennings Richard MD)</a></p><p><b>organization</b>: <a href=\"Organization-acme-lab.html\">Organization/acme-lab: Acme Lab</a> &quot;Acme Labs&quot;</p><p><b>code</b>: primary care physician <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-ParticipationFunction.html\">ParticipationFunction</a>#PCP; provider-taxonomy#261QP2300X &quot;Primary Care Clinic/Center&quot;)</span></p><p><b>specialty</b>: General Practice Physician <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (provider-taxonomy#208D00000X)</span></p><p><b>location</b>: <a href=\"Location-hl7east.html\">Location/hl7east: Health Level Seven International</a> &quot;Health Level Seven International - Amherst&quot;</p><p><b>endpoint</b>: </p><ul><li><a href=\"#Endpoint_71\">See above (http://52.90.126.238:8080/fhir/baseDstu3/Endpoint/Endpoint-71: Westwood Physicians Organization ADT)</a></li><li><a href=\"#Endpoint_71\">See above (http://52.90.126.238:8080/fhir/baseDstu3/Endpoint/Endpoint-71: Brenda.Jennings.Richard.MD@direct.example.org)</a></li></ul></div>"
+        },
+        "practitioner" : {
+          "reference" : "Practitioner/pdex-Practitioner"
+        },
+        "organization" : {
+          "reference" : "Organization/pdex-Organization"
+        },
+        "code" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+                "code" : "PCP",
+                "display" : "primary care physician"
+              },
+              {
+                "system" : "http://nucc.org/provider-taxonomy",
+                "code" : "261QP2300X",
+                "display" : "Primary Care Clinic/Center"
+              }
+            ]
+          }
+        ],
+        "specialty" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://nucc.org/provider-taxonomy",
+                "code" : "208D00000X",
+                "display" : "General Practice Physician"
+              }
+            ]
+          }
+        ],
+        "location" : [
+          {
+            "reference" : "Location/pdex-Location"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "PractitionerRole/pdex-PractitionerRole"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Location",
+        "id" : "pdex-Location",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Location</b><a name=\"hl7east\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Location &quot;hl7east&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-location.html\">US Core Location Profile</a></p></div><p><b>identifier</b>: id:\u00a029</p><p><b>status</b>: active</p><p><b>name</b>: Health Level Seven International - Amherst</p><p><b>description</b>: HL7 Headquarters - East</p><p><b>telecom</b>: ph: (+1) 734-677-7777</p><p><b>address</b>: 3300 Washtenaw Avenue, Suite 227 Amherst MA 01002 USA </p><h3>Positions</h3><table class=\"grid\"><tr><td>-</td><td><b>Longitude</b></td><td><b>Latitude</b></td></tr><tr><td>*</td><td>-72.519854</td><td>42.373222</td></tr></table><p><b>managingOrganization</b>: <span>: Health Level Seven International</span></p></div>"
+        },
+        "identifier" : [
+          {
+            "system" : "http://www.acme.org/location",
+            "value" : "29"
+          }
+        ],
+        "status" : "active",
+        "name" : "pdex-Location",
+        "description" : "HL7 Headquarters - East",
+        "telecom" : [
+          {
+            "system" : "phone",
+            "value" : "(+1) 734-677-7777"
+          }
+        ],
+        "address" : {
+          "line" : [
+            "3300 Washtenaw Avenue, Suite 227"
+          ],
+          "city" : "Amherst",
+          "state" : "MA",
+          "postalCode" : "01002",
+          "country" : "USA"
+        },
+        "position" : {
+          "longitude" : -72.519854,
+          "latitude" : 42.373222
+        },
+        "managingOrganization" : {
+          "display" : "pdex-Organization"
+        }
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Location/pdex-Location"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "MedicationDispense",
+        "id" : "pdex-MedicationDispense",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: MedicationDispense</b><a name=\"medicationdispense-example\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource MedicationDispense &quot;medicationdispense-example&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-medicationdispense.html\">US Core MedicationDispense Profile</a></p></div><p><b>status</b>: completed</p><p><b>medication</b>: Nizatidine 15 MG/ML Oral Solution <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-rxNorm.html\">RxNorm</a>#476872)</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Patient/example: Amy Shaw</a> &quot; SHAW&quot;</p><h3>Performers</h3><table class=\"grid\"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href=\"Practitioner-practitioner-pharmacist.html\">Practitioner/practitioner-pharmacist: Doug Dispenser, PharmD</a> &quot; DOUGLAS&quot;</td></tr></table><p><b>authorizingPrescription</b>: <a href=\"MedicationRequest-medicationrequest-coded-oral-axid.html\">MedicationRequest/medicationrequest-coded-oral-axid: MedicationRequest Coded Oral Axid Example</a></p><p><b>type</b>: First Fill - Complete <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-ActCode.html\">ActCode</a>#FFC)</span></p><p><b>quantity</b>: 480 mL<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mL = 'mL')</span></p><p><b>whenHandedOver</b>: 2016-12-08 06:38:52+0000</p><blockquote><p><b>dosageInstruction</b></p><p><b>text</b>: 10 mL bid</p><p><b>timing</b>: Starting 2008-04-05, 2 per 1 days</p><blockquote><p><b>doseAndRate</b></p></blockquote></blockquote></div>"
+        },
+        "status" : "completed",
+        "medicationCodeableConcept" : {
+          "coding" : [
+            {
+              "system" : "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code" : "476872",
+              "display" : "Nizatidine 15 MG/ML Oral Solution"
+            }
+          ],
+          "text" : "Nizatidine 15 MG/ML Oral Solution"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "performer" : [
+          {
+            "actor" : {
+              "reference" : "Practitioner/pdex-Practitioner"
+            }
+          }
+        ],
+        "authorizingPrescription" : [
+          {
+            "reference" : "MedicationRequest/pdex-MedicationRequest"
+          }
+        ],
+        "type" : {
+          "coding" : [
+            {
+              "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+              "code" : "FFC",
+              "display" : "First Fill - Complete"
+            }
+          ]
+        },
+        "quantity" : {
+          "value" : 480,
+          "unit" : "mL",
+          "system" : "http://unitsofmeasure.org",
+          "code" : "mL"
+        },
+        "whenHandedOver" : "2016-12-08T06:38:52Z",
+        "dosageInstruction" : [
+          {
+            "text" : "10 mL bid",
+            "timing" : {
+              "repeat" : {
+                "boundsPeriod" : {
+                  "start" : "2008-04-05"
+                },
+                "frequency" : 2,
+                "period" : 1,
+                "periodUnit" : "d"
+              }
+            },
+            "doseAndRate" : [
+              {
+                "doseQuantity" : {
+                  "value" : 10,
+                  "unit" : "ml",
+                  "system" : "http://unitsofmeasure.org",
+                  "code" : "mL"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "MedicationDispense/pdex-MedicationDispense"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Practitioner",
+        "id" : "pdex-Practitioner",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Practitioner</b><a name=\"practitioner-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Practitioner &quot;practitioner-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-practitioner.html\">US Core Practitioner Profile</a></p></div><p><b>identifier</b>: id:\u00a09941339100, id:\u00a025456</p><p><b>name</b>: Ronald Bone </p><p><b>address</b>: 1003 Healthcare Drive Amherst MA 01002 (WORK)</p></div>"
+        },
+        "identifier" : [
+          {
+            "system" : "http://hl7.org/fhir/sid/us-npi",
+            "value" : "9941339100"
+          },
+          {
+            "extension" : [
+              {
+                "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-jurisdiction",
+                "valueCodeableConcept" : {
+                  "coding" : [
+                    {
+                      "system" : "https://www.usps.com/",
+                      "code" : "MA"
+                    }
+                  ],
+                  "text" : "Massachusetts"
+                }
+              }
+            ],
+            "system" : "http://www.acme.org/practitioners",
+            "value" : "25456"
+          }
+        ],
+        "name" : [
+          {
+            "family" : "pdex-Practitioner"
+          }
+        ],
+        "address" : [
+          {
+            "use" : "work",
+            "line" : [
+              "1003 Healthcare Drive"
+            ],
+            "city" : "Amherst",
+            "state" : "MA",
+            "postalCode" : "01002"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Practitioner/pdex-Practitioner"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Organization",
+        "id" : "pdex-Organization",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Organization</b><a name=\"acme-lab\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Organization &quot;acme-lab&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-organization.html\">US Core Organization Profile</a></p></div><p><b>identifier</b>: id:\u00a01144221847, id:\u00a012D4567890</p><p><b>active</b>: true</p><p><b>type</b>: Healthcare Provider <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-organization-type.html\">Organization type</a>#prov)</span></p><p><b>name</b>: Acme Labs</p><p><b>telecom</b>: ph: (+1) 734-677-7777, <a href=\"mailto:hq@acme.org\">hq@acme.org</a></p><p><b>address</b>: 3300 Washtenaw Avenue, Suite 227 Amherst MA 01002 USA </p></div>"
+        },
+        "identifier" : [
+          {
+            "system" : "http://hl7.org/fhir/sid/us-npi",
+            "value" : "1144221847"
+          },
+          {
+            "system" : "urn:oid:2.16.840.1.113883.4.7",
+            "value" : "12D4567890"
+          }
+        ],
+        "active" : true,
+        "type" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/organization-type",
+                "code" : "prov",
+                "display" : "Healthcare Provider"
+              }
+            ]
+          }
+        ],
+        "name" : "pdex-Organization",
+        "telecom" : [
+          {
+            "system" : "phone",
+            "value" : "(+1) 734-677-7777"
+          },
+          {
+            "system" : "email",
+            "value" : "hq@acme.org"
+          }
+        ],
+        "address" : [
+          {
+            "line" : [
+              "3300 Washtenaw Avenue, Suite 227"
+            ],
+            "city" : "Amherst",
+            "state" : "MA",
+            "postalCode" : "01002",
+            "country" : "USA"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Organization/pdex-Organization"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Medication",
+        "id" : "pdex-Medication",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Medication</b><a name=\"uscore-med1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Medication &quot;uscore-med1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-medication.html\">US Core Medication Profile</a></p></div><p><b>code</b>: lisinopril oral 10 mg <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-rxNorm.html\">RxNorm</a>#206765 &quot;Prinivil 10 MG Oral Tablet&quot;)</span></p></div>"
+        },
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://www.nlm.nih.gov/research/umls/rxnorm",
+              "code" : "206765",
+              "display" : "Prinivil 10 MG Oral Tablet"
+            }
+          ],
+          "text" : "lisinopril oral 10 mg"
+        }
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Medication/pdex-Medication"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Coverage",
+        "id" : "pdex-Coverage",
+        "meta" : {
+          "versionId" : "1",
+          "lastUpdated" : "2020-10-28T09:26:23.217+00:00",
+          "profile" : [
+            "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage"
+          ]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Coverage</b><a name=\"883210\"> </a><a name=\"hc883210\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Coverage &quot;883210&quot; Version &quot;1&quot; Updated &quot;2020-10-28 09:26:23+0000&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"https://build.fhir.org/ig/HL7/davinci-ehrx/StructureDefinition-hrex-coverage.html\">HRex Coverage Profile</a></p></div><p><b>identifier</b>: Member Number/1039399818</p><p><b>status</b>: active</p><p><b>subscriberId</b>: 97531</p><p><b>beneficiary</b>: <a href=\"Patient-1.html\">Patient/1</a> &quot; APPLESEED&quot;</p><p><b>relationship</b>: Self <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-subscriber-relationship.html\">SubscriberPolicyholder Relationship Codes</a>#self)</span></p><p><b>payor</b>: <a href=\"Organization-Payer1.html\">Organization/Payer1</a> &quot;Payer 1&quot;</p></div>"
+        },
+        "identifier" : [
+          {
+            "type" : {
+              "coding" : [
+                {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code" : "MB"
+                }
+              ]
+            },
+            "system" : "http://example.org/someOrg/identifiers/whatever",
+            "value" : "1039399818"
+          }
+        ],
+        "status" : "active",
+        "subscriberId" : "97531",
+        "beneficiary" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "relationship" : {
+          "coding" : [
+            {
+              "system" : "http://terminology.hl7.org/CodeSystem/subscriber-relationship",
+              "code" : "self"
+            }
+          ]
+        },
+        "payor" : [
+          {
+            "reference" : "Organization/pdex-Organization"
+          }
+        ]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Coverage/pdex-Coverage"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "Provenance",
+        "id" : "pdex-Provenance",
+        "meta" : {
+          "versionId" : "1",
+          "lastUpdated" : "2019-07-14T19:26:23.217+00:00",
+          "profile" : ["http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"]
+        },
+        "text" : {
+          "status" : "generated",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"1000002\"> </a><a name=\"hc1000002\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;1000002&quot; Version &quot;1&quot; Updated &quot;2019-07-14 19:26:23+0000&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-pdex-provenance.html\">PDex Provenance</a></p></div><p><b>target</b>: <a href=\"Encounter-6.html\">Encounter/6</a></p><p><b>recorded</b>: Jul 10, 2020, 4:26:23\u202fPM</p><h3>Agents</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Type</b></td><td><b>Who</b></td></tr><tr><td style=\"display: none\">*</td><td>Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></td><td><a href=\"Organization-ProviderOrg1.html\">Organization/ProviderOrg1</a> &quot;Provider 1&quot;</td></tr></table><h3>Entities</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Extension</b></td><td><b>Role</b></td><td><b>What</b></td></tr><tr><td style=\"display: none\">*</td><td/><td>source</td><td><span>: No reference available</span></td></tr></table></div>"
+        },
+        "target" : [{
+          "reference" : "Encounter/pdex-Encounter"
+        }],
+        "recorded" : "2020-07-10T16:26:23.217+00:00",
+        "agent" : [{
+          "type" : {
+            "coding" : [{
+              "system" : "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+              "code" : "author",
+              "display" : "Author"
+            }]
+          },
+          "who" : {
+            "reference" : "Organization/pdex-Organization"
+          }
+        }],
+        "entity" : [{
+          "extension" : [{
+            "url" : "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/ProvenanceSourceFrom",
+            "valueCodeableConcept" : {
+              "coding" : [{
+                "system" : "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenancePayerDataSource",
+                "code" : "hl7ccda",
+                "display" : "HL7 C-CDA"
+              }]
+            }
+          }],
+          "role" : "source",
+          "what" : {
+            "display" : "No reference available"
+          }
+        }]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "Provenance/pdex-Provenance"
+      }
+    },
+    {
+      "resource":{
+        "resourceType" : "ExplanationOfBenefit",
+        "id" : "pdex-ExplanationOfBenefit",
+        "meta" : {
+          "lastUpdated" : "2024-02-06T09:14:11+00:00",
+          "profile" : ["http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-priorauthorization"]
+        },
+        "language" : "en-US",
+        "text" : {
+          "status" : "extensions",
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\" lang=\"en-US\"><p><b>Generated Narrative: ExplanationOfBenefit</b><a name=\"PDexPriorAuth1\"> </a><a name=\"hcPDexPriorAuth1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource ExplanationOfBenefit &quot;PDexPriorAuth1&quot; Updated &quot;2024-02-06 09:14:11+0000&quot;  (Language &quot;en-US&quot;) </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-pdex-priorauthorization.html\">PDex Prior Authorization</a></p></div><p><b>LevelOfServiceCode</b>: Urgent <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (1338#U)</span></p><p><b>identifier</b>: <code>https://www.exampleplan.com/fhir/EOBIdentifier</code>/PA123412341234123412341234</p><p><b>status</b>: active</p><p><b>type</b>: Institutional <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-claim-type.html\">Claim Type Codes</a>#institutional)</span></p><p><b>use</b>: preauthorization</p><p><b>patient</b>: <a href=\"Patient-1.html\">Patient/1</a> &quot; APPLESEED&quot;</p><p><b>billablePeriod</b>: 2021-10-01 --&gt; 2021-10-31</p><p><b>created</b>: 2021-09-20 00:00:00+0000</p><p><b>insurer</b>: <a href=\"Organization-Payer1.html\">Organization/Payer1: Example Health Plan</a> &quot;Payer 1&quot;</p><p><b>provider</b>: <a href=\"Organization-Payer2.html\">Organization/Payer2: Another Example Health Plan</a> &quot;Payer 2&quot;</p><p><b>priority</b>: Normal <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-processpriority.html\">Process Priority Codes</a>#normal)</span></p><p><b>fundsReserveRequested</b>: Provider <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-fundsreserve.html\">Funds Reservation Codes</a>#provider)</span></p><p><b>fundsReserve</b>: None <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-fundsreserve.html\">Funds Reservation Codes</a>#none)</span></p><h3>Relateds</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Relationship</b></td><td><b>Reference</b></td></tr><tr><td style=\"display: none\">*</td><td>Associated Claim <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-ex-relatedclaimrelationship.html\">Example Related Claim Relationship Codes</a>#associated)</span></td><td>XCLM1001</td></tr></table><p><b>outcome</b>: queued</p><p><b>preAuthRefPeriod</b>: 2021-10-01 --&gt; 2021-10-31</p><h3>CareTeams</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Provider</b></td><td><b>Responsible</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><a href=\"Organization-Payer1.html\">Organization/Payer1</a> &quot;Payer 1&quot;</td><td>true</td></tr></table><h3>Diagnoses</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Diagnosis[x]</b></td><td><b>Type</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td>Chronic pain syndrome <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-icd10CM.html\">International Classification of Diseases, 10th Revision, Clinical Modification (ICD-10-CM)</a>#G89.4)</span></td><td>Principal Diagnosis <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-ex-diagnosistype.html\">Example Diagnosis Type Codes</a>#principal)</span></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>true</td><td><a href=\"Coverage-Coverage1.html\">Coverage/Coverage1</a></td></tr></table><blockquote><p><b>item</b></p><p><b>sequence</b>: 1</p><p><b>category</b>: Consultation <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-X12ServiceTypeCodes.html\">X12 Service Type Codes</a>#3)</span></p><p><b>productOrService</b>: Behavior Only, ADL Index 6 - 10/Medicare 5 day assessment (Full) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-HIPPS.html\">Health Insurance Prospective Payment System (HIPPS)</a>#BB201)</span></p><blockquote><p><b>adjudication</b></p><blockquote><p><b>id</b></p>1</blockquote><blockquote><p><b>ReviewAction</b></p><blockquote><p><b>url</b></p><code>number</code></blockquote><p><b>value</b>: AUTH0001</p><blockquote><p><b>url</b></p><a href=\"StructureDefinition-extension-reviewActionCode.html\">ReviewActionCode</a></blockquote><p><b>value</b>: Certified in total <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (306#A1)</span></p></blockquote><p><b>category</b>: Submitted Amount <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/4.0.0/CodeSystem-adjudication.html\">Adjudication Value Codes</a>#submitted)</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>300.99</td><td>USD</td></tr></table></blockquote></blockquote><blockquote><p><b>total</b></p><p><b>An attribute to express the amount of a service or item that has been utilized</b>: 1</p><p><b>category</b>: Eligible <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-PriorAuthorizationValueCodes.html\">Prior Authorization Values</a>#eligible)</span></p><h3>Amounts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Value</b></td><td><b>Currency</b></td></tr><tr><td style=\"display: none\">*</td><td>100</td><td>USD</td></tr></table></blockquote></div>"
+        },
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/extension-levelOfServiceCode",
+          "valueCodeableConcept" : {
+            "coding" : [{
+              "system" : "https://codesystem.x12.org/005010/1338",
+              "code" : "U",
+              "display" : "Urgent"
+            }]
+          }
+        }],
+        "identifier" : [{
+          "system" : "https://www.exampleplan.com/fhir/EOBIdentifier",
+          "value" : "PA123412341234123412341234"
+        }],
+        "status" : "active",
+        "type" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/claim-type",
+            "code" : "institutional"
+          }],
+          "text" : "Institutional"
+        },
+        "use" : "preauthorization",
+        "patient" : {
+          "reference" : "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807"
+        },
+        "billablePeriod" : {
+          "start" : "2021-10-01",
+          "end" : "2021-10-31"
+        },
+        "created" : "2021-09-20T00:00:00+00:00",
+        "insurer" : {
+          "reference" : "Organization/pdex-Organization",
+          "display" : "Example Health Plan"
+        },
+        "provider" : {
+          "reference" : "Organization/pdex-Organization",
+          "display" : "Another Example Health Plan"
+        },
+        "priority" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/processpriority",
+            "code" : "normal",
+            "display" : "Normal"
+          }]
+        },
+        "fundsReserveRequested" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/fundsreserve",
+            "code" : "provider",
+            "display" : "Provider"
+          }]
+        },
+        "fundsReserve" : {
+          "coding" : [{
+            "system" : "http://terminology.hl7.org/CodeSystem/fundsreserve",
+            "code" : "none",
+            "display" : "None"
+          }]
+        },
+        "related" : [{
+          "relationship" : {
+            "coding" : [{
+              "system" : "http://terminology.hl7.org/CodeSystem/ex-relatedclaimrelationship",
+              "code" : "associated",
+              "display" : "Associated Claim"
+            }]
+          },
+          "reference" : {
+            "value" : "XCLM1001"
+          }
+        }],
+        "outcome" : "queued",
+        "preAuthRefPeriod" : [{
+          "start" : "2021-10-01",
+          "end" : "2021-10-31"
+        }],
+        "careTeam" : [{
+          "sequence" : 1,
+          "provider" : {
+            "reference" : "Organization/pdex-Organization"
+          },
+          "responsible" : true
+        }],
+        "diagnosis" : [{
+          "sequence" : 1,
+          "diagnosisCodeableConcept" : {
+            "coding" : [{
+              "system" : "http://hl7.org/fhir/sid/icd-10-cm",
+              "code" : "G89.4"
+            }]
+          },
+          "type" : [{
+            "coding" : [{
+              "system" : "http://terminology.hl7.org/CodeSystem/ex-diagnosistype",
+              "code" : "principal"
+            }]
+          }]
+        }],
+        "insurance" : [{
+          "focal" : true,
+          "coverage" : {
+            "reference" : "Coverage/Coverage1"
+          }
+        }],
+        "item" : [{
+          "sequence" : 1,
+          "category" : {
+            "coding" : [{
+              "system" : "https://x12.org/codes/service-type-codes",
+              "code" : "3",
+              "display" : "Consultation"
+            }]
+          },
+          "productOrService" : {
+            "coding" : [{
+              "system" : "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/ProspMedicareFeeSvcPmtGen/HIPPSCodes",
+              "code" : "BB201",
+              "display" : "Behavior Only, ADL Index 6 - 10/Medicare 5 day assessment (Full)"
+            }]
+          },
+          "adjudication" : [{
+            "id" : "1",
+            "extension" : [{
+              "extension" : [{
+                "url" : "number",
+                "valueString" : "AUTH0001"
+              },
+              {
+                "url" : "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/extension-reviewActionCode",
+                "valueCodeableConcept" : {
+                  "coding" : [{
+                    "system" : "https://codesystem.x12.org/005010/306",
+                    "code" : "A1",
+                    "display" : "Certified in total"
+                  }]
+                }
+              }],
+              "url" : "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/extension-reviewAction"
+            }],
+            "category" : {
+              "coding" : [{
+                "system" : "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code" : "submitted",
+                "display" : "Submitted Amount"
+              }]
+            },
+            "amount" : {
+              "value" : 300.99,
+              "currency" : "USD"
+            }
+          }]
+        }],
+        "total" : [{
+          "extension" : [{
+            "url" : "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/PriorAuthorizationUtilization",
+            "valueQuantity" : {
+              "value" : 1
+            }
+          }],
+          "category" : {
+            "coding" : [{
+              "system" : "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PriorAuthorizationValueCodes",
+              "code" : "eligible",
+              "display" : "Eligible"
+            }]
+          },
+          "amount" : {
+            "value" : 100,
+            "currency" : "USD"
+          }
+        }]
+      },
+      "request":{
+        "method": "PUT",
+        "url": "ExplanationOfBenefit/pdex-ExplanationOfBenefit"
       }
     }
   ],
