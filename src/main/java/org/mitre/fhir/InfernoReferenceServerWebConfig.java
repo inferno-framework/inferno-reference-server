@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -35,6 +36,17 @@ public class InfernoReferenceServerWebConfig implements WebMvcConfigurer {
     theRegistry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
     theRegistry.addResourceHandler("/img/**").addResourceLocations("/img/");
     theRegistry.addResourceHandler("/js/**").addResourceLocations("/js/");
+  }
+
+  @Override
+  public void configurePathMatch(PathMatchConfigurer configurer) {
+    // This method restores the previous default setting,
+    // where a trailing slash may be ignored in path matching.
+    // eg: /page and /page/ will both resolve to the same mapping.
+    // Note that this setting is deprecated, and if it is eventually removed
+    // we will have to manually configure all relevant endpoints
+    // to match with or without a trailing slash.
+    configurer.setUseTrailingSlashMatch(true);
   }
 
   /**
