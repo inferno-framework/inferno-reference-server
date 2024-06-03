@@ -10,7 +10,24 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
           ]
         },
-        "resourceType": "Patient"
+        "resourceType": "Patient",
+        "identifier" : [
+          {
+            "type" : {
+              "coding" : [
+                {
+                  "system" : "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code" : "MB"
+                }
+              ]
+            },
+            "system" : "http://example.org/target-payer/identifiers/member",
+            "value" : "99999",
+            "assigner" : {
+              "display" : "Old Payer"
+            }
+          }
+        ]
       },
       "request": {
         "method": "PUT",
