@@ -1,0 +1,16 @@
+{
+  "resourceType": "Group",
+  "id": "pdex-Group",
+  "active": true,
+  "type": "person",
+  "actual": true,
+  "name": "Proxy Group for patient Export",
+  "quantity": 1,
+  "member": [
+      {
+          "entity": {
+              "reference": "Patient/999"
+          }
+      }
+  ]
+}
