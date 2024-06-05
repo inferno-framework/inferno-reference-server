@@ -16647,6 +16647,18 @@
           },
           {
             "reference": "urn:uuid:bef6c601-bc94-4f55-9f87-7f46afcc2943"
+          },
+          {
+            "reference": "urn:uuid:7fcb009a-2848-45fd-b563-052ca2ca154e"
+          },
+          {
+            "reference": "urn:uuid:8429d80d-2246-4a80-8502-8ba615a61c29"
+          },
+          {
+            "reference": "urn:uuid:4ad13fb9-4a39-4622-a1c7-f7a580d405b6"
+          },
+          {
+            "reference": "urn:uuid:527fa5dd-9c4f-4e31-9ac8-36d3f9bd0e98"
           }
         ],
         "recorded": "1977-07-15T01:11:45.131-04:00",
@@ -18455,6 +18467,288 @@
       "request": {
         "method": "POST",
         "url": "MedicationDispense"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7fcb009a-2848-45fd-b563-052ca2ca154e",
+      "resource": {
+        "resourceType" : "Observation",
+        "id" : "7fcb009a-2848-45fd-b563-052ca2ca154e",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment"
+          ]
+        },
+        "identifier":[
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "7fcb009a-2848-45fd-b563-052ca2ca154e"
+          }
+        ],
+        "status" : "final",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code" : "survey",
+                "display" : "Survey"
+              }
+            ]
+          },
+          {
+            "coding" : [
+              {
+                "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                "code" : "disability-status",
+                "display" : "Disability Status"
+              }
+            ]
+          }
+        ],
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "44250-9",
+              "display" : "Little interest or pleasure in doing things in last 2 weeks"
+            }
+          ],
+          "text" : "Little interest or pleasure in doing things in last 2 weeks"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "effectiveDateTime" : "2022-11-29T20:50:32.718000+00:00",
+        "performer" : [
+          {
+            "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+            "display": "Dr. Willena258 Oberbrunner298"
+          }
+        ],
+        "valueCodeableConcept" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "LA6570-1",
+              "display" : "More than half the days"
+            }
+          ],
+          "text" : "More than half the days"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8429d80d-2246-4a80-8502-8ba615a61c29",
+      "resource": {
+        "resourceType" : "Observation",
+        "id" : "8429d80d-2246-4a80-8502-8ba615a61c29",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment"
+          ]
+        },
+        "identifier":[
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "8429d80d-2246-4a80-8502-8ba615a61c29"
+          }
+        ],
+        "status" : "final",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code" : "survey",
+                "display" : "Survey"
+              }
+            ]
+          },
+          {
+            "coding" : [
+              {
+                "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                "code" : "functional-status",
+                "display" : "Functional Status"
+              }
+            ]
+          }
+        ],
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "44255-8",
+              "display" : "Feeling down, depressed, or hopeless in last 2 weeks"
+            }
+          ],
+          "text" : "Feeling down, depressed, or hopeless in last 2 weeks"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "effectiveDateTime" : "2022-11-29T20:50:32.718000+00:00",
+        "performer" : [
+          {
+            "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+            "display": "Dr. Willena258 Oberbrunner298"
+          }
+        ],
+        "valueCodeableConcept" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "LA6570-1",
+              "display" : "More than half the days"
+            }
+          ],
+          "text" : "More than half the days"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4ad13fb9-4a39-4622-a1c7-f7a580d405b6",
+      "resource": {
+        "resourceType" : "Observation",
+        "id" : "4ad13fb9-4a39-4622-a1c7-f7a580d405b6",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment"
+          ]
+        },
+        "identifier":[
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "4ad13fb9-4a39-4622-a1c7-f7a580d405b6"
+          }
+        ],
+        "status" : "final",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code" : "survey",
+                "display" : "Survey"
+              }
+            ]
+          },
+          {
+            "coding" : [
+              {
+                "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                "code" : "cognitive-status",
+                "display" : "Cognitive Status"
+              }
+            ]
+          }
+        ],
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "11332-4",
+              "display" : "History of Cognitive Function Narrative"
+            }
+          ]
+        },
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "effectiveDateTime" : "2022-11-29T20:50:32.718000+00:00",
+        "performer" : [
+          {
+            "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+            "display": "Dr. Willena258 Oberbrunner298"
+          }
+        ],
+        "valueString" : "Alert and oriented x 3. She is independent in household finances, social and community activities, coherent and appropriate communication. Appropriate attire for location and weather."
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:527fa5dd-9c4f-4e31-9ac8-36d3f9bd0e98",
+      "resource": {
+        "resourceType" : "Observation",
+        "id" : "527fa5dd-9c4f-4e31-9ac8-36d3f9bd0e98",
+        "meta" : {
+          "profile" : [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment"
+          ]
+        },
+        "identifier":[
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "527fa5dd-9c4f-4e31-9ac8-36d3f9bd0e98"
+          }
+        ],
+        "status" : "final",
+        "category" : [
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code" : "survey",
+                "display" : "Survey"
+              }
+            ]
+          },
+          {
+            "coding" : [
+              {
+                "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code" : "activity",
+                "display" : "Activity"
+              }
+            ]
+          }
+        ],
+        "code" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "93038-8",
+              "display" : "Stress level"
+            }
+          ],
+          "text" : "Stress level"
+        },
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "effectiveDateTime" : "2022-11-29T20:50:32.718000+00:00",
+        "performer" : [
+          {
+            "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+            "display": "Dr. Willena258 Oberbrunner298"
+          }
+        ],
+        "valueCodeableConcept" : {
+          "coding" : [
+            {
+              "system" : "http://loinc.org",
+              "code" : "LA13909-9",
+              "display" : "Somewhat"
+            }
+          ],
+          "text" : "Somewhat"
+        }
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
       }
     }
   ],
