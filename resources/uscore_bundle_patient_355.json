@@ -18836,7 +18836,7 @@
         "encounter": {
           "reference": "urn:uuid:9030cedd-7de1-9f69-89c5-9968cc4c2789"
         },
-        "effectivePeriod": 
+        "effectivePeriod":
         {
           "start":"1994-05-19T19:33:18-04:00",
           "stop":"1994-05-19T20:33:18-04:00"
@@ -34322,10 +34322,10 @@
             {
               "system": "http://loinc.org",
               "code": "93028-9",
-              "display": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?"
+              "display": "Have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility in past 1 year [PRAPARE]"
             }
           ],
-          "text": "In the past year, have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility?"
+          "text": "Have you spent more than 2 nights in a row in a jail, prison, detention center, or juvenile correctional facility in past 1 year [PRAPARE]"
         },
         "valueString": "No",
         "performer": [
