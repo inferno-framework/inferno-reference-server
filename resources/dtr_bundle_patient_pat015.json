@@ -1,0 +1,1332 @@
+{
+  "type": "transaction",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "pat015",
+        "gender": "male",
+        "birthDate": "2015-02-23",
+        "address": [
+          {
+            "use": "home",
+            "type": "both",
+            "state": "MA",
+            "city": "Bedford",
+            "postalCode": "01730",
+            "line": [
+              "202 Burlington Road"
+            ]
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Oster",
+            "given": [
+              "William",
+              "Hale",
+              "Oster"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "(781) 555-5555",
+            "use": "home",
+            "rank": 1
+          },
+          {
+            "system": "phone",
+            "value": "(781) 555 5613",
+            "use": "work",
+            "rank": 2
+          },
+          {
+            "system": "phone",
+            "value": "(781) 555 8834",
+            "use": "old",
+            "period": {
+              "end": "2014"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR"
+                }
+              ],
+              "text": "Medical Record Number"
+            },
+            "system": "http://hl7.org/fhir/sid/us-medicare",
+            "value": "0M34355006FW"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/pat015"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "pra1234",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1122334455"
+          }
+        ],
+        "address": [
+          {
+            "use": "home",
+            "type": "both",
+            "state": "NY",
+            "city": "Buffalo",
+            "postalCode": "14210",
+            "line": [
+              "840 Seneca St"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "716-873-1557"
+          },
+          {
+            "system": "email",
+            "value": "jane.betty@myhospital.com"
+          }
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Doe",
+            "given": [
+              "Jane",
+              "Betty"
+            ],
+            "prefix": [
+              "Dr."
+            ]
+          }
+        ],
+        "qualification": [
+          {
+            "identifier": [
+              {
+                "system": "http://example.org/UniversityIdentifier",
+                "value": "12345"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0360/2.7",
+                  "code": "MD",
+                  "display": "Doctor of Medicine"
+                }
+              ],
+              "text": "Doctor of Medicine"
+            },
+            "period": {
+              "start": "1995"
+            },
+            "issuer": {
+              "display": "Example University"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/pra1234"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "cov015",
+        "subscriberId": "10A3D58WH456",
+        "beneficiary": {
+          "reference": "Patient/pat015"
+        },
+        "status": "active",
+        "class": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/coverage-class",
+                  "code": "plan"
+                }
+              ]
+            },
+            "value": "Medicare Part A"
+          }
+        ],
+        "payor": [
+          {
+            "reference": "Organization/org1234"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Coverage/cov015"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "pat015-rad-encounter",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "HH",
+          "display": "home health"
+        },
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "185345009",
+                "display": "Encounter for symptom"
+              }
+            ]
+          }
+        ],
+        "priority": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "709122007",
+              "display": "As soon as possible (qualifier value)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015",
+          "display": "Roosevelt Theodore"
+        },
+        "participant": [
+          {
+            "individual": {
+              "reference": "Practitioner/pra1234",
+              "display": "Dr. Jane Doe"
+            },
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "PPRF",
+                    "display": "primary performer"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "length": {
+          "value": 56,
+          "unit": "minutes",
+          "system": "http://unitsofmeasure.org",
+          "code": "min"
+        },
+        "period": {
+          "start": "2020-07-01T10:40:10+01:00",
+          "end": "2020-07-01T12:40:10+01:00"
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/sid/icd-10-cm",
+                "code": "J44.9",
+                "display": "Chronic obstructive pulmonary disease, unspecified"
+              }
+            ]
+          }
+        ],
+        "diagnosis": [
+          {
+            "condition": {
+              "reference": "Condition/cond015a",
+              "display": "The patient is hospitalized for stroke"
+            },
+            "use": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                  "code": "AD",
+                  "display": "Admission diagnosis"
+                }
+              ]
+            },
+            "rank": 2
+          },
+          {
+            "condition": {
+              "reference": "Condition/cond015a",
+              "display": "The patient is hospitalized for lung condition"
+            },
+            "use": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                  "code": "CC",
+                  "display": "Chief complaint"
+                }
+              ]
+            },
+            "rank": 1
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/pat015-rad-encounter"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "DeviceRequest",
+        "id": "devreqe0470",
+        "status": "draft",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/profile-devicerequest-r4"
+          ]
+        },
+        "insurance": [
+          {
+            "reference": "Coverage/cov015"
+          }
+        ],
+        "codeCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+              "code": "E0470",
+              "display": "Respiratory Assist Device"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "authoredOn": "2020-03-08",
+        "performer": {
+          "reference": "Practitioner/pra1234"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "intent": "original-order",
+        "instantiatesCanonical": [
+          "http://hapi.fhir.org/baseR4/PlanDefinition/1430"
+        ],
+        "requester": {
+          "reference": "Practitioner/pra1234"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DeviceRequest/devreqe0470"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "DeviceRequest",
+        "id": "devreq015",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-crd/R4/StructureDefinition/profile-devicerequest-r4"
+          ]
+        },
+        "insurance": [
+          {
+            "reference": "Coverage/cov015"
+          }
+        ],
+        "status": "draft",
+        "codeCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+              "code": "E0424",
+              "display": "Stationary Compressed Gaseous Oxygen System, Rental"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "performer": {
+          "reference": "Practitioner/pra1234"
+        },
+        "intent": "original-order",
+        "occurrenceTiming": {
+          "repeat": {
+            "boundsDuration": {
+              "value": 8,
+              "unit": "mo",
+              "system": "http://unitsofmeasure.org",
+              "code": "mo"
+            }
+          },
+          "code": {
+            "text": "During sleep AND During exertion"
+          }
+        },
+        "authoredOn": "2023-01-01T00:00:00Z",
+        "requester": {
+          "reference": "Practitioner/pra-hfairchild"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DeviceRequest/devreq015"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "DeviceRequest",
+        "id": "devreq-015-e0250",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-crd/R4/StructureDefinition/profile-devicerequest-r4"
+          ]
+        },
+        "insurance": [
+          {
+            "reference": "Coverage/cov015"
+          }
+        ],
+        "status": "draft",
+        "codeCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+              "code": "E0250",
+              "display": "Hospital bed fixed height with any type of side rails, mattress"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "performer": {
+          "reference": "Practitioner/pra1234"
+        },
+        "authoredOn": "2023-01-01T00:00:00Z",
+        "intent": "original-order",
+        "requester": {
+          "reference": "Practitioner/pra-hfairchild"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DeviceRequest/devreq-015-e0250"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015-hco3",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1960-4",
+              "display": "HCO3 BldA-sCnc"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-07-01T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 32,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/pra-dmorgan",
+            "display": "Dexter Morgan",
+            "type": "Practitioner"
+          },
+          {
+            "reference": "Organization/org-lab",
+            "display": "Gulf Coast Lab",
+            "type": "Organization"
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 23,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "high": {
+              "value": 30,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015-hco3"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015-o2sat-overnight",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "252568001",
+              "display": "Overnight pulse oximetry (procedure)"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-06-15T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 90,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "performer": [
+          {
+            "reference": "Organization/org-lab",
+            "display": "Clinical Lab",
+            "type": "Organization"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015-o2sat-overnight"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015-o2sat-resting",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "59417-6",
+              "display": "Oxygen saturation in Arterial blood by Pulse oximetry --resting"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-07-01T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 95,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/pra-dmorgan",
+            "display": "Dexter Morgan",
+            "type": "Practitioner"
+          },
+          {
+            "reference": "Organization/org1234",
+            "display": "Gulf Coast Lab",
+            "type": "Organization"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015-o2sat-resting"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015-o2sat-treatment",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "59409-3",
+              "display": "Oxygen saturation in Arterial blood by Pulse oximetry --during treatment"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-07-01T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 97,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/pra-dmorgan",
+            "display": "Dexter Morgan",
+            "type": "Practitioner"
+          },
+          {
+            "reference": "Organization/org1234",
+            "display": "Gulf Coast Lab",
+            "type": "Organization"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015-o2sat-treatment"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-pat015-pao2",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2703-7",
+              "display": "Oxygen (BldA) [Partial pressure]"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-06-15T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 65,
+          "unit": "mm[Hg]",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0078",
+                "code": "L",
+                "display": "LOW"
+              }
+            ],
+            "text": "Normal (applies to non-numeric results)"
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 75,
+              "unit": "mm[Hg]",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            },
+            "high": {
+              "value": 100,
+              "unit": "mm[Hg]",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-pat015-pao2"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-pat015-o2excercise",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "89276-0",
+              "display": "Oxygen saturation with exercise"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-03-20T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 80,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0078",
+                "code": "L",
+                "display": "LOW"
+              }
+            ],
+            "text": "Normal (applies to non-numeric results)"
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 90,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "high": {
+              "value": 99,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs-pat015-o2excercise"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ],
+            "text": "Vital Signs"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "59408-5",
+              "display": "Oxygen saturation in Arterial blood by Pulse oximetry"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-03-20T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 91,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0078",
+                "code": "N",
+                "display": "Normal"
+              }
+            ],
+            "text": "Normal (applies to non-numeric results)"
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 90,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "high": {
+              "value": 99,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015-paco2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2019-8",
+              "display": "Carbon dioxide [Partial pressure] in Arterial blood"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-06-15T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 45,
+          "unit": "mm[Hg]",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/pra-dmorgan",
+            "display": "Dexter Morgan",
+            "type": "Practitioner"
+          },
+          {
+            "reference": "Organization/org-lab",
+            "display": "Gulf Coast Lab",
+            "type": "Organization"
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 38,
+              "unit": "mm[Hg]",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            },
+            "high": {
+              "value": 42,
+              "unit": "mm[Hg]",
+              "system": "http://unitsofmeasure.org",
+              "code": "mm[Hg]"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015-paco2"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015-ph",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2744-1",
+              "display": "pH of Arterial blood"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-06-15T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 7.33,
+          "unit": "pH",
+          "system": "http://unitsofmeasure.org",
+          "code": "pH"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/pra-dmorgan",
+            "display": "Dexter Morgan",
+            "type": "Practitioner"
+          },
+          {
+            "reference": "Organization/org-lab",
+            "display": "Gulf Coast Lab",
+            "type": "Organization"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015-ph"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs015B",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "31100-1",
+              "display": "Hematocrit [Volume Fraction] of Blood by Impedance"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-03-20T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 69,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0078",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ],
+        "referenceRange": [
+          {
+            "low": {
+              "value": 42,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            },
+            "high": {
+              "value": 54,
+              "unit": "%",
+              "system": "http://unitsofmeasure.org",
+              "code": "%"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/obs015B"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "pat015-hemocrit",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "laboratory"
+              }
+            ],
+            "text": "Laboratory"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "32354-3",
+              "display": "Hct VFr BldA"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "issued": "2020-06-15T15:30:10+01:00",
+        "valueQuantity": {
+          "value": 72,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/pat015-hemocrit"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond015a",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/condition-category",
+                "code": "encounter-diagnosis",
+                "display": "Encounter Diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "J44.9",
+              "display": "Chronic obstructive pulmonary disease, unspecified"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/cond015a"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond015b",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/condition-category",
+                "code": "encounter-diagnosis",
+                "display": "Encounter Diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "R09.02",
+              "display": "Hypoxemia"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/cond015b"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "cond015c",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/condition-category",
+                "code": "encounter-diagnosis",
+                "display": "Encounter Diagnosis"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": " G30.0",
+              "display": "Alzheimer's disease with early onset"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/cond015c"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "ServiceRequest",
+        "id": "servreq-g0180-1",
+        "status": "draft",
+        "intent": "order",
+        "code": {
+          "coding": [
+            {
+              "system": "https://bluebutton.cms.gov/resources/codesystem/hcpcs",
+              "code": "G0180",
+              "display": "Medicare-covered home health services under a home health plan of care"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "occurrenceDateTime": "2017-10-01",
+        "authoredOn": "2017-10-04",
+        "requester": {
+          "display": "Smythe Juliette, MD"
+        },
+        "performer": [
+          {
+            "reference": "Practitioner/pra1255"
+          }
+        ],
+        "insurance": [
+          {
+            "reference": "Coverage/cov016"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "ServiceRequest/servreq-g0180-1"
+      }
+    }
+  ],
+  "resourceType": "Bundle"
+}
