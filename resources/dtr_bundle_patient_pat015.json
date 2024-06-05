@@ -2,6 +2,7 @@
   "type": "transaction",
   "entry": [
     {
+      "fullUrl": "urn:uuid:a803b77d-ec8e-45a0-a615-12c5e3894aa8",
       "resource": {
         "resourceType": "Patient",
         "id": "pat015",
@@ -75,6 +76,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:386eaa15-5b50-40db-a35e-d44223dce772",
       "resource": {
         "resourceType": "Practitioner",
         "id": "pra1234",
@@ -157,6 +159,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:6445c614-9784-4cfa-aed7-9fa52c5fe819",
       "resource": {
         "resourceType": "Coverage",
         "id": "cov015",
@@ -190,6 +193,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:f5ce3ebe-4a6b-4cee-a689-3efeb51f576c",
       "resource": {
         "resourceType": "Encounter",
         "id": "pat015-rad-encounter",
@@ -304,6 +308,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:e1890654-16cd-40f0-bb5b-69c0a3f77842",
       "resource": {
         "resourceType": "DeviceRequest",
         "id": "devreqe0470",
@@ -351,6 +356,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:87d17e84-5558-41a8-8374-74e4e9a9c502",
       "resource": {
         "resourceType": "DeviceRequest",
         "id": "devreq015",
@@ -405,6 +411,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:9dea2274-99b6-4bf9-ba97-60bd14be78ee",
       "resource": {
         "resourceType": "DeviceRequest",
         "id": "devreq-015-e0250",
@@ -446,6 +453,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:94675047-e98c-4f55-a450-bc9ae4aa7b1c",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015-hco3",
@@ -519,6 +527,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:a127290b-e1fb-4e4a-96bf-f87d4d2de0a0",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015-o2sat-overnight",
@@ -571,11 +580,22 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:e0d9292e-877f-47ce-849b-55f1d4b5de7c",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015-o2sat-resting",
+        "effectiveDateTime": "2020-07-01",
         "status": "final",
         "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          },
           {
             "coding": [
               {
@@ -589,6 +609,11 @@
         ],
         "code": {
           "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2708-6",
+              "display": "Oxygen saturation in Arterial blood"
+            },
             {
               "system": "http://loinc.org",
               "code": "59417-6",
@@ -628,6 +653,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:a3b3ce04-24f4-46b0-943b-3b556a5a4dfb",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015-o2sat-treatment",
@@ -685,6 +711,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:6acbaa05-2508-488e-afc0-b52a5e53ae57",
       "resource": {
         "resourceType": "Observation",
         "id": "obs-pat015-pao2",
@@ -706,7 +733,7 @@
             {
               "system": "http://loinc.org",
               "code": "2703-7",
-              "display": "Oxygen (BldA) [Partial pressure]"
+              "display": "Oxygen [Partial pressure] in Arterial blood"
             }
           ]
         },
@@ -755,9 +782,11 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:38470ed9-003b-47b9-bcf6-2e471a28e9ba",
       "resource": {
         "resourceType": "Observation",
         "id": "obs-pat015-o2excercise",
+        "effectiveDateTime": "2020-03-20",
         "category": [
           {
             "coding": [
@@ -775,8 +804,13 @@
           "coding": [
             {
               "system": "http://loinc.org",
+              "code": "2708-6",
+              "display": "Oxygen saturation in Arterial blood"
+            },
+            {
+              "system": "http://loinc.org",
               "code": "89276-0",
-              "display": "Oxygen saturation with exercise"
+              "display": "Oxygen saturation in Arterial blood by Pulse oximetry --W exercise"
             }
           ]
         },
@@ -825,9 +859,11 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:4d9d1e76-3c37-4bff-8de0-2bbc01da4b54",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015",
+        "effectiveDateTime": "2020-03-20",
         "status": "final",
         "category": [
           {
@@ -843,6 +879,11 @@
         ],
         "code": {
           "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2708-6",
+              "display": "Oxygen saturation in Arterial blood"
+            },
             {
               "system": "http://loinc.org",
               "code": "59408-5",
@@ -895,6 +936,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:b6a7ac74-a637-4040-87b6-4763de5a73bb",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015-paco2",
@@ -968,6 +1010,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:ae8690bb-520b-43f0-92cb-db07767b9dd5",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015-ph",
@@ -1025,6 +1068,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:8a5c465a-b8b8-423d-a73c-949e71263bd6",
       "resource": {
         "resourceType": "Observation",
         "id": "obs015B",
@@ -1094,6 +1138,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:a30e788c-1773-49eb-a4d3-5b6d6fc46a61",
       "resource": {
         "resourceType": "Observation",
         "id": "pat015-hemocrit",
@@ -1136,6 +1181,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:9bdbafaa-d50d-4a45-9406-ea90058a1c49",
       "resource": {
         "resourceType": "Condition",
         "id": "cond015a",
@@ -1187,6 +1233,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:8deed1d5-dbc9-4ca9-b0a8-6c5464cb542f",
       "resource": {
         "resourceType": "Condition",
         "id": "cond015b",
@@ -1238,6 +1285,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:f6fcbaea-df5f-4a7e-93b6-1dd66534006c",
       "resource": {
         "resourceType": "Condition",
         "id": "cond015c",
@@ -1274,7 +1322,7 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/sid/icd-10-cm",
-              "code": " G30.0",
+              "code": "G30.0",
               "display": "Alzheimer's disease with early onset"
             }
           ]
@@ -1289,6 +1337,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:ff116f38-1eea-441b-a16b-c86cadbb1bc0",
       "resource": {
         "resourceType": "ServiceRequest",
         "id": "servreq-g0180-1",
