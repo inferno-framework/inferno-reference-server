@@ -294,7 +294,12 @@
             },
             "rank": 1
           }
-        ]
+        ],
+        "location" : [{
+          "location" : {
+            "display" : "observation2c"
+          }
+        }]
       },
       "request": {
         "method": "PUT",
