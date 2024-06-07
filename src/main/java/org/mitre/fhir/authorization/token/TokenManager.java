@@ -17,7 +17,7 @@ public class TokenManager {
   public static final String SUB_STRING = UUID.randomUUID().toString();
 
   private static final String CUSTOM_BEARER_TOKEN_ENV_KEY = "CUSTOM_BEARER_TOKEN";
-  private static final String CUSTOM_BEARER_TOKEN_SCOPE_STRING = "system/*.*";
+  private static final String CUSTOM_BEARER_TOKEN_SCOPE_STRING = "system/*.* patient/Observation.rs?category=laboratory";
 
 
   private static TokenManager instance;

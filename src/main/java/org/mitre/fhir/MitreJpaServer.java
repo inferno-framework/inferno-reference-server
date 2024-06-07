@@ -133,7 +133,11 @@ public class MitreJpaServer extends RestfulServer {
 
     registerInterceptor(new BulkInterceptor(this.getFhirContext()));
 
-    registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
+    DaoRegistry registry = new DaoRegistry(getFhirContext());
+    registry.setApplicationContext(appContext);
+
+    
+    registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor(registry));
 
     if (readOnly == null || Boolean.parseBoolean(readOnly)) {
       registerInterceptor(new ReadOnlyInterceptor());
@@ -145,15 +149,13 @@ public class MitreJpaServer extends RestfulServer {
     try {
       String resourcesFolder = new HapiReferenceServerProperties().getResourcesFolder();
       Path fhirResources = Paths.get(resourcesFolder);
-      loadResources(appContext, fhirResources);
+      loadResources(registry, fhirResources);
     } catch (Exception e) {
       throw new ServletException("Error in loading resources from file", e);
     }
   }
 
-  private void loadResources(ApplicationContext appContext, Path fhirResources) throws Exception {
-    DaoRegistry registry = new DaoRegistry(getFhirContext());
-    registry.setApplicationContext(appContext);
+  private void loadResources(DaoRegistry registry, Path fhirResources) throws Exception {
 
     Map<String, Long> resCounts = registry.getSystemDao().getResourceCounts();
 
