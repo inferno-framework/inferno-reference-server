@@ -4,7 +4,7 @@
     {
       "fullUrl": "urn:uuid:1f51db31-1e03-4909-a780-f476dbbec807",
       "resource": {
-        "id": "1f51db31-1e03-4909-a780-f476dbbec807",
+        "id": "999",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -21,13 +21,29 @@
                 }
               ]
             },
-            "system" : "http://example.org/target-payer/identifiers/member",
+            "system" : "http://github.com/inferno-framework/target-payer/identifiers/member",
             "value" : "99999",
             "assigner" : {
               "display" : "Old Payer"
             }
           }
-        ]
+        ],
+        "name": [
+          {
+            "use": "official",
+            "family": "Dexter882",
+            "given": [
+              "Pat408"
+            ],
+            "prefix": [
+              "Mr."
+            ],
+            "suffix": [
+              "PharmD"
+            ]
+          }
+        ],
+        "gender": "male"
       },
       "request": {
         "method": "PUT",
@@ -35,6 +51,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:1fa4b543-dad2-4ef6-a2b1-e63cb823805e",
       "resource": {
         "resourceType" : "Encounter",
         "id" : "pdex-Encounter",
@@ -74,6 +91,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:79cc362c-b1e5-4c19-908d-c6d1bca90338",
       "resource": {
         "resourceType" : "Device",
         "id" : "pdex-Device",
@@ -112,6 +130,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:e29310a7-dbaf-4020-a7fd-25d5ef24fe34",
       "resource":{
         "resourceType" : "DocumentReference",
         "id" : "pdex-DocumentReference",
@@ -157,6 +176,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:12aacc22-e1e5-4caa-8b71-69d219781c9d",
       "resource" : {
         "resourceType" : "Condition",
         "id" : "pdex-Condition",
@@ -200,6 +220,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:2beaba43-5e40-4812-bcf4-bafc851ec6c1",
       "resource":{
         "resourceType" : "AllergyIntolerance",
         "id" : "pdex-AllergyIntolerance",
@@ -269,6 +290,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:b0a884c6-f0cf-44e7-8f37-9f263638cbf6",
       "resource":{
         "resourceType" : "CarePlan",
         "id" : "pdex-CarePlan",
@@ -303,6 +325,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:7190be26-a0e3-4e2a-b035-007f034db622",
       "resource":{
         "resourceType" : "CareTeam",
         "id" : "pdex-CareTeam",
@@ -328,7 +351,7 @@
                   {
                     "system" : "http://nucc.org/provider-taxonomy",
                     "code" : "207RC0000X",
-                    "display" : "Cardiovascular Disease"
+                    "display" : "Cardiovascular Disease Physician"
                   }
                 ]
               }
@@ -361,6 +384,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:764ee034-6555-46e3-8b73-4af77fb50969",
       "resource":{
         "resourceType" : "DiagnosticReport",
         "id" : "pdex-DiagnosticReport",
@@ -416,6 +440,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:d339e093-5166-47c0-b9fd-066ab603144d",
       "resource":{
         "resourceType" : "Goal",
         "id" : "pdex-Goal",
@@ -447,6 +472,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:3a31ae6d-d0e9-4e05-993a-8c34f72301dc",
       "resource":{
         "resourceType" : "Immunization",
         "id" : "pdex-Immunization",
@@ -469,8 +495,8 @@
             },
             {
               "system" : "http://hl7.org/fhir/sid/ndc",
-              "code" : "49281-0631-15",
-              "display" : "FLUZONE QUADRIVALENT"
+              "code" : "68071-2235",
+              "display" : "Acyclovir (product)"
             }
           ]
         },
@@ -486,6 +512,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:a882f56d-73fc-4ade-9c7e-90bdb0006388",
       "resource":{
         "resourceType" : "MedicationRequest",
         "id" : "pdex-MedicationRequest",
@@ -535,6 +562,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:17ac1a43-dcf1-41b9-a56e-30f2e0329570",
       "resource":{
         "resourceType" : "Observation",
         "id" : "pdex-Observation",
@@ -590,6 +618,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:662b11a3-8b4c-4d2e-835f-b4ab487c8b04",
       "resource":{
         "resourceType" : "Procedure",
         "id" : "pdex-Procedure",
@@ -646,6 +675,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:37d613a6-ac42-4ef4-8ec8-533c7a065a94",
       "resource":{
         "resourceType" : "PractitionerRole",
         "id" : "pdex-PractitionerRole",
@@ -656,8 +686,33 @@
         },
         "text" : {
           "status" : "generated",
-          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: PractitionerRole</b><a name=\"PractitionerRole-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource PractitionerRole &quot;PractitionerRole-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-practitionerrole.html\">US Core PractitionerRole Profile</a></p></div><p><b>practitioner</b>: <a href=\"#Practitioner_Practitioner-1011\">See above (Practitioner/Practitioner-1011: Brenda Jennings Richard MD)</a></p><p><b>organization</b>: <a href=\"Organization-acme-lab.html\">Organization/acme-lab: Acme Lab</a> &quot;Acme Labs&quot;</p><p><b>code</b>: primary care physician <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-ParticipationFunction.html\">ParticipationFunction</a>#PCP; provider-taxonomy#261QP2300X &quot;Primary Care Clinic/Center&quot;)</span></p><p><b>specialty</b>: General Practice Physician <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (provider-taxonomy#208D00000X)</span></p><p><b>location</b>: <a href=\"Location-hl7east.html\">Location/hl7east: Health Level Seven International</a> &quot;Health Level Seven International - Amherst&quot;</p><p><b>endpoint</b>: </p><ul><li><a href=\"#Endpoint_71\">See above (http://52.90.126.238:8080/fhir/baseDstu3/Endpoint/Endpoint-71: Westwood Physicians Organization ADT)</a></li><li><a href=\"#Endpoint_71\">See above (http://52.90.126.238:8080/fhir/baseDstu3/Endpoint/Endpoint-71: Brenda.Jennings.Richard.MD@direct.example.org)</a></li></ul></div>"
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: PractitionerRole</b><a name=\"PractitionerRole-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource PractitionerRole &quot;PractitionerRole-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-practitionerrole.html\">US Core PractitionerRole Profile</a></p></div><p><b>organization</b>: <a href=\"Organization-acme-lab.html\">Organization/acme-lab: Acme Lab</a> &quot;Acme Labs&quot;</p><p><b>code</b>: primary care physician <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-v3-ParticipationFunction.html\">ParticipationFunction</a>#PCP; provider-taxonomy#261QP2300X &quot;Primary Care Clinic/Center&quot;)</span></p><p><b>specialty</b>: General Practice Physician <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (provider-taxonomy#208D00000X)</span></p><p><b>location</b>: <a href=\"Location-hl7east.html\">Location/hl7east: Health Level Seven International</a> &quot;Health Level Seven International - Amherst&quot;</p></div>"
         },
+        "contained": [
+          {
+            "id": "endpoint",
+            "status": "active",
+            "connectionType": {
+              "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+              "code": "direct-project",
+              "display": "Direct Project"
+            },
+            "payloadType": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/endpoint-payload-type",
+                    "code": "any",
+                    "display": "Any"
+                  }
+                ],
+                "text": "Any"
+              }
+            ],
+            "address": "mailto:Melvin857.Torp761@example.com",
+            "resourceType": "Endpoint"
+          }
+        ],
         "practitioner" : {
           "reference" : "Practitioner/pdex-Practitioner"
         },
@@ -695,6 +750,12 @@
           {
             "reference" : "Location/pdex-Location"
           }
+        ],
+        "endpoint": [
+          {
+            "reference": "#endpoint",
+            "type": "Endpoint"
+          }
         ]
       },
       "request":{
@@ -703,6 +764,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:46d29c8d-9941-41e5-a28a-32b8811c2c6d",
       "resource":{
         "resourceType" : "Location",
         "id" : "pdex-Location",
@@ -753,6 +815,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:57b5a505-f4e0-4712-ac8f-b3d4ced3eb25",
       "resource":{
         "resourceType" : "MedicationDispense",
         "id" : "pdex-MedicationDispense",
@@ -839,6 +902,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:5f501a56-cc1a-448a-a361-77b0b42358a7",
       "resource":{
         "resourceType" : "Practitioner",
         "id" : "pdex-Practitioner",
@@ -898,6 +962,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:dd28c8ff-96ab-4385-98cd-1af6d52a4ca9",
       "resource":{
         "resourceType" : "Organization",
         "id" : "pdex-Organization",
@@ -961,6 +1026,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:d314c48d-a277-4e4a-b18e-0331193e8e85",
       "resource":{
         "resourceType" : "Medication",
         "id" : "pdex-Medication",
@@ -990,6 +1056,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:7bf5b39a-6245-4a25-ae1e-c412999cbbf9",
       "resource":{
         "resourceType" : "Coverage",
         "id" : "pdex-Coverage",
@@ -1014,7 +1081,7 @@
                 }
               ]
             },
-            "system" : "http://example.org/someOrg/identifiers/whatever",
+            "system" : "http://github.com/inferno-framework/someOrg/identifiers/whatever",
             "value" : "1039399818"
           }
         ],
@@ -1043,6 +1110,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:64989a0d-1b05-46cf-a285-bb6e40b7fcd1",
       "resource":{
         "resourceType" : "Provenance",
         "id" : "pdex-Provenance",
@@ -1094,6 +1162,7 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:f296d781-e754-4012-8ab9-a0c9a0352925",
       "resource":{
         "resourceType" : "ExplanationOfBenefit",
         "id" : "pdex-ExplanationOfBenefit",
@@ -1147,9 +1216,9 @@
         },
         "priority" : {
           "coding" : [{
-            "system" : "http://terminology.hl7.org/CodeSystem/processpriority",
+            "system" : "http://hl7.org/fhir/ValueSet/process-priority",
             "code" : "normal",
-            "display" : "Normal"
+            "display" : "normal"
           }]
         },
         "fundsReserveRequested" : {
