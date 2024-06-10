@@ -1,26 +1,24 @@
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
-import ca.uhn.fhir.jpa.api.dao.IFhirResourceDao;
-import ca.uhn.fhir.jpa.searchparam.SearchParameterMap;
 import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
-import ca.uhn.fhir.rest.api.SummaryEnum;
-import ca.uhn.fhir.rest.api.server.IBundleProvider;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hl7.fhir.r4.model.Bundle;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.authorization.token.TokenNotFoundException;
+import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
@@ -70,24 +68,6 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
     // [?param=value[&param2=value2...]]
     // http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html#fhir-resource-scope-syntax
 
-//    List<String> grantedResources = new ArrayList<String>();
-//
-//    for (String currentScope : scopesArray) {
-//      // strip off user or patient part of scope
-//      String[] scopeParts = currentScope.split("/", 2);
-//      if (scopeParts.length == 2) {
-//        // for now strip off operation part of scope
-//
-//        String scopeAfterSlash = scopeParts[1];
-//        String[] scopeAfterSlashParts = scopeAfterSlash.split("\\.", 2);
-//
-//        if (scopeAfterSlashParts.length == 2) {
-//          grantedResources.add(scopeAfterSlashParts[0]);
-//        } else {
-//          grantedResources.add(scopeAfterSlash);
-//        }
-//      }
-//    }
 
     String resource = requestDetails.getResourceName();
     if (resource == null || resource.equals("Patient")) {
@@ -96,20 +76,13 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
       return true;
     }
 
-//    if (!grantedResources.contains("*") && !grantedResources.contains(resource)
-//        && !("Patient".equals(resource))) {
-//      if (resource != null) {
-//        throw new InvalidScopesException(resource);
-//      }
-//    }
-
     List<Scope> grantedScopes = scopesArray.stream().map(s -> Scope.fromString(s)).toList();
 
     boolean anyScopeApplies = false;
     Map<String, String> parametersToAdd = new HashMap<>();
     for (Scope s : grantedScopes) {
       // note: order is important here, we do not want to short circuit
-      anyScopeApplies = s.apply(requestDetails, parametersToAdd, registry) || anyScopeApplies;
+      anyScopeApplies = s.apply(requestDetails, parametersToAdd, registry, request) || anyScopeApplies;
     }
 
     if (!anyScopeApplies) {
@@ -150,7 +123,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
       requestDetails.addParameter(key, newValues);
     }
-
+        
     return true;
   }
 
@@ -221,7 +194,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
       return s;
     }
 
-    public boolean apply(RequestDetails requestDetails, Map<String, String> parametersToAdd, DaoRegistry registry) {
+    public boolean apply(RequestDetails requestDetails, Map<String, String> parametersToAdd, DaoRegistry registry, HttpServletRequest request) {
       String resource = requestDetails.getResourceName();
       if (!isWildcardResource && !resource.equals(resourceType)) {
         // this scope is not relevant to the current request
@@ -243,19 +216,24 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
         if (this.read && this.parameters != null) {
           // if this scope is granular, do a search with this scopes's params and the current resource ID to see if this read is allowed
           // if nothing is returned, ie, either the params don't match the resource or the resource with that ID doesn't exist, return not allowed
-          IFhirResourceDao dao = registry.getResourceDao(resource);
-          SearchParameterMap searchParams = new SearchParameterMap();
-          searchParams.add("_id", new ca.uhn.fhir.rest.param.StringParam(requestDetails.getId().getValueAsString()));
           
-          // TODO: finish mapping the scope params to the search params
-          // [[TokenParam[system=,value=laboratory]], [TokenParam[system=,value=vital-signs], TokenParam[system=,value=imaging]], [TokenParam[system=,value=]]]
           
-          // we only care about count
-          // TODO: uncomment this when it works. may need to change return from !isEmpty to something else
+//          IFhirResourceDao<?> dao = registry.getResourceDao(resource);
+//          SearchParameterMap searchParams = new SearchParameterMap();
+//          searchParams.add("_id", new ca.uhn.fhir.rest.param.StringParam(requestDetails.getId().getValueAsString()));
 //          searchParams.setSummaryMode(SummaryEnum.COUNT);
+//          List results = dao.searchForResourceIds(searchParams, requestDetails);
           
-          IBundleProvider results = dao.search(searchParams, requestDetails);
-          return !results.isEmpty();
+
+          // this is a terrible hack
+          try {
+            IGenericClient client = FhirReferenceServerUtils.FHIR_CONTEXT_R4.newRestfulGenericClient(FhirReferenceServerUtils.getFhirServerBaseUrl(request));
+            Bundle results = (Bundle) client.search().byUrl(resource + "?_summary=count&_id=" + requestDetails.getId().getValueAsString()).withAdditionalHeader("Authorization", request.getHeader("Authorization")).execute();
+            return results.getTotal() > 0;
+          } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+          }
         }
         return this.read;
 
@@ -271,7 +249,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
             for (String toAdd : this.parameters.get(key)) {
               String value = parametersToAdd.get(key);
               if (value == null) {
-                value = "";
+                value = toAdd;
               } else {
                 value = value + "," + toAdd;
               }
