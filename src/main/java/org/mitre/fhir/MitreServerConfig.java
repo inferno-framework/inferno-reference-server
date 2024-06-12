@@ -70,6 +70,9 @@ public class MitreServerConfig {
     config.getTreatBaseUrlsAsLocal().add("http://hl7.org/fhir/us/core/");
     config.setIndexMissingFields(IndexEnabledEnum.ENABLED);
 
+    // Re-using bulk export job IDs causes issues when one client deletes the export
+    config.setEnableBulkExportJobReuse(false);
+
     // Auto-create placeholder reference targets to allow loading resources in any order
     config.setAutoCreatePlaceholderReferenceTargets(true);
     // Allow "clients" to use any Id strategy, ie, allow loading resources with numeric IDs
