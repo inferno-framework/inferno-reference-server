@@ -21,7 +21,7 @@ public class FhirReferenceServerUtils {
   public static final String FHIR_SERVER_PATH = "/r4";
   public static final String REFERENCE_SERVER_PATH = "/app";
 
-  public static final String DEFAULT_SCOPE = "launch/patient patient/*";
+  public static final String DEFAULT_SCOPE = "launch/patient patient/*.*";
 
   /**
    * FHIR Context for this server.
