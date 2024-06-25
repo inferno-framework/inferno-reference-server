@@ -1,17 +1,15 @@
 package org.mitre.fhir.authorization;
 
+import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
+import ca.uhn.fhir.rest.api.server.RequestDetails;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
-import ca.uhn.fhir.rest.api.server.RequestDetails;
 
 /**
  * The Scope class represents a single SMART OAuth 2.0 scope.
@@ -36,10 +34,14 @@ public class Scope {
 
   /**
    * Regex representing the SMART 1.0 and 2.0 scope syntax.
-   * In 1: ( 'patient' | 'user' ) '/' ( fhir-resource | '*' ) '.' ( 'read' | 'write' | '*' )`
+   */
+  /* (Non-javadoc to prevent parse errors)
+   * In 1: 
+   * ( 'patient' | 'user' ) '/' ( fhir-resource | '*' ) '.' ( 'read' | 'write' | '*' )`
    * https://hl7.org/fhir/smart-app-launch/1.0.0/scopes-and-launch-context/index.html
    * 
-   * In 2: <patient|user|system> / <fhir-resource>. <c | r | u | d |s> [?param=value[&param2=value2...]]
+   * In 2: 
+   * <patient|user|system> / <fhir-resource>. <c | r | u | d |s> [?param=value[&param2=value2...]]
    * http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context.html#fhir-resource-scope-syntax
    */
   private static final Pattern SCOPE_REGEX = Pattern
@@ -50,6 +52,10 @@ public class Scope {
    */
   private static Map<String, Set<String>> allKnownSearchParams = new HashMap<>();
   
+  /**
+   * Set the given map of search parameters as the new set of search parameters.
+   * (Replace, not add).
+   */
   public static void registerSearchParams(Map<String, Set<String>> allSearchParams) {
     allKnownSearchParams = new HashMap<>(allSearchParams);
   }
@@ -128,15 +134,16 @@ public class Scope {
    * 
    * @param requestDetails FHIR request details
    * @param parametersToAdd Map to add search parameters that a granular scope applies.
-   * @param canAccessResource 
+   * @param canAccessResource
    *          Function that determines whether a given resource (by type/ID) can be accessed.
    *          This function will be called if the scope is broadly applicable to the request,
    *          and a more fine-grained approach is necessary to know whether the scopes
    *          allow access to the specific resource being requested.
-   * @param isShortCircuitAllowed 
+   * @param isShortCircuitAllowed
    *          Whether this scope is to allowed short-circuit any resource-intensive steps
    *          (ie, if a previous scope already granted access)
-   * @return
+   * @return True if the scope enables the given request,
+   *         false if not relevant or if the scope does not enable the given request.
    */
   public boolean apply(RequestDetails requestDetails, Map<String, String> parametersToAdd,
       BiPredicate<String, String> canAccessResource, boolean isShortCircuitAllowed) {
@@ -148,53 +155,52 @@ public class Scope {
     
     RestOperationTypeEnum operation = requestDetails.getRestOperationType();
     switch (operation) {
-
-    case CREATE:
-      return this.create;
-    case UPDATE:
-      return this.update;
-    case DELETE:
-      return this.delete;
-
-    case READ:
-      if (this.read && this.parameters != null && !isShortCircuitAllowed) {
-        // If this scope is granular, we need to see if this scope allows this particular read.
-        // we can short-circuit and skip the check if access has already been granted by a previous scope
-        return canAccessResource.test(resource, requestDetails.getId().getValueAsString());
-      }
-      return this.read;
-
-    case SEARCH_TYPE:
-      if (this.search && this.parameters != null) {
-        // If there are granular scopes, apply those here.
-        // e.g.: requestDetails.addParameter("category", new String[] {"social-history"});
-        // Unfortunately we can't add directly to the request in case another scope is also relevant.
-        // So we need to OR all relevant values together by joining with commas.
-        // The parametersToAdd arg is re-used as we iterate through Scopes.
-        for (String key : this.parameters.keySet()) {
-          for (String toAdd : this.parameters.get(key)) {
-            String value = parametersToAdd.get(key);
-            if (value == null) {
-              value = toAdd;
-            } else {
-              value = value + "," + toAdd;
+      case CREATE:
+        return this.create;
+      case UPDATE:
+        return this.update;
+      case DELETE:
+        return this.delete;
+  
+      case READ:
+        if (this.read && this.parameters != null && !isShortCircuitAllowed) {
+          // If this scope is granular, we need to see if this scope allows this particular read.
+          // We can short-circuit and skip the check if a previous scope already granted access.
+          return canAccessResource.test(resource, requestDetails.getId().getValueAsString());
+        }
+        return this.read;
+  
+      case SEARCH_TYPE:
+        if (this.search && this.parameters != null) {
+          // If there are granular scopes, apply those here.
+          // e.g.: requestDetails.addParameter("category", new String[] {"social-history"});
+          // But we can't add directly to the request, in case another scope is also relevant.
+          // So we need to OR all relevant values together by joining with commas.
+          // The parametersToAdd arg is re-used as we iterate through Scopes.
+          for (String key : this.parameters.keySet()) {
+            for (String toAdd : this.parameters.get(key)) {
+              String value = parametersToAdd.get(key);
+              if (value == null) {
+                value = toAdd;
+              } else {
+                value = value + "," + toAdd;
+              }
+              parametersToAdd.put(key, value);
             }
-            parametersToAdd.put(key, value);
           }
         }
-      }
-      return this.search;
-
-    default:
-      // maintains the previous behavior
-      return true;
+        return this.search;
+  
+      default:
+        // maintains the previous behavior
+        return true;
     }
   }
 
   /**
    * Determine whether this Scope is valid.
-   * To maximize flexibility, "invalid" here means anything that is known to be incorrect or not processable.
-   * Anything else or "unknown" is ok and valid, and should return true.
+   * To maximize flexibility, "invalid" here means anything that is known to be incorrect
+   * or not processable. Anything else or "unknown" is ok and valid, and should return true.
    */
   boolean isValid() {
     // For now the only thing to check is granular scope parameters.
@@ -207,7 +213,7 @@ public class Scope {
       Set<String> resourceParams = allKnownSearchParams.get(this.resourceType);
       for (String param : parameters.keySet()) {
         // Only check if the keys are valid search parameters for the given resource.
-        // Invalid search parameter names, such as `Condition?not_a_param=1234`, would cause errors.
+        // Invalid search parameter names, such as `Condition?not_a_param=123`, would cause errors.
         // It doesn't matter if the value isn't actually possible.
         if (!resourceParams.contains(param)) {
           return false;

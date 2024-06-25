@@ -142,7 +142,7 @@ public class MitreJpaServer extends RestfulServer {
     // This lookup gets the set of search parameter names for all resource
     // and sends them to the Scope class.
     ISearchParamRegistry searchParamRegistry = appContext.getBean(ISearchParamRegistry.class);
-    Map<String,Set<String>> allSearchParams = new HashMap<>();
+    Map<String, Set<String>> allSearchParams = new HashMap<>();
     for (String resourceType : this.getFhirContext().getResourceTypes()) {
       ResourceSearchParams params = searchParamRegistry.getActiveSearchParams(resourceType);
       Set<String> paramNames = params.getSearchParamNames();

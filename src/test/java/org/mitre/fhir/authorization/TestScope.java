@@ -6,21 +6,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
+import ca.uhn.fhir.rest.api.server.RequestDetails;
+import ca.uhn.fhir.rest.api.server.SystemRequestDetails;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
-
 import org.hl7.fhir.r4.model.IdType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
-import ca.uhn.fhir.rest.api.server.RequestDetails;
-import ca.uhn.fhir.rest.api.server.SystemRequestDetails;
-
 public class TestScope {
 
+  /**
+   * Make sure the Scope class has some set of search params registered before running these tests.
+   */
   @BeforeClass
   public static void setup() {
     Scope.registerSearchParams(Map.of("Condition",
@@ -77,71 +78,70 @@ public class TestScope {
   
   @Test
   public void testScopeApply() {
-    Scope s = Scope.fromString("patient/Observation.rs");
-
     RequestDetails requestDetails = new SystemRequestDetails();
     requestDetails.setRestOperationType(RestOperationTypeEnum.READ);
     requestDetails.setResourceName("Observation");
     requestDetails.setId(new IdType("obs123"));
     // the scope applies and allows access to a read of the relevant resource type
-    assertTrue( s.apply(requestDetails, null, null, false) );
+    Scope s = Scope.fromString("patient/Observation.rs");
+    assertTrue(s.apply(requestDetails, null, null, false));
 
     // does not apply to a different resource type
     requestDetails.setResourceName("Patient");
-    assertFalse( s.apply(requestDetails, null, null, false) );
+    assertFalse(s.apply(requestDetails, null, null, false));
 
     // does not apply to a different operation
     requestDetails.setResourceName("Observation");
     requestDetails.setRestOperationType(RestOperationTypeEnum.DELETE);
-    assertFalse( s.apply(requestDetails, null, null, false) );
+    assertFalse(s.apply(requestDetails, null, null, false));
 
 
     s = Scope.fromString("user/*.cruds");
     // wildcard should allow everything
     requestDetails.setResourceName("Patient");
     requestDetails.setRestOperationType(RestOperationTypeEnum.READ);
-    assertTrue( s.apply(requestDetails, null, null, false) );
+    assertTrue(s.apply(requestDetails, null, null, false));
     
     requestDetails.setResourceName("Observation");
     requestDetails.setRestOperationType(RestOperationTypeEnum.SEARCH_TYPE);
-    assertTrue( s.apply(requestDetails, null, null, false) );
+    assertTrue(s.apply(requestDetails, null, null, false));
     
     requestDetails.setResourceName("Condition");
     requestDetails.setRestOperationType(RestOperationTypeEnum.UPDATE);
-    assertTrue( s.apply(requestDetails, null, null, false) );
+    assertTrue(s.apply(requestDetails, null, null, false));
     
     requestDetails.setResourceName("DiagnosticReport");
     requestDetails.setRestOperationType(RestOperationTypeEnum.CREATE);
-    assertTrue( s.apply(requestDetails, null, null, false) );
+    assertTrue(s.apply(requestDetails, null, null, false));
 
 
     s = Scope.fromString("patient/Condition.rs?category=http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern");
 
     // does not apply to a different resource type
     requestDetails.setResourceName("Patient");
-    assertFalse( s.apply(requestDetails, null, null, false) );
+    assertFalse(s.apply(requestDetails, null, null, false));
 
     // does not apply to a different operation
     requestDetails.setResourceName("Condition");
     requestDetails.setRestOperationType(RestOperationTypeEnum.DELETE);
-    assertFalse( s.apply(requestDetails, null, null, false) );
+    assertFalse(s.apply(requestDetails, null, null, false));
 
     // does apply to the correct resource type
     // for SEARCH the scope params should be added
     requestDetails.setRestOperationType(RestOperationTypeEnum.SEARCH_TYPE);
-    Map<String,String> parametersToAdd = new HashMap<>();
-    assertTrue( s.apply(requestDetails, parametersToAdd, null, false) );
+    Map<String, String> parametersToAdd = new HashMap<>();
+    assertTrue(s.apply(requestDetails, parametersToAdd, null, false));
 
     assertTrue(parametersToAdd.containsKey("category"));
     assertEquals("http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern", parametersToAdd.get("category"));
 
     // for READ the access predicate should be called
     requestDetails.setRestOperationType(RestOperationTypeEnum.READ);
-    BiPredicate<String, String> canAccessAllResources = (resourceType, resourceID) -> true ;
-    assertTrue( s.apply(requestDetails, null, canAccessAllResources, false) );
+    BiPredicate<String, String> canAccessAllResources = (resourceType, resourceID) -> true;
+    assertTrue(s.apply(requestDetails, null, canAccessAllResources, false));
 
-    BiPredicate<String, String> canAccessNoResources = (resourceType, resourceID) -> false ;
-    assertFalse( s.apply(requestDetails, null, canAccessNoResources, false) );
+    BiPredicate<String, String> canAccessNoResources = (resourceType, resourceID) -> false;
+    assertFalse(s.apply(requestDetails, null, canAccessNoResources, false));
 
 
     // test multiple scopes applying on top of each other
@@ -149,13 +149,13 @@ public class TestScope {
     requestDetails.setRestOperationType(RestOperationTypeEnum.SEARCH_TYPE);
     parametersToAdd.clear();
 
-    assertTrue( s.apply(requestDetails, parametersToAdd, null, false) );
+    assertTrue(s.apply(requestDetails, parametersToAdd, null, false));
     assertTrue(parametersToAdd.containsKey("category"));
     assertEquals("health-concern", parametersToAdd.get("category"));
 
     s = Scope.fromString("patient/Condition.rs?category=encounter-diagnosis");
 
-    assertTrue( s.apply(requestDetails, parametersToAdd, null, false) );
+    assertTrue(s.apply(requestDetails, parametersToAdd, null, false));
     assertTrue(parametersToAdd.containsKey("category"));
     assertEquals("health-concern,encounter-diagnosis", parametersToAdd.get("category"));
   }

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiPredicate;
-
 import org.hl7.fhir.r4.model.Bundle;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
@@ -28,14 +27,14 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
    */
   private BiPredicate<String, String> canAccessResourcePredicate(HttpServletRequest request) {
     return (resourceType, resourceID) -> {
-      // This is frankly a hack.
-      // We use the same authorization on a search by ID, and their scopes will apply to that request implicitly.
+      // This is frankly a hack: use the same auth on a search by ID, 
+      //  and the scopes will apply to that request implicitly.
       // E.g. GET /Patient/123 --> GET /Patient?_id=123
-      // If the search returns no results (either the scopes don't match what's on the resource, or the resource ID doesn't exist)
-      // then we don't allow a read of that specific resource.
+      // If the search returns no results (either the scopes don't match what's on the resource, 
+      //  or the resource ID doesn't exist) then we don't allow a read of that specific resource.
 
       // Ideally this might use an internal query to evaluate the resource against the query params,
-      // but converting the scope into internal query params is nontrivial.
+      //  but converting the scope into internal query params is nontrivial.
       try {
         IGenericClient client = FhirReferenceServerUtils.FHIR_CONTEXT_R4
             .newRestfulGenericClient(FhirReferenceServerUtils.getFhirServerBaseUrl(request));
@@ -89,12 +88,14 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
 
     boolean anyScopeApplies = false;
     Map<String, String> parametersToAdd = new HashMap<>();
+    BiPredicate<String, String> accessChecker = canAccessResourcePredicate(request);
     for (Scope s : grantedScopes) {
-      // Note: order is important here. The scope itself may short-circuit its processing if possible,
-      // but we don't want to short-circuit and not apply a scope when a previous one grants access.
-      // In the case of granular scopes, each scope is "additive" in terms of resources it grants access to,
+      // Note: order is important here. The scope itself may short-circuit its processing,
+      // but we don't want to not apply a scope just because a previous one grants access.
+      // In the case of granular scopes, each scope is "additive" in terms of access,
       // so we always want to apply all granular scopes to a search.
-      anyScopeApplies = s.apply(requestDetails, parametersToAdd, canAccessResourcePredicate(request), anyScopeApplies) || anyScopeApplies;
+      anyScopeApplies = s.apply(requestDetails, parametersToAdd, accessChecker, anyScopeApplies)
+            || anyScopeApplies;
     }
 
     if (!anyScopeApplies) {
