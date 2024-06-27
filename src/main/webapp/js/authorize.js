@@ -95,6 +95,55 @@ window.mitre.fhirreferenceserver.authorize = {
     // load scopes
     let checkBoxesHtml = '';
 
+	const createCheckbox = (scope, index, subscope=false) => {
+	  let scopeId = "scope-" + index;
+      return (
+          `<div class="form-check">
+             <input class="form-check-input" id="${scopeId}" name="scopeCheckbox" type="checkbox" value="${scope}" ${!subscope && 'checked'}>
+             <label class="form-check-label" for="${scopeId}">${scope}</label>
+           </div>`
+      );
+	}
+	
+	const getSubscopes = scope => {
+		const knownParams = {
+			'Condition': [
+				'category=http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern',
+				'category=http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis',
+				'category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item'
+			],
+			'Observation': [
+				'category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh',
+				'category=http://terminology.hl7.org/CodeSystem-observation-category|social-history',
+				'category=http://terminology.hl7.org/CodeSystem/observation-category|laboratory',
+				'category=http://terminology.hl7.org/CodeSystem/observation-category|survey',
+				'category=http://terminology.hl7.org/CodeSystem/observation-category|vital-signs'
+			],
+			'DocumentReference': [
+				'category=http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category|clinical-note'
+			]
+		}
+		
+		// syntax: 
+		const slash = scope.indexOf('/');
+		const dot = scope.indexOf('.', slash);
+		
+		if (slash < 0 || dot < 0) {
+			// not a SMART clinical scope
+			return [];
+		}
+		
+		const resourceType = scope.slice(slash + 1, dot);
+		
+		const paramsForResourceType = knownParams[resourceType];
+		if (!paramsForResourceType) {
+			// no params for the requested resource type
+			return [];
+		}
+		
+		return paramsForResourceType.map(p => `${scope}?${p}`);
+	}
+
     for (let i = 0; i < scopesList.length; i++)
     {
       let scope = scopesList[i];
@@ -104,14 +153,13 @@ window.mitre.fhirreferenceserver.authorize = {
         continue;
       }
 
-      let scopeId = "scope-" + i;
-      let scopeCheckboxHtml =
-          `<div class="form-check">
-             <input class="form-check-input" id="${scopeId}" name="scopeCheckbox" type="checkbox" value="${scope}" checked>
-             <label class="form-check-label" for="${scopeId}">${scope}</label>
-           </div>`;
-
-      checkBoxesHtml += scopeCheckboxHtml;
+      checkBoxesHtml += createCheckbox(scope, i);
+      
+      const subscopes = getSubscopes(scope);
+      for (let j = 0; j < subscopes.length; j++) {
+		const subscope = subscopes[j];
+		checkBoxesHtml += createCheckbox(subscope, i + "-" + j, true);
+	  }
     }
 
     $('#scopes').append(checkBoxesHtml);

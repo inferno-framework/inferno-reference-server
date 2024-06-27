@@ -469,8 +469,7 @@ public class AuthorizationController {
     }
 
     List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopes);
-    // Remove scopes that we recognize as invalid
-    scopesList.removeIf(s -> !Scope.fromString(s).isValid());
+    scopesList = processScopes(scopesList);
     scopes = FhirReferenceServerUtils.getScopesStringFromScopesList(scopesList);
 
     String accessToken = token.getTokenValue();
@@ -520,6 +519,44 @@ public class AuthorizationController {
       }
     }
     return tokenJson.toString();
+  }
+
+  /**
+   * Process the list of scopes and apply any custom logic, eg filtering, consolidating, etc.
+   */
+  static List<String> processScopes(List<String> scopeStrings) {
+    // First pass: parse the scope strings into Scope objects,
+    // remove scopes that we recognize as invalid,
+    // note if there are any v2 scopes
+    List<Scope> scopes = new ArrayList<Scope>(scopeStrings.size());
+
+    boolean hasV2Scope = false;
+
+    for (String scopeString : scopeStrings) {
+      Scope scope = Scope.fromString(scopeString);
+      if (scope == null) {
+        // scope.isValid() returned false so Scope.fromString returned null.
+        // Remove this scope from the list
+        continue;
+      }
+
+      scopes.add(scope);
+
+      if (scope.version == 2 || (scope.parameters != null && !scope.parameters.isEmpty())) {
+        // checking for parameters here makes things easier in the auth UI,
+        // we can just append parameters to any scope rather than parsing out the privileges
+        hasV2Scope = true;
+      }
+    }
+
+    // Second pass: if there are v2 scopes, make sure all scopes are v2
+    if (hasV2Scope) {
+      for (int i = 0; i < scopes.size(); i++) {
+        scopes.set(i, scopes.get(i).asVersion2());
+      }
+    }
+
+    return scopes.stream().map(Scope::toString).toList();
   }
 
   /**

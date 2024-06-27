@@ -1,6 +1,7 @@
 package org.mitre.fhir.authorization;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertEquals;
 import static org.mitre.fhir.utils.FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
@@ -986,6 +988,36 @@ public class TestAuthorization {
     authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null,
         "authorization_code", null, null, null, request);
   }
+  
+  @Test
+  public void testProcessScopes() {
+    List<String> scopesIn = List.of(
+        "patient/Patient.read",
+        "patient/Observation.rs",
+        "patient/*.read",
+        "patient/*.*",
+        "system/*.*",
+        "patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item",
+        "patient/Condition.rs?category=1&category=2",
+        "patient/Condition.rs?category=1&code=2",
+        "patient/Condition.rs?badparam=true",
+        "openid"
+    );
+    List<String> scopesOut = AuthorizationController.processScopes(scopesIn);
+    
+    assertEquals(scopesIn.size() - 1, scopesOut.size()); // only one bad scope gets removed
+    int i = 0;
+    assertEquals("patient/Patient.rs", scopesOut.get(i++));
+    assertEquals("patient/Observation.rs", scopesOut.get(i++));
+    assertEquals("patient/*.rs", scopesOut.get(i++));
+    assertEquals("patient/*.cruds", scopesOut.get(i++));
+    assertEquals("system/*.cruds", scopesOut.get(i++));
+    assertEquals("patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item", scopesOut.get(i++));
+    assertEquals("patient/Condition.rs?category=1&category=2", scopesOut.get(i++));
+    assertEquals("patient/Condition.rs?category=1&code=2", scopesOut.get(i++));
+    // badparam one is missing
+    assertEquals("openid", scopesOut.get(i++));
+  }
 
   /**
    * Common cleanup, run once per class not per test.
@@ -1022,6 +1054,12 @@ public class TestAuthorization {
    */
   @BeforeClass
   public static void beforeClass() throws Exception {
+    Scope.registerSearchParams(Map.of("Condition",
+        Set.of("code", "identifier", "patient", "abatement-date", "asserter", "body-site",
+            "category", "clinical-status", "encounter", "evidence", "evidence-detail", "onset-date",
+            "recorded-date", "severity", "stage", "subject", "verification-status",
+            "asserted-date")));
+    
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();
