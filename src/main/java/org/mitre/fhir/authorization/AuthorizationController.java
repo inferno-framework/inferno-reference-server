@@ -468,6 +468,11 @@ public class AuthorizationController {
       throw new OAuth2Exception(ErrorCode.INVALID_GRANT, e);
     }
 
+    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopes);
+    // Remove scopes that we recognize as invalid
+    scopesList.removeIf(s -> !Scope.fromString(s).isValid());
+    scopes = FhirReferenceServerUtils.getScopesStringFromScopesList(scopesList);
+
     String accessToken = token.getTokenValue();
 
     JSONObject tokenJson = new JSONObject();
@@ -483,8 +488,6 @@ public class AuthorizationController {
       throw new OAuth2Exception(ErrorCode.UNAUTHORIZED_CLIENT, "No patients found")
         .withResponseStatus(HttpStatus.UNAUTHORIZED);
     }
-
-    List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopes);
 
     if (scopesList.contains("launch") || scopesList.contains("launch/patient")) {
       tokenJson.put("patient", patientId);

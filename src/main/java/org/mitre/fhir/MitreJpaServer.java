@@ -16,18 +16,22 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.LoggingInterceptor;
 import ca.uhn.fhir.rest.server.provider.ResourceProviderFactory;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
+import ca.uhn.fhir.rest.server.util.ResourceSearchParams;
 import jakarta.servlet.ServletException;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.r4.formats.JsonParser;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
+import org.mitre.fhir.authorization.Scope;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
 import org.mitre.fhir.bulk.BulkInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +136,19 @@ public class MitreJpaServer extends RestfulServer {
     registerInterceptor(loggingInterceptor);
 
     registerInterceptor(new BulkInterceptor(this.getFhirContext()));
+
+    // For a granular scope to know whether it's valid or invalid,
+    // it needs to know what the possible search parameters are.
+    // This lookup gets the set of search parameter names for all resource
+    // and sends them to the Scope class.
+    ISearchParamRegistry searchParamRegistry = appContext.getBean(ISearchParamRegistry.class);
+    Map<String, Set<String>> allSearchParams = new HashMap<>();
+    for (String resourceType : this.getFhirContext().getResourceTypes()) {
+      ResourceSearchParams params = searchParamRegistry.getActiveSearchParams(resourceType);
+      Set<String> paramNames = params.getSearchParamNames();
+      allSearchParams.put(resourceType, paramNames);
+    }
+    Scope.registerSearchParams(allSearchParams);
 
     registerInterceptor(new FakeOauth2AuthorizationInterceptorAdaptor());
 
