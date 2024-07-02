@@ -3,8 +3,8 @@ window.mitre.fhirreferenceserver = window.mitre.fhirreferenceserver || {};
 window.mitre.fhirreferenceserver.authorize = {
 
   /**
-	 * initializes the page and all html components including actions
-	 */
+   * initializes the page and all html components including actions
+   */
   init: function () {
 
     // static code that the HAPI interceptor will look for to return token
@@ -88,8 +88,8 @@ window.mitre.fhirreferenceserver.authorize = {
 
     let scopes = urlParams.get('scope') || '';
 
-	let scopesData;
-	$.ajax({
+  let scopesData;
+  $.ajax({
           async: false,
           dataType: "json",
           data: JSON.stringify(scopes),
@@ -102,21 +102,21 @@ window.mitre.fhirreferenceserver.authorize = {
           }
         });
 
-    // load scopes
-    let checkBoxesHtml = '';
+  // load scopes
+  let checkBoxesHtml = '';
 
-	const createCheckbox = (scope, index, subscope=false) => {
-	  let scopeId = "scope-" + index;
-      return (
-          `<div class="form-check">
-             <input class="form-check-input ${subscope ? 'subscope' : 'main-scope'}" id="${scopeId}" name="scopeCheckbox" 
-                    type="checkbox" value="${scope}" ${subscope ? 'disabled' : 'checked'}>
-             <label class="form-check-label" for="${scopeId}">${scope}</label>
-           </div>`
-      );
-	}
+  const createCheckbox = (scope, index, subscope=false) => {
+    let scopeId = "scope-" + index;
+    return (
+      `<div class="form-check">
+         <input class="form-check-input ${subscope ? 'subscope' : 'main-scope'}" id="${scopeId}" name="scopeCheckbox" 
+                type="checkbox" value="${scope}" ${subscope ? 'disabled' : 'checked'}>
+         <label class="form-check-label" for="${scopeId}">${scope}</label>
+       </div>`
+    );
+  }
 
-	const scopeEntries = Object.entries(scopesData);
+  const scopeEntries = Object.entries(scopesData);
     for (let i = 0; i < scopeEntries.length; i++)
     {
       let [scope, subscopes] = scopeEntries[i];
@@ -124,9 +124,9 @@ window.mitre.fhirreferenceserver.authorize = {
       checkBoxesHtml += createCheckbox(scope, i);
 
       for (let j = 0; j < subscopes.length; j++) {
-		const subscope = subscopes[j];
-		checkBoxesHtml += createCheckbox(subscope, i + "-" + j, true);
-	  }
+        const subscope = subscopes[j];
+        checkBoxesHtml += createCheckbox(subscope, i + "-" + j, true);
+      }
     }
 
     $('#scopes').append(checkBoxesHtml);
