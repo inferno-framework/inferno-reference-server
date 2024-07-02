@@ -88,9 +88,19 @@ window.mitre.fhirreferenceserver.authorize = {
 
     let scopes = urlParams.get('scope') || '';
 
-    scopes = scopes.trim();
-
-    let scopesList = scopes.split(' ');
+	let scopesData;
+	$.ajax({
+          async: false,
+          dataType: "json",
+          data: JSON.stringify(scopes),
+          processData: false,
+          contentType: 'application/json',
+          method: "POST",
+          url: '/reference-server/oauth/supportedScopes',
+          success: function(data) {
+            scopesData = data;
+          }
+        });
 
     // load scopes
     let checkBoxesHtml = '';
@@ -99,63 +109,20 @@ window.mitre.fhirreferenceserver.authorize = {
 	  let scopeId = "scope-" + index;
       return (
           `<div class="form-check">
-             <input class="form-check-input" id="${scopeId}" name="scopeCheckbox" type="checkbox" value="${scope}" ${!subscope && 'checked'}>
+             <input class="form-check-input ${subscope ? 'subscope' : 'main-scope'}" id="${scopeId}" name="scopeCheckbox" 
+                    type="checkbox" value="${scope}" ${subscope ? 'disabled' : 'checked'}>
              <label class="form-check-label" for="${scopeId}">${scope}</label>
            </div>`
       );
 	}
-	
-	const getSubscopes = scope => {
-		const knownParams = {
-			'Condition': [
-				'category=http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern',
-				'category=http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis',
-				'category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item'
-			],
-			'Observation': [
-				'category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh',
-				'category=http://terminology.hl7.org/CodeSystem-observation-category|social-history',
-				'category=http://terminology.hl7.org/CodeSystem/observation-category|laboratory',
-				'category=http://terminology.hl7.org/CodeSystem/observation-category|survey',
-				'category=http://terminology.hl7.org/CodeSystem/observation-category|vital-signs'
-			],
-			'DocumentReference': [
-				'category=http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category|clinical-note'
-			]
-		}
-		
-		// syntax: 
-		const slash = scope.indexOf('/');
-		const dot = scope.indexOf('.', slash);
-		
-		if (slash < 0 || dot < 0) {
-			// not a SMART clinical scope
-			return [];
-		}
-		
-		const resourceType = scope.slice(slash + 1, dot);
-		
-		const paramsForResourceType = knownParams[resourceType];
-		if (!paramsForResourceType) {
-			// no params for the requested resource type
-			return [];
-		}
-		
-		return paramsForResourceType.map(p => `${scope}?${p}`);
-	}
 
-    for (let i = 0; i < scopesList.length; i++)
+	const scopeEntries = Object.entries(scopesData);
+    for (let i = 0; i < scopeEntries.length; i++)
     {
-      let scope = scopesList[i];
-
-      if (scope === '')
-      {
-        continue;
-      }
+      let [scope, subscopes] = scopeEntries[i];
 
       checkBoxesHtml += createCheckbox(scope, i);
-      
-      const subscopes = getSubscopes(scope);
+
       for (let j = 0; j < subscopes.length; j++) {
 		const subscope = subscopes[j];
 		checkBoxesHtml += createCheckbox(subscope, i + "-" + j, true);
@@ -163,6 +130,18 @@ window.mitre.fhirreferenceserver.authorize = {
     }
 
     $('#scopes').append(checkBoxesHtml);
+
+    $('.main-scope').change(function(e) {
+      const selector = `[id^="${e.target.id}-"]`; // selector to find ids starting with "{this.id}-"
+      if (e.target.checked) {
+        // the main scope was checked, so uncheck and disable all its subscopes
+        $(selector).prop( "checked", false );
+        $(selector).prop( "disabled", true );
+      } else {
+        // the main scope was unchecked, so enable all the subscopes
+        $(selector).prop( "disabled", false );
+      }
+    });
 
     $('#submit').click(function(){
 

@@ -1,0 +1,15 @@
+---
+Condition:
+  - category=http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern
+  - category=http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis
+  - category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item
+
+Observation:
+  - category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh
+  - category=http://terminology.hl7.org/CodeSystem-observation-category|social-history
+  - category=http://terminology.hl7.org/CodeSystem/observation-category|laboratory
+  - category=http://terminology.hl7.org/CodeSystem/observation-category|survey
+  - category=http://terminology.hl7.org/CodeSystem/observation-category|vital-signs
+
+DocumentReference:
+  - category=http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category|clinical-note

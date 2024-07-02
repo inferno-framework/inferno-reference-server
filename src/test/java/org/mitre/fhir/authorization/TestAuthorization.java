@@ -2,6 +2,7 @@ package org.mitre.fhir.authorization;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mitre.fhir.utils.FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -1017,6 +1018,65 @@ public class TestAuthorization {
     assertEquals("patient/Condition.rs?category=1&code=2", scopesOut.get(i++));
     // badparam one is missing
     assertEquals("openid", scopesOut.get(i++));
+  }
+
+  @Test
+  public void testSupportedScopes() {
+    List<String> scopesIn = List.of(
+        "patient/Patient.read",
+        "patient/Observation.rs",
+        "patient/Condition.read",
+        "patient/*.read",
+        "patient/*.*",
+        "patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item",
+        "patient/Condition.rs?badparam=true",
+        "openid"
+    );
+    String scopesString = String.join(" ", scopesIn);
+
+    Map<String, List<String>> scopesOut = AuthorizationController.supportedScopes(scopesString, null).getBody();
+
+    // IMPORTANT: the test case uses a different version of the defined parameters file
+    // so the test doesn't need to care what the real params are, or if they change:
+    /*
+       Condition:
+        - category=health-concern
+        - category=encounter-diagnosis
+        - category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item
+
+      Observation:
+        - category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh
+        - category=http://terminology.hl7.org/CodeSystem-observation-category|social-history
+     */
+
+    assertEquals(scopesIn.size() - 1, scopesOut.size()); // only one bad scope gets removed
+    assertFalse(scopesOut.containsKey("patient/Condition.rs?badparam=true"));
+
+    // no patient subscopes
+    assertEquals(0, scopesOut.get("patient/Patient.read").size());
+
+    // nothing for wildcards
+    assertEquals(0, scopesOut.get("patient/*.read").size());
+    assertEquals(0, scopesOut.get("patient/*.*").size());
+
+    // if the scope is already granular, don't do anything
+    assertEquals(0, scopesOut.get("patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item").size());
+
+    // if the scope isn't a SMART clinical scope, do nothing
+    assertEquals(0, scopesOut.get("openid").size());
+
+    // Observation has 2 defined params, so they should be added
+    List<String> subscopes = scopesOut.get("patient/Observation.rs");
+    assertEquals(2, subscopes.size());
+    assertEquals("patient/Observation.rs?category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh", subscopes.get(0));
+    assertEquals("patient/Observation.rs?category=http://terminology.hl7.org/CodeSystem-observation-category|social-history", subscopes.get(1));
+
+    // Condition has 3 defined params, so they should be added
+    subscopes = scopesOut.get("patient/Condition.read");
+    assertEquals(3, subscopes.size());
+    assertEquals("patient/Condition.read?category=health-concern", subscopes.get(0));
+    assertEquals("patient/Condition.read?category=encounter-diagnosis", subscopes.get(1));
+    assertEquals("patient/Condition.read?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item", subscopes.get(2));
   }
 
   /**

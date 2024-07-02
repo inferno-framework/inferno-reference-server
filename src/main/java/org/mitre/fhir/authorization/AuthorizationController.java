@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -61,8 +62,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.Yaml;
 
 @RestController
 public class AuthorizationController {
@@ -72,6 +75,16 @@ public class AuthorizationController {
   private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
   private static final String JWT_BEARER_CLIENT_ASSERTION_TYPE =
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+
+  /**
+   * A map of "known" granular search parameters by resource type.
+   * Scopes with these parameters must be offered to users on the authorization screen
+   * if they request resource-level scopes.
+   */
+  @SuppressWarnings("unchecked")
+  private static final Map<String, List<String>> KNOWN_PARAMS =
+      (Map<String, List<String>>) new Yaml().load(
+          AuthorizationController.class.getResourceAsStream("/scope_parameters.yml"));
 
   @PostConstruct
   protected void postConstruct() {
@@ -519,6 +532,53 @@ public class AuthorizationController {
       }
     }
     return tokenJson.toString();
+  }
+
+  /**
+   * Get the set of scopes to offer to an authorizing user, based on the scopes they requested.
+   * Invalid scopes will not be returned, and if a resource-level scope is requested
+   * then granular subscopes will be included as well.
+   * The output format is a Map of { scope: [subscope, ...] }
+   *
+   * @param requestScopes String of scopes, space-separated
+   * @param request The request
+   * @return Scopes that the user may authorize
+   */
+  @PostMapping(path = "/supportedScopes", produces = {"application/json"})
+  static ResponseEntity<Map<String, List<String>>> supportedScopes(
+      @RequestBody Object requestScopes, HttpServletRequest request) {
+    if (!(requestScopes instanceof String)) {
+      // not sure this is possible, just being defensive
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    List<String> scopesList =
+        FhirReferenceServerUtils.getScopesListByScopeString(requestScopes.toString());
+    Map<String, List<String>> scopesOut = new LinkedHashMap<>(); // use LinkedHashMap to preserve order
+    for (String s : scopesList) {
+      Scope scope = Scope.fromString(s);
+      if (scope == null) {
+        // Don't return known-invalid scopes
+        continue;
+      }
+
+      List<String> subscopes = new ArrayList<>();
+      scopesOut.put(s, subscopes);
+
+      if (scope.resourceType != null && scope.parameters == null
+          && KNOWN_PARAMS.containsKey(scope.resourceType)) {
+        for (String p : KNOWN_PARAMS.get(scope.resourceType)) {
+          // Note: this adds a mixed-version granular scope if the original was v1.
+          // It will be upconverted to v2 later once the token is generated
+          subscopes.add(s + "?" + p);
+
+          // Alternatively, convert the hybrid scope to v2 now:
+          // subscopes.add( Scope.fromString(s + "?" + p).asVersion2().toString() );
+        }
+      }
+    }
+
+    return new ResponseEntity<>(scopesOut, HttpStatus.OK);
   }
 
   /**
