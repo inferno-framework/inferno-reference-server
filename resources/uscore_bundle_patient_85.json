@@ -18058,14 +18058,14 @@
               }
           ],
           "code": {
-              "coding": [
-                  {
-                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
-                      "code": "treatment-intervention-preference",
-                      "display": "Treatment Intervention Preference"
-                  }
-              ],
-              "text": "Treatment Intervention Preference"
+            "coding": [
+                {
+                    "system": "http://loinc.org",
+                    "code": "75773-2",
+                    "display": "Goals, preferences, and priorities for medical treatment"
+                }
+            ],
+            "text": "Goals, preferences, and priorities for medical treatment"
           },
           "subject": {
               "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
@@ -18108,16 +18108,16 @@
               }
           ],
           "code": {
-              "coding": [
-                  {
-                      "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
-                      "code": "treatment-intervention-preference",
-                      "display": "Treatment Intervention Preference"
-                  }
-              ],
-              "text": "Treatment Intervention Preference"
+            "coding": [
+                {
+                    "system": "http://loinc.org",
+                    "code": "75773-2",
+                    "display": "Goals, preferences, and priorities for medical treatment"
+                }
+            ],
+            "text": "Goals, preferences, and priorities for medical treatment"
           },
-          "subject": {
+              "subject": {
               "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
           },
           "effectiveDateTime": "2023-08-30",
