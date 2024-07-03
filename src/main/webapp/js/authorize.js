@@ -88,44 +88,47 @@ window.mitre.fhirreferenceserver.authorize = {
 
     let scopes = urlParams.get('scope') || '';
 
-  let scopesData;
-  $.ajax({
-          async: false,
-          dataType: "json",
-          data: JSON.stringify(scopes),
-          processData: false,
-          contentType: 'application/json',
-          method: "POST",
-          url: '/reference-server/oauth/supportedScopes',
-          success: function(data) {
-            scopesData = data;
-          }
-        });
+    let scopesData;
+    $.ajax({
+            async: false,
+            dataType: "json",
+            data: JSON.stringify(scopes),
+            processData: false,
+            contentType: 'application/json',
+            method: "POST",
+            url: '/reference-server/oauth/supportedScopes',
+            success: function(data) {
+              scopesData = data;
+            }
+          });
 
-  // load scopes
-  let checkBoxesHtml = '';
+    // load scopes
+    let checkBoxesHtml = '';
 
-  const createCheckbox = (scope, index, subscope=false) => {
-    let scopeId = "scope-" + index;
-    return (
-      `<div class="form-check">
-         <input class="form-check-input ${subscope ? 'subscope' : 'main-scope'}" id="${scopeId}" name="scopeCheckbox" 
-                type="checkbox" value="${scope}" ${subscope ? 'disabled' : 'checked'}>
-         <label class="form-check-label" for="${scopeId}">${scope}</label>
-       </div>`
-    );
-  }
+    const originallyHasV2 = scopesData.some(s => !s.v1); 
+    // the v2 field will always be populated, so we distinguish an "originally v2" scope if its v1 field is null
 
-  const scopeEntries = Object.entries(scopesData);
-    for (let i = 0; i < scopeEntries.length; i++)
-    {
-      let [scope, subscopes] = scopeEntries[i];
+    // if there is an originally v2 scope or subscope selected, show all scopes as v2
+    // otherwise show scopes as v1 || v2
+    const createCheckbox = (v1, v2, index, subscope=false) => {
+      let scopeId = "scope-" + index;
+      let value = originallyHasV2 ? v2 : v1 || v2;
+      return (
+        `<div class="form-check">
+           <input class="form-check-input ${subscope ? 'subscope' : 'main-scope'}" id="${scopeId}" name="scopeCheckbox" 
+                  type="checkbox" value="${value}" data-v1="${v1 || ""}" data-v2="${v2}" ${subscope ? 'disabled' : 'checked'}>
+           <label class="form-check-label" for="${scopeId}">${value}</label>
+         </div>`
+      );
+    }
 
-      checkBoxesHtml += createCheckbox(scope, i);
+    for (let i = 0; i < scopesData.length; i++) {
+      let scope = scopesData[i];
+      checkBoxesHtml += createCheckbox(scope.v1, scope.v2, i);
 
-      for (let j = 0; j < subscopes.length; j++) {
-        const subscope = subscopes[j];
-        checkBoxesHtml += createCheckbox(subscope, i + "-" + j, true);
+      for (let j = 0; j < scope.subscopes.length; j++) {
+        const subscope = scope.subscopes[j];
+        checkBoxesHtml += createCheckbox(null, subscope, i + "-" + j, true);
       }
     }
 
@@ -141,6 +144,25 @@ window.mitre.fhirreferenceserver.authorize = {
         // the main scope was unchecked, so enable all the subscopes
         $(selector).prop( "disabled", false );
       }
+    });
+
+    $('#scopes [name="scopeCheckbox"]').change(function(e) {
+      // when we toggle a checkbox, if it's enabling a v2 scope then all scopes need to be converted to v2
+      // if it's disabling a v2 scope, we may want to revert to the original requested
+      const allCheckboxes = $('#scopes [name="scopeCheckbox"]').toArray();
+      const isAnyV2Selected = allCheckboxes.some(c => c.checked && !c.dataset.v1);
+      let valueSelector;
+      // same logic as in createCheckbox above
+      if (isAnyV2Selected) {
+        valueSelector = c => c.dataset.v2;
+      } else {
+        valueSelector = c => c.dataset.v1 || c.dataset.v2;
+      }
+
+      allCheckboxes.forEach(c => {
+        c.value = valueSelector(c);
+        $(`label[for="${c.id}"]`).html(c.value);
+      });
     });
 
     $('#submit').click(function(){

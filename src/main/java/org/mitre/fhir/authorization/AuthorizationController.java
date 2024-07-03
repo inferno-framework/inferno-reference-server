@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -535,6 +534,16 @@ public class AuthorizationController {
   }
 
   /**
+   * Helper class used only as the structure to send info about scopes to the UI.
+   */
+  protected static class ScopeWrapper {
+    // fields are public so the default JSON serializer picks them up
+    public String v1;
+    public String v2;
+    public List<String> subscopes = new ArrayList<>();
+  }
+
+  /**
    * Get the set of scopes to offer to an authorizing user, based on the scopes they requested.
    * Invalid scopes will not be returned, and if a resource-level scope is requested
    * then granular subscopes will be included as well.
@@ -545,7 +554,7 @@ public class AuthorizationController {
    * @return Scopes that the user may authorize
    */
   @PostMapping(path = "/supportedScopes", produces = {"application/json"})
-  static ResponseEntity<Map<String, List<String>>> supportedScopes(
+  static ResponseEntity<List<ScopeWrapper>> supportedScopes(
       @RequestBody Object requestScopes, HttpServletRequest request) {
     if (!(requestScopes instanceof String)) {
       // not sure this is possible, just being defensive
@@ -554,26 +563,29 @@ public class AuthorizationController {
 
     List<String> scopesList =
         FhirReferenceServerUtils.getScopesListByScopeString(requestScopes.toString());
-    Map<String, List<String>> scopesOut = new LinkedHashMap<>(); // use LinkedHashMap to preserve order
+
+    List<ScopeWrapper> scopesOut = new ArrayList<>();
     for (String s : scopesList) {
       Scope scope = Scope.fromString(s);
       if (scope == null) {
         // Don't return known-invalid scopes
         continue;
       }
-
-      List<String> subscopes = new ArrayList<>();
-      scopesOut.put(s, subscopes);
+      ScopeWrapper wrapper = new ScopeWrapper();
+      scopesOut.add(wrapper);
+      if (scope.version == 2) {
+        wrapper.v2 = s;
+      } else {
+        wrapper.v1 = s;
+        wrapper.v2 = scope.asVersion2().toString();
+      }
 
       if (scope.resourceType != null && scope.parameters == null
           && KNOWN_PARAMS.containsKey(scope.resourceType)) {
+        // note the parameters null check - don't add the param to an already-granular scope
         for (String p : KNOWN_PARAMS.get(scope.resourceType)) {
-          // Note: this adds a mixed-version granular scope if the original was v1.
-          // It will be upconverted to v2 later once the token is generated
-          subscopes.add(s + "?" + p);
-
-          // Alternatively, convert the hybrid scope to v2 now:
-          // subscopes.add( Scope.fromString(s + "?" + p).asVersion2().toString() );
+          String newScope = Scope.fromString(s + "?" + p).asVersion2().toString();
+          wrapper.subscopes.add(newScope);
         }
       }
     }
