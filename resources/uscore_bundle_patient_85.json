@@ -18062,10 +18062,10 @@
                 {
                     "system": "http://loinc.org",
                     "code": "75773-2",
-                    "display": "Goals, preferences, and priorities for medical treatment"
-                }
+                    "display": "Goals, preferences, and priorities for medical treatment [Reported]"
+                  }
             ],
-            "text": "Goals, preferences, and priorities for medical treatment"
+            "text": "Goals, preferences, and priorities for medical treatment [Reported]"
           },
           "subject": {
               "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
@@ -18112,10 +18112,10 @@
                 {
                     "system": "http://loinc.org",
                     "code": "75773-2",
-                    "display": "Goals, preferences, and priorities for medical treatment"
+                    "display": "Goals, preferences, and priorities for medical treatment [Reported]"
                 }
             ],
-            "text": "Goals, preferences, and priorities for medical treatment"
+            "text": "Goals, preferences, and priorities for medical treatment [Reported]"
           },
               "subject": {
               "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
