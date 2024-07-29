@@ -108,6 +108,11 @@ window.mitre.fhirreferenceserver.authorize = {
     const originallyHasV2 = scopesData.some(s => !s.v1); 
     // the v2 field will always be populated, so we distinguish an "originally v2" scope if its v1 field is null
 
+    if (!originallyHasV2) {
+      // if none of the scopes are v2 then show the notice: v1 scopes may be converted to v2
+      $('#v1scopesupgradenotice').show();
+    }
+
     // if there is an originally v2 scope or subscope selected, show all scopes as v2
     // otherwise show scopes as v1 || v2
     const createCheckbox = (v1, v2, index, subscope=false) => {
