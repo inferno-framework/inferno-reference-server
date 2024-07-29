@@ -658,11 +658,6 @@
       "fullUrl": "urn:uuid:a2ad9c61-9e93-390e-34ad-d9d825c65a51",
       "resource": {
         "id": "a2ad9c61-9e93-390e-34ad-d9d825c65a51",
-        "meta": {
-          "profile": [
-            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus"
-          ]
-        },
         "status": "final",
         "category": [
           {
