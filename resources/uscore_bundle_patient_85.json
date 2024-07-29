@@ -1457,8 +1457,25 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "8944e7cf-1482-b552-11a3-d3063d712d51"
+          }
+        ],
         "status": "active",
         "name": "LOWELL GENERAL HOSPITAL",
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "HOSP",
+                "display": "Hospital"
+              }
+            ]
+          }
+        ],
         "telecom": [
           {
             "system": "phone",
