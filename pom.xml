@@ -257,6 +257,13 @@
         <artifactId>spring-boot</artifactId>
         <version>3.1.10</version>
       </dependency>
+
+      <!-- nested dependency of elasticsearch via hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>org.eclipse.parsson</groupId>
+        <artifactId>parsson</artifactId>
+        <version>1.0.5</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
