@@ -1,0 +1,11 @@
+---
+# NOTE: this test mapping is intentionally simplified and different from the real one
+
+Condition:
+  - category=health-concern
+  - category=encounter-diagnosis
+  - category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item
+
+Observation:
+  - category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh
+  - category=http://terminology.hl7.org/CodeSystem-observation-category|social-history

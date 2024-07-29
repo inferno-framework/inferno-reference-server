@@ -10,6 +10,7 @@ import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.api.server.SystemRequestDetails;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
@@ -41,6 +42,17 @@ public class TestScope {
     assertFalse(s.update);
     assertFalse(s.delete);
     assertNull(s.parameters);
+    assertEquals(2, s.version);
+    
+    s = Scope.fromString("patient/Condition.read");
+    assertEquals("Condition", s.resourceType);
+    assertTrue(s.read);
+    assertTrue(s.search);
+    assertFalse(s.create);
+    assertFalse(s.update);
+    assertFalse(s.delete);
+    assertNull(s.parameters);
+    assertEquals(1, s.version);
     
     s = Scope.fromString("user/*.cruds");
     assertTrue(s.isWildcardResource);
@@ -50,6 +62,7 @@ public class TestScope {
     assertTrue(s.delete);
     assertTrue(s.search);
     assertNull(s.parameters);
+    assertEquals(2, s.version);
     
    
     s = Scope.fromString("patient/Condition.rs?category=http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern");
@@ -159,4 +172,49 @@ public class TestScope {
     assertTrue(parametersToAdd.containsKey("category"));
     assertEquals("health-concern,encounter-diagnosis", parametersToAdd.get("category"));
   }
+  
+  @Test
+  public void testUpgrade() {
+    Scope s = Scope.fromString("patient/Observation.read");
+    Scope s2 = s.asVersion2();
+    assertEquals("patient/Observation.rs", s2.toString());
+    
+    s = Scope.fromString("patient/Observation.*");
+    s2 = s.asVersion2();
+    assertEquals("patient/Observation.cruds", s2.toString());
+    
+    s = Scope.fromString("patient/*.read");
+    s2 = s.asVersion2();
+    assertEquals("patient/*.rs", s2.toString());
+    
+    s = Scope.fromString("patient/Patient.rs");
+    s2 = s.asVersion2();
+    assertTrue(s == s2);
+    
+    s = Scope.fromString("openid");
+    s2 = s.asVersion2();
+    assertTrue(s == s2);
+  }
+  
+  @Test
+  public void testToString() {
+    List<String> scopes = List.of(
+        "patient/Observation.read",
+        "patient/Observation.rs",
+        "patient/*.read",
+        "patient/*.*",
+        "system/*.*",
+        "patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item",
+        "patient/Condition.rs?category=1&category=2",
+        "patient/Condition.rs?category=1&code=2"
+    );
+    
+    for (String scope : scopes) {
+      // roundtrip the scope. set rawValue to null so toString re-creates it
+      Scope s = Scope.fromString(scope);
+      s.rawValue = null;
+      assertEquals(scope, s.toString());
+    }
+  }
+  
 }

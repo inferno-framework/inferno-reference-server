@@ -61,8 +61,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.Yaml;
 
 @RestController
 public class AuthorizationController {
@@ -72,6 +74,16 @@ public class AuthorizationController {
   private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
   private static final String JWT_BEARER_CLIENT_ASSERTION_TYPE =
       "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+
+  /**
+   * A map of "known" granular search parameters by resource type.
+   * Scopes with these parameters must be offered to users on the authorization screen
+   * if they request resource-level scopes.
+   */
+  @SuppressWarnings("unchecked")
+  private static final Map<String, List<String>> KNOWN_PARAMS =
+      (Map<String, List<String>>) new Yaml().load(
+          AuthorizationController.class.getResourceAsStream("/scope_parameters.yml"));
 
   @PostConstruct
   protected void postConstruct() {
@@ -469,8 +481,7 @@ public class AuthorizationController {
     }
 
     List<String> scopesList = FhirReferenceServerUtils.getScopesListByScopeString(scopes);
-    // Remove scopes that we recognize as invalid
-    scopesList.removeIf(s -> !Scope.fromString(s).isValid());
+    scopesList = processScopes(scopesList);
     scopes = FhirReferenceServerUtils.getScopesStringFromScopesList(scopesList);
 
     String accessToken = token.getTokenValue();
@@ -520,6 +531,104 @@ public class AuthorizationController {
       }
     }
     return tokenJson.toString();
+  }
+
+  /**
+   * Helper class used only as the structure to send info about scopes to the UI.
+   */
+  protected static class ScopeWrapper {
+    // fields are public so the default JSON serializer picks them up
+    public String v1;
+    public String v2;
+    public List<String> subscopes = new ArrayList<>();
+  }
+
+  /**
+   * Get the set of scopes to offer to an authorizing user, based on the scopes they requested.
+   * Invalid scopes will not be returned, and if a resource-level scope is requested
+   * then granular subscopes will be included as well.
+   * The output format is a Map of { scope: [subscope, ...] }
+   *
+   * @param requestScopes String of scopes, space-separated
+   * @param request The request
+   * @return Scopes that the user may authorize
+   */
+  @PostMapping(path = "/supportedScopes", produces = {"application/json"})
+  static ResponseEntity<List<ScopeWrapper>> supportedScopes(
+      @RequestBody Object requestScopes, HttpServletRequest request) {
+    if (!(requestScopes instanceof String)) {
+      // not sure this is possible, just being defensive
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    List<String> scopesList =
+        FhirReferenceServerUtils.getScopesListByScopeString(requestScopes.toString());
+
+    List<ScopeWrapper> scopesOut = new ArrayList<>();
+    for (String s : scopesList) {
+      Scope scope = Scope.fromString(s);
+      if (scope == null) {
+        // Don't return known-invalid scopes
+        continue;
+      }
+      ScopeWrapper wrapper = new ScopeWrapper();
+      scopesOut.add(wrapper);
+      if (scope.version == 2) {
+        wrapper.v2 = s;
+      } else {
+        wrapper.v1 = s;
+        wrapper.v2 = scope.asVersion2().toString();
+      }
+
+      if (scope.resourceType != null && scope.parameters == null
+          && KNOWN_PARAMS.containsKey(scope.resourceType)) {
+        // note the parameters null check - don't add the param to an already-granular scope
+        for (String p : KNOWN_PARAMS.get(scope.resourceType)) {
+          String newScope = Scope.fromString(s + "?" + p).asVersion2().toString();
+          wrapper.subscopes.add(newScope);
+        }
+      }
+    }
+
+    return new ResponseEntity<>(scopesOut, HttpStatus.OK);
+  }
+
+  /**
+   * Process the list of scopes and apply any custom logic, eg filtering, consolidating, etc.
+   */
+  static List<String> processScopes(List<String> scopeStrings) {
+    // First pass: parse the scope strings into Scope objects,
+    // remove scopes that we recognize as invalid,
+    // note if there are any v2 scopes
+    List<Scope> scopes = new ArrayList<Scope>(scopeStrings.size());
+
+    boolean hasV2Scope = false;
+
+    for (String scopeString : scopeStrings) {
+      Scope scope = Scope.fromString(scopeString);
+      if (scope == null) {
+        // scope.isValid() returned false so Scope.fromString returned null.
+        // Remove this scope from the list
+        continue;
+      }
+
+      scopes.add(scope);
+
+      if (scope.version == 2 || (scope.parameters != null && !scope.parameters.isEmpty())) {
+        // checking for parameters here makes things easier in the auth UI,
+        // we can just append parameters to any scope rather than parsing out the privileges
+        hasV2Scope = true;
+      }
+    }
+
+    // Second pass: if there are v2 scopes, make sure all scopes are v2
+    if (hasV2Scope) {
+      for (int i = 0; i < scopes.size(); i++) {
+        scopes.set(i, scopes.get(i).asVersion2());
+      }
+    }
+
+    return scopes.stream().map(Scope::toString).toList();
   }
 
   /**

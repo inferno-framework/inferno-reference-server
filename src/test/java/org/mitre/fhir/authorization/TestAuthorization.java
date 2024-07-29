@@ -1,6 +1,7 @@
 package org.mitre.fhir.authorization;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertEquals;
 import static org.mitre.fhir.utils.FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME;
 
 import ca.uhn.fhir.context.FhirContext;
@@ -22,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
@@ -40,6 +42,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mitre.fhir.authorization.AuthorizationController.ScopeWrapper;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
 import org.mitre.fhir.authorization.exception.OAuth2Exception;
@@ -986,6 +989,110 @@ public class TestAuthorization {
     authorizationController.getToken(code, "SAMPLE_PUBLIC_CLIENT_ID", null, null,
         "authorization_code", null, null, null, request);
   }
+  
+  @Test
+  public void testProcessScopes() {
+    List<String> scopesIn = List.of(
+        "patient/Patient.read",
+        "patient/Observation.rs",
+        "patient/*.read",
+        "patient/*.*",
+        "system/*.*",
+        "patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item",
+        "patient/Condition.rs?category=1&category=2",
+        "patient/Condition.rs?category=1&code=2",
+        "patient/Condition.rs?badparam=true",
+        "openid"
+    );
+    List<String> scopesOut = AuthorizationController.processScopes(scopesIn);
+    
+    assertEquals(scopesIn.size() - 1, scopesOut.size()); // only one bad scope gets removed
+    int i = 0;
+    assertEquals("patient/Patient.rs", scopesOut.get(i++));
+    assertEquals("patient/Observation.rs", scopesOut.get(i++));
+    assertEquals("patient/*.rs", scopesOut.get(i++));
+    assertEquals("patient/*.cruds", scopesOut.get(i++));
+    assertEquals("system/*.cruds", scopesOut.get(i++));
+    assertEquals("patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item", scopesOut.get(i++));
+    assertEquals("patient/Condition.rs?category=1&category=2", scopesOut.get(i++));
+    assertEquals("patient/Condition.rs?category=1&code=2", scopesOut.get(i++));
+    // badparam one is missing
+    assertEquals("openid", scopesOut.get(i++));
+  }
+
+  @Test
+  public void testSupportedScopes() {
+    List<String> scopesIn = List.of(
+        "patient/Patient.read",
+        "patient/Observation.rs",
+        "patient/Condition.read",
+        "patient/*.read",
+        "patient/*.*",
+        "patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item",
+        "patient/Condition.rs?badparam=true",
+        "openid"
+    );
+    String scopes = String.join(" ", scopesIn);
+    List<ScopeWrapper> scopesOut = AuthorizationController.supportedScopes(scopes, null).getBody();
+
+    // IMPORTANT: the test case uses a different version of the defined parameters file
+    // so the test doesn't need to care what the real params are, or if they change:
+    /*
+       Condition:
+        - category=health-concern
+        - category=encounter-diagnosis
+        - category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item
+
+      Observation:
+        - category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh
+        - category=http://terminology.hl7.org/CodeSystem-observation-category|social-history
+     */
+
+    assertEquals(scopesIn.size() - 1, scopesOut.size()); // only one bad scope gets removed
+    
+    int i = 0;
+    ScopeWrapper scope = scopesOut.get(i++);
+    assertEquals("patient/Patient.read", scope.v1);
+    assertEquals("patient/Patient.rs", scope.v2);
+    assertEquals(0, scope.subscopes.size());
+    
+    scope = scopesOut.get(i++);
+    assertEquals(null, scope.v1);
+    assertEquals("patient/Observation.rs", scope.v2);
+    assertEquals(2, scope.subscopes.size());
+    assertEquals("patient/Observation.rs?category=http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh", scope.subscopes.get(0));
+    assertEquals("patient/Observation.rs?category=http://terminology.hl7.org/CodeSystem-observation-category|social-history", scope.subscopes.get(1));
+
+    scope = scopesOut.get(i++);
+    assertEquals("patient/Condition.read", scope.v1);
+    assertEquals("patient/Condition.rs", scope.v2);
+    assertEquals(3, scope.subscopes.size());
+    assertEquals("patient/Condition.rs?category=health-concern", scope.subscopes.get(0));
+    assertEquals("patient/Condition.rs?category=encounter-diagnosis", scope.subscopes.get(1));
+    assertEquals("patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item", scope.subscopes.get(2));
+
+    scope = scopesOut.get(i++);
+    assertEquals("patient/*.read", scope.v1);
+    assertEquals("patient/*.rs", scope.v2);
+    assertEquals(0, scope.subscopes.size());
+
+    scope = scopesOut.get(i++);
+    assertEquals("patient/*.*", scope.v1);
+    assertEquals("patient/*.cruds", scope.v2);
+    assertEquals(0, scope.subscopes.size());
+
+    scope = scopesOut.get(i++);
+    assertEquals(null, scope.v1);
+    assertEquals("patient/Condition.rs?category=http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item", scope.v2);
+    assertEquals(0, scope.subscopes.size());
+    
+    // nothing for the badparam
+
+    scope = scopesOut.get(i++);
+    assertEquals("openid", scope.v1);
+    assertEquals("openid", scope.v2);
+    assertEquals(0, scope.subscopes.size());
+  }
 
   /**
    * Common cleanup, run once per class not per test.
@@ -1022,6 +1129,12 @@ public class TestAuthorization {
    */
   @BeforeClass
   public static void beforeClass() throws Exception {
+    Scope.registerSearchParams(Map.of("Condition",
+        Set.of("code", "identifier", "patient", "abatement-date", "asserter", "body-site",
+            "category", "clinical-status", "encounter", "evidence", "evidence-detail", "onset-date",
+            "recorded-date", "severity", "stage", "subject", "verification-status",
+            "asserted-date")));
+    
     System.setProperty("READ_ONLY", "false");
 
     testToken = TokenManager.getInstance().getServerToken();

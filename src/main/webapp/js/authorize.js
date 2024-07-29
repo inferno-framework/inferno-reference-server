@@ -3,8 +3,8 @@ window.mitre.fhirreferenceserver = window.mitre.fhirreferenceserver || {};
 window.mitre.fhirreferenceserver.authorize = {
 
   /**
-	 * initializes the page and all html components including actions
-	 */
+   * initializes the page and all html components including actions
+   */
   init: function () {
 
     // static code that the HAPI interceptor will look for to return token
@@ -88,33 +88,87 @@ window.mitre.fhirreferenceserver.authorize = {
 
     let scopes = urlParams.get('scope') || '';
 
-    scopes = scopes.trim();
-
-    let scopesList = scopes.split(' ');
+    let scopesData;
+    $.ajax({
+            async: false,
+            dataType: "json",
+            data: JSON.stringify(scopes),
+            processData: false,
+            contentType: 'application/json',
+            method: "POST",
+            url: '/reference-server/oauth/supportedScopes',
+            success: function(data) {
+              scopesData = data;
+            }
+          });
 
     // load scopes
     let checkBoxesHtml = '';
 
-    for (let i = 0; i < scopesList.length; i++)
-    {
-      let scope = scopesList[i];
+    const originallyHasV2 = scopesData.some(s => !s.v1); 
+    // the v2 field will always be populated, so we distinguish an "originally v2" scope if its v1 field is null
 
-      if (scope === '')
-      {
-        continue;
+    if (!originallyHasV2) {
+      // if none of the scopes are v2 then show the notice: v1 scopes may be converted to v2
+      $('#v1scopesupgradenotice').show();
+    }
+
+    // if there is an originally v2 scope or subscope selected, show all scopes as v2
+    // otherwise show scopes as v1 || v2
+    const createCheckbox = (v1, v2, index, subscope=false) => {
+      let scopeId = "scope-" + index;
+      let value = originallyHasV2 ? v2 : v1 || v2;
+      return (
+        `<div class="form-check">
+           <input class="form-check-input ${subscope ? 'subscope' : 'main-scope'}" id="${scopeId}" name="scopeCheckbox" 
+                  type="checkbox" value="${value}" data-v1="${v1 || ""}" data-v2="${v2}" ${subscope ? 'disabled' : 'checked'}>
+           <label class="form-check-label" for="${scopeId}">${value}</label>
+         </div>`
+      );
+    }
+
+    for (let i = 0; i < scopesData.length; i++) {
+      let scope = scopesData[i];
+      checkBoxesHtml += createCheckbox(scope.v1, scope.v2, i);
+
+      for (let j = 0; j < scope.subscopes.length; j++) {
+        const subscope = scope.subscopes[j];
+        checkBoxesHtml += createCheckbox(null, subscope, i + "-" + j, true);
       }
-
-      let scopeId = "scope-" + i;
-      let scopeCheckboxHtml =
-          `<div class="form-check">
-             <input class="form-check-input" id="${scopeId}" name="scopeCheckbox" type="checkbox" value="${scope}" checked>
-             <label class="form-check-label" for="${scopeId}">${scope}</label>
-           </div>`;
-
-      checkBoxesHtml += scopeCheckboxHtml;
     }
 
     $('#scopes').append(checkBoxesHtml);
+
+    $('.main-scope').change(function(e) {
+      const selector = `[id^="${e.target.id}-"]`; // selector to find ids starting with "{this.id}-"
+      if (e.target.checked) {
+        // the main scope was checked, so uncheck and disable all its subscopes
+        $(selector).prop( "checked", false );
+        $(selector).prop( "disabled", true );
+      } else {
+        // the main scope was unchecked, so enable all the subscopes
+        $(selector).prop( "disabled", false );
+      }
+    });
+
+    $('#scopes [name="scopeCheckbox"]').change(function(e) {
+      // when we toggle a checkbox, if it's enabling a v2 scope then all scopes need to be converted to v2
+      // if it's disabling a v2 scope, we may want to revert to the original requested
+      const allCheckboxes = $('#scopes [name="scopeCheckbox"]').toArray();
+      const isAnyV2Selected = allCheckboxes.some(c => c.checked && !c.dataset.v1);
+      let valueSelector;
+      // same logic as in createCheckbox above
+      if (isAnyV2Selected) {
+        valueSelector = c => c.dataset.v2;
+      } else {
+        valueSelector = c => c.dataset.v1 || c.dataset.v2;
+      }
+
+      allCheckboxes.forEach(c => {
+        c.value = valueSelector(c);
+        $(`label[for="${c.id}"]`).html(c.value);
+      });
+    });
 
     $('#submit').click(function(){
 

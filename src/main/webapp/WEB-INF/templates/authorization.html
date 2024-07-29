@@ -20,8 +20,14 @@
         <div style="display: none" class="card card-body bg-danger text-white" id="errorMessage"> </div>
         
         <div id="pageContent" style="display: none;">
-	        <div>Please select which scopes you would like to authorize:</div>
-	
+	        <div>
+                Please select which scopes you would like to authorize.
+                To select a granular resource scope, first de-select the full resource scope.
+                <div id="v1scopesupgradenotice" style="display: none;">
+                  SMART V1 scopes will automatically be converted to V2 if any granular scopes are selected.
+		        </div>
+	        </div>
+
 	        <br>
 	
 	        <div id="scopes" class="well"></div>

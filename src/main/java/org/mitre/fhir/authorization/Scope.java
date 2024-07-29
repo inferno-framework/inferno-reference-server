@@ -19,9 +19,12 @@ import org.springframework.web.util.UriComponentsBuilder;
  * Scopes that the server knows are invalid and cannot be processed should not be returned,
  * however anything "unknown" will still be returned, to allow maximum flexibility.
  */
-public class Scope {
-  final String rawValue;
+public class Scope implements Cloneable {
+  String rawValue;
   boolean isWildcardResource = false;
+
+  int version;
+  String level;
   String resourceType;
 
   boolean create;
@@ -82,7 +85,7 @@ public class Scope {
     Matcher m = SCOPE_REGEX.matcher(scopeStr);
 
     if (m.matches()) {
-      // String level = m.group(1); // patient/user/system. not currently used
+      this.level = m.group(1); // patient/user/system
 
       this.resourceType = m.group(2);
       if ("*".equals(this.resourceType)) {
@@ -93,12 +96,14 @@ public class Scope {
 
       if (permissions != null) {
         if (permissions.equals("*")) {
+          this.version = 1;
           this.create = true;
           this.read = true;
           this.update = true;
           this.delete = true;
           this.search = true;
         } else if (permissions.equals("read")) {
+          this.version = 1;
           this.read = true;
           this.search = true;
           
@@ -106,6 +111,7 @@ public class Scope {
           this.update = false;
           this.delete = false;
         } else if (permissions.equals("write")) {
+          this.version = 1;
           this.create = true;
           this.update = true;
           this.delete = true;
@@ -113,6 +119,7 @@ public class Scope {
           this.read = false;
           this.search = false;
         } else {
+          this.version = 2;
           this.create = permissions.contains("c");
           this.read = permissions.contains("r");
           this.update = permissions.contains("u");
@@ -198,6 +205,34 @@ public class Scope {
   }
 
   /**
+   * Return a new Scope that represents the same privileges as this Scope,
+   * upgraded to SMART v2.0. If this scope is already v2.0, or isn't recognized
+   * as a SMART scope, this scope is returned.
+   */
+  public Scope asVersion2() {
+    if (version != 1) {
+      return this;
+    }
+
+    try {
+      Scope thisV2 = this.clone();
+      thisV2.version = 2;
+      // Null out the rawValue and call toString to re-create it.
+      thisV2.rawValue = null;
+      thisV2.toString();
+      return thisV2;
+    } catch (CloneNotSupportedException e) {
+      // Should never happen, but it's a checked exception so we catch it
+      throw new IllegalStateException(e);
+    }
+  }
+
+  @Override
+  protected Scope clone() throws CloneNotSupportedException {
+    return (Scope) super.clone();
+  }
+
+  /**
    * Determine whether this Scope is valid.
    * To maximize flexibility, "invalid" here means anything that is known to be incorrect
    * or not processable. Anything else or "unknown" is ok and valid, and should return true.
@@ -221,5 +256,58 @@ public class Scope {
       }
     }
     return true;
+  }
+
+  @Override
+  public String toString() {
+    if (this.rawValue != null) {
+      return this.rawValue;
+    }
+
+    StringBuilder scopeString = new StringBuilder();
+
+    // Both versions start with level/resourceType.
+    scopeString.append(this.level).append('/').append(this.resourceType).append('.');
+
+    if (this.version == 1) {
+      if (this.read && this.create) {
+        scopeString.append('*');
+      } else if (this.read) {
+        scopeString.append("read");
+      } else if (this.create) {
+        scopeString.append("write");
+      }
+    } else if (this.version == 2) {
+      if (this.create) {
+        scopeString.append('c');
+      }
+      if (this.read) {
+        scopeString.append('r');
+      }
+      if (this.update) {
+        scopeString.append('u');
+      }
+      if (this.delete) {
+        scopeString.append('d');
+      }
+      if (this.search) {
+        scopeString.append('s');
+      }
+
+      if (this.parameters != null && !this.parameters.isEmpty()) {
+        boolean first = true;
+        for (String key : this.parameters.keySet()) {
+          for (String value : this.parameters.get(key)) {
+            scopeString.append(first ? '?' : '&').append(key).append('=').append(value);
+            first = false;
+          }
+        }
+      }
+    } else {
+      throw new IllegalStateException("Unexpected version '" + version + "' in Scope.toString");
+    }
+
+    this.rawValue = scopeString.toString();
+    return this.rawValue;
   }
 }
