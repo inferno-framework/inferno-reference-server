@@ -252,8 +252,25 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
           ]
         },
+        "identifier":[
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "ecd8399c-f381-beae-9a1c-afec249d4632"
+          }
+        ],
         "status": "active",
         "name": "PCP170967",
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "PC",
+                "display": "Primary care clinic"
+              }
+            ]
+          }
+        ],
         "telecom": [
           {
             "system": "phone",
@@ -958,8 +975,25 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
           ]
         },
+        "identifier":[
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "70b2a52f-71ba-6ffe-9050-5daee15f4d88"
+          }
+        ],
         "status": "active",
         "name": "HOLYOKE MEDICAL CENTER",
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "HOSP",
+                "display": "Hospital"
+              }
+            ]
+          }
+        ],
         "telecom": [
           {
             "system": "phone",
@@ -3254,8 +3288,25 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/inferno-framework/us-core-test-kit",
+            "value": "4c34c0db-7434-8c8f-1936-30dd023babc2"
+          }
+        ],
         "status": "active",
         "name": "RIVER BEND MEDICAL GROUP - CHICOPEE OFFICE - URGENT CARE",
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "OF",
+                "display": "Outpatient facility"
+              }
+            ]
+          }
+        ],
         "telecom": [
           {
             "system": "phone",
@@ -33820,12 +33871,7 @@
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
                 "code": "sdoh",
                 "display": "SDOH"
-              }
-            ],
-            "text": "Social Determinants Of Health"
-          },
-          {
-            "coding": [
+              },
               {
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
                 "code": "sdoh",
@@ -34164,6 +34210,11 @@
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
                 "code": "sdoh",
                 "display": "SDOH"
+              },
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                "code": "sdoh",
+                "display": "SDOH"
               }
             ]
           }
@@ -34239,6 +34290,11 @@
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
                 "code": "sdoh",
                 "display": "SDOH"
+              },
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+                "code": "sdoh",
+                "display": "SDOH"
               }
             ]
           }
@@ -34306,6 +34362,11 @@
             "coding": [
               {
                 "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                "code": "sdoh",
+                "display": "SDOH"
+              },
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
                 "code": "sdoh",
                 "display": "SDOH"
               }
