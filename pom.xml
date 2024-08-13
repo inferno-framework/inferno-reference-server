@@ -169,7 +169,7 @@
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>4.6.0</version>
+			<version>4.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
@@ -263,6 +263,13 @@
         <groupId>org.eclipse.parsson</groupId>
         <artifactId>parsson</artifactId>
         <version>1.0.5</version>
+      </dependency>
+
+      <!-- nested dependency of hapi-fhir-jpaserver-base -->
+      <dependency>
+        <groupId>com.graphql-java</groupId>
+        <artifactId>graphql-java</artifactId>
+        <version>21.5</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
