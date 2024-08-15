@@ -1,4 +1,4 @@
-name: Test With Inferno
+name: Inferno CI
 
 on:
   push:
