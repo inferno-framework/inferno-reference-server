@@ -1,0 +1,56 @@
+name: Test With Inferno
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup tmp folder
+      run:
+      - mkdir -p ./tmp
+
+    - name: Fetch latest g10 release
+      uses: actions/checkout@v2
+      with:
+        name: onc-healthit/onc-certification-g10-test-kit
+        ref: refs/heads/release
+        path: ./tmp
+
+    - name: Change directory into test kit
+      run:
+        cd ./tmp/onc-certification-g10-test-kit
+
+    # TODO: delete this when inferno execute is merged
+    - name: Point test kit to experimental branch
+      run: |
+        echo "gem 'inferno_core', git: 'git@github.com:inferno-framework/inferno-core.git', branch: 'fi-2937-inferno-execute'" >> Gemfile
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+
+    - name: Start server and run Inferno tests
+      run: |
+        cd $github_workspace
+        docker compose build
+        docker compose up
+        $github_workspace/.github/wait-for-it/wait-for-it.sh localhost:80 -t 120 -- \
+          cd ./tmp/onc-certification-g10-test-kit && \
+          bundle exec inferno execute --group g10_single_patient_api \
+                                      --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
+                                      --inputs "url:localhost:80/reference-server/r4" patient_ids:85,355 \
+                                      --verbose
