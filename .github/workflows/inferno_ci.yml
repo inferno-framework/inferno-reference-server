@@ -16,21 +16,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup tmp folder
       run: mkdir -p ./tmp
 
-    - name: Fetch latest g10 release
+    - name: Fetch latest g10
       uses: actions/checkout@v4
       with:
         name: onc-healthit/onc-certification-g10-test-kit
         fetch-tags: true
-        ref: refs/tags/v6.0.0
         path: ./tmp
 
     - name: Change directory into test kit
       run: cd ./tmp/onc-certification-g10-test-kit
+
+    - name: Switch to release
+      run: git checkout refs/tags/v6.0.0
 
     # TODO: delete this when inferno execute is merged
     - name: Point test kit to experimental branch
