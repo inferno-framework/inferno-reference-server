@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         name: onc-healthit/onc-certification-g10-test-kit
-        ref: refs/heads/release
+        ref: refs/tags/v6.0.0
         path: ./tmp
 
     - name: Change directory into test kit
@@ -50,5 +50,5 @@ jobs:
           cd ./tmp/onc-certification-g10-test-kit && \
           bundle exec inferno execute --group g10_single_patient_api \
                                       --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
-                                      --inputs "url:localhost:80/reference-server/r4" patient_ids:85,355 \
+                                      --inputs "url:localhost:80/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
                                       --verbose
