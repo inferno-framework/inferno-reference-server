@@ -22,7 +22,7 @@ jobs:
       run: mkdir -p ./tmp
 
     - name: Fetch latest g10 release
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         name: onc-healthit/onc-certification-g10-test-kit
         fetch-tags: true
