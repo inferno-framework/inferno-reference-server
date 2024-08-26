@@ -19,36 +19,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout server
+        uses: actions/checkout@v4
 
-    - name: Fetch latest g10 test kit
-      run: git clone https://github.com/onc-healthit/onc-certification-g10-test-kit.git --branch $INFERNO_G10_RELEASE --depth 1
+      - name: Fetch latest g10 test kit
+        run: git clone https://github.com/onc-healthit/onc-certification-g10-test-kit.git --branch $INFERNO_G10_RELEASE --depth 1
 
-    # TODO: delete this when inferno execute is merged
-    - name: Point test kit to experimental branch
-      run: |
-        echo "gem 'inferno_core', git: 'git@github.com:inferno-framework/inferno-core.git', branch: 'fi-2937-inferno-execute'" >> Gemfile
-      working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
+      # TODO: delete this when inferno execute is merged
+      - name: Point test kit to experimental branch
+        working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
+        run: |
+          echo "gem 'inferno_core', git: 'git@github.com:inferno-framework/inferno-core.git', branch: 'fi-2937-inferno-execute'" >> Gemfile
 
-    # env:
-    #   BUNDLE_GEMFILE: ${{ github.workspace }}/onc-certification-g10-test-kit/Gemfile
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
+        with:
+          bundler-cache: true
 
-    - name: Setup Ruby
-      working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
-      uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
+      - name: Start server
+        run: |
+          docker compose build
+          docker compose up
+          ${{ github.workspace }}/.github/wait-for-it/wait-for-it.sh localhost:8080 -t 120 -- echo "Server ready"
 
-    - name: Start server
-      run: |
-        docker compose build
-        docker compose up
-        ${{ github.workspace }}/.github/wait-for-it/wait-for-it.sh localhost:8080 -t 120 -- echo "Server ready"
-
-    - name: Run test kit
-      run:
-        bundle exec inferno execute --group g10_single_patient_api \
-                                    --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
-                                    --inputs "url:localhost:8080/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
-      working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
+      - name: Run test kit
+        working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
+        run: |
+          bundle exec inferno execute --group g10_single_patient_api \
+                                      --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
+                                      --inputs "url:localhost:8080/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
 
