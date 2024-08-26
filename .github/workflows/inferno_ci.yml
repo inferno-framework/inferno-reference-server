@@ -42,7 +42,13 @@ jobs:
         run: |
           docker compose build
           docker compose up -d
-          ${{ github.workspace }}/.github/wait-for-it/wait-for-it.sh localhost:8080 -t 120 -- echo "Server ready"
+          wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for | sh -s -- localhost:8080 -- echo "Server ready"
+
+      - name: Start Inferno services
+        run: |
+          bundle exec inferno migrate
+          bundle exec inferno services start
+          wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for | sh -s -- http://localhost:80/hl7validatorapi/validator/version -- echo "Inferno services ready"
 
       - name: Run test kit
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
