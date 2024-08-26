@@ -41,7 +41,7 @@ jobs:
       - name: Start server
         run: |
           docker compose build
-          docker compose up
+          docker compose up -d
           ${{ github.workspace }}/.github/wait-for-it/wait-for-it.sh localhost:8080 -t 120 -- echo "Server ready"
 
       - name: Run test kit
@@ -51,3 +51,5 @@ jobs:
                                       --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
                                       --inputs "url:localhost:8080/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
 
+      - name: Stop server
+        run: docker compose down
