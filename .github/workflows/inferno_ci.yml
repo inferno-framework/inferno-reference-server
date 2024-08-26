@@ -30,10 +30,11 @@ jobs:
         echo "gem 'inferno_core', git: 'git@github.com:inferno-framework/inferno-core.git', branch: 'fi-2937-inferno-execute'" >> Gemfile
       working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
 
+    # env:
+    #   BUNDLE_GEMFILE: ${{ github.workspace }}/onc-certification-g10-test-kit/Gemfile
+
     - name: Setup Ruby
       working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
-      # env:
-      #   BUNDLE_GEMFILE: ${{ github.workspace }}/onc-certification-g10-test-kit/Gemfile
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
