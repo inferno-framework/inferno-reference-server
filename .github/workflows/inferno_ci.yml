@@ -41,7 +41,7 @@ jobs:
       run: |
         docker compose build
         docker compose up
-        ${{ github_workspace }}/.github/wait-for-it/wait-for-it.sh localhost:8080 -t 120 -- echo "Server ready"
+        ${{ github.workspace }}/.github/wait-for-it/wait-for-it.sh localhost:8080 -t 120 -- echo "Server ready"
 
     - name: Run test kit
       run:
