@@ -33,8 +33,8 @@ jobs:
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-        working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         with:
+          working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
           bundler-cache: true
 
       - name: Start server
