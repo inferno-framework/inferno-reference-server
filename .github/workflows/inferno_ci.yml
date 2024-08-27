@@ -53,7 +53,7 @@ jobs:
       - name: Run test kit
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         run: |
-          bundle exec inferno execute --group g10_single_patient_api \
+          bundle exec inferno execute --group g10_certification-g10_single_patient_api \
                                       --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
                                       --inputs "url:localhost:8080/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
 
