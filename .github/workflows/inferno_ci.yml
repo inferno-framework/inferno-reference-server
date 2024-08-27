@@ -65,3 +65,6 @@ jobs:
       - name: Stop Inferno services
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         run: bundle exec inferno services stop
+
+
+
