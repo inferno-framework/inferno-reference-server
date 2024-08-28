@@ -56,7 +56,7 @@ jobs:
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         env:
           INFERNO_EXEC_SUITE_OPTIONS: 'us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1'
-          INFERNO_EXEC_INPUTS: '"url:localhost:8080/reference-server/r4" patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"'
+          INFERNO_EXEC_INPUTS: '"url:localhost:8080/reference-server/r4" patient_id:85 patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"'
         run: |
           bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_conformance_support -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
           bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_fhir_version -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
