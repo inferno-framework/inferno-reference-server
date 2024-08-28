@@ -45,7 +45,9 @@ jobs:
           wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for | sh -s -- localhost:8080 -- echo "Server ready"
 
       - name: Start Inferno services
+        working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         run: |
+          gem install foreman
           bundle exec inferno migrate
           bundle exec inferno services start
           wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for | sh -s -- http://localhost:80/hl7validatorapi/validator/version -- echo "Inferno services ready"
