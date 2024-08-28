@@ -58,43 +58,43 @@ jobs:
           INFERNO_EXEC_SUITE_OPTIONS: 'us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1'
           INFERNO_EXEC_INPUTS: '"url:localhost:8080/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"'
         run: |
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-g10_incorrectly_permitted_tls_versions_messages_setup -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_311_data_absent_reason -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_clinical_notes_guidance -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_provenance -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_practitioner -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_organization -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_encounter -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_procedure -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_resprate -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_heartrate -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodyweight -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bp -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodytemp -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodyheight -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_head_circumference -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pulse_oximetry -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pediatric_bmi_for_age -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_observation_lab -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pediatric_weight_for_height -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_smokingstatus -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_medication_request -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_immunization -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_goal -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_document_reference -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_diagnostic_report_lab -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_diagnostic_report_note -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_device -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_condition -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_care_team -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_care_plan -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_allergy_intolerance -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_patient -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_profile_support -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_json_support -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_fhir_version -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_conformance_support -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
           bundle exec inferno execute -t g10_certification-g10_single_patient_api-g10_patient_id_setup -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-g10_incorrectly_permitted_tls_versions_messages_setup -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_conformance_support -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_fhir_version -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_json_support -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_profile_support -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_patient -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_allergy_intolerance -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_care_plan -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_care_team -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_condition -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_device -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_diagnostic_report_note -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_diagnostic_report_lab -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_document_reference -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_goal -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_immunization -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_medication_request -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_smokingstatus -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pediatric_weight_for_height -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_observation_lab -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pediatric_bmi_for_age -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pulse_oximetry -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_head_circumference -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodyheight -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodytemp -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bp -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodyweight -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_heartrate -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_resprate -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_procedure -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_encounter -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_organization -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_practitioner -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_provenance -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_clinical_notes_guidance -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
+          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_311_data_absent_reason -o ${INFERNO_EXEC_SUITE_OPTIONS} -i ${INFERNO_EXEC_INPUTS}
 
 
       - name: Stop server
