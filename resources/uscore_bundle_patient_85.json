@@ -153,6 +153,22 @@
           }
         ],
         "gender": "male",
+        "_gender": {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/alternate-codes",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "248153007",
+                    "display": "Male (finding)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
         "birthDate": "1940-03-29",
         "deceasedDateTime": "1977-07-14T04:17:45-04:00",
         "address": [
@@ -794,6 +810,12 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus"
           ]
         },
+        "identifier": [
+          {
+            "system": "https://github.com/synthetichealth/synthea",
+            "value": "17ca8cdb-095e-ea2a-8c9b-39a265df27dc"
+          }
+        ],
         "status": "final",
         "category": [
           {
@@ -822,7 +844,9 @@
         "encounter": {
           "reference": "urn:uuid:0a801acb-5ad8-d988-7168-89248882afa7"
         },
-        "effectiveDateTime": "1940-05-03T01:11:45-04:00",
+        "effectivePeriod": {
+          "start": "1940-05-03T01:11:45-04:00"
+        },
         "issued": "1940-05-03T01:11:45.131-04:00",
         "valueCodeableConcept": {
           "coding": [
