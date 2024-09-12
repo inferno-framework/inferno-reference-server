@@ -58,42 +58,15 @@ jobs:
           INFERNO_EXEC_SUITE_OPTIONS: 'us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1'
           INFERNO_EXEC_INPUTS: '"url:localhost:8080/reference-server/r4" patient_id:85 patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"'
         run: |
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_conformance_support -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_fhir_version -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_json_support -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -t g10_certification-g10_single_patient_api-us_core_v311_capability_statement-us_core_profile_support -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_patient -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_allergy_intolerance -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_care_plan -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_care_team -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_condition -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_device -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_diagnostic_report_note -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_diagnostic_report_lab -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_document_reference -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_goal -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_immunization -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_medication_request -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_smokingstatus -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pediatric_weight_for_height -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_observation_lab -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pediatric_bmi_for_age -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_pulse_oximetry -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_head_circumference -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodyheight -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodytemp -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bp -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_bodyweight -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_heartrate -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_resprate -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_procedure -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_encounter -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_organization -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_practitioner -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_provenance -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_v311_clinical_notes_guidance -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-          bundle exec inferno execute -g g10_certification-g10_single_patient_api-us_core_311_data_absent_reason -o ${{ env.INFERNO_EXEC_SUITE_OPTIONS }} -i ${{ env.INFERNO_EXEC_INPUTS }}
-
+          bundle exec inferno execute --suite g10_certification \
+                                      --suite-options us_core_version:us_core_3 \
+                                                      smart_app_launch_version:smart_app_launch_1 \
+                                                      multi_patient_version:multi_patient_api_stu1 \
+                                      --groups 4 \
+                                      --inputs "url:https://inferno.healthit.gov/reference-server/r4" \
+                                               patient_id:85 \
+                                               patient_ids:85,355 \
+                                               access_token: SAMPLE_TOKEN
 
       - name: Stop server
         run: docker compose down
