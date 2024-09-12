@@ -87,13 +87,13 @@ jobs:
                                                "public_requested_scopes:launch/patient openid fhirUser offline_access patient/Medication.read patient/AllergyIntolerance.read patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Device.read patient/DiagnosticReport.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Location.read patient/MedicationRequest.read patient/Observation.read patient/Organization.read patient/Patient.read patient/Practitioner.read patient/Procedure.read patient/Provenance.read patient/PractitionerRole.read" \
                                                token_revocation_attestation:false \
                                                ehr_patient_client_id:SAMPLE_CONFIDENTIAL_CLIENT_ID \
-                                               ehr_launch_client_secret:SAMPLE_CONFIDENTIAL_CLIENT_SECRET \
-                                               "ehr_patient_requested_scopes:launch openid fhirUser offline_access patient/Patient.read" \
+                                               ehr_patient_client_secret:SAMPLE_CONFIDENTIAL_CLIENT_SECRET \
+                                               "ehr_requested_scopes:launch openid fhirUser offline_access patient/Patient.read" \
                                                single_patient_registration_supported:false \
                                                multiple_patient_registration_supported:false \
                                                resource_authorization_gui_supported:false \
                                                offline_access_notification_supported:false \
-                                               refresh_token_preiod_attestation:false \
+                                               refresh_token_period_attestation:false \
                                                information_accuracy_attestation:false \
                                                multi_patient_scopes_attestation:false \
                                                developer_documentation_attestation:false \
