@@ -55,9 +55,54 @@ jobs:
       - name: Run test kit
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         run: |
-          bundle exec inferno execute --group g10_certification-g10_single_patient_api \
-                                      --suite-options us_core_version:us_core_3 smart_app_launch_version:smart_app_launch_1 multi_patient_version:multi_patient_api_stu1 \
-                                      --inputs "url:localhost:8080/reference-server/r4" patient_id:85 additional_patient_ids:85,355 "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
+          bundle exec inferno execute --suite g10_certification \
+                                      --suite-options us_core_version:us_core_3 \
+                                                      smart_app_launch_version:smart_app_launch_1 \
+                                                      multi_patient_version:multi_patient_api_stu1 \
+                                      --groups 4 \
+                                      --inputs "url:localhost:8080/reference-server/r4" \
+                                               patient_id:85 \
+                                               additional_patient_ids:85,355 \
+                                               "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
+                                               standalone_client_id:SAMPLE_CONFIDENTIAL_CLIENT_ID \
+                                               standalone_client_secret:SAMPLE_CONFIDENTIAL_CLIENT_SECRET \
+                                               "standalone_requested_scopes:launch/patient openid fhirUser offline_access patient/Medication.read patient/AllergyIntolerance.read patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Device.read patient/DiagnosticReport.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Location.read patient/MedicationRequest.read patient/Observation.read patient/Organization.read patient/Patient.read patient/Practitioner.read patient/Procedure.read patient/Provenance.read patient/PractitionerRole.read" \
+                                               use_pkce:disabled \
+                                               expected_resources:Patient,Condition,Observation \
+                                               ehr_client_id:SAMPLE_CONFIDENTIAL_CLIENT_ID \
+                                               ehr_client_secret:SAMPLE_CONFIDENTIAL_CLIENT_SECRET \
+                                               "ehr_requestes_scopes:launch openid fhirUser offline_access user/Medication.read user/AllergyIntolerance.read user/CarePlan.read user/CareTeam.read user/Condition.read user/Device.read user/DiagnosticReport.read user/DocumentReference.read user/Encounter.read user/Goal.read user/Immunization.read user/Location.read user/MedicationRequest.read user/Observation.read user/Organization.read user/Patient.read user/Practitioner.read user/Procedure.read user/Provenance.read user/PractitionerRole.read" \
+                                               "bulk_server_url:https://inferno.healthit.gov/reference-server/oauth/token" \
+                                               "bulk_token_endpoint:https://inferno.healthit.gov/reference-server/oauth/token" \
+                                               bulk_client_id:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9.eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4 \
+                                               "bulk_scope:system/*.read" \
+                                               bulk_encryption_method:ES384 \
+                                               group_id:1a \
+                                               bulk_patient_ids_in_group:85,355 \
+                                               bulk_timeout:180 \
+                                               public_client_id:SAMPLE_PUBLIC_CLIENT_ID \
+                                               "public_requested_scopes:launch/patient openid fhirUser offline_access patient/Medication.read patient/AllergyIntolerance.read patient/CarePlan.read patient/CareTeam.read patient/Condition.read patient/Device.read patient/DiagnosticReport.read patient/DocumentReference.read patient/Encounter.read patient/Goal.read patient/Immunization.read patient/Location.read patient/MedicationRequest.read patient/Observation.read patient/Organization.read patient/Patient.read patient/Practitioner.read patient/Procedure.read patient/Provenance.read patient/PractitionerRole.read" \
+                                               token_revocation_attestation:false \
+                                               ehr_patient_client_id:SAMPLE_CONFIDENTIAL_CLIENT_ID \
+                                               ehr_patient_client_secret:SAMPLE_CONFIDENTIAL_CLIENT_SECRET \
+                                               "ehr_patient_requested_scopes:launch openid fhirUser offline_access patient/Patient.read" \
+                                               "ehr_requested_scopes:launch openid fhirUser offline_access patient/Patient.read" \
+                                               single_patient_registration_supported:false \
+                                               multiple_patient_registration_supported:false \
+                                               resource_authorization_gui_supported:false \
+                                               offline_access_notification_supported:false \
+                                               refresh_token_period_attestation:false \
+                                               information_accuracy_attestation:false \
+                                               multi_patient_scopes_attestation:false \
+                                               developer_documentation_attestation:false \
+                                               jwks_cache_attestation:false \
+                                               patient_suffix_attestation:false \
+                                               native_refresh_attestation:false \
+                                               public_url_attestation:false \
+                                               refresh_token_refresh_attestation:false \
+                                               "tls_version_attestation_notes:THIS IS FOR CONTINUOUS INTEGRATION TESTING SO NO TLS SUPPORT PROVIDED."
+
+
 
       - name: Stop server
         run: docker compose down
