@@ -63,7 +63,7 @@ jobs:
                                                       smart_app_launch_version:smart_app_launch_1 \
                                                       multi_patient_version:multi_patient_api_stu1 \
                                       --groups 4 \
-                                      --inputs "url:https://inferno.healthit.gov/reference-server/r4" \
+                                      --inputs "url:localhost:8080/reference-server/r4" \
                                                patient_id:85 \
                                                additional_patient_ids:85,355 \
                                                "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}" \
