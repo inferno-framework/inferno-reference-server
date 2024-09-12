@@ -65,8 +65,8 @@ jobs:
                                       --groups 4 \
                                       --inputs "url:https://inferno.healthit.gov/reference-server/r4" \
                                                patient_id:85 \
-                                               patient_ids:85,355 \
-                                               access_token:SAMPLE_TOKEN
+                                               additional_patient_ids:85,355 \
+                                               "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"
 
       - name: Stop server
         run: docker compose down
