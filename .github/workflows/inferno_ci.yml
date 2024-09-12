@@ -88,7 +88,7 @@ jobs:
                                                token_revocation_attestation:false \
                                                ehr_patient_client_id:SAMPLE_CONFIDENTIAL_CLIENT_ID \
                                                ehr_patient_client_secret:SAMPLE_CONFIDENTIAL_CLIENT_SECRET \
-                                               "ehr_requested_scopes:launch openid fhirUser offline_access patient/Patient.read" \
+                                               "ehr_patient_requested_scopes:launch openid fhirUser offline_access patient/Patient.read" \
                                                single_patient_registration_supported:false \
                                                multiple_patient_registration_supported:false \
                                                resource_authorization_gui_supported:false \
