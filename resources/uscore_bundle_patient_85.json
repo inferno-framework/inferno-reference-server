@@ -153,6 +153,22 @@
           }
         ],
         "gender": "male",
+        "_gender": {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/alternate-codes",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "248153007",
+                    "display": "Male (finding)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
         "birthDate": "1940-03-29",
         "deceasedDateTime": "1977-07-14T04:17:45-04:00",
         "address": [
