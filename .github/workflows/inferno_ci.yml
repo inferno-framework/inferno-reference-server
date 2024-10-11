@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  INFERNO_G10_RELEASE: v6.0.0
+  INFERNO_G10_RELEASE: v6.0.3
 
 jobs:
 
