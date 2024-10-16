@@ -1,6 +1,5 @@
 package org.mitre.fhir.app.launch;
 
-import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
