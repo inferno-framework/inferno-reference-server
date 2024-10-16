@@ -57,6 +57,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +68,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yaml.snakeyaml.Yaml;
 
 @RestController
+@CrossOrigin(originPatterns = {"*"}, exposedHeaders = {"*"}, allowCredentials = "true")
 public class AuthorizationController {
 
   private static final String CLIENT_CREDENTIALS_GRANT_TYPE = "client_credentials";

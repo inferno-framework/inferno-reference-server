@@ -14,11 +14,13 @@ import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.RsaUtils;
 import org.mitre.fhir.utils.exception.RsaKeyException;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
 @RestController
+@CrossOrigin(origins = {"*"}, allowCredentials = "false")
 public class WellKnownAuthorizationEndpointController {
 
   private static final String WELL_KNOWN_AUTHORIZATION_ENDPOINT_KEY = "authorization_endpoint";

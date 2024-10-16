@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +38,7 @@ import org.mitre.fhir.bulk.BulkInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * MitreJpaServer configures the server.
@@ -155,6 +157,18 @@ public class MitreJpaServer extends RestfulServer {
     if (readOnly == null || Boolean.parseBoolean(readOnly)) {
       registerInterceptor(new ReadOnlyInterceptor());
     }
+
+    // IMPORTANT: interceptors only run on HAPI-managed endpoints,
+    // so for our own endpoints such as .well-known/, etc, we need to handle those separately
+    // See for example AuthorizationController and WellKnownAuthorizationEndpointController
+    LinkedHashMap<String, CorsConfiguration> corsConfig = new LinkedHashMap<>();
+    // /metadata is "public"
+    corsConfig.put("/reference-server/r4/metadata",
+        PathBasedCorsInterceptor.publicDiscoveryEndpointConfig());
+    // everything else is "private". note the double asterisk is necessary to match eg '/Patient/85'
+    corsConfig.put("/reference-server/r4/**",
+        PathBasedCorsInterceptor.privateApiEndpointConfig());
+    registerInterceptor(new PathBasedCorsInterceptor(corsConfig));
 
     // enable Bulk Export
     registerProvider(bulkDataExportProvider);
