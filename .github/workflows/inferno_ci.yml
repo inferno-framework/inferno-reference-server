@@ -29,7 +29,7 @@ jobs:
       - name: Point test kit to experimental branch
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
         run: |
-          echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'fi-3182-clean-diff'" >> Gemfile
+          echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'main'" >> Gemfile
           rm Gemfile.lock # force re-install
 
       - name: Setup Ruby
