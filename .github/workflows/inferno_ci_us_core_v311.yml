@@ -1,4 +1,4 @@
-name: Inferno CI
+name: Inferno CI US Core v3.1.1
 
 on:
   push:
@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
 
 env:
-  TEST_KIT_REPO: https://github.com/onc-healthit/onc-certification-g10-test-kit.git
-  TEST_KIT_NAME: onc-certification-g10-test-kit
-  TEST_KIT_RELEASE: v6.0.3
+  TEST_KIT_REPO: https://github.com/inferno-framework/us-core-test-kit.git
+  TEST_KIT_NAME: us-core-test-kit
+  TEST_KIT_RELEASE: v0.8.2
 
 jobs:
 
@@ -57,14 +57,10 @@ jobs:
       - name: Run test kit
         working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: |
-          bundle exec inferno execute --suite g10_certification \
-                                      --suite-options us_core_version:us_core_3 \
-                                                      smart_app_launch_version:smart_app_launch_1 \
-                                                      multi_patient_version:multi_patient_api_stu1 \
-                                      --groups 4 \
+          bundle exec inferno execute --suite us_core_v311 \
+                                      --groups 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9 2.10 2.11 2.12 2.13 2.14 2.15 2.16 2.17 2.18 2.19 2.20 2.21 2.22 2.23 2.24 2.25 2.26 2.27 2.28 2.29 2.30 2.31 2.33 \
                                       --inputs "url:localhost:8080/reference-server/r4" \
-                                               patient_id:85 \
-                                               additional_patient_ids:85,355 \
+                                               patient_ids:85,355 \
                                                "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"
 
 
