@@ -29,7 +29,7 @@ jobs:
 
       # TODO: delete this when inferno execute is merged
       - name: Point test kit to experimental branch
-        working-directory: ${{ github.workspace }}/$TEST_KIT_NAME
+        working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: |
           echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'main'" >> Gemfile
           rm Gemfile.lock # force re-install
@@ -37,7 +37,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: ${{ github.workspace }}/$TEST_KIT_NAME
+          working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
           bundler-cache: true
 
       - name: Start server
@@ -47,7 +47,7 @@ jobs:
           ${{ github.workspace }}/.github/wait-for.sh localhost:8080 -- echo "Server ready"
 
       - name: Start Inferno services
-        working-directory: ${{ github.workspace }}/$TEST_KIT_NAME
+        working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: |
           gem install foreman
           bundle exec inferno migrate
@@ -55,7 +55,7 @@ jobs:
           ${{ github.workspace }}/.github/wait-for.sh http://localhost:80/hl7validatorapi/validator/version -- echo "Inferno services ready"
 
       - name: Run test kit
-        working-directory: ${{ github.workspace }}/$TEST_KIT_NAME
+        working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: |
           bundle exec inferno execute --suite g10_certification \
                                       --suite-options us_core_version:us_core_3 \
@@ -72,5 +72,5 @@ jobs:
         run: docker compose down
 
       - name: Stop Inferno services
-        working-directory: ${{ github.workspace }}/$TEST_KIT_NAME
+        working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: bundle exec inferno services stop
