@@ -19,17 +19,12 @@ public class TestUtils {
 
   public static final int TEST_PORT = 1234;
   
-  private static final String SAMPLE_PUBLIC_CLIENT_ID = "SAMPLE_PUBLIC_CLIENT_ID";
   private static final String SAMPLE_CONFIDENTIAL_CLIENT_ID = "SAMPLE_CONFIDENTIAL_CLIENT_ID";
   private static final String SAMPLE_CONFIDENTIAL_CLIENT_SECRET =
       "SAMPLE_CONFIDENTIAL_CLIENT_SECRET";
 
   public static String getBasicAuthorizationString(String clientId, String clientSecret) {
     return clientId + ":" + clientSecret;
-  }
-
-  public static String getEncodedBasicAuthorizationHeaderWithPublicClient() {
-    return getEncodedBasicAuthorizationHeader(SAMPLE_PUBLIC_CLIENT_ID, "");
   }
   
   /**

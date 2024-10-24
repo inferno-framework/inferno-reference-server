@@ -211,8 +211,6 @@ public class TestAuthorization {
     request.setLocalAddr("localhost");
     request.setRequestURI(serverBaseUrl);
     request.setServerPort(TestUtils.TEST_PORT);
-    request.addHeader("Authorization",
-        TestUtils.getEncodedBasicAuthorizationHeaderWithPublicClient());
 
     String scopes = "launch/patient openId ";
     String code =
