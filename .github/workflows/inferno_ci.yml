@@ -42,7 +42,7 @@ jobs:
         run: |
           docker compose build
           docker compose up -d
-          ../wait-for.sh localhost:8080 -- echo "Server ready"
+          ${{ github.workspace }}/.github/wait-for.sh localhost:8080 -- echo "Server ready"
 
       - name: Start Inferno services
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
@@ -50,7 +50,7 @@ jobs:
           gem install foreman
           bundle exec inferno migrate
           bundle exec inferno services start
-          ../wait-for.sh http://localhost:80/hl7validatorapi/validator/version -- echo "Inferno services ready"
+          ${{ github.workspace }}/.github/wait-for.sh http://localhost:80/hl7validatorapi/validator/version -- echo "Inferno services ready"
 
       - name: Run test kit
         working-directory: ${{ github.workspace }}/onc-certification-g10-test-kit
