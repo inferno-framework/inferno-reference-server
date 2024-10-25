@@ -32,7 +32,7 @@ jobs:
       - name: Point test kit to experimental branch
         working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: |
-          echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'main'" >> Gemfile
+          echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'fi-3367-patch-execute-rollup'" >> Gemfile
           rm Gemfile.lock # force re-install
 
       - name: Setup Ruby
