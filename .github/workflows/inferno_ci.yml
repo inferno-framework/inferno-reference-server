@@ -10,9 +10,10 @@ on:
   workflow_dispatch:
 
 env:
-  TEST_KIT_REPO: https://github.com/onc-healthit/onc-certification-g10-test-kit.git
+  TEST_KIT_REPO: https://github.com/Shaumik-Ashraf/onc-certification-g10-test-kit.git
   TEST_KIT_NAME: onc-certification-g10-test-kit
-  TEST_KIT_RELEASE: v6.0.3
+  TEST_KIT_RELEASE: fi-3367-disable-tls-for-ci
+  INFERNO_DISABLE_TLS_TEST: true
 
 jobs:
 
