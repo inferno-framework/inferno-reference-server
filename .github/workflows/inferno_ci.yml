@@ -85,6 +85,19 @@ jobs:
                                                bulk_patient_ids_in_group:85,355 \
                                                "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"
 
+      - name: Run g10 test kit Single Patient API with US Core 6.1.0
+        working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
+        run: |
+          bundle exec inferno execute --suite g10_certification \
+                                      --suite-options us_core_version:us_core_6 \
+                                                      smart_app_launch_version:smart_app_launch_2 \
+                                                      multi_patient_version:multi_patient_api_stu2 \
+                                      --groups 10 \
+                                      --inputs "url:localhost:8080/reference-server/r4" \
+                                               patient_id:85 \
+                                               additional_patient_ids:85,355 \
+                                               "smart_credentials:{\"access_token\":\"SAMPLE_TOKEN\"}"
+
       - name: Stop server
         run: docker compose down
 
