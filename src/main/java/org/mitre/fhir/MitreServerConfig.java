@@ -23,12 +23,10 @@ import ca.uhn.fhir.jpa.subscription.channel.config.SubscriptionChannelConfig;
 import ca.uhn.fhir.jpa.subscription.match.deliver.email.IEmailSender;
 import ca.uhn.fhir.jpa.validation.JpaValidationSupportChain;
 import ca.uhn.fhir.rest.api.IResourceSupportedSvc;
-import ca.uhn.fhir.rest.server.interceptor.CorsInterceptor;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
 import jakarta.persistence.EntityManagerFactory;
 import java.sql.Driver;
-import java.util.Arrays;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -41,11 +39,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpHeaders;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Configures the Server and Database.
@@ -168,31 +164,6 @@ public class MitreServerConfig {
         "LUCENE_CURRENT");
 
     return extraProperties;
-  }
-  
-  /**
-   * Define the CORS settings for this server.
-   * In this case we allow all origins and methods.
-   */
-  @Bean
-  public CorsInterceptor corsInterceptor() {
-    CorsConfiguration config = new CorsConfiguration();
-    config.addAllowedHeader(HttpHeaders.ORIGIN);
-    config.addAllowedHeader(HttpHeaders.ACCEPT);
-    config.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
-    config.addAllowedHeader(HttpHeaders.AUTHORIZATION);
-    config.addAllowedHeader(HttpHeaders.CACHE_CONTROL);
-    config.addAllowedHeader("x-fhir-starter");
-    config.addAllowedHeader("X-Requested-With");
-    config.addAllowedHeader("Prefer");
-    config.addAllowedOrigin("*");
-    config.addExposedHeader("Location");
-    config.addExposedHeader("Content-Location");
-    config.setAllowedMethods(
-        Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
-    config.setAllowCredentials(true);
-
-    return new CorsInterceptor(config);
   }
 
   @Bean
