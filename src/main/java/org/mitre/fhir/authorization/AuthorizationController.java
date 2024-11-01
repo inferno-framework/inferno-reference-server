@@ -337,7 +337,7 @@ public class AuthorizationController {
     }
 
     authorizeClientId(clientId, basicHeader != null);
-    authenticateClientIdAndClientSecret(clientId, clientSecret);
+    authenticateClient(clientId, basicHeader, clientAssertionType, clientAssertion, clientSecret);
 
     return clientId;
   }
@@ -742,12 +742,44 @@ public class AuthorizationController {
     }
   }
 
-  private static void authenticateClientIdAndClientSecret(String clientId, String clientSecret) {
+  /**
+   * Authenticate the client based on the provided credentials,
+   * enforcing the expected authentication mechanism per client.
+   */
+  private static void authenticateClient(String clientId, String basicHeader,
+      String clientAssertionType, String clientAssertion, String clientSecret) {
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-    if (properties.getConfidentialClientId().equals(clientId)
-        && !properties.getConfidentialClientSecret().equals(clientSecret)) {
-      throw new InvalidClientSecretException();
+
+    // note we've called authorizeClientId already
+    // so the only possible options here for clientId are our 3 predefined choices
+
+    if (properties.getConfidentialClientId().equals(clientId)) {
+      // confidential symmetric -- uses authorization header/basic auth
+      if (basicHeader == null
+          || !properties.getConfidentialClientSecret().equals(clientSecret)) {
+        // Client Secret invalid or not supplied
+        throw new InvalidClientSecretException();
+      }
+    } else if (properties.getAsymmetricClientId().equals(clientId)) {
+      // confidential asymmetric -- uses a signed JWT in the client_assertion
+
+      // actual validation of the client assertion was done previously
+      // if it was provided, so here just check that it was provided
+      if (!JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)
+          || clientAssertion == null || clientAssertion.isBlank()) {
+        throw new OAuth2Exception(ErrorCode.INVALID_CLIENT,
+            "Client assertion invalid or not supplied")
+            .withResponseStatus(HttpStatus.UNAUTHORIZED);
+      }
+    } else if (properties.getPublicClientId().equals(clientId)) {
+      // public app; safeguarding secrets is not possible
+      // and so credentials should not be provided
+
+      if (basicHeader != null || clientAssertionType != null) {
+        throw new OAuth2Exception(ErrorCode.INVALID_CLIENT,
+            "Public clients may not provide secrets or assertions")
+            .withResponseStatus(HttpStatus.UNAUTHORIZED);
+      }
     }
   }
-
 }
