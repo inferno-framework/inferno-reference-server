@@ -5,8 +5,10 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.Yaml;
 
 @Configuration
 @RestController
@@ -91,6 +94,7 @@ public class WellKnownAuthorizationEndpointController {
     wellKnownJson.put(WELL_KNOWN_REVOCATION_ENDPOINT_KEY,
         ServerConformanceWithAuthorizationProvider.getRevokeExtensionUri(theRequest));
     wellKnownJson.put(WELL_KNOWN_CAPABILITIES_KEY, WELL_KNOWN_CAPABILITIES_VALUES);
+    wellKnownJson.put("scopes_supported", scopesSupported());
     wellKnownJson.put(WELL_KNOWN_GRANT_TYPES_SUPPORTED_KEY,
         WELL_KNOWN_GRANT_TYPES_SUPPORTED_VALUES);
     wellKnownJson.put(WELL_KNOWN_CODE_CHALLENGE_METHODS_SUPPORTED_KEY,
@@ -105,6 +109,47 @@ public class WellKnownAuthorizationEndpointController {
         List.of("RS384", "ES384"));
 
     return wellKnownJson.toString();
+  }
+
+  /**
+   * Map of ResourceType->Granular Scope parameters.
+   */
+  private static final Map<String, List<String>> SCOPE_PARAMS =
+      (Map<String, List<String>>) new Yaml()
+      .load(WellKnownAuthorizationEndpointController.class
+          .getResourceAsStream("/scope_parameters.yml"));
+
+  /**
+   * List the scopes this server supports.
+   * Note this list is not required to be exhaustive,
+   * additional scopes MAY be supported even if not listed here.
+   */
+  static List<String> scopesSupported() {
+    // From US Core 7 guidance:
+    // "The server SHALL support all scopes listed [...] for the US Core Profiles they support;
+    // additional scopes MAY be supported (so clients should not consider this an exhaustive list)."
+    // https://hl7.org/fhir/us/core/STU7/scopes.html#additional-us-core-requirements
+    List<String> scopesSupported = new ArrayList<>();
+    scopesSupported.add("launch/patient");
+    scopesSupported.add("openid");
+    scopesSupported.add("fhirUser");
+    scopesSupported.add("offline_access");
+
+    for (String resourceType : FhirReferenceServerUtils.FHIR_CONTEXT_R4.getResourceTypes()) {
+      scopesSupported.add("patient/" + resourceType + ".rs");
+      scopesSupported.add("user/" + resourceType + ".rs");
+      scopesSupported.add("system/" + resourceType + ".rs");
+
+      if (SCOPE_PARAMS.containsKey(resourceType)) {
+        for (String param : SCOPE_PARAMS.get(resourceType)) {
+          scopesSupported.add("patient/" + resourceType + ".rs?" + param);
+          scopesSupported.add("user/" + resourceType + ".rs?" + param);
+          scopesSupported.add("system/" + resourceType + ".rs?" + param);
+        }
+      }
+    }
+
+    return scopesSupported;
   }
 
   /**
