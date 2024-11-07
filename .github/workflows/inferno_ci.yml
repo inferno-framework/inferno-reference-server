@@ -118,7 +118,9 @@ jobs:
 
       - name: Stop server
         run: docker compose down
+        if: ${{ always() }}
 
       - name: Stop Inferno services
         working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: bundle exec inferno services stop
+        if: ${{ always() }}
