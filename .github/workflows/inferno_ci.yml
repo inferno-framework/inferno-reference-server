@@ -12,7 +12,8 @@ on:
 env:
   TEST_KIT_REPO: https://github.com/onc-healthit/onc-certification-g10-test-kit.git
   TEST_KIT_NAME: onc-certification-g10-test-kit
-  TEST_KIT_RELEASE: main # TODO change to latest release after v6.0.4 release
+  # TODO: document different options and make the default latest release
+  TEST_KIT_RELEASE: v7.0.0
   INFERNO_DISABLE_TLS_TEST: true
 
 jobs:
@@ -29,11 +30,11 @@ jobs:
         run: git clone $TEST_KIT_REPO $TEST_KIT_NAME --branch $TEST_KIT_RELEASE --depth 1
 
       # TODO: delete this when inferno execute is merged
-      - name: Point test kit to experimental branch
-        working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
-        run: |
-          echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'v0.4.44'" >> Gemfile
-          rm Gemfile.lock # force re-install
+      # - name: Point test kit to experimental branch
+      #   working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
+      #   run: |
+      #     echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'v0.4.44'" >> Gemfile
+      #     rm Gemfile.lock # force re-install
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
