@@ -36,13 +36,6 @@ jobs:
       - name: Fetch latest g10 test kit
         run: git clone $TEST_KIT_REPO $TEST_KIT_NAME --branch $TEST_KIT_RELEASE --depth 1
 
-      # TODO: delete this when inferno execute is merged
-      # - name: Point test kit to experimental branch
-      #   working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
-      #   run: |
-      #     echo "gem 'inferno_core', git: 'https://github.com/inferno-framework/inferno-core.git', branch: 'v0.4.44'" >> Gemfile
-      #     rm Gemfile.lock # force re-install
-
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
