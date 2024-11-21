@@ -2537,8 +2537,7 @@
                   "coding": [
                     {
                       "system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-                      "code": "UMB",
-                      "display": "Unique Product-independent Payer Person Identifier"
+                      "code": "UMB"
                     }
                   ],
                   "text": "Member Number"
@@ -2611,7 +2610,7 @@
         "lastModified": "2022-06-17T16:16:06Z",
         "requester": {
           "identifier": {
-            "system": "http:/inferno.healthit.gov/reference-server/r4/cdex/payer/payer-ids",
+            "system": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/payer-ids",
             "value": "Payer123"
           }
         },
