@@ -2155,7 +2155,7 @@
           "reference": "Patient/pat015"
         },
         "encounter": {
-          "reference": "Encounter/example"
+          "reference": "Encounter/pat015-rad-encounter"
         },
         "payload": [
           {
@@ -2179,11 +2179,11 @@
         "occurrenceDateTime": "2016-06-10T11:01:10-08:00",
         "authoredOn": "2016-06-10T11:01:10-08:00",
         "requester": {
-          "reference": "Practitioner/example"
+          "reference": "Practitioner/pra1234"
         },
         "recipient": [
           {
-            "reference": "Organization/example"
+            "reference": "Organization/org1234"
           }
         ]
       },
@@ -2227,11 +2227,11 @@
           "reference": "Patient/pat015"
         },
         "encounter": {
-          "reference": "Encounter/example"
+          "reference": "Encounter/pat015-rad-encounter"
         },
         "authoredOn": "2015-01-15",
         "requester": {
-          "reference": "Practitioner/example"
+          "reference": "Practitioner/pra1234"
         },
         "reasonCode": [
           {
@@ -2246,7 +2246,7 @@
         ],
         "insurance": [
           {
-            "reference": "Coverage/example"
+            "reference": "Coverage/cov015"
           }
         ],
         "note": [
@@ -2418,11 +2418,11 @@
           "reference": "Patient/pat015"
         },
         "encounter": {
-          "reference": "Encounter/example"
+          "reference": "Encounter/pat015-rad-encounter"
         },
         "dateTime": "2014-09-17",
         "orderer": {
-          "reference": "Practitioner/example"
+          "reference": "Practitioner/pra1234"
         },
         "allergyIntolerance": [
           {
@@ -2741,7 +2741,7 @@
         },
         "dateWritten": "2014-06-15",
         "prescriber": {
-          "reference": "Practitioner/example"
+          "reference": "Practitioner/pra1234"
         },
         "lensSpecification": [
           {
@@ -2795,10 +2795,6 @@
       "resource": {
         "resourceType": "VisionPrescription",
         "id": "visionprescription-example2",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: VisionPrescription</b><a name=\"visionprescription-example\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource VisionPrescription &quot;visionprescription-example&quot; </p></div><p><b>identifier</b>: id:\u00a015013</p><p><b>status</b>: draft</p><p><b>created</b>: 2014-06-15</p><p><b>patient</b>: <a href=\"Patient-example.html\">Patient/example</a> &quot; SHAW&quot;</p><p><b>dateWritten</b>: 2014-06-15</p><p><b>prescriber</b>: <a href=\"Practitioner-example.html\">Practitioner/example</a> &quot; CAREFUL&quot;</p><blockquote><p><b>lensSpecification</b></p><p><b>product</b>: Lens <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-ex-visionprescriptionproduct.html\">Example Vision Prescription Product Codes</a>#lens)</span></p><p><b>eye</b>: right</p><p><b>sphere</b>: -2</p><h3>Prisms</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Amount</b></td><td><b>Base</b></td></tr><tr><td style=\"display: none\">*</td><td>0.5</td><td>down</td></tr></table><p><b>add</b>: 2</p></blockquote><blockquote><p><b>lensSpecification</b></p><p><b>product</b>: Lens <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-ex-visionprescriptionproduct.html\">Example Vision Prescription Product Codes</a>#lens)</span></p><p><b>eye</b>: left</p><p><b>sphere</b>: -1</p><p><b>cylinder</b>: -0.5</p><p><b>axis</b>: 180</p><h3>Prisms</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Amount</b></td><td><b>Base</b></td></tr><tr><td style=\"display: none\">*</td><td>0.5</td><td>up</td></tr></table><p><b>add</b>: 2</p></blockquote></div>"
-        },
         "identifier": [
           {
             "system": "http://www.happysight.com/prescription",
@@ -2812,7 +2808,7 @@
         },
         "dateWritten": "2014-06-15",
         "prescriber": {
-          "reference": "Practitioner/example"
+          "reference": "Practitioner/pra1234"
         },
         "lensSpecification": [
           {
