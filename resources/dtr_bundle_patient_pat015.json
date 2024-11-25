@@ -15,20 +15,14 @@
             "state": "MA",
             "city": "Bedford",
             "postalCode": "01730",
-            "line": [
-              "202 Burlington Road"
-            ]
+            "line": ["202 Burlington Road"]
           }
         ],
         "name": [
           {
             "use": "official",
             "family": "Oster",
-            "given": [
-              "William",
-              "Hale",
-              "Oster"
-            ]
+            "given": ["William", "Hale", "Oster"]
           }
         ],
         "telecom": [
@@ -98,9 +92,7 @@
             "state": "NY",
             "city": "Buffalo",
             "postalCode": "14210",
-            "line": [
-              "840 Seneca St"
-            ]
+            "line": ["840 Seneca St"]
           }
         ],
         "telecom": [
@@ -117,13 +109,8 @@
           {
             "use": "official",
             "family": "Doe",
-            "given": [
-              "Jane",
-              "Betty"
-            ],
-            "prefix": [
-              "Dr."
-            ]
+            "given": ["Jane", "Betty"],
+            "prefix": ["Dr."]
           }
         ],
         "qualification": [
@@ -295,11 +282,13 @@
             "rank": 1
           }
         ],
-        "location" : [{
-          "location" : {
-            "display" : "observation2c"
+        "location": [
+          {
+            "location": {
+              "display": "observation2c"
+            }
           }
-        }]
+        ]
       },
       "request": {
         "method": "PUT",
@@ -1373,6 +1362,1564 @@
       "request": {
         "method": "PUT",
         "url": "ServiceRequest/servreq-g0180-1"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "QuestionnaireResponse",
+        "id": "home-o2-questionnaireresponse",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/dtr-questionnaireresponse"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/qr-context",
+            "valueReference": {
+              "reference": "Coverage/cov015"
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/qr-context",
+            "valueReference": {
+              "reference": "ServiceRequest/servreq-g0180-1"
+            }
+          },
+          {
+            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/intendedUse",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-crd/CodeSystem/temp",
+                  "code": "withorder",
+                  "display": "Include with order"
+                }
+              ]
+            }
+          }
+        ],
+        "questionnaire": "http://inferno.healthit.gov/reference-server/r4/Questionnaire/referred-questionnaire",
+        "status": "completed",
+        "subject": {
+          "reference": "Patient/pat015",
+          "display": "William"
+        },
+        "authored": "2023-08-21",
+        "item": [
+          {
+            "linkId": "1",
+            "text": "Patient Information",
+            "item": [
+              {
+                "linkId": "1.1",
+                "text": "Last Name but Different This Time",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "override"
+                          },
+                          {
+                            "extension": [
+                              {
+                                "url": "role",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
+                                      "code": "doctor",
+                                      "display": "Doctor"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "url": "practitioner",
+                                "valueReference": {
+                                  "reference": "Practitioner/PractitionerExample",
+                                  "display": "Dr. Jane Doe"
+                                }
+                              }
+                            ],
+                            "url": "author"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "Oster"
+                  }
+                ]
+              },
+              {
+                "linkId": "1.2",
+                "text": "First Name",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "William"
+                  }
+                ]
+              },
+              {
+                "linkId": "1.3",
+                "text": "Middle Initial",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "H"
+                  }
+                ]
+              },
+              {
+                "linkId": "1.4",
+                "text": "Date Of Birth",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueDate": "1956-12-01"
+                  }
+                ]
+              },
+              {
+                "linkId": "1.5",
+                "text": "Gender",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueCoding": {
+                      "system": "http://hl7.org/fhir/administrative-gender",
+                      "code": "male",
+                      "display": "Male"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "1.6",
+                "text": "Medicare ID",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "10A3D58WH22"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "2",
+            "text": "Provider who is performing face-to-face evaluation",
+            "item": [
+              {
+                "linkId": "2.1",
+                "text": "Last Name",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "Doe"
+                  }
+                ]
+              },
+              {
+                "linkId": "2.2",
+                "text": "First Name",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "Jane"
+                  }
+                ]
+              },
+              {
+                "linkId": "2.3",
+                "text": "Middle Initial",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "B"
+                  }
+                ]
+              },
+              {
+                "linkId": "2.4",
+                "text": "NPI",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "1122334455"
+                  }
+                ]
+              },
+              {
+                "linkId": "2.5",
+                "text": "Date of Face-To-Face Evaluation",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "override"
+                          },
+                          {
+                            "extension": [
+                              {
+                                "url": "role",
+                                "valueCodeableConcept": {
+                                  "coding": [
+                                    {
+                                      "system": "http://terminology.hl7.org/CodeSystem/practitioner-role",
+                                      "code": "doctor",
+                                      "display": "Doctor"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "url": "practitioner",
+                                "valueReference": {
+                                  "reference": "Practitioner/PractitionerExample",
+                                  "display": "Dr. Jane Doe"
+                                }
+                              }
+                            ],
+                            "url": "author"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueDate": "2019-07-18"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "3",
+            "text": "Coverage Requirements",
+            "item": [
+              {
+                "linkId": "3.1",
+                "text": "Relevant Patient Diagnoses (conditions that might be expected to improve with oxygen therapy)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueCoding": {
+                      "system": "http://snomed.info/sct",
+                      "code": "313296004",
+                      "display": "Mild chronic obstructive pulmonary disease"
+                    }
+                  },
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueCoding": {
+                      "system": "http://snomed.info/sct",
+                      "code": "389087006",
+                      "display": "Hypoxemia (disorder)"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "3.2",
+                "text": "Arterial oxygen saturation (Patient on room air while at rest and awake when tested)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueQuantity": {
+                      "value": 95,
+                      "system": "http://unitsofmeasure.org",
+                      "code": "mm[Hg]"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "3.3",
+                "text": "Arterial Partial Pressure of Oxygen (PO2) (Patient on room air while at rest and awake when tested)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueQuantity": {
+                      "value": 83,
+                      "system": "http://unitsofmeasure.org",
+                      "code": "mm[Hg]"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "3.4",
+                "text": "Arterial oxygen saturation (Patient tested during exercise)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueQuantity": {
+                      "value": 95,
+                      "system": "http://unitsofmeasure.org",
+                      "code": "mm[Hg]"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "3.5",
+                "text": "Arterial Partial Pressure of Oxygen (PO2) (Patient tested during exercise)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueQuantity": {
+                      "value": 78,
+                      "system": "http://unitsofmeasure.org",
+                      "code": "mm[Hg]"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "3.6",
+                "text": "Is there a documented improvement of hypoxemia during exercise with oxygen?",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueBoolean": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "4",
+            "text": "Prescribed Use",
+            "item": [
+              {
+                "linkId": "4.1",
+                "text": "Start date",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueDate": "2019-07-18"
+                  }
+                ]
+              },
+              {
+                "linkId": "4.2",
+                "text": "Length of need: (months) (99 = lifetime)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueQuantity": {
+                      "value": 99
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "4.3",
+                "text": "Peak Flow Rate",
+                "item": [
+                  {
+                    "linkId": "4.3.1",
+                    "text": "LPM",
+                    "answer": [
+                      {
+                        "extension": [
+                          {
+                            "extension": [
+                              {
+                                "url": "source",
+                                "valueCode": "auto"
+                              }
+                            ],
+                            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                          }
+                        ],
+                        "valueInteger": 2
+                      }
+                    ]
+                  },
+                  {
+                    "linkId": "4.3.2",
+                    "text": "oxygen %",
+                    "answer": [
+                      {
+                        "extension": [
+                          {
+                            "extension": [
+                              {
+                                "url": "source",
+                                "valueCode": "auto"
+                              }
+                            ],
+                            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                          }
+                        ],
+                        "valueInteger": 98
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "linkId": "4.4",
+                "text": "Average Flow Rate",
+                "item": [
+                  {
+                    "linkId": "4.4.1",
+                    "text": "LPM",
+                    "answer": [
+                      {
+                        "extension": [
+                          {
+                            "extension": [
+                              {
+                                "url": "source",
+                                "valueCode": "auto"
+                              }
+                            ],
+                            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                          }
+                        ],
+                        "valueInteger": 2
+                      }
+                    ]
+                  },
+                  {
+                    "linkId": "4.4.2",
+                    "text": "oxygen %",
+                    "answer": [
+                      {
+                        "extension": [
+                          {
+                            "extension": [
+                              {
+                                "url": "source",
+                                "valueCode": "auto"
+                              }
+                            ],
+                            "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                          }
+                        ],
+                        "valueInteger": 97
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "linkId": "4.5",
+                "text": "Frequency of use (choose all that apply)",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueCoding": {
+                      "system": "http://snomed.info/sct",
+                      "code": "248218005",
+                      "display": "Awake"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "linkId": "5",
+            "text": "Oxygen Supply Order Details",
+            "item": [
+              {
+                "linkId": "5.1",
+                "text": "Current Order Description",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueString": "HCPCS E0424 - Stationary Compressed Gaseous Oxygen System, Rental"
+                  }
+                ]
+              },
+              {
+                "linkId": "5.1b",
+                "text": "Current Order Is For A Portable Device"
+              },
+              {
+                "linkId": "5.2",
+                "text": "Type",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueCoding": {
+                      "system": "http://snomed.info/sct",
+                      "code": "1230326008",
+                      "display": "Compressed Gas"
+                    }
+                  }
+                ]
+              },
+              {
+                "linkId": "5.3",
+                "text": "Means of oxygen delivery and accessories",
+                "answer": [
+                  {
+                    "extension": [
+                      {
+                        "extension": [
+                          {
+                            "url": "source",
+                            "valueCode": "auto"
+                          }
+                        ],
+                        "url": "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/information-origin"
+                      }
+                    ],
+                    "valueCoding": {
+                      "system": "http://snomed.info/sct",
+                      "code": "261382003",
+                      "display": "Mask"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "QuestionnaireResponse/home-o2-questionnaireresponse"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "CommunicationRequest",
+        "id": "communicationrequest-example1",
+        "identifier": [
+          {
+            "system": "http://www.jurisdiction.com/insurer/123456",
+            "value": "ABC123"
+          }
+        ],
+        "basedOn": [
+          {
+            "display": "EligibilityRequest"
+          }
+        ],
+        "replaces": [
+          {
+            "display": "prior CommunicationRequest"
+          }
+        ],
+        "groupIdentifier": {
+          "value": "12345"
+        },
+        "status": "draft",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/communication-category",
+                "code": "instruction"
+              }
+            ]
+          }
+        ],
+        "priority": "routine",
+        "medium": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode",
+                "code": "WRITTEN",
+                "display": "written"
+              }
+            ],
+            "text": "written"
+          }
+        ],
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "payload": [
+          {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-CommunicationRequest.payload.content[x]",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "65752-8",
+                      "display": "Liver Pathology biopsy report"
+                    }
+                  ]
+                }
+              }
+            ],
+            "contentString": "Liver pathology biopsy report"
+          }
+        ],
+        "occurrenceDateTime": "2016-06-10T11:01:10-08:00",
+        "authoredOn": "2016-06-10T11:01:10-08:00",
+        "requester": {
+          "reference": "Practitioner/pra1234"
+        },
+        "recipient": [
+          {
+            "reference": "Organization/org1234"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "CommunicationRequest/communicationrequest-example1"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "medicationrequest-example1",
+        "contained": [
+          {
+            "resourceType": "Medication",
+            "id": "med0320",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "1145423002",
+                  "display": "Azithromycin 250 mg oral tablet"
+                }
+              ]
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "use": "official",
+            "system": "http://www.bmc.nl/portal/prescriptions",
+            "value": "12345689"
+          }
+        ],
+        "status": "draft",
+        "intent": "order",
+        "medicationReference": {
+          "reference": "#med0320"
+        },
+        "subject": {
+          "reference": "Patient/pat015"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "authoredOn": "2015-01-15",
+        "requester": {
+          "reference": "Practitioner/pra1234"
+        },
+        "reasonCode": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "11840006",
+                "display": "Traveler's Diarrhea (disorder)"
+              }
+            ]
+          }
+        ],
+        "insurance": [
+          {
+            "reference": "Coverage/cov015"
+          }
+        ],
+        "note": [
+          {
+            "text": "Patient told to take with food"
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "sequence": 1,
+            "text": "Two tablets at once",
+            "additionalInstruction": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "311504000",
+                    "display": "With or after food"
+                  }
+                ]
+              }
+            ],
+            "timing": {
+              "repeat": {
+                "frequency": 1,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral Route"
+                }
+              ]
+            },
+            "method": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "421521009",
+                  "display": "Swallow - dosing instruction imperative (qualifier value)"
+                }
+              ]
+            },
+            "doseAndRate": [
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                      "code": "ordered",
+                      "display": "Ordered"
+                    }
+                  ]
+                },
+                "doseQuantity": {
+                  "value": 2,
+                  "unit": "TAB",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                  "code": "TAB"
+                }
+              }
+            ]
+          },
+          {
+            "sequence": 2,
+            "text": "One tablet daily for 4 days",
+            "additionalInstruction": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "311504000",
+                    "display": "With or after food"
+                  }
+                ]
+              }
+            ],
+            "timing": {
+              "repeat": {
+                "frequency": 4,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral Route"
+                }
+              ]
+            },
+            "doseAndRate": [
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/dose-rate-type",
+                      "code": "ordered",
+                      "display": "Ordered"
+                    }
+                  ]
+                },
+                "doseQuantity": {
+                  "value": 1,
+                  "unit": "TAB",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+                  "code": "TAB"
+                }
+              }
+            ]
+          }
+        ],
+        "dispenseRequest": {
+          "validityPeriod": {
+            "start": "2015-01-15",
+            "end": "2016-01-15"
+          },
+          "numberOfRepeatsAllowed": 1,
+          "quantity": {
+            "value": 6,
+            "unit": "TAB",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm",
+            "code": "TAB"
+          },
+          "expectedSupplyDuration": {
+            "value": 5,
+            "unit": "days",
+            "system": "http://unitsofmeasure.org",
+            "code": "d"
+          }
+        },
+        "substitution": {
+          "allowedBoolean": true,
+          "reason": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "code": "FP",
+                "display": "formulary policy"
+              }
+            ]
+          }
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "MedicationRequest/medicationrequest-example1"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "NutritionOrder",
+        "id": "nutritionorder-example1",
+        "identifier": [
+          {
+            "system": "http://goodhealthhospital.org/nutrition-requests",
+            "value": "123"
+          }
+        ],
+        "status": "draft",
+        "intent": "order",
+        "patient": {
+          "reference": "Patient/pat015"
+        },
+        "encounter": {
+          "reference": "Encounter/pat015-rad-encounter"
+        },
+        "dateTime": "2014-09-17",
+        "orderer": {
+          "reference": "Practitioner/pra1234"
+        },
+        "allergyIntolerance": [
+          {
+            "reference": "AllergyIntolerance/allergyintolerance-example1",
+            "display": "Cashew Nuts"
+          }
+        ],
+        "foodPreferenceModifier": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/diet",
+                "code": "dairy-free"
+              }
+            ]
+          }
+        ],
+        "excludeFoodModifier": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "227493005",
+                "display": "Cashew Nut"
+              }
+            ]
+          }
+        ],
+        "oralDiet": {
+          "type": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "15108003",
+                  "display": "Restricted fiber diet"
+                }
+              ],
+              "text": "Fiber restricted diet"
+            },
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "16208003",
+                  "display": "Low fat diet"
+                }
+              ],
+              "text": "Low fat diet"
+            }
+          ],
+          "schedule": [
+            {
+              "repeat": {
+                "boundsPeriod": {
+                  "start": "2015-02-10"
+                },
+                "frequency": 3,
+                "period": 1,
+                "periodUnit": "d"
+              }
+            }
+          ],
+          "nutrient": [
+            {
+              "modifier": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "256674009",
+                    "display": "Fat"
+                  }
+                ]
+              },
+              "amount": {
+                "value": 50,
+                "unit": "grams",
+                "system": "http://unitsofmeasure.org",
+                "code": "g"
+              }
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "NutritionOrder/nutritionorder-example1"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Task",
+        "id": "cdex-task-example19",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/davinci-cdex/StructureDefinition/cdex-task-attachment-request"
+          ]
+        },
+        "contained": [
+          {
+            "resourceType": "Patient",
+            "id": "patient",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/davinci-cdex/StructureDefinition/cdex-patient-demographics"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+                      "code": "UMB"
+                    }
+                  ],
+                  "text": "Member Number"
+                },
+                "system": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/member-ids",
+                "value": "Member123"
+              }
+            ],
+            "name": [
+              {
+                "family": "Shaw",
+                "given": ["Amy"]
+              }
+            ],
+            "birthDate": "1987-02-20"
+          },
+          {
+            "resourceType": "PractitionerRole",
+            "id": "practitionerrole",
+            "meta": {
+              "profile": [
+                "http://hl7.org/fhir/us/davinci-cdex/StructureDefinition/cdex-practitionerrole"
+              ]
+            },
+            "practitioner": {
+              "identifier": {
+                "system": "http://hl7.org/fhir/sid/us-npi",
+                "value": "9941339100"
+              }
+            },
+            "organization": {
+              "identifier": {
+                "system": "http://hl7.org/fhir/sid/us-npi",
+                "value": "1234567893"
+              }
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+                  "code": "tracking-id",
+                  "display": "Tracking Id"
+                }
+              ],
+              "text": "Re-Association Tracking Control Number"
+            },
+            "system": "http://inferno.healthit.gov/reference-server/r4/payer",
+            "value": "trackingid123"
+          }
+        ],
+        "status": "requested",
+        "intent": "order",
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+              "code": "attachment-request-code"
+            }
+          ],
+          "text": "Coded Attachment Request"
+        },
+        "for": {
+          "reference": "#patient"
+        },
+        "authoredOn": "2022-06-17T16:16:06Z",
+        "lastModified": "2022-06-17T16:16:06Z",
+        "requester": {
+          "identifier": {
+            "system": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/payer-ids",
+            "value": "Payer123"
+          }
+        },
+        "owner": {
+          "reference": "#practitionerrole"
+        },
+        "reasonCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/claim-use",
+              "code": "claim",
+              "display": "Claim"
+            }
+          ],
+          "text": "claim"
+        },
+        "reasonReference": {
+          "identifier": {
+            "system": "http://inferno.healthit.gov/r4/reference-server/r4/cdex/payer/claim-ids",
+            "value": "Claim123"
+          }
+        },
+        "restriction": {
+          "period": {
+            "end": "2022-06-21"
+          }
+        },
+        "input": [
+          {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-serviceLineNumber",
+                "valuePositiveInt": 1
+              }
+            ],
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+                  "code": "data-code"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11506-3",
+                  "display": "Progress note"
+                }
+              ],
+              "text": "Progress note"
+            }
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+                  "code": "signature-flag"
+                }
+              ]
+            },
+            "valueBoolean": true
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+                  "code": "payer-url"
+                }
+              ]
+            },
+            "valueUrl": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/$submit-attachment"
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+                  "code": "service-date"
+                }
+              ]
+            },
+            "valueDate": "2022-06-13"
+          },
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+                  "code": "purpose-of-use"
+                }
+              ]
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                  "code": "CLMATTCH",
+                  "display": "claim attachment"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Task/cdex-task-example19"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "VisionPrescription",
+        "id": "visionprescription-example1",
+        "identifier": [
+          {
+            "system": "http://www.happysight.com/prescription",
+            "value": "15013"
+          }
+        ],
+        "status": "draft",
+        "created": "2014-06-15",
+        "patient": {
+          "reference": "Patient/pat015"
+        },
+        "dateWritten": "2014-06-15",
+        "prescriber": {
+          "reference": "Practitioner/pra1234"
+        },
+        "lensSpecification": [
+          {
+            "product": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct",
+                  "code": "lens"
+                }
+              ]
+            },
+            "eye": "right",
+            "sphere": -2,
+            "prism": [
+              {
+                "amount": 0.5,
+                "base": "down"
+              }
+            ],
+            "add": 2
+          },
+          {
+            "product": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct",
+                  "code": "lens"
+                }
+              ]
+            },
+            "eye": "left",
+            "sphere": -1,
+            "cylinder": -0.5,
+            "axis": 180,
+            "prism": [
+              {
+                "amount": 0.5,
+                "base": "up"
+              }
+            ],
+            "add": 2
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "VisionPrescription/visionprescription-example1"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "VisionPrescription",
+        "id": "visionprescription-example2",
+        "identifier": [
+          {
+            "system": "http://www.happysight.com/prescription",
+            "value": "15013"
+          }
+        ],
+        "status": "draft",
+        "created": "2014-06-15",
+        "patient": {
+          "reference": "Patient/pat015"
+        },
+        "dateWritten": "2014-06-15",
+        "prescriber": {
+          "reference": "Practitioner/pra1234"
+        },
+        "lensSpecification": [
+          {
+            "product": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct",
+                  "code": "lens"
+                }
+              ]
+            },
+            "eye": "right",
+            "sphere": -2,
+            "prism": [
+              {
+                "amount": 0.5,
+                "base": "down"
+              }
+            ],
+            "add": 2
+          },
+          {
+            "product": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/ex-visionprescriptionproduct",
+                  "code": "lens"
+                }
+              ]
+            },
+            "eye": "left",
+            "sphere": -1,
+            "cylinder": -0.5,
+            "axis": 180,
+            "prism": [
+              {
+                "amount": 0.5,
+                "base": "up"
+              }
+            ],
+            "add": 2
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "VisionPrescription/visionprescription-example2"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergyintolerance-example1",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+          ]
+        },
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "inactive"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": ["food"],
+        "criticality": "low",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "300916003",
+              "display": "Latex allergy"
+            }
+          ],
+          "text": "Latex allergy"
+        },
+        "patient": {
+          "reference": "Patient/pat015"
+        },
+        "recordedDate": "1941-10-14T18:33:18-05:00",
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "271807003",
+                    "display": "skin rash"
+                  }
+                ],
+                "text": "skin rash"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "AllergyIntolerance/allergyintolerance-example1"
       }
     }
   ],
