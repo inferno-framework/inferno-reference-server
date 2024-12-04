@@ -2515,81 +2515,16 @@
     {
       "resource": {
         "resourceType": "Task",
-        "id": "cdex-task-example19",
+        "id": "AdditionalInformationTaskExample",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/davinci-cdex/StructureDefinition/cdex-task-attachment-request"
+            "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-task"
           ]
         },
-        "contained": [
-          {
-            "resourceType": "Patient",
-            "id": "patient",
-            "meta": {
-              "profile": [
-                "http://hl7.org/fhir/us/davinci-cdex/StructureDefinition/cdex-patient-demographics"
-              ]
-            },
-            "identifier": [
-              {
-                "use": "usual",
-                "type": {
-                  "coding": [
-                    {
-                      "system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-                      "code": "UMB"
-                    }
-                  ],
-                  "text": "Member Number"
-                },
-                "system": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/member-ids",
-                "value": "Member123"
-              }
-            ],
-            "name": [
-              {
-                "family": "Shaw",
-                "given": ["Amy"]
-              }
-            ],
-            "birthDate": "1987-02-20"
-          },
-          {
-            "resourceType": "PractitionerRole",
-            "id": "practitionerrole",
-            "meta": {
-              "profile": [
-                "http://hl7.org/fhir/us/davinci-cdex/StructureDefinition/cdex-practitionerrole"
-              ]
-            },
-            "practitioner": {
-              "identifier": {
-                "system": "http://hl7.org/fhir/sid/us-npi",
-                "value": "9941339100"
-              }
-            },
-            "organization": {
-              "identifier": {
-                "system": "http://hl7.org/fhir/sid/us-npi",
-                "value": "1234567893"
-              }
-            }
-          }
-        ],
         "identifier": [
           {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
-                  "code": "tracking-id",
-                  "display": "Tracking Id"
-                }
-              ],
-              "text": "Re-Association Tracking Control Number"
-            },
-            "system": "http://inferno.healthit.gov/reference-server/r4/payer",
-            "value": "trackingid123"
+            "system": "http://inferno.healthit.gov/reference-server/r4/ITEM_TRACE_NUMBER",
+            "value": "1122334"
           }
         ],
         "status": "requested",
@@ -2597,60 +2532,61 @@
         "code": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
+              "system": "http://hl7.org/fhir/us/davinci-pas/CodeSystem/PASTempCodes",
               "code": "attachment-request-code"
             }
-          ],
-          "text": "Coded Attachment Request"
+          ]
         },
         "for": {
-          "reference": "#patient"
+          "reference": "Patient/pat015"
         },
-        "authoredOn": "2022-06-17T16:16:06Z",
-        "lastModified": "2022-06-17T16:16:06Z",
         "requester": {
           "identifier": {
-            "system": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/payer-ids",
-            "value": "Payer123"
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "789312"
           }
         },
         "owner": {
-          "reference": "#practitionerrole"
+          "identifier": {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "789312"
+          }
         },
         "reasonCode": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/claim-use",
-              "code": "claim",
-              "display": "Claim"
+              "system": "http://hl7.org/fhir/us/davinci-pas/CodeSystem/PASTempCodes",
+              "code": "priorAuthorization"
             }
-          ],
-          "text": "claim"
+          ]
         },
         "reasonReference": {
-          "identifier": {
-            "system": "http://inferno.healthit.gov/r4/reference-server/r4/cdex/payer/claim-ids",
-            "value": "Claim123"
-          }
-        },
-        "restriction": {
-          "period": {
-            "end": "2022-06-21"
-          }
+          "reference": "Claim/MedicalServicesAuthorizationExample"
         },
         "input": [
           {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://hl7.org/fhir/us/davinci-pas/CodeSystem/PASTempCodes",
+                  "code": "payer-url"
+                }
+              ]
+            },
+            "valueUrl": "http://inferno.healthit.gov/reference-server/r4/payerURL"
+          },
+          {
             "extension": [
               {
-                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-serviceLineNumber",
-                "valuePositiveInt": 1
+                "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-paLineNumber",
+                "valueInteger": 1
               }
             ],
             "type": {
               "coding": [
                 {
-                  "system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-                  "code": "data-code"
+                  "system": "http://hl7.org/fhir/us/davinci-pas/CodeSystem/PASTempCodes",
+                  "code": "attachments-needed"
                 }
               ]
             },
@@ -2658,61 +2594,7 @@
               "coding": [
                 {
                   "system": "http://loinc.org",
-                  "code": "11506-3",
-                  "display": "Progress note"
-                }
-              ],
-              "text": "Progress note"
-            }
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
-                  "code": "signature-flag"
-                }
-              ]
-            },
-            "valueBoolean": true
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
-                  "code": "payer-url"
-                }
-              ]
-            },
-            "valueUrl": "http://inferno.healthit.gov/reference-server/r4/cdex/payer/$submit-attachment"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
-                  "code": "service-date"
-                }
-              ]
-            },
-            "valueDate": "2022-06-13"
-          },
-          {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/davinci-cdex/CodeSystem/cdex-temp",
-                  "code": "purpose-of-use"
-                }
-              ]
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
-                  "code": "CLMATTCH",
-                  "display": "claim attachment"
+                  "code": "26443-2"
                 }
               ]
             }
@@ -2721,7 +2603,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Task/cdex-task-example19"
+        "url": "Task/AdditionalInformationTaskExample"
       }
     },
     {
