@@ -2814,7 +2814,7 @@
     {
       "resource": {
         "resourceType": "VisionPrescription",
-        "id": "visionprescription0151",
+        "id": "vispre0151",
         "identifier": [
           {
             "system": "http://www.happysight.com/prescription",
@@ -2875,13 +2875,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "VisionPrescription/visionprescription0151"
+        "url": "VisionPrescription/vispre0151"
       }
     },
     {
       "resource": {
         "resourceType": "VisionPrescription",
-        "id": "visionprescription0152",
+        "id": "vispre0152",
         "identifier": [
           {
             "system": "http://www.happysight.com/prescription",
@@ -2942,7 +2942,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "VisionPrescription/visionprescription0152"
+        "url": "VisionPrescription/vispre0152"
       }
     },
     {
