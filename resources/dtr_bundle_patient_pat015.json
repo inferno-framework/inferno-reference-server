@@ -436,7 +436,7 @@
         }
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "DeviceRequest/devreq-015-e0250"
       }
     },
@@ -510,7 +510,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015-hco3"
       }
     },
@@ -563,7 +563,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015-o2sat-overnight"
       }
     },
@@ -636,7 +636,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015-o2sat-resting"
       }
     },
@@ -694,7 +694,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015-o2sat-treatment"
       }
     },
@@ -765,7 +765,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs-pat015-pao2"
       }
     },
@@ -842,7 +842,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs-pat015-o2excercise"
       }
     },
@@ -919,7 +919,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015"
       }
     },
@@ -993,7 +993,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015-paco2"
       }
     },
@@ -1051,7 +1051,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015-ph"
       }
     },
@@ -1121,7 +1121,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/obs015B"
       }
     },
@@ -1164,7 +1164,7 @@
         }
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Observation/pat015-hemocrit"
       }
     },
@@ -1216,7 +1216,7 @@
         }
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Condition/cond015a"
       }
     },
@@ -1268,7 +1268,7 @@
         }
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Condition/cond015b"
       }
     },
@@ -1320,7 +1320,7 @@
         }
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "Condition/cond015c"
       }
     },
@@ -1367,7 +1367,7 @@
     {
       "resource": {
         "resourceType": "QuestionnaireResponse",
-        "id": "home-o2-questionnaireresponse",
+        "id": "queres015",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/davinci-dtr/StructureDefinition/dtr-questionnaireresponse"
@@ -2100,8 +2100,8 @@
         ]
       },
       "request": {
-        "method": "PUT",
-        "url": "QuestionnaireResponse/home-o2-questionnaireresponse"
+        "method": "POST",
+        "url": "QuestionnaireResponse/queres015"
       }
     },
     {
@@ -2762,11 +2762,11 @@
             ]
           }
         ],
-        "name": "MARYLAND CAPITAL INSURANCE COMPANY"
+        "name": "NEW YORK CAPITAL INSURANCE COMPANY"
       },
       "request": {
-        "method": "PUT",
-        "url": "Organization/5678"
+        "method": "POST",
+        "url": "Organization/org5678"
       }
     },
     {
@@ -3005,7 +3005,7 @@
         ]
       },
       "request": {
-        "method": "PUT",
+        "method": "POST",
         "url": "AllergyIntolerance/allint015"
       }
     }
