@@ -12,9 +12,9 @@
           {
             "use": "home",
             "type": "both",
-            "state": "MA",
-            "city": "Bedford",
-            "postalCode": "01730",
+            "state": "NY",
+            "city": "Buffalo",
+            "postalCode": "14210",
             "line": ["202 Burlington Road"]
           }
         ],
@@ -1355,7 +1355,7 @@
         ],
         "insurance": [
           {
-            "reference": "Coverage/cov016"
+            "reference": "Coverage/cov015"
           }
         ]
       },
@@ -1440,7 +1440,7 @@
                               {
                                 "url": "practitioner",
                                 "valueReference": {
-                                  "reference": "Practitioner/PractitionerExample",
+                                  "reference": "Practitioner/pra1234",
                                   "display": "Dr. Jane Doe"
                                 }
                               }
@@ -1674,7 +1674,7 @@
                               {
                                 "url": "practitioner",
                                 "valueReference": {
-                                  "reference": "Practitioner/PractitionerExample",
+                                  "reference": "Practitioner/pra1234",
                                   "display": "Dr. Jane Doe"
                                 }
                               }
@@ -2107,7 +2107,7 @@
     {
       "resource": {
         "resourceType": "CommunicationRequest",
-        "id": "communicationrequest-example1",
+        "id": "comreq015",
         "identifier": [
           {
             "system": "http://www.jurisdiction.com/insurer/123456",
@@ -2189,13 +2189,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "CommunicationRequest/communicationrequest-example1"
+        "url": "CommunicationRequest/comreq015"
       }
     },
     {
       "resource": {
         "resourceType": "MedicationRequest",
-        "id": "medicationrequest-example1",
+        "id": "medreq015",
         "contained": [
           {
             "resourceType": "Medication",
@@ -2399,13 +2399,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "MedicationRequest/medicationrequest-example1"
+        "url": "MedicationRequest/medreq015"
       }
     },
     {
       "resource": {
         "resourceType": "NutritionOrder",
-        "id": "nutritionorder-example1",
+        "id": "nutord015",
         "identifier": [
           {
             "system": "http://goodhealthhospital.org/nutrition-requests",
@@ -2426,7 +2426,7 @@
         },
         "allergyIntolerance": [
           {
-            "reference": "AllergyIntolerance/allergyintolerance-example1",
+            "reference": "AllergyIntolerance/allint015",
             "display": "Cashew Nuts"
           }
         ],
@@ -2509,13 +2509,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "NutritionOrder/nutritionorder-example1"
+        "url": "NutritionOrder/nutord015"
       }
     },
     {
       "resource": {
         "resourceType": "Task",
-        "id": "AdditionalInformationTaskExample",
+        "id": "tas015",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-task"
@@ -2561,7 +2561,7 @@
           ]
         },
         "reasonReference": {
-          "reference": "Claim/MedicalServicesAuthorizationExample"
+          "reference": "Claim/cla015"
         },
         "input": [
           {
@@ -2603,21 +2603,17 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Task/AdditionalInformationTaskExample"
+        "url": "Task/tas015"
       }
     },
     {
       "resource": {
         "resourceType": "Claim",
-        "id": "MedicalServicesAuthorizationExample",
+        "id": "cla015",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-claim"
           ]
-        },
-        "text": {
-          "status": "extensions",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Claim MedicalServicesAuthorizationExample</b></p><a name=\"MedicalServicesAuthorizationExample\"> </a><a name=\"hcMedicalServicesAuthorizationExample\"> </a><a name=\"MedicalServicesAuthorizationExample-en-US\"> </a><p><b>identifier</b>: <code>http://example.org/PATIENT_EVENT_TRACE_NUMBER</code>/111099</p><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type professional}\">Professional</span></p><p><b>use</b>: Preauthorization</p><p><b>patient</b>: <a href=\"Patient-SubscriberExample.html\">JOE SMITH  Male, DoB Unknown ( Member Number)</a></p><p><b>created</b>: 2005-05-02 11:01:00+0500</p><p><b>insurer</b>: <a href=\"Organization-InsurerExample.html\">Organization MARYLAND CAPITAL INSURANCE COMPANY</a></p><p><b>provider</b>: <a href=\"Organization-UMOExample.html\">Organization DR. JOE SMITH CORPORATION</a></p><p><b>priority</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/processpriority normal}\">Normal</span></p><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td>true</td><td><a href=\"Coverage-InsuranceExample.html\">Coverage: status = active; subscriberId = 1122334455; relationship = Self</a></td></tr></table><blockquote><p><b>item</b></p><p><b>ServiceItemRequestType</b>: <span title=\"Codes:{https://codesystem.x12.org/005010/1525 IN}\">Initial Medical Services Reservation</span></p><p><b>CertificationType</b>: <span title=\"Codes:{https://codesystem.x12.org/005010/1322 I}\">Initial</span></p><p><b>AuthorizationNumber</b>: 1122344</p><p><b>AdministrationReferenceNumber</b>: 33441122</p><p><b>sequence</b>: 1</p><p><b>category</b>: <span title=\"Codes:{https://codesystem.x12.org/005010/1365 1}\">Medical Care</span></p><p><b>productOrService</b>: <span title=\"Codes:{http://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets 99212}\">Established Office Visit</span></p><p><b>serviced</b>: 2005-05-10</p><p><b>location</b>: <span title=\"Codes:{https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set 11}\">11</span></p></blockquote></div>"
         },
         "identifier": [
           {
@@ -2642,14 +2638,14 @@
         },
         "use": "preauthorization",
         "patient": {
-          "reference": "Patient/SubscriberExample"
+          "reference": "Patient/pat015"
         },
         "created": "2005-05-02T11:01:00+05:00",
         "insurer": {
-          "reference": "Organization/InsurerExample"
+          "reference": "Organization/org5678"
         },
         "provider": {
-          "reference": "Organization/UMOExample"
+          "reference": "Organization/org1234"
         },
         "priority": {
           "coding": [
@@ -2737,13 +2733,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Claim/MedicalServicesAuthorizationExample"
+        "url": "Claim/cla015"
       }
     },
     {
       "resource": {
         "resourceType": "Organization",
-        "id": "InsurerExample",
+        "id": "org5678",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-insurer"
@@ -2770,21 +2766,17 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Organization/InsurerExample"
+        "url": "Organization/5678"
       }
     },
     {
       "resource": {
         "resourceType": "Organization",
-        "id": "UMOExample",
+        "id": "org1234",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-requestor"
           ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Organization UMOExample</b></p><a name=\"UMOExample\"> </a><a name=\"hcUMOExample\"> </a><a name=\"UMOExample-en-US\"> </a><p><b>identifier</b>: <a href=\"http://terminology.hl7.org/6.0.2/NamingSystem-npi.html\" title=\"National Provider Identifier\">United States National Provider Identifier</a>/8189991234</p><p><b>active</b>: true</p><p><b>type</b>: <span title=\"Codes:{https://codesystem.x12.org/005010/98 X3}\">X3</span></p><p><b>name</b>: DR. JOE SMITH CORPORATION</p><p><b>address</b>: 111 1ST STREET SAN DIEGO CA 92101 US </p></div>"
         },
         "identifier": [
           {
@@ -2803,26 +2795,26 @@
             ]
           }
         ],
-        "name": "DR. JOE SMITH CORPORATION",
+        "name": "DR. JANE DOE CORPORATION",
         "address": [
           {
-            "line": ["111 1ST STREET"],
-            "city": "SAN DIEGO",
-            "state": "CA",
-            "postalCode": "92101",
+            "line": ["840 Seneca St"],
+            "city": "Buffalo",
+            "state": "NY",
+            "postalCode": "14210",
             "country": "US"
           }
         ]
       },
       "request": {
         "method": "PUT",
-        "url": "Organization/UMOExample"
+        "url": "Organization/org1234"
       }
     },
     {
       "resource": {
         "resourceType": "VisionPrescription",
-        "id": "visionprescription-example1",
+        "id": "visionprescription0151",
         "identifier": [
           {
             "system": "http://www.happysight.com/prescription",
@@ -2883,13 +2875,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "VisionPrescription/visionprescription-example1"
+        "url": "VisionPrescription/visionprescription0151"
       }
     },
     {
       "resource": {
         "resourceType": "VisionPrescription",
-        "id": "visionprescription-example2",
+        "id": "visionprescription0152",
         "identifier": [
           {
             "system": "http://www.happysight.com/prescription",
@@ -2950,13 +2942,13 @@
       },
       "request": {
         "method": "PUT",
-        "url": "VisionPrescription/visionprescription-example2"
+        "url": "VisionPrescription/visionprescription0152"
       }
     },
     {
       "resource": {
         "resourceType": "AllergyIntolerance",
-        "id": "allergyintolerance-example1",
+        "id": "allint015",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
@@ -3014,7 +3006,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "AllergyIntolerance/allergyintolerance-example1"
+        "url": "AllergyIntolerance/allint015"
       }
     }
   ],
