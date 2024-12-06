@@ -4,7 +4,7 @@
     {
       "fullUrl": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134",
       "resource": {
-        "id": "86",
+        "id": "ccrr-86",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -253,7 +253,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/86"
+        "url": "Patient/ccrr-86"
       }
     },
     {
@@ -350,7 +350,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/86"
+          "reference": "Patient/ccrr-86"
         },
         "onsetDateTime": "2019-04-01",
         "asserter": {
@@ -435,7 +435,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/86"
+          "reference": "Patient/ccrr-86"
         },
         "onsetDateTime": "2019-05-01",
         "asserter": {
@@ -451,7 +451,7 @@
       },
       "resource": {
         "resourceType": "MedicationAdministration",
-        "id": "cancer-related-medication-admin-paclitaxel-86",
+        "id": "cancer-related-medication-admin-paclitaxel-ccrr-86",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-medication-administration"
@@ -459,7 +459,7 @@
         },
         "text": {
           "status": "extensions",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: MedicationAdministration</b><a name=\"cancer-related-medication-admin-paclitaxel-86\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource MedicationAdministration &quot;cancer-related-medication-admin-paclitaxel-86&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-mcode-cancer-related-medication-administration.html\">Cancer-Related Medication Administration Profile</a></p></div><p><b>Procedure Intent Extension</b>: Curative - procedure intent (qualifier value) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#373808002)</span></p><p><b>status</b>: completed</p><p><b>category</b>: Outpatient <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-medicationrequest-category.html\">MedicationRequest Category Codes</a>#outpatient)</span></p><p><b>medication</b>: PACLitaxel <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-v3-rxNorm.html\">RxNorm</a>#56946)</span></p><p><b>subject</b>: <a href=\"Patient-cancer-patient-86.html\">Patient/cancer-patient-86</a> &quot; M&quot;</p><p><b>effective</b>: 2018-04-22</p><h3>Performers</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Actor</b></td></tr><tr><td style=\"display: none\">*</td><td><a href=\"Practitioner-us-core-practitioner-nancy-oncology-nurse.html\">Practitioner/us-core-practitioner-nancy-oncology-nurse</a> &quot; NURSE&quot;</td></tr></table><p><b>reasonReference</b>: <a href=\"Condition-primary-cancer-condition-86.html\">Condition/primary-cancer-condition-86</a></p><p><b>note</b>: PACLitaxel (175 mg/m² IV), 272.01mg ( @2018-04-12)</p><h3>Dosages</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Route</b></td><td><b>Dose</b></td></tr><tr><td style=\"display: none\">*</td><td>Intravenous route (qualifier value) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#47625008)</span></td><td>272.01 mg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mg = 'mg')</span></td></tr></table></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: MedicationAdministration</b><a name=\"cancer-related-medication-admin-paclitaxel-ccrr-86\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource MedicationAdministration &quot;cancer-related-medication-admin-paclitaxel-ccrr-86&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-mcode-cancer-related-medication-administration.html\">Cancer-Related Medication Administration Profile</a></p></div><p><b>Procedure Intent Extension</b>: Curative - procedure intent (qualifier value) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#373808002)</span></p><p><b>status</b>: completed</p><p><b>category</b>: Outpatient <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-medicationrequest-category.html\">MedicationRequest Category Codes</a>#outpatient)</span></p><p><b>medication</b>: PACLitaxel <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-v3-rxNorm.html\">RxNorm</a>#56946)</span></p><p><b>subject</b>: <a href=\"Patient-cancer-patient-ccrr-86.html\">Patient/cancer-patient-ccrr-86</a> &quot; M&quot;</p><p><b>effective</b>: 2018-04-22</p><h3>Performers</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Actor</b></td></tr><tr><td style=\"display: none\">*</td><td><a href=\"Practitioner-us-core-practitioner-nancy-oncology-nurse.html\">Practitioner/us-core-practitioner-nancy-oncology-nurse</a> &quot; NURSE&quot;</td></tr></table><p><b>reasonReference</b>: <a href=\"Condition-primary-cancer-condition-ccrr-86.html\">Condition/primary-cancer-condition-ccrr-86</a></p><p><b>note</b>: PACLitaxel (175 mg/m² IV), 272.01mg ( @2018-04-12)</p><h3>Dosages</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Route</b></td><td><b>Dose</b></td></tr><tr><td style=\"display: none\">*</td><td>Intravenous route (qualifier value) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#47625008)</span></td><td>272.01 mg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mg = 'mg')</span></td></tr></table></div>"
         },
         "extension": [
           {
@@ -494,7 +494,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/cancer-patient-86"
+          "reference": "Patient/cancer-patient-ccrr-86"
         },
         "effectiveDateTime": "2018-04-22",
         "performer": [
