@@ -109,13 +109,13 @@
         "meta": {
           "lastUpdated": "2020-10-30T09:48:01.8462752-04:00",
           "profile": [
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage|2.1.0-snapshot1"
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage|2.0.0"
           ]
         },
         "language": "en-US",
         "text": {
           "status": "generated",
-          "div": "\u003Cdiv xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\" lang=\"en-US\"\u003E\u003Cp class=\"res-header-id\"\u003E\u003Cb\u003EGenerated Narrative: Coverage c4bb-Coverage\u003C/b\u003E\u003C/p\u003E\u003Ca name=\"c4bb-Coverage\"\u003E \u003C/a\u003E\u003Ca name=\"hcc4bb-Coverage\"\u003E \u003C/a\u003E\u003Ca name=\"c4bb-Coverage-en-US\"\u003E \u003C/a\u003E\u003Cdiv style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003E\u003Cp style=\"margin-bottom: 0px\"\u003ELast updated: 2020-10-30 09:48:01-0400; Language: en-US\u003C/p\u003E\u003Cp style=\"margin-bottom: 0px\"\u003EProfile: \u003Ca href=\"StructureDefinition-C4BB-Coverage.html\"\u003EC4BB Coverageversion: {0}2.1.0-snapshot1)\u003C/a\u003E\u003C/p\u003E\u003C/div\u003E\u003Cp\u003E\u003Cb\u003Eidentifier\u003C/b\u003E: An identifier for the insured of an insurance policy (this insured always has a subscriber), usually assigned by the insurance carrier./88800933501\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Estatus\u003C/b\u003E: Active\u003C/p\u003E\u003Cp\u003E\u003Cb\u003EpolicyHolder\u003C/b\u003E: \u003Ca href=\"Patient-888.html\"\u003EJohnny Example1  Male, DoB: 1986-01-01 ( Member Number)\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Esubscriber\u003C/b\u003E: \u003Ca href=\"Patient-888.html\"\u003EJohnny Example1  Male, DoB: 1986-01-01 ( Member Number)\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003EsubscriberId\u003C/b\u003E: 888009335\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Ebeneficiary\u003C/b\u003E: \u003Ca href=\"Patient-888.html\"\u003EJohnny Example1  Male, DoB: 1986-01-01 ( Member Number)\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Edependent\u003C/b\u003E: 01\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Erelationship\u003C/b\u003E: \u003Cspan title=\"Codes:{http://terminology.hl7.org/CodeSystem/subscriber-relationship self}\"\u003ESelf\u003C/span\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Eperiod\u003C/b\u003E: 2020-01-01 --&gt; (ongoing)\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Epayor\u003C/b\u003E: \u003Ca href=\"Organization-c4bb-Organization.html\"\u003EUPMC Health Plan\u003C/a\u003E\u003C/p\u003E\u003Cblockquote\u003E\u003Cp\u003E\u003Cb\u003Eclass\u003C/b\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Etype\u003C/b\u003E: \u003Cspan title=\"Codes:{http://terminology.hl7.org/CodeSystem/coverage-class group}\"\u003EAn employee group\u003C/span\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Evalue\u003C/b\u003E: MCHMO1\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Ename\u003C/b\u003E: MEDICARE HMO PLAN\u003C/p\u003E\u003C/blockquote\u003E\u003Cblockquote\u003E\u003Cp\u003E\u003Cb\u003Eclass\u003C/b\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Etype\u003C/b\u003E: \u003Cspan title=\"Codes:{http://terminology.hl7.org/CodeSystem/coverage-class plan}\"\u003EA specific suite of benefits.\u003C/span\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Evalue\u003C/b\u003E: GR5\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Ename\u003C/b\u003E: GR5-HMO DEDUCTIBLE\u003C/p\u003E\u003C/blockquote\u003E\u003Cp\u003E\u003Cb\u003Enetwork\u003C/b\u003E: GR5-HMO DEDUCTIBLE\u003C/p\u003E\u003C/div\u003E"
+          "div": "\u003Cdiv xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\" lang=\"en-US\"\u003E\u003Cp class=\"res-header-id\"\u003E\u003Cb\u003EGenerated Narrative: Coverage c4bb-Coverage\u003C/b\u003E\u003C/p\u003E\u003Ca name=\"c4bb-Coverage\"\u003E \u003C/a\u003E\u003Ca name=\"hcc4bb-Coverage\"\u003E \u003C/a\u003E\u003Ca name=\"c4bb-Coverage-en-US\"\u003E \u003C/a\u003E\u003Cdiv style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003E\u003Cp style=\"margin-bottom: 0px\"\u003ELast updated: 2020-10-30 09:48:01-0400; Language: en-US\u003C/p\u003E\u003Cp style=\"margin-bottom: 0px\"\u003EProfile: \u003Ca href=\"StructureDefinition-C4BB-Coverage.html\"\u003EC4BB Coverageversion: {0}2.0.0)\u003C/a\u003E\u003C/p\u003E\u003C/div\u003E\u003Cp\u003E\u003Cb\u003Eidentifier\u003C/b\u003E: An identifier for the insured of an insurance policy (this insured always has a subscriber), usually assigned by the insurance carrier./88800933501\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Estatus\u003C/b\u003E: Active\u003C/p\u003E\u003Cp\u003E\u003Cb\u003EpolicyHolder\u003C/b\u003E: \u003Ca href=\"Patient-888.html\"\u003EJohnny Example1  Male, DoB: 1986-01-01 ( Member Number)\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Esubscriber\u003C/b\u003E: \u003Ca href=\"Patient-888.html\"\u003EJohnny Example1  Male, DoB: 1986-01-01 ( Member Number)\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003EsubscriberId\u003C/b\u003E: 888009335\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Ebeneficiary\u003C/b\u003E: \u003Ca href=\"Patient-888.html\"\u003EJohnny Example1  Male, DoB: 1986-01-01 ( Member Number)\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Edependent\u003C/b\u003E: 01\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Erelationship\u003C/b\u003E: \u003Cspan title=\"Codes:{http://terminology.hl7.org/CodeSystem/subscriber-relationship self}\"\u003ESelf\u003C/span\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Eperiod\u003C/b\u003E: 2020-01-01 --&gt; (ongoing)\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Epayor\u003C/b\u003E: \u003Ca href=\"Organization-c4bb-Organization.html\"\u003EUPMC Health Plan\u003C/a\u003E\u003C/p\u003E\u003Cblockquote\u003E\u003Cp\u003E\u003Cb\u003Eclass\u003C/b\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Etype\u003C/b\u003E: \u003Cspan title=\"Codes:{http://terminology.hl7.org/CodeSystem/coverage-class group}\"\u003EAn employee group\u003C/span\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Evalue\u003C/b\u003E: MCHMO1\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Ename\u003C/b\u003E: MEDICARE HMO PLAN\u003C/p\u003E\u003C/blockquote\u003E\u003Cblockquote\u003E\u003Cp\u003E\u003Cb\u003Eclass\u003C/b\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Etype\u003C/b\u003E: \u003Cspan title=\"Codes:{http://terminology.hl7.org/CodeSystem/coverage-class plan}\"\u003EA specific suite of benefits.\u003C/span\u003E\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Evalue\u003C/b\u003E: GR5\u003C/p\u003E\u003Cp\u003E\u003Cb\u003Ename\u003C/b\u003E: GR5-HMO DEDUCTIBLE\u003C/p\u003E\u003C/blockquote\u003E\u003Cp\u003E\u003Cb\u003Enetwork\u003C/b\u003E: GR5-HMO DEDUCTIBLE\u003C/p\u003E\u003C/div\u003E"
         },
         "identifier": [
           {
@@ -172,8 +172,7 @@
         },
         "payor": [
           {
-            "reference": "Organization/c4bb-Organization",
-            "display": "UPMC Health Plan"
+            "reference": "Organization/c4bb-Organization"
           }
         ],
         "class": [
@@ -219,11 +218,11 @@
         "id" : "c4bb-Organization",
         "meta" : {
           "lastUpdated" : "2020-05-04T03:02:01-04:00",
-          "profile" : ["http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|2.1.0-snapshot1"]
+          "profile" : ["http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|2.0.0"]
         },
         "text" : {
           "status" : "generated",
-          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Organization Providerc4bb-Organization</b></p><a name=\"Providerc4bb-Organization\"> </a><a name=\"hcProviderc4bb-Organization\"> </a><a name=\"Providerc4bb-Organization-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2020-05-04 03:02:01-0400</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-C4BB-Organization.html\">C4BB Organizationversion: {0}2.1.0-snapshot1)</a></p></div><p><b>identifier</b>: National Provider Identifier/9941339100</p><p><b>active</b>: true</p><p><b>name</b>: Orange Medical Group</p><p><b>address</b>: Attn: Orange Medical Group Pittsburgh PA 15222 USA </p><h3>Contacts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Telecom</b></td></tr><tr><td style=\"display: none\">*</td><td>ph: 555-555-5510(Work)</td></tr></table></div>"
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Organization Providerc4bb-Organization</b></p><a name=\"Providerc4bb-Organization\"> </a><a name=\"hcProviderc4bb-Organization\"> </a><a name=\"Providerc4bb-Organization-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2020-05-04 03:02:01-0400</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-C4BB-Organization.html\">C4BB Organizationversion: {0}2.0.0)</a></p></div><p><b>identifier</b>: National Provider Identifier/9941339100</p><p><b>active</b>: true</p><p><b>name</b>: Orange Medical Group</p><p><b>address</b>: Attn: Orange Medical Group Pittsburgh PA 15222 USA </p><h3>Contacts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Telecom</b></td></tr><tr><td style=\"display: none\">*</td><td>ph: 555-555-5510(Work)</td></tr></table></div>"
         },
         "identifier" : [{
           "type" : {
@@ -254,9 +253,9 @@
             "coding" : [{
               "system" : "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
               "code" : "payerid",
-              "display" : "National Provider Identifier"
+              "display" : "Payer ID"
             }],
-            "text" : "National Provider Identifier"
+            "text" : "Payer ID"
           }
         },
         {
@@ -299,11 +298,11 @@
         "id" : "c4bb-Practitioner",
         "meta" : {
           "lastUpdated" : "2020-05-04T03:02:01-04:00",
-          "profile" : ["http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Practitioner|2.1.0-snapshot1"]
+          "profile" : ["http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Practitioner|2.0.0"]
         },
         "text" : {
           "status" : "generated",
-          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Practitioner c4bb-Practitioner</b></p><a name=\"c4bb-Practitioner\"> </a><a name=\"hcc4bb-Practitioner\"> </a><a name=\"c4bb-Practitioner-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2020-05-04 03:02:01-0400</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-C4BB-Practitioner.html\">C4BB Practitionerversion: {0}2.1.0-snapshot1)</a></p></div><p><b>identifier</b>: National Provider Identifier/9941339100</p><p><b>active</b>: true</p><p><b>name</b>: John Smith </p></div>"
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: Practitioner c4bb-Practitioner</b></p><a name=\"c4bb-Practitioner\"> </a><a name=\"hcc4bb-Practitioner\"> </a><a name=\"c4bb-Practitioner-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2020-05-04 03:02:01-0400</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-C4BB-Practitioner.html\">C4BB Practitionerversion: {0}2.0.0)</a></p></div><p><b>identifier</b>: National Provider Identifier/9941339100</p><p><b>active</b>: true</p><p><b>name</b>: John Smith </p></div>"
         },
         "identifier" : [{
           "type" : {
@@ -361,11 +360,11 @@
         "id" : "c4bb-RelatedPerson",
         "meta" : {
           "lastUpdated" : "2020-05-04T03:02:01-04:00",
-          "profile" : ["http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-RelatedPerson|2.1.0-snapshot1"]
+          "profile" : ["http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-RelatedPerson|2.0.0"]
         },
         "text" : {
           "status" : "generated",
-          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: RelatedPerson c4bb-RelatedPerson</b></p><a name=\"c4bb-RelatedPerson\"> </a><a name=\"hcc4bb-RelatedPerson\"> </a><a name=\"c4bb-RelatedPerson-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2020-05-04 03:02:01-0400</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-C4BB-RelatedPerson.html\">C4BB RelatedPersonversion: {0}2.1.0-snapshot1)</a></p></div><p><b>active</b>: true</p><p><b>patient</b>: <a href=\"Patient-888.html\">Johnny Example1  Male, DoB: 1986-01-01 ( Member Number)</a></p><p><b>relationship</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v3-RoleCode MTH}\">mother</span></p><p><b>name</b>: Mary Example1 </p><p><b>telecom</b>: ph: (301)666-1212</p><p><b>address</b>: 123 Main Street Pittsburgh PA 12519 </p></div>"
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: RelatedPerson c4bb-RelatedPerson</b></p><a name=\"c4bb-RelatedPerson\"> </a><a name=\"hcc4bb-RelatedPerson\"> </a><a name=\"c4bb-RelatedPerson-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2020-05-04 03:02:01-0400</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-C4BB-RelatedPerson.html\">C4BB RelatedPersonversion: {0}2.0.0)</a></p></div><p><b>active</b>: true</p><p><b>patient</b>: <a href=\"Patient-888.html\">Johnny Example1  Male, DoB: 1986-01-01 ( Member Number)</a></p><p><b>relationship</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v3-RoleCode MTH}\">mother</span></p><p><b>name</b>: Mary Example1 </p><p><b>telecom</b>: ph: (301)666-1212</p><p><b>address</b>: 123 Main Street Pittsburgh PA 12519 </p></div>"
         },
         "active" : true,
         "patient" : {
@@ -410,7 +409,7 @@
         "language" : "en-US",
         "text" : {
           "status" : "generated",
-          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\" lang=\"en-US\"><p class=\"res-header-id\"><b>Generated Narrative: ExplanationOfBenefit c4bb-EOBInpatient</b></p><a name=\"c4bb-EOBInpatient\"> </a><a name=\"hcc4bb-EOBInpatient\"> </a><a name=\"c4bb-EOBInpatient-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2019-12-12 09:14:11+0000; Language: en-US</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-c4bb-EOBInpatient-Inpatient-Institutional-Basis.html\">C4BB ExplanationOfBenefit Inpatient Institutional Basisversion: {0}2.1.0-snapshot1)</a></p></div><p><b>identifier</b>: Unique Claim ID/AW123412341234123412341234123412</p><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type institutional}\">Institutional</span></p><p><b>subType</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBInstitutionalClaimSubType inpatient}\">Inpatient</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Patient-888.html\">Member 01 Test  Male, DoB: 1943-01-01 ( An identifier for the insured of an insurance policy (this insured always has a subscriber), usually assigned by the insurance carrier.:\u00a088800933501)</a></p><p><b>billablePeriod</b>: 2019-01-01 --&gt; 2019-10-31</p><p><b>created</b>: 2019-11-02 00:00:00+0000</p><p><b>insurer</b>: <a href=\"Organization-c4bb-Organization.html\">XXX Health Plan</a></p><p><b>provider</b>: <a href=\"Organization-Providerc4bb-Organization.html\">XXX Health Plan</a></p><p><b>outcome</b>: Partial Processing</p><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 2</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType admissionperiod}\">Admission Period</span></p><p><b>timing</b>: 2011-05-23 --&gt; 2011-05-25</p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 3</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType clmrecvddate}\">Claim Received Date</span></p><p><b>timing</b>: 2011-05-30</p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 4</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType typeofbill}\">Type of Bill</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/TypeOfBill Dummy}\">Dummy</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 5</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType pointoforigin}\">Point Of Origin</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/PointOfOrigin Dummy}\">Dummy</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 6</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType admtype}\">Admission Type</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/PriorityTypeOfAdmitOrVisit Dummy}\">Dummy</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 7</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType discharge-status}\">Discharge Status</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/PatDischargeStatus 11}\">11</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 8</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType medicalrecordnumber}\">Medical Record Number</span></p><p><b>value</b>: 1234-234-1243-12345678901m</p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 9</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType patientaccountnumber}\">Patient Account Number</span></p><p><b>value</b>: 1234-234-1243-12345678901a</p></blockquote><h3>Diagnoses</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Diagnosis[x]</b></td><td><b>Type</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><span title=\"Codes:{http://hl7.org/fhir/sid/icd-10-cm S06.0X1A}\">Concussion w LOC of 30 minutes or less, init</span></td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-diagnosistype principal}\">Principal Diagnosis</span></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>true</td><td><a href=\"Coverage-c4bb-Coverage.html\">Coverage: identifier = Member Number; status = active; type = health insurance plan policy; subscriberId = 12345678901; dependent = 01; relationship = Self; period = 2019-01-01 --&gt; 2019-10-31; network = XYZ123-UPMC CONSUMER ADVA</a></td></tr></table><h3>Items</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Revenue</b></td><td><b>ProductOrService</b></td><td><b>Serviced[x]</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><span title=\"Codes:{https://www.nubc.org/CodeSystem/RevenueCodes Dummy}\">Dummy</span></td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/data-absent-reason not-applicable}\">Not Applicable</span></td><td>2019-11-02</td></tr></table><h3>Adjudications</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Category</b></td><td><b>Reason</b></td></tr><tr><td style=\"display: none\">*</td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudicationDiscriminator benefitpaymentstatus}\">Benefit Payment Status</span></td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBPayerAdjudicationStatus innetwork}\">In Network</span></td></tr><tr><td style=\"display: none\">*</td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudicationDiscriminator billingnetworkstatus}\">Billing Network Status</span></td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBPayerAdjudicationStatus innetwork}\">In Network</span></td></tr></table></div>"
+          "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\" lang=\"en-US\"><p class=\"res-header-id\"><b>Generated Narrative: ExplanationOfBenefit c4bb-EOBInpatient</b></p><a name=\"c4bb-EOBInpatient\"> </a><a name=\"hcc4bb-EOBInpatient\"> </a><a name=\"c4bb-EOBInpatient-en-US\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Last updated: 2019-12-12 09:14:11+0000; Language: en-US</p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-c4bb-EOBInpatient-Inpatient-Institutional-Basis.html\">C4BB ExplanationOfBenefit Inpatient Institutional Basisversion: {0}2.0.0)</a></p></div><p><b>identifier</b>: Unique Claim ID/AW123412341234123412341234123412</p><p><b>status</b>: Active</p><p><b>type</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/claim-type institutional}\">Institutional</span></p><p><b>subType</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBInstitutionalClaimSubType inpatient}\">Inpatient</span></p><p><b>use</b>: Claim</p><p><b>patient</b>: <a href=\"Patient-888.html\">Member 01 Test  Male, DoB: 1943-01-01 ( An identifier for the insured of an insurance policy (this insured always has a subscriber), usually assigned by the insurance carrier.:\u00a088800933501)</a></p><p><b>billablePeriod</b>: 2019-01-01 --&gt; 2019-10-31</p><p><b>created</b>: 2019-11-02 00:00:00+0000</p><p><b>insurer</b>: <a href=\"Organization-c4bb-Organization.html\">XXX Health Plan</a></p><p><b>provider</b>: <a href=\"Organization-Providerc4bb-Organization.html\">XXX Health Plan</a></p><p><b>outcome</b>: Partial Processing</p><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 2</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType admissionperiod}\">Admission Period</span></p><p><b>timing</b>: 2011-05-23 --&gt; 2011-05-25</p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 3</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType clmrecvddate}\">Claim Received Date</span></p><p><b>timing</b>: 2011-05-30</p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 4</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType typeofbill}\">Type of Bill</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/TypeOfBill Dummy}\">Dummy</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 5</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType pointoforigin}\">Point Of Origin</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/PointOfOrigin Dummy}\">Dummy</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 6</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType admtype}\">Admission Type</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/PriorityTypeOfAdmitOrVisit Dummy}\">Dummy</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 7</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType discharge-status}\">Discharge Status</span></p><p><b>code</b>: <span title=\"Codes:{https://www.nubc.org/CodeSystem/PatDischargeStatus 11}\">11</span></p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 8</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType medicalrecordnumber}\">Medical Record Number</span></p><p><b>value</b>: 1234-234-1243-12345678901m</p></blockquote><blockquote><p><b>supportingInfo</b></p><p><b>sequence</b>: 9</p><p><b>category</b>: <span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSupportingInfoType patientaccountnumber}\">Patient Account Number</span></p><p><b>value</b>: 1234-234-1243-12345678901a</p></blockquote><h3>Diagnoses</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Diagnosis[x]</b></td><td><b>Type</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><span title=\"Codes:{http://hl7.org/fhir/sid/icd-10-cm S06.0X1A}\">Concussion w LOC of 30 minutes or less, init</span></td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/ex-diagnosistype principal}\">Principal Diagnosis</span></td></tr></table><h3>Insurances</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Focal</b></td><td><b>Coverage</b></td></tr><tr><td style=\"display: none\">*</td><td>true</td><td><a href=\"Coverage-c4bb-Coverage.html\">Coverage: identifier = Member Number; status = active; type = health insurance plan policy; subscriberId = 12345678901; dependent = 01; relationship = Self; period = 2019-01-01 --&gt; 2019-10-31; network = XYZ123-UPMC CONSUMER ADVA</a></td></tr></table><h3>Items</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Sequence</b></td><td><b>Revenue</b></td><td><b>ProductOrService</b></td><td><b>Serviced[x]</b></td></tr><tr><td style=\"display: none\">*</td><td>1</td><td><span title=\"Codes:{https://www.nubc.org/CodeSystem/RevenueCodes Dummy}\">Dummy</span></td><td><span title=\"Codes:{http://terminology.hl7.org/CodeSystem/data-absent-reason not-applicable}\">Not Applicable</span></td><td>2019-11-02</td></tr></table><h3>Adjudications</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Category</b></td><td><b>Reason</b></td></tr><tr><td style=\"display: none\">*</td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudicationDiscriminator benefitpaymentstatus}\">Benefit Payment Status</span></td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBPayerAdjudicationStatus innetwork}\">In Network</span></td></tr><tr><td style=\"display: none\">*</td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudicationDiscriminator billingnetworkstatus}\">Billing Network Status</span></td><td><span title=\"Codes:{http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBPayerAdjudicationStatus innetwork}\">In Network</span></td></tr></table></div>"
         },
         "identifier" : [{
           "type" : {
@@ -494,14 +493,14 @@
             "role" : {
               "coding" : [
                 {
-                  "system" : "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBClaimCareTeamRole",
-                  "code" : "attending",
-                  "display" : "Attending"
+                  "system" : "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                  "code" : "primary",
+                  "display" : "Primary provider"
                 }
               ],
-              "text" : "The attending physician"
+              "text" : "The primary care provider"
             }
-          }],
+        }],
         "supportingInfo" : [{
           "sequence" : 2,
           "category" : {
@@ -636,7 +635,7 @@
           }],
           "onAdmission": {
             "coding" : [{
-              "system" : "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/HospitalAcqCond/Coding",
+              "system" : "https://www.nubc.org/CodeSystem/PresentOnAdmissionIndicator",
               "code" : "Y"
             }]
           }
@@ -781,18 +780,6 @@
               "system" : "https://x12.org/codes/claim-adjustment-reason-codes",
               "code" : "21"
             }]
-          }
-        },
-        {
-          "category" : {
-            "coding" : [{
-              "system" : "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudicationDiscriminator",
-              "code" : "adjudicationamounttype"
-            }]
-          },
-          "amount": {
-            "value": 620,
-            "currency": "USD"
           }
         }],
         "total": [
@@ -1175,19 +1162,32 @@
                 "value" : 2
               },
               {
-                "category" : {
-                  "coding" : [
+                "category": {
+                  "coding": [
                     {
-                      "system" : "http://terminology.hl7.org/CodeSystem/adjudication",
-                      "code" : "submitted",
-                      "display" : "Submitted Amount"
+                      "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudication",
+                      "code": "paidtoprovider"
                     }
                   ],
-                  "text" : "The total submitted amount for the claim or group or line item."
+                  "text": "Payment Amount"
                 },
-                "amount" : {
-                  "value" : 84.4,
-                  "currency" : "USD"
+                "amount": {
+                  "value": 620,
+                  "currency": "USD"
+                }
+              },
+              {
+                "category": {
+                  "coding": [
+                    {
+                      "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudication",
+                      "code": "paidbypatient"
+                    }
+                  ],
+                  "text": "Patient Pay Amount"
+                },
+                "amount": {
+                  "value": 0
                 }
               }
             ]
@@ -1228,35 +1228,6 @@
                   "code": "innetwork"
                 }
               ]
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudication",
-                  "code": "paidtoprovider"
-                }
-              ],
-              "text": "Payment Amount"
-            },
-            "amount": {
-              "value": 620,
-              "currency": "USD"
-            }
-          },
-          {
-            "category": {
-              "coding": [
-                {
-                  "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudication",
-                  "code": "paidbypatient"
-                }
-              ],
-              "text": "Patient Pay Amount"
-            },
-            "amount": {
-              "value": 0
             }
           },
           {
@@ -1437,14 +1408,14 @@
             "role" : {
               "coding" : [
                 {
-                  "system" : "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBClaimCareTeamRole",
-                  "code" : "attending",
-                  "display" : "Attending"
+                  "system" : "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                  "code" : "primary",
+                  "display" : "Primary provider"
                 }
               ],
-              "text" : "The attending physician"
+              "text" : "The primary care provider"
             }
-          }],
+        }],
         "supportingInfo": [
           {
             "sequence": 3,
@@ -1642,15 +1613,7 @@
               {
                 "coding": [
                   {
-                    "system": "http://terminology.hl7.org/CodeSystem/ADAToothSurfaceCodes",
-                    "code": "O"
-                  }
-                ]
-              },
-              {
-                "coding": [
-                  {
-                    "system": "http://terminology.hl7.org/CodeSystem/ADAToothSurfaceCodes",
+                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBSurfaceCodes",
                     "code": "I"
                   }
                 ]
@@ -1697,6 +1660,20 @@
                       "code": "innetwork"
                     }
                   ]
+                }
+              },
+              {
+                "category": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                      "code": "submitted"
+                    }
+                  ]
+                },
+                "amount": {
+                  "value": 1000,
+                  "currency": "USD"
                 }
               }
             ]
@@ -1755,6 +1732,20 @@
                   "code": "innetwork"
                 }
               ]
+            }
+          },
+          {
+            "category": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                  "code": "submitted"
+                }
+              ]
+            },
+            "amount": {
+              "value": 1000,
+              "currency": "USD"
             }
           }
         ],
@@ -1936,12 +1927,12 @@
             "role" : {
               "coding" : [
                 {
-                  "system" : "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBClaimCareTeamRole",
-                  "code" : "attending",
-                  "display" : "Attending"
+                  "system" : "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                  "code" : "primary",
+                  "display" : "Primary provider"
                 }
               ],
-              "text" : "The attending physician"
+              "text" : "The primary care provider"
             }
         }],
         "supportingInfo": [
@@ -2412,14 +2403,14 @@
             "role" : {
               "coding" : [
                 {
-                  "system" : "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBClaimCareTeamRole",
-                  "code" : "attending",
-                  "display" : "Attending"
+                  "system" : "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                  "code" : "primary",
+                  "display" : "Primary provider"
                 }
               ],
-              "text" : "The attending physician"
+              "text" : "The primary care provider"
             }
-          }],
+        }],
         "outcome": "partial",
         "supportingInfo": [
           {
@@ -2643,12 +2634,12 @@
         "item": [
           {
             "sequence": 1,
-            "productOrService": {
-              "coding": [
+            "informationSequence": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+            "productOrService" : {
+              "coding" : [
                 {
-                  "system": "http://www.ama-assn.org/go/cpt",
-                  "code": "97110",
-                  "display": "Physical Therapy"
+                  "system" : "http://www.ama-assn.org/go/cpt",
+                  "code" : "99231"
                 }
               ]
             },
