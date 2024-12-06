@@ -488,7 +488,6 @@
           },
           {
             "reference": "Organization/org1234",
-            "display": "Gulf Coast Lab",
             "type": "Organization"
           }
         ],
@@ -557,7 +556,6 @@
         "performer": [
           {
             "reference": "Organization/org1234",
-            "display": "Gulf Coast Lab",
             "type": "Organization"
           }
         ]
@@ -630,7 +628,6 @@
           },
           {
             "reference": "Organization/org1234",
-            "display": "Gulf Coast Lab",
             "type": "Organization"
           }
         ]
@@ -688,7 +685,6 @@
           },
           {
             "reference": "Organization/org1234",
-            "display": "Gulf Coast Lab",
             "type": "Organization"
           }
         ]
@@ -971,7 +967,6 @@
           },
           {
             "reference": "Organization/org1234",
-            "display": "Gulf Coast Lab",
             "type": "Organization"
           }
         ],
@@ -1045,7 +1040,6 @@
           },
           {
             "reference": "Organization/org1234",
-            "display": "Gulf Coast Lab",
             "type": "Organization"
           }
         ]
