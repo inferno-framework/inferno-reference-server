@@ -4,7 +4,7 @@
     {
       "fullUrl": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134",
       "resource": {
-        "id": "ccrr-86",
+        "id": "cancer-86",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
@@ -253,18 +253,18 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Patient/ccrr-86"
+        "url": "Patient/cancer-86"
       }
     },
     {
-      "fullUrl": "https://hl7.org/fhir/us/central-cancer-registry-reporting/STU1/Condition-primary-cancer-condition-breast",
+      "fullUrl": "example.org/Condition/primary-cancer-condition-breast-86",
       "request": {
         "method": "POST",
         "url": "Condition"
       },
       "resource": {
         "resourceType": "Condition",
-        "id": "primary-cancer-condition-breast",
+        "id": "primary-cancer-condition-breast-86",
         "text": {
           "status": "extensions",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Narrative:</b></p><p><b>Condition: </b>primary-cancer-condition-breast</p><p><b>Histology-Morphology-Behavior Extension</b>: Lobular carcinoma in situ (morphologic abnormality) <a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[Intl]</a>#77284006)</p><p><b>clinicalStatus</b>: Active</p><p><b>verificationStatus</b>: Confirmed</p><p><b>category</b>: Problem List Item</p><p><b>code</b>: Malignant neoplastic disease (disorder) <a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[Intl]</a>#363346000)</p><p><b>bodySite</b>: Left breast structure (body structure) <a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[Intl]</a>#80248007)</p><p><b>subject</b>: <a href=\"Patient-example.html\">Patient/example</a> Amy Shaw</p><p><b>onset</b>: 2019-04-01</p><p><b>asserter</b>: <a href=\"Practitioner-1.html\">Practitioner/1</a> Joseph Nichols</p><p><b>Stage: </b>American Joint Committee on Cancer stage IIIC (qualifier value) <a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[Intl]</a>#1222806003)</p></div>"
@@ -350,7 +350,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/ccrr-86"
+          "reference": "Patient/cancer-86"
         },
         "onsetDateTime": "2019-04-01",
         "asserter": {
@@ -372,7 +372,7 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/us/mcode/STU3/Condition-secondary-cancer-condition-brain-mets",
+      "fullUrl": "example.org/Condition/secondary-cancer-condition-brain-mets-86",
       "request": {
         "method": "POST",
         "url": "Condition"
@@ -393,7 +393,7 @@
           {
             "url": "http://hl7.org/fhir/StructureDefinition/condition-related",
             "valueReference": {
-              "reference": "Condition/primary-cancer-condition-breast"
+              "reference": "Condition/primary-cancer-condition-breast-86"
             }
           }
         ],
@@ -435,7 +435,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/ccrr-86"
+          "reference": "Patient/cancer-86"
         },
         "onsetDateTime": "2019-05-01",
         "asserter": {
@@ -444,14 +444,14 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/us/mcode/STU3/MedicationAdministration-cancer-related-medication-admin-paclitaxel-jenny-m",
+      "fullUrl": "example.org/MedicationAdministration/cancer-related-medication-admin-paclitaxel-86",
       "request": {
         "method": "POST",
         "url": "MedicationAdministration"
       },
       "resource": {
         "resourceType": "MedicationAdministration",
-        "id": "cancer-related-medication-admin-paclitaxel-ccrr-86",
+        "id": "cancer-related-medication-admin-paclitaxel-86",
         "meta": {
           "profile": [
             "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-medication-administration"
@@ -506,7 +506,7 @@
         ],
         "reasonReference": [
           {
-            "reference": "Condition/primary-cancer-condition-breast"
+            "reference": "Condition/primary-cancer-condition-breast-86"
           }
         ],
         "note": [
@@ -16235,13 +16235,13 @@
         },
         "target": [
           {
-            "reference": "https://hl7.org/fhir/us/central-cancer-registry-reporting/STU1/Condition-primary-cancer-condition-breast"
+            "reference": "example.org/Condition/primary-cancer-condition-breast-86"
           },
           {
-            "reference": "http://hl7.org/fhir/us/mcode/STU3/Condition-secondary-cancer-condition-brain-mets"
+            "reference": "example.org/Condition/secondary-cancer-condition-brain-mets-86"
           },
           {
-            "reference": "http://hl7.org/fhir/us/mcode/STU3/MedicationAdministration-cancer-related-medication-admin-doxorubicin-jenny-m"
+            "reference": "example.org/MedicationAdministration/cancer-related-medication-admin-paclitaxel-86"
           },
           {
             "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
