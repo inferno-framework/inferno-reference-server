@@ -303,7 +303,7 @@
         "status": "draft",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/profile-devicerequest-r4"
+            "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/profile-devicerequest"
           ]
         },
         "insurance": [
@@ -350,7 +350,7 @@
         "id": "devreq015",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/davinci-crd/R4/StructureDefinition/profile-devicerequest-r4"
+            "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/profile-devicerequest"
           ]
         },
         "insurance": [
@@ -405,7 +405,7 @@
         "id": "devreq-015-e0250",
         "meta": {
           "profile": [
-            "http://hl7.org/fhir/us/davinci-crd/R4/StructureDefinition/profile-devicerequest-r4"
+            "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/profile-devicerequest"
           ]
         },
         "insurance": [
