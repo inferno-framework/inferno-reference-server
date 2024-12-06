@@ -2618,11 +2618,11 @@
         },
         "identifier": [
           {
-            "system": "http://example.org/PATIENT_EVENT_TRACE_NUMBER",
+            "system": "http://inferno.healthit.gov/reference-server/r4/PATIENT_EVENT_TRACE_NUMBER",
             "value": "111099",
             "assigner": {
               "identifier": {
-                "system": "http://example.org/USER_ASSIGNED",
+                "system": "http://inferno.healthit.gov/reference-server/r4/USER_ASSIGNED",
                 "value": "9012345678"
               }
             }
