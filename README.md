@@ -1,4 +1,5 @@
 # Inferno US Core R4 Reference Server
+[![Docker Image Version](https://img.shields.io/docker/v/infernocommunity/inferno-reference-server)](https://hub.docker.com/r/infernocommunity/inferno-reference-server)
 
 This is an HL7® FHIR® reference implementation server supporting the US Core R4
 IG and SMART Launches.
@@ -10,7 +11,7 @@ By default, you can browse the server at
 
 ## Running with Docker
 
-The server runs using two containers, one for the server, and one for the
+The server runs using two containers, one for the FHIR server (`infernocommunity/inferno-reference-server`), and one for the
 database. You can build the containers with `docker-compose build` and 
 run both containers with `docker-compose up`.
 
