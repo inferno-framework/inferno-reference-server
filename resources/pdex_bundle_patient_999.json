@@ -129,7 +129,7 @@
       "fullUrl": "urn:uuid:79cc362c-b1e5-4c19-908e-c6d1bca90338",
       "resource": {
         "resourceType" : "Device",
-        "id" : "pdex-Implanable-Device",
+        "id" : "pdex-implantable-Device",
         "udiCarrier" : [
           {
             "deviceIdentifier" : "09504010059118",
@@ -155,7 +155,7 @@
       },
       "request": {
         "method": "PUT",
-        "url": "Device/pdex-Implanable-Device"
+        "url": "Device/pdex-implantable-Device"
       }
     },
     {
