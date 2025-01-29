@@ -126,6 +126,39 @@
       }
     },
     {
+      "fullUrl": "urn:uuid:79cc362c-b1e5-4c19-908e-c6d1bca90338",
+      "resource": {
+        "resourceType" : "Device",
+        "id" : "pdex-Implanable-Device",
+        "udiCarrier" : [
+          {
+            "deviceIdentifier" : "09504010059118",
+            "carrierHRF" : "(01)09504010059118(17)141120(10)7654321D(21)10987654d321"
+          }
+        ],
+        "status" : "active",
+        "expirationDate" : "2034-11-20",
+        "lotNumber" : "7654321E",
+        "serialNumber" : "10987654e321",
+        "type" : {
+          "coding" : [
+            {
+              "system" : "http://snomed.info/sct",
+              "code" : "468063009",
+              "display" : "Coated femoral stem prosthesis, modular"
+            }
+          ]
+        },
+        "patient" : {
+         "reference": "Patient/999"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/pdex-Implanable-Device"
+      }
+    },
+    {
       "fullUrl": "urn:uuid:e29310a7-dbaf-4020-a7fd-25d5ef24fe34",
       "resource": {
         "resourceType": "DocumentReference",
@@ -837,9 +870,9 @@
         "medicationCodeableConcept": {
           "coding": [
             {
-              "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "code": "311036",
-              "display": "Humulin R 100 UNT/ML Injectable Solution"
+              "system": "http://hl7.org/fhir/sid/ndc",
+              "code": "0002-8215-01",
+              "display": "Humulin R, 1 VIAL, MULTI-DOSE in 1 CARTON (0002-8215-01) > 10 mL in 1 VIAL, MULTI-DOSE (package)"
             }
           ],
           "text": "Humulin R 100 UNT/ML Injectable Solution"
@@ -1195,7 +1228,10 @@
                 }
               }
             ],
-            "role": "source"
+            "role": "source",
+            "what" : {
+              "display" : "No reference available"
+            }
           }
         ]
       },
