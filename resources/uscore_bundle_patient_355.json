@@ -97,6 +97,40 @@
                 }
               }
             ]
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/patient-sexParameterForClinicalUse",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/sex-parameter-for-clinical-use",
+                      "code": "male-typical",
+                      "display": "Apply male-typical setting or reference range"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/individual-pronouns",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "LA29518-0",
+                      "display": "he/him/his/his/himself"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         ],
         "identifier": [
@@ -422,6 +456,15 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
           ]
         },
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-interpreter-needed",
+            "valueCoding" : {
+              "system" : "http://snomed.info/sct",
+              "code" : "373067005"
+            }
+          }
+        ],
         "practitioner": {
           "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
           "display": "Dr. Blossom971 Christiansen251"
@@ -493,6 +536,16 @@
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
           ]
         },
+        "extension": [
+          {
+            "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-interpreter-needed",
+            "valueCoding" : {
+              "system" : "http://snomed.info/sct",
+              "version" : "http://snomed.info/sct/731000124108",
+              "code" : "373067005"
+            }
+          }
+        ],
         "identifier": [
           {
             "use": "official",
@@ -605,6 +658,10 @@
         "encounter": {
           "reference": "urn:uuid:65abf8dc-d463-e590-71e7-dea000842f94"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-09-05T19:33:18-04:00",
         "issued": "1940-09-05T19:33:18.715-04:00",
         "valueQuantity": {
@@ -657,6 +714,10 @@
         "encounter": {
           "reference": "urn:uuid:65abf8dc-d463-e590-71e7-dea000842f94"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-09-05T19:33:18-04:00",
         "issued": "1940-09-05T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -947,6 +1008,10 @@
         "encounter": {
           "reference": "urn:uuid:773916dc-c964-619f-38d3-4826d4fcd690"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-10-10T18:33:18-05:00",
         "issued": "1940-10-10T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -1489,6 +1554,10 @@
         "encounter": {
           "reference": "urn:uuid:de820c7c-465a-da48-53a0-263db418c240"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-12-12T18:33:18-05:00",
         "issued": "1940-12-12T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -1629,6 +1698,10 @@
         "encounter": {
           "reference": "urn:uuid:d0b1c7e1-f42b-0fd8-0de4-e79588ef4b1f"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1941-02-13T18:33:18-05:00",
         "issued": "1941-02-13T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -1679,6 +1752,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -1807,6 +1889,10 @@
         "encounter": {
           "reference": "urn:uuid:026cdb5f-c40e-c49e-4f2a-5957e42f707d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1941-05-15T19:33:18-04:00",
         "issued": "1941-05-15T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -1947,6 +2033,10 @@
         "encounter": {
           "reference": "urn:uuid:74292a7b-6ab1-b603-746f-55e31a929641"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1941-08-14T19:33:18-04:00",
         "issued": "1941-08-14T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -2900,6 +2990,10 @@
         "encounter": {
           "reference": "urn:uuid:a3a2cef5-f600-c220-a00a-64751c182d52"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1941-11-13T18:33:18-05:00",
         "issued": "1941-11-13T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -3641,6 +3735,10 @@
         "encounter": {
           "reference": "urn:uuid:bbc2ea19-d550-d7a4-1d65-52dd9ac45e76"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1942-02-12T19:33:18-04:00",
         "issued": "1942-02-12T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -4144,6 +4242,10 @@
         "encounter": {
           "reference": "urn:uuid:90a74c6c-a0e0-0cb3-157a-e38f35ca66b3"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1942-08-13T19:33:18-04:00",
         "issued": "1942-08-13T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -4284,6 +4386,10 @@
         "encounter": {
           "reference": "urn:uuid:884a3bce-d0bd-08f3-dd4e-b3f6dbbb720e"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1943-02-11T19:33:18-04:00",
         "issued": "1943-02-11T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -4424,6 +4530,10 @@
         "encounter": {
           "reference": "urn:uuid:b53ebe7a-becd-dc00-24df-59d6b4d201a4"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1943-08-12T19:33:18-04:00",
         "issued": "1943-08-12T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -4711,6 +4821,10 @@
         "encounter": {
           "reference": "urn:uuid:7b8b502d-2f00-f1da-3ada-9b4ee98476ba"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1944-02-10T19:33:18-04:00",
         "issued": "1944-02-10T19:33:18.715-04:00",
         "valueQuantity": {
@@ -4763,6 +4877,10 @@
         "encounter": {
           "reference": "urn:uuid:7b8b502d-2f00-f1da-3ada-9b4ee98476ba"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1944-02-10T19:33:18-04:00",
         "issued": "1944-02-10T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -4903,6 +5021,10 @@
         "encounter": {
           "reference": "urn:uuid:3865e1d8-68d2-c77c-1a43-e036490362b6"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1944-08-10T19:33:18-04:00",
         "issued": "1944-08-10T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -5132,7 +5254,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -5483,6 +5614,10 @@
         "encounter": {
           "reference": "urn:uuid:9b57deea-effe-239d-4b5e-29eb7f7511f0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1945-08-16T19:33:18-04:00",
         "issued": "1945-08-16T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -5623,6 +5758,10 @@
         "encounter": {
           "reference": "urn:uuid:afc03652-8ff0-89a0-0039-d4c890897b7d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1946-08-22T19:33:18-04:00",
         "issued": "1946-08-22T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -5768,6 +5907,15 @@
           "reference": "urn:uuid:4c34c0db-7434-8c8f-1936-30dd023babc2",
           "display": "RIVER BEND MEDICAL GROUP - CHICOPEE OFFICE - URGENT CARE"
         },
+        "lotNumber" : "AAJN11K",
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:cf8468d4-5a1b-3b05-8c92-7a82e2df0128",
+              "display": "Dr. Sammie902 DuBuque211"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -6262,6 +6410,10 @@
         "encounter": {
           "reference": "urn:uuid:873e1716-041d-ad48-109b-6cce45687436"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1947-08-28T19:33:18-04:00",
         "issued": "1947-08-28T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -6571,6 +6723,10 @@
         "encounter": {
           "reference": "urn:uuid:5776f895-bad8-7d17-c239-2b9bce8ccfe2"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "1947-12-11T18:33:18-05:00",
         "issued": "1947-12-11T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -6631,7 +6787,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -6762,6 +6927,10 @@
         "encounter": {
           "reference": "urn:uuid:a4c16e57-4373-b4e1-bda8-02844ded0038"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1948-09-02T19:33:18-04:00",
         "issued": "1948-09-02T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -6902,6 +7071,10 @@
         "encounter": {
           "reference": "urn:uuid:e1a9d69b-fa77-38bd-7580-06da0ddf25c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1949-09-08T19:33:18-04:00",
         "issued": "1949-09-08T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -7042,6 +7215,10 @@
         "encounter": {
           "reference": "urn:uuid:8fe8440d-1cbc-e24f-cb51-594938db625a"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1950-09-14T19:33:18-04:00",
         "issued": "1950-09-14T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -7182,6 +7359,10 @@
         "encounter": {
           "reference": "urn:uuid:2ba769b4-3a74-8f31-9d45-22c8466e98d8"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1951-09-20T19:33:18-04:00",
         "issued": "1951-09-20T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -7323,6 +7504,10 @@
         "encounter": {
           "reference": "urn:uuid:7c13ad71-94b0-83e4-db57-1b466f8140c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1952-09-25T19:33:18-04:00",
         "issued": "1952-09-25T19:33:18.715-04:00",
         "valueQuantity": {
@@ -7375,6 +7560,10 @@
         "encounter": {
           "reference": "urn:uuid:7c13ad71-94b0-83e4-db57-1b466f8140c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1952-09-25T19:33:18-04:00",
         "issued": "1952-09-25T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -7428,6 +7617,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -7467,6 +7665,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -8024,6 +8230,14 @@
           "reference": "urn:uuid:4c34c0db-7434-8c8f-1936-30dd023babc2",
           "display": "RIVER BEND MEDICAL GROUP - CHICOPEE OFFICE - URGENT CARE"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -8152,6 +8366,10 @@
         "encounter": {
           "reference": "urn:uuid:3afbd06a-d60b-6a38-8293-abebc96dadf2"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1953-10-01T18:33:18-05:00",
         "issued": "1953-10-01T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -8304,6 +8522,10 @@
         "encounter": {
           "reference": "urn:uuid:f5820747-6360-42f2-f347-977fb3f7ab5c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1954-10-07T18:33:18-05:00",
         "issued": "1954-10-07T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -8364,7 +8586,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -8406,6 +8637,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -8883,6 +9122,10 @@
         "encounter": {
           "reference": "urn:uuid:5e767439-3b5d-2d0f-7559-15f2b0fe3baf"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1955-10-13T19:33:18-04:00",
         "issued": "1955-10-13T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -8934,6 +9177,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -9411,6 +9662,10 @@
         "encounter": {
           "reference": "urn:uuid:b9111383-504b-3ccb-4856-5037dc72001f"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1956-10-18T19:33:18-04:00",
         "issued": "1956-10-18T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -9551,6 +9806,10 @@
         "encounter": {
           "reference": "urn:uuid:061392cf-de92-6873-a410-52c062aea490"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1957-10-24T19:33:18-04:00",
         "issued": "1957-10-24T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -9848,6 +10107,10 @@
         "encounter": {
           "reference": "urn:uuid:6d121e5f-222c-aa2b-b5e5-af50a753cb0d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1958-10-30T18:33:18-05:00",
         "issued": "1958-10-30T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -9988,6 +10251,10 @@
         "encounter": {
           "reference": "urn:uuid:47e4444d-9af3-6ece-c4f7-2b52e193e364"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1959-11-05T18:33:18-05:00",
         "issued": "1959-11-05T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -10207,7 +10474,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -10560,6 +10836,10 @@
         "encounter": {
           "reference": "urn:uuid:d15c1ac1-327b-bbfc-8688-bd2acc0227f9"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1960-11-10T18:33:18-05:00",
         "issued": "1960-11-10T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -10700,6 +10980,10 @@
         "encounter": {
           "reference": "urn:uuid:fc48c986-c95e-429d-def4-431afaaf319d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1961-11-16T18:33:18-05:00",
         "issued": "1961-11-16T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -10840,6 +11124,10 @@
         "encounter": {
           "reference": "urn:uuid:46649476-e0cf-85fa-32a7-5d5c42af016c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1962-11-22T18:33:18-05:00",
         "issued": "1962-11-22T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -10891,6 +11179,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -11403,6 +11699,10 @@
         "encounter": {
           "reference": "urn:uuid:c02d49d2-e048-e995-7615-522487043d1b"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1963-11-28T18:33:18-05:00",
         "issued": "1963-11-28T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -11463,7 +11763,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -11606,6 +11915,10 @@
         "encounter": {
           "reference": "urn:uuid:31ccab98-5311-8ebb-e8e0-853d59a5031c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1964-12-03T18:33:18-05:00",
         "issued": "1964-12-03T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -11666,7 +11979,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -11797,6 +12119,10 @@
         "encounter": {
           "reference": "urn:uuid:f481c0ba-df8f-b451-48c4-b3c0c9bd8902"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1965-12-09T18:33:18-05:00",
         "issued": "1965-12-09T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -11937,6 +12263,10 @@
         "encounter": {
           "reference": "urn:uuid:bb2af25f-b19f-237f-e8ea-c996ea6ef17d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1966-12-15T18:33:18-05:00",
         "issued": "1966-12-15T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -12077,6 +12407,10 @@
         "encounter": {
           "reference": "urn:uuid:b873b18e-1636-015c-c527-939b0f6116a2"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1967-12-21T18:33:18-05:00",
         "issued": "1967-12-21T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -12217,6 +12551,10 @@
         "encounter": {
           "reference": "urn:uuid:2951a48d-48d2-7b9a-12e4-c5bd4c64315e"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1968-12-26T18:33:18-05:00",
         "issued": "1968-12-26T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -12369,6 +12707,10 @@
         "encounter": {
           "reference": "urn:uuid:86186473-efa5-be92-6ea8-bb62e95cfbdf"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1970-01-01T18:33:18-05:00",
         "issued": "1970-01-01T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -12429,7 +12771,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -12625,6 +12976,15 @@
             "display": "Laceration of thigh"
           }
         ],
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -12670,6 +13030,15 @@
           {
             "reference": "urn:uuid:8f6ffc0b-b54b-10cd-f955-0ecfd00769de",
             "display": "Laceration of thigh"
+          }
+        ],
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
           }
         ],
         "resourceType": "Procedure"
@@ -13015,6 +13384,10 @@
         "encounter": {
           "reference": "urn:uuid:3a07c339-9d0c-5a8d-87c7-356eaff63731"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1971-01-07T18:33:18-05:00",
         "issued": "1971-01-07T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -13075,7 +13448,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -13206,6 +13588,10 @@
         "encounter": {
           "reference": "urn:uuid:ef4695d6-60f3-3dcd-6313-cf5e64273eb0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1972-01-13T18:33:18-05:00",
           "end": "1972-01-13T19:33:18-05:00"
@@ -13261,6 +13647,10 @@
         "encounter": {
           "reference": "urn:uuid:ef4695d6-60f3-3dcd-6313-cf5e64273eb0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1972-01-13T18:33:18-05:00",
         "issued": "1972-01-13T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -13401,6 +13791,10 @@
         "encounter": {
           "reference": "urn:uuid:d7f01810-6e8b-f082-db49-a0170b02f58b"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1973-01-18T18:33:18-05:00",
         "issued": "1973-01-18T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -13541,6 +13935,10 @@
         "encounter": {
           "reference": "urn:uuid:a74f1005-41df-7077-1687-1c968caf0be1"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1974-01-24T19:33:18-04:00",
         "issued": "1974-01-24T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -13592,6 +13990,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -13928,6 +14334,10 @@
         "encounter": {
           "reference": "urn:uuid:0a7d3c3f-535a-1f62-c1d4-90d7953098cb"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1975-01-30T18:33:18-05:00",
         "issued": "1975-01-30T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -14331,6 +14741,10 @@
         "encounter": {
           "reference": "urn:uuid:e964a4a8-4f9f-5c0f-4e68-e34329e27156"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1976-02-05T18:33:18-05:00",
         "issued": "1976-02-05T18:33:18.715-05:00",
         "valueQuantity": {
@@ -14383,6 +14797,10 @@
         "encounter": {
           "reference": "urn:uuid:e964a4a8-4f9f-5c0f-4e68-e34329e27156"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1976-02-05T18:33:18-05:00",
         "issued": "1976-02-05T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -14531,6 +14949,15 @@
           "reference": "urn:uuid:70b2a52f-71ba-6ffe-9050-5daee15f4d88",
           "display": "HOLYOKE MEDICAL CENTER"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -14572,6 +14999,15 @@
           "reference": "urn:uuid:70b2a52f-71ba-6ffe-9050-5daee15f4d88",
           "display": "HOLYOKE MEDICAL CENTER"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -14700,6 +15136,10 @@
         "encounter": {
           "reference": "urn:uuid:e0b2dcd8-b735-297e-e435-6131f55ec29a"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1977-02-10T18:33:18-05:00",
         "issued": "1977-02-10T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -14753,6 +15193,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -14876,6 +15325,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -15015,6 +15472,10 @@
         "encounter": {
           "reference": "urn:uuid:1c1a4166-a308-d166-6bca-ce937ec7f32f"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "1978-02-16T18:33:18-05:00",
         "issued": "1978-02-16T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -15312,6 +15773,10 @@
         "encounter": {
           "reference": "urn:uuid:99a766a0-03e9-fdcc-b637-c3262dffafa6"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "1978-09-07T19:33:18-04:00",
         "issued": "1978-09-07T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -15365,6 +15830,15 @@
           "reference": "urn:uuid:70b2a52f-71ba-6ffe-9050-5daee15f4d88",
           "display": "HOLYOKE MEDICAL CENTER"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15640,6 +16114,10 @@
         "encounter": {
           "reference": "urn:uuid:ca0c31bc-c0ad-09c3-2597-eb4058b46add"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1979-02-22T18:33:18-05:00",
         "issued": "1979-02-22T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -15693,6 +16171,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15968,6 +16455,10 @@
         "encounter": {
           "reference": "urn:uuid:198ca942-ab26-541a-5381-224315bd67a8"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1980-02-28T18:33:18-05:00",
         "issued": "1980-02-28T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -16120,6 +16611,10 @@
         "encounter": {
           "reference": "urn:uuid:51cc82af-7587-a908-b408-b7b08c47422e"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1981-03-05T18:33:18-05:00",
         "issued": "1981-03-05T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -16180,7 +16675,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -16311,6 +16815,10 @@
         "encounter": {
           "reference": "urn:uuid:aeaa00e9-748f-d7ab-ed40-342ad58138a8"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1982-03-11T18:33:18-05:00",
         "issued": "1982-03-11T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -16464,6 +16972,10 @@
         "encounter": {
           "reference": "urn:uuid:df3732c1-8b05-471b-0801-d40ff6bf5823"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1983-03-17T18:33:18-05:00",
         "issued": "1983-03-17T18:33:18.715-05:00",
         "valueQuantity": {
@@ -16516,6 +17028,10 @@
         "encounter": {
           "reference": "urn:uuid:df3732c1-8b05-471b-0801-d40ff6bf5823"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1983-03-17T18:33:18-05:00",
         "issued": "1983-03-17T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -16569,6 +17085,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -16617,7 +17142,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -16748,6 +17282,10 @@
         "encounter": {
           "reference": "urn:uuid:baabb440-770c-d2a5-4aa6-3aa18602cf35"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1984-03-22T18:33:18-05:00",
         "issued": "1984-03-22T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -16888,6 +17426,10 @@
         "encounter": {
           "reference": "urn:uuid:08a4c0aa-1ed2-a071-ee56-72b44c8a7ba4"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "1984-11-01T18:33:18-05:00",
         "issued": "1984-11-01T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -17028,6 +17570,10 @@
         "encounter": {
           "reference": "urn:uuid:b4a06baa-0bff-7e7a-64fa-0f5d82403d81"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1985-03-28T18:33:18-05:00",
         "issued": "1985-03-28T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -17081,6 +17627,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -17209,6 +17764,10 @@
         "encounter": {
           "reference": "urn:uuid:d052961a-a992-93ee-35a1-1acb1e07e62d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1986-04-03T18:33:18-05:00",
         "issued": "1986-04-03T18:33:18.715-05:00",
         "valueCodeableConcept": {
@@ -17496,6 +18055,10 @@
         "encounter": {
           "reference": "urn:uuid:61550b07-2619-a9e3-4bcb-1a0734d53e62"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1987-04-09T19:33:18-04:00",
         "issued": "1987-04-09T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -17636,6 +18199,10 @@
         "encounter": {
           "reference": "urn:uuid:7205f3b3-1b07-e61d-616a-607cd36c25ef"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1988-04-14T19:33:18-04:00",
         "issued": "1988-04-14T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -17776,6 +18343,10 @@
         "encounter": {
           "reference": "urn:uuid:17d8e5c3-f0af-2922-d54b-b94daec29aa4"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1989-04-20T19:33:18-04:00",
         "issued": "1989-04-20T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -17827,6 +18398,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -17955,6 +18534,10 @@
         "encounter": {
           "reference": "urn:uuid:687ac2bd-05d3-5b39-870e-62ed3017bf59"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1990-04-26T19:33:18-04:00",
         "issued": "1990-04-26T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -18095,6 +18678,10 @@
         "encounter": {
           "reference": "urn:uuid:4a517c85-3037-81c2-9266-47f5c0f98f70"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1991-05-02T19:33:18-04:00",
         "issued": "1991-05-02T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -18146,6 +18733,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -18421,6 +19016,10 @@
         "encounter": {
           "reference": "urn:uuid:71a6c1cb-65ef-354b-670c-26d0f2abf131"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1992-05-07T19:33:18-04:00",
         "issued": "1992-05-07T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -18474,6 +19073,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -18602,6 +19210,10 @@
         "encounter": {
           "reference": "urn:uuid:300673a0-badb-ab00-c110-70c9ba1e3f6c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1993-05-13T19:33:18-04:00",
         "issued": "1993-05-13T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -18653,6 +19265,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -18787,6 +19407,10 @@
         "encounter": {
           "reference": "urn:uuid:9030cedd-7de1-9f69-89c5-9968cc4c2789"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1994-05-19T19:33:18-04:00",
         "issued": "1994-05-19T19:33:18.715-04:00",
         "component": [
@@ -18887,6 +19511,10 @@
         "encounter": {
           "reference": "urn:uuid:9030cedd-7de1-9f69-89c5-9968cc4c2789"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod":
         {
           "start":"1994-05-19T19:33:18-04:00",
@@ -18993,6 +19621,10 @@
         "encounter": {
           "reference": "urn:uuid:9030cedd-7de1-9f69-89c5-9968cc4c2789"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1994-05-19T19:33:18-04:00",
         "issued": "1994-05-19T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -19133,6 +19765,10 @@
         "encounter": {
           "reference": "urn:uuid:1d4ad58a-49a5-2d6b-c0a1-95eba2b31726"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1995-05-25T19:33:18-04:00",
         "issued": "1995-05-25T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -19186,6 +19822,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -19619,6 +20264,10 @@
         "encounter": {
           "reference": "urn:uuid:f70c4183-cbea-f004-956b-7c7b55ee81b8"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1996-05-30T19:33:18-04:00",
         "issued": "1996-05-30T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -19679,7 +20328,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -19721,6 +20379,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -19849,6 +20515,10 @@
         "encounter": {
           "reference": "urn:uuid:bd5d8ff2-cd62-9b03-eecc-8ea6c5b9f2b9"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1997-06-05T19:33:18-04:00",
         "issued": "1997-06-05T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -20001,6 +20671,10 @@
         "encounter": {
           "reference": "urn:uuid:f7c32b3d-1c02-e877-50ca-ba607e2ab3f8"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1998-06-11T19:33:18-04:00",
         "issued": "1998-06-11T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -20061,7 +20735,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -20727,6 +21410,10 @@
         "encounter": {
           "reference": "urn:uuid:8663be7a-0c56-dcfe-43d0-33f1c28d7bcf"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "1999-04-08T19:33:18-04:00",
         "issued": "1999-04-08T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -21014,6 +21701,10 @@
         "encounter": {
           "reference": "urn:uuid:d9b1df48-ec8e-0663-3322-4b69d1bb63f4"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1999-06-17T19:33:18-04:00",
         "issued": "1999-06-17T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -21216,6 +21907,15 @@
           {
             "reference": "urn:uuid:d254f464-16cb-6949-34e0-ec25c053a673",
             "display": "Cardiac Arrest"
+          }
+        ],
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
           }
         ],
         "resourceType": "Procedure"
@@ -21540,6 +22240,10 @@
         "encounter": {
           "reference": "urn:uuid:8afa8d88-4d62-9cd1-618a-33ca788f55eb"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2000-06-22T19:33:18-04:00",
         "issued": "2000-06-22T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -21680,6 +22384,10 @@
         "encounter": {
           "reference": "urn:uuid:6457bf87-ae5d-2657-c861-fc4d4987fe71"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2001-06-28T19:33:18-04:00",
         "issued": "2001-06-28T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -21731,6 +22439,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -21859,6 +22575,10 @@
         "encounter": {
           "reference": "urn:uuid:ef2e4855-cf09-7250-65e8-9febe137a9ea"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2002-07-04T19:33:18-04:00",
         "issued": "2002-07-04T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -21910,6 +22630,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -22091,6 +22819,10 @@
         "encounter": {
           "reference": "urn:uuid:c3201ea9-74c6-a014-7952-c158d75deb7c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2003-07-10T19:33:18-04:00",
         "issued": "2003-07-10T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -22231,6 +22963,10 @@
         "encounter": {
           "reference": "urn:uuid:ac5b2c82-4bee-11e8-48ac-4efa474503a3"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2004-07-15T19:33:18-04:00",
         "issued": "2004-07-15T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -22282,6 +23018,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -22410,6 +23154,10 @@
         "encounter": {
           "reference": "urn:uuid:0902fc1b-7e52-d643-ec3c-595d21b1568e"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2005-07-21T19:33:18-04:00",
         "issued": "2005-07-21T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -22550,6 +23298,10 @@
         "encounter": {
           "reference": "urn:uuid:98ab4de4-ce33-1eef-4bbc-758ecaa4b4fe"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2006-07-27T19:33:18-04:00",
         "issued": "2006-07-27T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -22601,6 +23353,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -23525,6 +24285,10 @@
         "encounter": {
           "reference": "urn:uuid:2ae1d4f2-1941-b8a0-86ca-f1d0500f0fd9"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2007-08-02T19:33:18-04:00",
         "issued": "2007-08-02T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -24781,6 +25545,10 @@
         "encounter": {
           "reference": "urn:uuid:c75d427c-bf46-d03f-6915-d7b73495eff3"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2008-08-07T19:33:18-04:00",
         "issued": "2008-08-07T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -25068,6 +25836,10 @@
         "encounter": {
           "reference": "urn:uuid:ef4ba82c-610d-2643-dea0-db20f0908e83"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2009-08-13T19:33:18-04:00",
         "issued": "2009-08-13T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -25225,6 +25997,10 @@
         "encounter": {
           "reference": "urn:uuid:6883f6b3-07d1-f630-d287-b1fa3a3e0e13"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "2009-08-19T19:33:18-04:00",
         "issued": "2009-08-19T19:33:18.715-04:00",
         "valueQuantity": {
@@ -25434,6 +26210,10 @@
         "encounter": {
           "reference": "urn:uuid:a855ca54-b62b-4461-cd1a-0930d5e11676"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "2009-09-03T19:33:18-04:00",
         "issued": "2009-09-03T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -25574,6 +26354,10 @@
         "encounter": {
           "reference": "urn:uuid:5b96af34-f12b-bcd6-60e2-76916904d4a7"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2010-08-19T19:33:18-04:00",
         "issued": "2010-08-19T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -25627,6 +26411,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -25666,6 +26459,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -25867,6 +26668,10 @@
         "encounter": {
           "reference": "urn:uuid:3bc32923-7c4b-13eb-e781-67e0fda3602e"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2011-08-25T19:33:18-04:00",
         "issued": "2011-08-25T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -26007,6 +26812,10 @@
         "encounter": {
           "reference": "urn:uuid:03cf833e-6e4f-e36a-28cf-a7111444208e"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2012-08-30T19:33:18-04:00",
         "issued": "2012-08-30T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -26060,6 +26869,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -26099,6 +26917,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -26240,6 +27066,10 @@
         "encounter": {
           "reference": "urn:uuid:9d4e1390-f9cb-097a-c28f-37d34f14fe83"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2013-09-05T19:33:18-04:00",
         "issued": "2013-09-05T19:33:18.715-04:00",
         "valueQuantity": {
@@ -26292,6 +27122,10 @@
         "encounter": {
           "reference": "urn:uuid:9d4e1390-f9cb-097a-c28f-37d34f14fe83"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2013-09-05T19:33:18-04:00",
         "issued": "2013-09-05T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -26352,7 +27186,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -26630,6 +27473,10 @@
         "encounter": {
           "reference": "urn:uuid:3dbbbbce-cc1d-6a9c-6b14-c24210fca507"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2014-09-11T19:33:18-04:00",
         "issued": "2014-09-11T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -26681,6 +27528,14 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+              "display": "Dr. Blossom971 Christiansen251"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -27158,6 +28013,10 @@
         "encounter": {
           "reference": "urn:uuid:5485c5b0-526f-1c5a-f81c-00ad8573d1ca"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2015-09-17T19:33:18-04:00",
         "issued": "2015-09-17T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -27293,6 +28152,14 @@
           "reference": "urn:uuid:4c34c0db-7434-8c8f-1936-30dd023babc2",
           "display": "RIVER BEND MEDICAL GROUP - CHICOPEE OFFICE - URGENT CARE"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:cf8468d4-5a1b-3b05-8c92-7a82e2df0128",
+              "display": "Dr. Sammie902 DuBuque211"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -27433,6 +28300,10 @@
         "encounter": {
           "reference": "urn:uuid:cd99325d-3565-5db8-1ba1-b89a850e2e33"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "2016-09-22T19:33:18-04:00",
         "issued": "2016-09-22T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -27486,6 +28357,15 @@
           "reference": "urn:uuid:70b2a52f-71ba-6ffe-9050-5daee15f4d88",
           "display": "HOLYOKE MEDICAL CENTER"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -27534,7 +28414,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -27665,6 +28554,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -27717,6 +28610,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -27769,6 +28666,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -27818,6 +28719,10 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "interpretation": [
           {
             "coding": [
@@ -27884,6 +28789,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -27936,6 +28845,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -27988,6 +28901,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -28040,6 +28957,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueQuantity": {
@@ -28092,6 +29013,10 @@
         "encounter": {
           "reference": "urn:uuid:a438ddcc-b7e3-2049-7335-1012a274f19d"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2017-09-28T19:33:18-04:00",
         "issued": "2017-09-28T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -28145,6 +29070,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -28201,6 +29135,13 @@
           },
           {
             "reference": "urn:uuid:c7459800-e42b-3144-a934-59585c9eacff"
+          }
+        ],
+        
+        "resultsInterpreter" : [
+          {
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+            "display": "Dr. Blossom971 Christiansen251"
           }
         ],
         "result": [
@@ -28435,6 +29376,15 @@
           "reference": "urn:uuid:70b2a52f-71ba-6ffe-9050-5daee15f4d88",
           "display": "HOLYOKE MEDICAL CENTER"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+                "display": "Dr. Patricia625 Kilback373"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -28913,6 +29863,10 @@
         "encounter": {
           "reference": "urn:uuid:762bcabe-67a0-b529-8f31-61c998a443da"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2018-10-04T19:33:18-04:00",
         "issued": "2018-10-04T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -28966,6 +29920,15 @@
           "reference": "urn:uuid:ecd8399c-f381-beae-9a1c-afec249d4632",
           "display": "PCP170967"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+                "display": "Dr. Blossom971 Christiansen251"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -29314,6 +30277,10 @@
         "encounter": {
           "reference": "urn:uuid:d8a73dc8-29c5-581f-d12d-0280ada19560"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2019-10-10T19:33:18-04:00",
         "issued": "2019-10-10T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -29374,7 +30341,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -30183,6 +31159,10 @@
         "encounter": {
           "reference": "urn:uuid:135f0143-7839-e175-3501-e390d9c18f2b"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "2020-03-19T19:33:18-04:00",
         "issued": "2020-03-19T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -30243,7 +31223,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -30294,7 +31283,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -30815,6 +31813,10 @@
         "encounter": {
           "reference": "urn:uuid:d0c4771a-32a3-4a52-2e07-af43114c944b"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "2020-08-13T19:33:18-04:00",
         "issued": "2020-08-13T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -30872,7 +31874,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "447694001",
+                  "display": "Respiratory tract route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -31003,6 +32014,10 @@
         "encounter": {
           "reference": "urn:uuid:a2590942-80e3-b27b-39ab-017a88b3fed1"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2020-10-15T19:33:18-04:00",
         "issued": "2020-10-15T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -32571,6 +33586,10 @@
             "dueDate": "2020-12-07"
           }
         ],
+        "expressedBy" : {
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+            "display": "Dr. Blossom971 Christiansen251"
+        },
         "resourceType": "Goal"
       },
       "request": {
@@ -32612,6 +33631,10 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-10-05T00:00:00+00:00",
         "valueQuantity": {
           "value": 23,
@@ -32663,6 +33686,10 @@
         "encounter": {
           "reference": "urn:uuid:ef4695d6-60f3-3dcd-6313-cf5e64273eb0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1972-01-13T18:33:18-05:00",
         "issued": "1972-01-13T18:33:18.715-05:00",
         "dataAbsentReason": {
@@ -32719,6 +33746,10 @@
         "encounter": {
           "reference": "urn:uuid:65abf8dc-d463-e590-71e7-dea000842f94"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-09-05T19:33:18-04:00",
         "issued": "1940-09-05T19:33:18.715-04:00",
         "valueCodeableConcept": {
@@ -32772,6 +33803,10 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1940-10-05T00:00:00+00:00",
         "dataAbsentReason": {
           "coding": [
@@ -32828,6 +33863,10 @@
         "encounter": {
           "reference": "urn:uuid:e964a4a8-4f9f-5c0f-4e68-e34329e27156"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1976-02-05T18:33:18-05:00",
         "issued": "1976-02-05T18:33:18.715-05:00",
         "dataAbsentReason": {
@@ -32885,6 +33924,10 @@
         "encounter": {
           "reference": "urn:uuid:c3201ea9-74c6-a014-7952-c158d75deb7c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "2003-07-10T19:33:18-04:00",
         "issued": "2003-07-10T19:33:18.715-04:00",
         "dataAbsentReason": {
@@ -32947,6 +33990,10 @@
         "encounter": {
           "reference": "urn:uuid:6883f6b3-07d1-f630-d287-b1fa3a3e0e13"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectiveDateTime": "2009-08-19T19:33:18-04:00",
         "issued": "2009-08-19T19:33:18.715-04:00",
         "dataAbsentReason": {
@@ -33004,6 +34051,10 @@
         "encounter": {
           "reference": "urn:uuid:7c13ad71-94b0-83e4-db57-1b466f8140c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1952-09-25T19:33:18-04:00",
         "issued": "1952-09-25T19:33:18.715-04:00",
         "dataAbsentReason": {
@@ -33061,6 +34112,10 @@
         "encounter": {
           "reference": "urn:uuid:df3732c1-8b05-471b-0801-d40ff6bf5823"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1983-03-17T18:33:18-05:00",
         "issued": "1983-03-17T18:33:18.715-05:00",
         "dataAbsentReason": {
@@ -33118,6 +34173,10 @@
         "encounter": {
           "reference": "urn:uuid:9030cedd-7de1-9f69-89c5-9968cc4c2789"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectiveDateTime": "1994-05-19T19:33:18-04:00",
         "issued": "1994-05-19T19:33:18.715-04:00",
         "dataAbsentReason": {
@@ -33221,6 +34280,10 @@
         "encounter": {
           "reference": "urn:uuid:e964a4a8-4f9f-5c0f-4e68-e34329e27156"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1976-02-05T18:33:18-05:00",
           "end": "1976-02-05T19:33:18-05:00"
@@ -33277,6 +34340,10 @@
         "encounter": {
           "reference": "urn:uuid:c3201ea9-74c6-a014-7952-c158d75deb7c"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "2003-07-10T19:33:18-04:00",
           "end": "2003-07-10T20:33:18-04:00"
@@ -33333,6 +34400,10 @@
         "encounter": {
           "reference": "urn:uuid:df3732c1-8b05-471b-0801-d40ff6bf5823"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1983-03-17T18:33:18-05:00",
           "end": "1983-03-17T19:33:18-05:00"
@@ -33389,6 +34460,10 @@
         "encounter": {
           "reference": "urn:uuid:9030cedd-7de1-9f69-89c5-9968cc4c2789"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1994-05-19T19:33:18-04:00",
           "end": "1994-05-19T20:33:18-04:00"
@@ -33476,6 +34551,10 @@
         "encounter": {
           "reference": "urn:uuid:65abf8dc-d463-e590-71e7-dea000842f94"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1940-09-05T19:33:18-04:00",
           "end": "1940-09-05T20:33:18-04:00"
@@ -33531,6 +34610,10 @@
         "encounter": {
           "reference": "urn:uuid:7b8b502d-2f00-f1da-3ada-9b4ee98476ba"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1944-02-10T19:33:18-04:00",
           "end": "1944-02-10T20:33:18-04:00"
@@ -33583,6 +34666,10 @@
         "subject": {
           "reference": "urn:uuid:e91975f5-9445-c11f-cabf-c3c6dae161f2"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1940-10-05T00:00:00+00:00",
           "end": "1940-10-05T01:00:00+00:00"
@@ -33638,6 +34725,10 @@
         "encounter": {
           "reference": "urn:uuid:7c13ad71-94b0-83e4-db57-1b466f8140c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+          "display": "Dr. Blossom971 Christiansen251"
+        }],
         "effectivePeriod": {
           "start": "1952-09-25T19:33:18-04:00",
           "end": "1952-09-25T20:33:18-04:00"
@@ -33699,6 +34790,10 @@
         "encounter": {
           "reference": "urn:uuid:6883f6b3-07d1-f630-d287-b1fa3a3e0e13"
         },
+        "performer": [{
+          "reference": "urn:uuid:eb10a604-ac01-3975-ad58-4c34606af456",
+          "display": "Dr. Patricia625 Kilback373"
+        }],
         "effectivePeriod": {
           "start": "2009-08-19T19:33:18-04:00",
           "end": "2009-08-19T20:33:18-04:00"
@@ -33769,6 +34864,12 @@
           },
           {
             "reference": "urn:uuid:c7459800-e42b-3144-a934-59585c9eacff"
+          }
+        ],
+        "resultsInterpreter" : [
+          {
+            "reference": "urn:uuid:618787f5-2588-3dca-b90e-5e8fd27b1a36",
+            "display": "Dr. Blossom971 Christiansen251"
           }
         ],
         "result": [
