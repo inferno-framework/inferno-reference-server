@@ -79,6 +79,48 @@
                 }
               ]
             }
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/patient-sexParameterForClinicalUse",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/sex-parameter-for-clinical-use",
+                      "code": "male-typical",
+                      "display": "Apply male-typical setting or reference range"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/individual-pronouns",
+            "extension": [
+              {
+                "url": "value",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "LA29518-0",
+                      "display": "he/him/his/his/himself"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-interpreter-needed",
+            "valueCoding" : {
+              "system" : "http://snomed.info/sct",
+              "version" : "http://snomed.info/sct/731000124108",
+              "code" : "373067005"
+            }
           }
         ],
         "identifier": [
@@ -656,6 +698,10 @@
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "2020-11-18T16:19:31-08:00",
         "valueQuantity": {
           "value": 51.2,
@@ -837,6 +883,10 @@
         "encounter": {
           "reference": "urn:uuid:0a801acb-5ad8-d988-7168-89248882afa7"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1940-05-03T01:11:45-04:00",
         "issued": "1940-05-03T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -977,6 +1027,10 @@
         "encounter": {
           "reference": "urn:uuid:3a26d117-bb3c-6297-0e61-769191833f34"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1940-07-05T01:11:45-04:00",
         "issued": "1940-07-05T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -1117,6 +1171,10 @@
         "encounter": {
           "reference": "urn:uuid:0bb40726-2ce8-c94f-7123-aeaa7b25387a"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1940-09-06T01:11:45-04:00",
         "issued": "1940-09-06T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -1170,6 +1228,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "display": "Dr. Melvin857 Torp761"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -1218,6 +1285,12 @@
         "effectiveDateTime": "1940-09-06T01:11:45-04:00",
         "issued": "1940-09-06T01:11:45.131-04:00",
         "performer": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
+        "resultsInterpreter" : [
           {
             "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
             "display": "Dr. Melvin857 Torp761"
@@ -1439,6 +1512,10 @@
         "encounter": {
           "reference": "urn:uuid:7e819237-bfac-1f85-e105-43776b6e4dd6"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1940-12-06T00:11:45-05:00",
         "issued": "1940-12-06T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -1963,7 +2040,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -2251,6 +2337,10 @@
         "encounter": {
           "reference": "urn:uuid:f8212080-8461-49d6-c860-a29916573fbf"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1941-03-07T00:11:45-05:00",
         "issued": "1941-03-07T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -2316,12 +2406,18 @@
             "display": "Dr. Melvin857 Torp761"
           }
         ],
+        "resultsInterpreter" : [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
         "result": [
           {
             "reference": "urn:uuid:b8b254a2-2ef8-11ed-a261-0242ac120002"
           },
           {
-            "reference": "urn:uuid:55b94b96-3045-4b56-8da9-858e19ee0cc7"
+            "reference": "urn:uuid:64472760-6ad8-eaf7-e91f-1fdd7776d724"
           },
           {
             "reference": "urn:uuid:0485fc9e-752e-75ac-76b5-c067747bb76f"
@@ -2550,6 +2646,10 @@
         "encounter": {
           "reference": "urn:uuid:103fdd53-7d43-edc7-e0be-e11d1d8b605b"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1941-06-06T01:11:45-04:00",
         "issued": "1941-06-06T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -2610,6 +2710,12 @@
         "effectiveDateTime": "1941-06-06T01:11:45-04:00",
         "issued": "1941-06-06T01:11:45.131-04:00",
         "performer": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
+        "resultsInterpreter" : [
           {
             "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
             "display": "Dr. Melvin857 Torp761"
@@ -2831,6 +2937,10 @@
         "encounter": {
           "reference": "urn:uuid:fcb63f59-0312-1e8e-e3b7-466c50fc75e1"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1941-09-05T01:11:45-04:00",
         "issued": "1941-09-05T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -2884,6 +2994,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "display": "Dr. Melvin857 Torp761"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -3153,6 +3272,10 @@
         "encounter": {
           "reference": "urn:uuid:73e7c691-33d7-89aa-c915-782d2eaf70db"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1942-03-06T01:11:45-04:00",
         "issued": "1942-03-06T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -3206,6 +3329,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "display": "Dr. Melvin857 Torp761"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -3475,6 +3607,10 @@
         "encounter": {
           "reference": "urn:uuid:e40f66d1-c8b2-a7d2-f699-1dc97f655419"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1942-09-04T01:11:45-04:00",
         "issued": "1942-09-04T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -3615,6 +3751,10 @@
         "encounter": {
           "reference": "urn:uuid:03f1caa5-9dde-0642-3f66-28c34a86f1f8"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1943-03-05T01:11:45-04:00",
         "issued": "1943-03-05T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -3668,6 +3808,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "display": "Dr. Melvin857 Torp761"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -3796,6 +3945,10 @@
         "encounter": {
           "reference": "urn:uuid:09ac70a8-466c-a8e7-4bdc-fa6aa4558f90"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1943-09-03T01:11:45-04:00",
         "issued": "1943-09-03T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -3936,6 +4089,10 @@
         "encounter": {
           "reference": "urn:uuid:8f3a4d64-17fa-215d-7f57-6e2c7eb045c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1944-03-03T01:11:45-04:00",
         "issued": "1944-03-03T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -4076,6 +4233,10 @@
         "encounter": {
           "reference": "urn:uuid:760b3795-c5af-92ab-6731-05ec47a0898b"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1945-03-09T01:11:45-04:00",
         "issued": "1945-03-09T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -4127,6 +4288,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "lotNumber" : "AAJN11K",
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -4255,6 +4425,10 @@
         "encounter": {
           "reference": "urn:uuid:f15d3dab-d608-40b3-dd2e-ebc17a622d09"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1946-03-15T00:11:45-05:00",
         "issued": "1946-03-15T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -4306,6 +4480,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -4507,7 +4689,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -5077,6 +5268,10 @@
         "encounter": {
           "reference": "urn:uuid:5c32d4f0-adf2-1f1d-d4f5-e3ad3c3a1d37"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1947-03-21T00:11:45-05:00",
         "issued": "1947-03-21T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -5468,6 +5663,15 @@
               }
             },
             "asNeededBoolean": false,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "47625008",
+                  "display": "Intravenous route"
+                }
+              ]
+            },
             "doseAndRate": [
               {
                 "type": {
@@ -5570,7 +5774,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -5842,6 +6055,10 @@
         "encounter": {
           "reference": "urn:uuid:1b72789d-e119-83b8-db54-06cc4f385384"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1948-03-26T00:11:45-05:00",
         "issued": "1948-03-26T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -5982,6 +6199,10 @@
         "encounter": {
           "reference": "urn:uuid:602d505f-d86c-89d7-94db-96e1037131b8"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1949-04-01T00:11:45-05:00",
         "issued": "1949-04-01T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -6263,6 +6484,10 @@
         "encounter": {
           "reference": "urn:uuid:84ad4dfb-a358-79fe-fe26-04e9d0815d3a"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1950-04-07T00:11:45-05:00",
         "issued": "1950-04-07T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -6314,6 +6539,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -6442,6 +6675,10 @@
         "encounter": {
           "reference": "urn:uuid:22c28531-1b1f-b2ec-efdb-6695a14d97f1"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1951-04-13T00:11:45-05:00",
         "issued": "1951-04-13T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -6493,6 +6730,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -6706,6 +6951,10 @@
         "encounter": {
           "reference": "urn:uuid:bde6e071-1c97-02ad-7e10-6d3102876755"
         },
+        "performer": [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
         "effectiveDateTime": "1951-09-07T01:11:45-04:00",
         "issued": "1951-09-07T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -7031,6 +7280,10 @@
         "encounter": {
           "reference": "urn:uuid:d8f12ae3-1255-62fd-3d0e-5d7d11857207"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1952-04-18T00:11:45-05:00",
         "issued": "1952-04-18T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -7082,6 +7335,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -7210,6 +7471,10 @@
         "encounter": {
           "reference": "urn:uuid:6073a575-d101-ab75-ba28-01593cb70b20"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1953-04-24T00:11:45-05:00",
         "issued": "1953-04-24T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -7261,6 +7526,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -7389,6 +7662,10 @@
         "encounter": {
           "reference": "urn:uuid:09896cce-74a7-9f8c-b80c-caa91cddc53a"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1954-04-30T01:11:45-04:00",
         "issued": "1954-04-30T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -7440,6 +7717,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -7709,6 +7994,10 @@
         "encounter": {
           "reference": "urn:uuid:5c2fb1b4-7643-d6b4-0174-a1d26d1cade7"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1955-05-06T01:11:45-04:00",
         "issued": "1955-05-06T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -7760,6 +8049,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -7888,6 +8185,10 @@
         "encounter": {
           "reference": "urn:uuid:b2e94c67-c8d5-e42d-ea7c-b9130c07aa68"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1956-05-11T01:11:45-04:00",
         "issued": "1956-05-11T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -8169,6 +8470,10 @@
         "encounter": {
           "reference": "urn:uuid:6a865564-01a2-b6d4-aa95-0e3bfe4792c0"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1957-05-17T01:11:45-04:00",
         "issued": "1957-05-17T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -8220,6 +8525,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -8348,6 +8661,10 @@
         "encounter": {
           "reference": "urn:uuid:f3a71d9a-67bd-756f-2de7-db59e6788457"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1958-05-23T01:11:45-04:00",
         "issued": "1958-05-23T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -8399,6 +8716,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -9225,6 +9550,10 @@
         "encounter": {
           "reference": "urn:uuid:a1c67797-2089-fbe3-9e8d-09adf7b31148"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1959-05-29T01:11:45-04:00",
         "issued": "1959-05-29T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -9276,6 +9605,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -9842,6 +10179,10 @@
         "encounter": {
           "reference": "urn:uuid:a34a17af-87f4-0147-b6c1-12e47a727731"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1962-06-01T01:11:45-04:00",
         "issued": "1962-06-01T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -9895,6 +10236,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "display": "Dr. Melvin857 Torp761"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -9934,6 +10284,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -10923,6 +11281,10 @@
         "encounter": {
           "reference": "urn:uuid:e014fcd2-5cea-12a2-a25d-8a47c677e884"
         },
+        "performer": [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
         "effectiveDateTime": "1964-02-14T00:11:45-05:00",
         "issued": "1964-02-14T00:11:45.131-05:00",
         "valueCodeableConcept": {
@@ -10974,6 +11336,14 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+              "display": "Dr. Willena258 Oberbrunner298"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -11102,6 +11472,10 @@
         "encounter": {
           "reference": "urn:uuid:7e2aeb74-6719-f91f-fd32-0f62ed678331"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1965-06-04T01:11:45-04:00",
         "issued": "1965-06-04T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -11153,6 +11527,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -11281,6 +11663,10 @@
         "encounter": {
           "reference": "urn:uuid:fc0d2cbc-b9ee-4539-f2aa-6540ea24d4a0"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1968-06-07T01:11:45-04:00",
         "issued": "1968-06-07T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -11334,6 +11720,15 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "display": "Dr. Melvin857 Torp761"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -11373,6 +11768,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -11815,6 +12218,10 @@
         "encounter": {
           "reference": "urn:uuid:aa24e14a-051d-b4b9-d8fb-f15ac189d7a8"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1971-06-11T01:11:45-04:00",
         "issued": "1971-06-11T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -11866,6 +12273,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -12361,6 +12776,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -12406,6 +12830,15 @@
           {
             "reference": "urn:uuid:543a4968-5d7a-e63b-d0f3-426545d4b774",
             "display": "Chronic congestive heart failure (disorder)"
+          }
+        ],
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
           }
         ],
         "resourceType": "Procedure"
@@ -12556,6 +12989,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -12604,7 +13046,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -12965,6 +13416,10 @@
         "encounter": {
           "reference": "urn:uuid:64c666af-7053-4d4f-f69f-270d0ec17cbe"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1974-04-26T01:11:45-04:00",
         "issued": "1974-04-26T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -13025,7 +13480,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -13067,6 +13531,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -13298,6 +13770,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -13841,6 +14322,10 @@
         "encounter": {
           "reference": "urn:uuid:73d083ce-bf6a-8a3a-d56b-2349f23049bc"
         },
+        "performer": [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
         "effectivePeriod": {
           "start": "1975-04-07T02:51:45-04:00",
           "end": "1975-04-07T03:51:45-04:00"
@@ -13893,6 +14378,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -13938,6 +14432,15 @@
           {
             "reference": "urn:uuid:543a4968-5d7a-e63b-d0f3-426545d4b774",
             "display": "Chronic congestive heart failure (disorder)"
+          }
+        ],
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
           }
         ],
         "resourceType": "Procedure"
@@ -14347,6 +14850,10 @@
         "encounter": {
           "reference": "urn:uuid:d09874e2-0ea0-9a99-95b6-d7908e5acc35"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1975-05-02T01:11:45-04:00",
         "issued": "1975-05-02T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -14407,7 +14914,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -14449,6 +14965,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -14680,6 +15204,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -14820,6 +15353,10 @@
         "encounter": {
           "reference": "urn:uuid:bab204b1-0438-7c9a-cdab-f1f038c66bfc"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1976-05-07T01:11:45-04:00",
         "issued": "1976-05-07T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -14880,7 +15417,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -14922,6 +15468,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -15058,6 +15612,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15194,6 +15757,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15235,6 +15807,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15371,6 +15952,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15412,6 +16002,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15453,6 +16052,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15494,6 +16102,15 @@
           "reference": "urn:uuid:8944e7cf-1482-b552-11a3-d3063d712d51",
           "display": "LOWELL GENERAL HOSPITAL"
         },
+        "performer": [
+          {
+            "actor":
+              {
+                "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+                "display": "Dr. Willena258 Oberbrunner298"
+              }
+          }
+        ],
         "resourceType": "Procedure"
       },
       "request": {
@@ -15837,6 +16454,10 @@
         "encounter": {
           "reference": "urn:uuid:6ddb7da9-ea34-8bed-1b3d-ca7014f62d79"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "1977-05-13T01:11:45-04:00",
         "issued": "1977-05-13T01:11:45.131-04:00",
         "valueCodeableConcept": {
@@ -15897,7 +16518,16 @@
           {
             "sequence": 1,
             "text": "Take as needed.",
-            "asNeededBoolean": true
+            "asNeededBoolean": true,
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
+            }
           }
         ],
         "resourceType": "MedicationRequest"
@@ -15939,6 +16569,14 @@
           "reference": "urn:uuid:690866aa-d2fd-8074-b448-3b7b0f1c84ad",
           "display": "PCP87052"
         },
+        "performer" : [
+          {
+            "actor" : {
+              "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+              "display": "Dr. Melvin857 Torp761"
+            }
+          }
+        ],
         "resourceType": "Immunization"
       },
       "request": {
@@ -16738,6 +17376,18 @@
           },
           {
             "reference": "urn:uuid:f85b5cca-bcf8-421c-bbcf-11db4dcb7e9c"
+          },
+          {
+            "reference": "urn:uuid:ce01eb8d-1574-4fcf-8456-7c80bfd9e5b9"
+          },
+          {
+            "reference": "urn:uuid:8df51bc7-03b3-46f6-bf74-70865395140e"
+          },
+          {
+            "reference": "urn:uuid:cf2587fa-6106-45f4-8264-fbe3d38853f5"
+          },
+          {
+            "reference": "urn:uuid:23c5bf6a-b411-424a-b466-9dee7f4838df"
           }
         ],
         "recorded": "1977-07-15T01:11:45.131-04:00",
@@ -16828,6 +17478,10 @@
         "encounter": {
           "reference": "urn:uuid:73d083ce-bf6a-8a3a-d56b-2349f23049bc"
         },
+        "performer": [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
         "effectiveDateTime": "1975-04-07T02:51:45-04:00",
         "issued": "1975-04-07T02:51:45.131-04:00",
         "valueQuantity": {
@@ -16923,6 +17577,10 @@
         "encounter": {
           "reference": "urn:uuid:73d083ce-bf6a-8a3a-d56b-2349f23049bc"
         },
+        "performer": [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
         "effectiveDateTime": "1975-04-07T02:51:45-04:00",
         "issued": "1975-04-07T02:51:45.131-04:00",
         "valueQuantity": {
@@ -17026,6 +17684,10 @@
         "encounter": {
           "reference": "urn:uuid:73d083ce-bf6a-8a3a-d56b-2349f23049bc"
         },
+        "performer": [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
         "effectiveDateTime": "1975-04-07T02:51:45-04:00",
         "issued": "1975-04-07T02:51:45.131-04:00",
         "dataAbsentReason": {
@@ -17080,6 +17742,12 @@
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
+        "performer": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
         "effectiveDateTime": "2005-07-05",
         "valueCodeableConcept": {
           "coding": [
@@ -17143,6 +17811,12 @@
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
+        "performer": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
         "effectiveDateTime": "2005-07-05",
         "valueString": "Recommend Urine Culture",
         "specimen": {
@@ -17810,6 +18484,10 @@
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
+        "performer": [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
         "effectiveDateTime": "2020-05-18T10:17:51-05:00",
         "valueCodeableConcept": {
           "coding": [
@@ -17968,6 +18646,12 @@
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
+        "performer": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
         "effectiveDateTime": "2022-09-23T22:39:43Z",
         "valueCodeableConcept": {
           "coding": [
@@ -18106,6 +18790,12 @@
         "subject": {
           "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
         },
+        "performer": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
         "effectiveDateTime": "2022-08-24T10:39:52Z",
         "valueCodeableConcept": {
           "coding": [
@@ -18267,7 +18957,7 @@
             "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
           },
           "effectiveDateTime" : "2023-08-30",
-          "valueString" : "For critical or end-of-life care, here are some examples of the things that I would like to have near me, music that I’d like to hear, and other details of my care that would help to keep me happy and relaxed: Like Bach, especially the cantatas.  St. Martin in the Fields"
+          "valueString" : "For critical or end-of-life care, here are some examples of the things that I would like to have near me, music that I'd like to hear, and other details of my care that would help to keep me happy and relaxed: Like Bach, especially the cantatas.  St. Martin in the Fields"
         },
       "request": {
           "method": "POST",
@@ -18545,6 +19235,15 @@
                 "period": 1,
                 "periodUnit": "d"
               }
+            },
+            "route": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "26643006",
+                  "display": "Oral route"
+                }
+              ]
             },
             "doseAndRate": [
               {
@@ -18844,6 +19543,297 @@
       "request": {
         "method": "POST",
         "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ce01eb8d-1574-4fcf-8456-7c80bfd9e5b9",
+      "resource": {
+        "id": "ce01eb8d-1574-4fcf-8456-7c80bfd9e5b9",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference|8.0.0-ballot"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:ce01eb8d-1574-4fcf-8456-7c80bfd9e5b9"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "34111-5",
+              "display": "Emergency department Note"
+            }
+          ],
+          "text": "Emergency department note"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note",
+                "display": "Clinical Note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "date": "1941-06-06T01:11:45.131-04:00",
+        "author": [
+          {
+            "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+            "display": "Dr. Melvin857 Torp761"
+          }
+        ],
+        "custodian": {
+          "reference": "urn:uuid:56090ab7-1f97-37ff-a434-194f9c6e5510",
+          "display": "PCP87052"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "CjE5NDEtMDYtMDYKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkx1Y2llbjQwOCBpcyBhIDEgeWVhci1vbGQgbm9uLWhpc3BhbmljIHdoaXRlIG1hbGUuIFBhdGllbnQgaGFzIGEgaGlzdG9yeSBvZiBvdGl0aXMgbWVkaWEsIGFjdXRlIHZpcmFsIHBoYXJ5bmdpdGlzIChkaXNvcmRlcikuCgojIFNvY2lhbCBIaXN0b3J5CiBQYXRpZW50IGhhcyBuZXZlciBzbW9rZWQgYW5kIGlzIGFuIGFsY29ob2xpYy4KClBhdGllbnQgY29tZXMgZnJvbSBhIGhpZ2ggc29jaW9lY29ub21pYyBiYWNrZ3JvdW5kLiBQYXRpZW50IGN1cnJlbnRseSBoYXMgQmx1ZSBDcm9zcyBCbHVlIFNoaWVsZC4KCiMgQWxsZXJnaWVzCk5vIEtub3duIEFsbGVyZ2llcy4KCiMgTWVkaWNhdGlvbnMKYXNwaXJpbiA4MSBtZyBvcmFsIHRhYmxldAoKIyBBc3Nlc3NtZW50IGFuZCBQbGFuCgoKIyMgUGxhbgoK"
+            },
+            "format": {
+              "system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+              "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient",
+              "display": "mimeType Sufficient"
+            }
+          }
+        ],
+        "context": {
+          "encounter": [
+            {
+              "reference": "urn:uuid:103fdd53-7d43-edc7-e0be-e11d1d8b605b"
+            }
+          ],
+          "period": {
+            "start": "1941-06-06T01:11:45-04:00",
+            "end": "1941-06-06T01:26:45-04:00"
+          }
+        },
+        "resourceType": "DocumentReference"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8df51bc7-03b3-46f6-bf74-70865395140e",
+      "resource": {
+        "resourceType" : "DocumentReference",
+        "id" : "8df51bc7-03b3-46f6-bf74-70865395140e",
+        "meta" : {
+          "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-adi-documentreference|8.0.0-ballot"]
+        },
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-authentication-time",
+          "valueDateTime" : "1941-09-05T01:11:45-04:00"
+        }],
+        "identifier" : [{
+          "system" : "https://github.com/inferno-framework/us-core-test-kit",
+          "value" : "8df51bc7-03b3-46f6-bf74-70865395140e"
+        }],
+        "status" : "current",
+        "type" : {
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "100821-8",
+            "display" : "National POLST form: portable medical order panel"
+          }],
+          "text" : "National Polst Form: Portable Medical Order Panel"
+        },
+        "category" : [{
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "100821-8",
+            "display" : "National POLST form: portable medical order panel"
+          }],
+          "text" : "National POLST form: portable medical order panel"
+        }],
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "date" : "1941-09-05T01:11:45-04:00",
+        "author" : [{
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        }],
+        "authenticator" : {
+          "reference": "urn:uuid:c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+          "display": "Dr. Melvin857 Torp761"
+        },
+        "content" : [{
+          "attachment" : {
+            "contentType" : "application/pdf",
+            "data" : "JVBERi0xLjcNJeLjz9MNCjYxOCAwIG9iag08PC9GaWx0ZXIvRmxhdGVEZWNvZGUvRmlyc3QgMTc4L0xlbmd0aCAxMjczL04gMjEvVHlwZS9PYmpTdG0+PnN0cmVhbQ0KaN7EVttuGzcQ/RUCfbERqLzfgMCALNmxG1+CSK3bLvZhLW2VBdZaQbtO47/vISnJsmy5SYumEFZDci4ccs7MUGlGGFGaE84D1YRLDWoId4FaIrgnyjAitAPlRAY5I4gOckYS5zmoIpypwNBhEDRggZswsDBpg64j3HKLgSfcC2hZWBUyDDgRYU9lBRE2rkginAsDhR15YGkMoPr2LR32D+hZWX+G5+M/8Dcjh3T4EYyT+aSZVvMZhh+Gp8Nmsl6AUxyCH4+O6Gkz78CP+t6HRfp7MbyFBEsSQaYq62mb5UdHYbeqXdTFA6yNq64uSbe8L4+OMjoqF8Wy6KpmTj/0r8bXVyc/CCa4wv==",
+            "title" : "POLST (PDF)",
+            "creation" : "1941-10-04",
+            "url": "http://adi-documents.org/polst.pdf"
+          },
+          "format": {
+            "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+            "code": "urn:ihe:iti:xds-sd:pdf:2008",
+            "display": "ITI XDS-SD PDF"
+          }
+        }],
+        "context": {
+          "encounter": [
+            {
+              "reference": "urn:uuid:fcb63f59-0312-1e8e-e3b7-466c50fc75e1"
+            }
+          ],
+          "period": {
+            "start": "1941-09-05T01:11:45-04:00",
+            "end": "1941-09-05T01:26:45-04:00"
+          }
+        }
+      },
+      "request": {
+          "method": "POST",
+          "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cf2587fa-6106-45f4-8264-fbe3d38853f5",
+      "resource": {
+        "resourceType" : "DocumentReference",
+        "id" : "cf2587fa-6106-45f4-8264-fbe3d38853f5",
+        "meta" : {
+          "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-adi-documentreference|8.0.0-ballot"]
+        },
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/us/core/StructureDefinition/us-core-authentication-time",
+          "valueDateTime" : "1941-09-05T01:11:45-04:00"
+        }],
+        "identifier" : [{
+          "system" : "https://github.com/inferno-framework/us-core-test-kit",
+          "value" : "cf2587fa-6106-45f4-8264-fbe3d38853f5"
+        }],
+        "status" : "current",
+        "type" : {
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "86533-7",
+            "display" : "Patient Living will"
+          }],
+          "text" : "Patient Living Will"
+        },
+        "category" : [{
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "86533-7",
+            "display" : "Patient Living will"
+          }],
+          "text" : "Patient Living will"
+        }],
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "date" : "1941-09-05T01:11:45-04:00",
+        "author" : [{
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134",
+          "display": "Mr. Lucien408 Bosco882"
+        }],
+        "authenticator" : {
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        },
+        "custodian": {
+          "reference": "urn:uuid:56090ab7-1f97-37ff-a434-194f9c6e5510",
+          "display": "PCP87052"
+        },
+        "content" : [{
+          "attachment" : {
+            "contentType" : "application/pdf",
+            "data" : "JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9UaXRsZSAoRXhhbXBsZSBvZiBhIExpdmluZyBXaWxsKQovQ3JlYXRvciAoTW96aWxsYS81LjAgXChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzdcKSBBcHBsZVdlYktpdC81MzcuMzYgXChLSFRNTCwgbGlrZSBHZWNrb1wpIENocm9tZS8xMjkuMC4wLjAgU2FmYXJpLzUzNy4zNikKL1Byb2R1Y2VyIChTa2lhL1BERiBtMTI5KQovQ3JlYXRpb25EYXRlIChEOjIwMjQxMDA0MTQ0MTUxKzAwJzAwJykKL01vZERhdGUgKEQ6MjAyNDEwMDQxNDQxNTErMDAnMDAnKT4+CmVuZG9iagozIDAgb2JqCjw8L2NhIDEKL0JNIC9Ob3JtYWw=",
+            "title" : "Living Will (PDF)",
+            "creation" : "1941-10-04"
+          },
+          "format": {
+            "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+            "code": "urn:ihe:iti:xds-sd:pdf:2008",
+            "display": "ITI XDS-SD PDF"
+          }
+        }]
+      },
+      "request": {
+          "method": "POST",
+          "url": "DocumentReference"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:23c5bf6a-b411-424a-b466-9dee7f4838df",
+      "resource": {
+        "resourceType" : "Observation",
+        "id" : "23c5bf6a-b411-424a-b466-9dee7f4838df",
+        "meta" : {
+          "profile" : ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-adi-documentation|8.0.0-ballot"]
+        },
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/StructureDefinition/workflow-supportingInfo",
+          "valueReference" : {
+            "reference": "urn:uuid:8df51bc7-03b3-46f6-bf74-70865395140e",
+            "display" : "POLST"
+          }
+        },
+        {
+          "url" : "http://hl7.org/fhir/StructureDefinition/workflow-supportingInfo",
+          "valueReference" : {
+            "reference": "urn:uuid:cf2587fa-6106-45f4-8264-fbe3d38853f5",
+            "display" : "Living Will"
+          }
+        }],
+        "identifier" : [{
+          "system" : "https://github.com/inferno-framework/us-core-test-kit",
+          "value" : "23c5bf6a-b411-424a-b466-9dee7f4838df"
+        }],
+        "status" : "final",
+        "category" : [{
+          "coding" : [{
+            "system" : "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+            "code" : "observation-adi-documentation",
+            "display" : "Observation ADI Documentation"
+          }],
+          "text" : "Observation ADI Documentation"
+        }],
+        "code" : {
+          "coding" : [{
+            "system" : "http://loinc.org",
+            "code" : "45473-6",
+            "display" : "Advance directive/living will completed"
+          }]
+        },
+        "subject" : {
+          "reference" : "urn:uuid:d831ec91-c7a3-4a61-9312-7ff0c4a32134"
+        },
+        "effectiveDateTime" : "1941-09-05T01:11:45-04:00",
+        "issued" : "1941-09-05T01:11:45-04:00",
+        "performer" : [{
+          "reference": "urn:uuid:8bee2ee3-d401-3728-9791-d235cfa01ab9",
+          "display": "Dr. Willena258 Oberbrunner298"
+        }],
+        "valueCodeableConcept" : {
+          "coding" : [{
+            "system" : "http://snomed.info/sct",
+            "version" : "http://snomed.info/sct/731000124108",
+            "code" : "373066001",
+            "display" : "Yes (qualifier value)"
+          }]
+        }
+      },
+      "request": {
+          "method": "POST",
+          "url": "Observation"
       }
     }
   ],
