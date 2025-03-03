@@ -60,7 +60,7 @@ jobs:
       - name: Run g10 test kit Single Patient API and Multi-Patient API with US Core 3.1.1 and Bulk Data 1.0.1
         working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
         run: |
-          bundle exec inferno execute --suite g10_certification \                                                                  asdf-ruby:3.3.6 
+          bundle exec inferno execute --suite g10_certification \
                                       --suite-options us_core_version:us_core_3 \
                                                       smart_app_launch_version:smart_app_launch_1 \
                                                       multi_patient_version:multi_patient_api_stu1 \
