@@ -1,0 +1,31 @@
+{
+  "resourceType": "Group",
+  "id": "combo-Group",
+  "active": true,
+  "type": "person",
+  "actual": true,
+  "name": "Proxy Group for patient Export",
+  "quantity": 4,
+  "member": [
+    {
+      "entity": {
+          "reference": "Patient/888"
+      }
+    },
+    {
+      "entity": {
+          "reference": "Patient/999"
+      }
+    },
+    {
+      "entity": {
+          "reference": "Patient/85"
+      }
+    },
+    {
+      "entity": {
+          "reference": "Patient/355"
+      }
+    }
+  ]
+}
