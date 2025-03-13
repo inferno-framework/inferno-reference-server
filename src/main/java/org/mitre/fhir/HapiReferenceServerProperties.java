@@ -36,12 +36,11 @@ public class HapiReferenceServerProperties {
   private static final String HAPI_PROPERTIES = "hapi.properties";
   private static final String PUBLIC_CLIENT_ID_KEY = "inferno.public_client_id";
   private static final String CONFIDENTIAL_CLIENT_ID_KEY = "inferno.confidential_client_id";
-  private static final String CONFIDENTIAL_CLIENT_SECRET_KEY = "inferno.confidential_client_secret";
   private static final String BULK_CLIENT_ID = "inferno.bulk_client_id";
   private static final String ASYMMETRIC_CLIENT_ID = "inferno.asymmetric_client_id";
-  private static final String ASYMMETRIC_CLIENT_JWKS = "inferno.asymmetric_client_jwks";
   private static final String GROUP_ID = "inferno.group_id";
   private static final String RESOURCES_FOLDER = "inferno.resources_folder";
+  private static final String CLIENTS_FOLDER = "inferno.clients_folder";
 
   private final Properties properties;
 
@@ -279,16 +278,6 @@ public class HapiReferenceServerProperties {
   }
 
   /**
-   * Returns the Confidential Client Secret Property.
-   * 
-   * @return the property
-   */
-  public String getConfidentialClientSecret() {
-    String confidentialClientSecret = properties.getProperty(CONFIDENTIAL_CLIENT_SECRET_KEY);
-    return confidentialClientSecret;
-  }
-
-  /**
    * Returns the Bulk Client Id Property.
    * 
    * @return the property
@@ -309,16 +298,6 @@ public class HapiReferenceServerProperties {
   }
 
   /**
-   * Returns the Asymmetric Client JWKS Property.
-   *
-   * @return the property
-   */
-  public String getAsymmetricClientJwks() {
-    String asymmetricClientJwks = properties.getProperty(ASYMMETRIC_CLIENT_JWKS);
-    return asymmetricClientJwks;
-  }
-
-  /**
    * Returns the Group Id Property.
    * 
    * @return the property
@@ -336,6 +315,16 @@ public class HapiReferenceServerProperties {
   public String getResourcesFolder() {
     String resourcesFolder = properties.getProperty(RESOURCES_FOLDER);
     return resourcesFolder;
+  }
+
+  /**
+   * Returns the Clients Folder Property.
+   *
+   * @return the property
+   */
+  public String getClientsFolder() {
+    String clientsFolder = properties.getProperty(CLIENTS_FOLDER);
+    return clientsFolder;
   }
 
   /**

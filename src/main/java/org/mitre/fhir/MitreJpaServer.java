@@ -31,6 +31,7 @@ import org.hl7.fhir.r4.formats.JsonParser;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
+import org.mitre.fhir.authorization.Client;
 import org.mitre.fhir.authorization.FakeOauth2AuthorizationInterceptorAdaptor;
 import org.mitre.fhir.authorization.Scope;
 import org.mitre.fhir.authorization.ServerConformanceWithAuthorizationProvider;
@@ -173,12 +174,21 @@ public class MitreJpaServer extends RestfulServer {
     // enable Bulk Export
     registerProvider(bulkDataExportProvider);
 
+    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
     try {
-      String resourcesFolder = new HapiReferenceServerProperties().getResourcesFolder();
+      String resourcesFolder = properties.getResourcesFolder();
       Path fhirResources = Paths.get(resourcesFolder);
       loadResources(appContext, fhirResources);
     } catch (Exception e) {
       throw new ServletException("Error in loading resources from file", e);
+    }
+
+    try {
+      String clientsFolder = properties.getClientsFolder();
+      Path customClientsPath = Paths.get(clientsFolder);
+      Client.load(customClientsPath);
+    } catch (Exception e) {
+      throw new ServletException("Error in loading client definitions", e);
     }
   }
 

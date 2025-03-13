@@ -1,6 +1,7 @@
 package org.mitre.fhir.landing;
 
 import org.mitre.fhir.HapiReferenceServerProperties;
+import org.mitre.fhir.authorization.Client;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,15 +22,16 @@ public class LandingViewController {
    */
   @RequestMapping("/reference-server")
   public String showLandingView(Model model) {
-
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
+    String confidentialClientId = properties.getConfidentialClientId();
+    String confidentialClientSecret = Client.find(confidentialClientId).getClientSecret();
+
     model.addAttribute("publicClientId", properties.getPublicClientId());
-    model.addAttribute("confidentialClientId", properties.getConfidentialClientId());
-    model.addAttribute("confidentialClientSecret", properties.getConfidentialClientSecret());
+    model.addAttribute("confidentialClientId", confidentialClientId);
+    model.addAttribute("confidentialClientSecret", confidentialClientSecret);
     model.addAttribute("asymmetricClientId", properties.getAsymmetricClientId());
     model.addAttribute("bulkClientId", properties.getBulkClientId());
     model.addAttribute("groupId", properties.getGroupId());
-
 
     return "landing"; // String will be mapped to corresponding template html file
   }
@@ -37,7 +39,5 @@ public class LandingViewController {
   @RequestMapping("")
   public void showDefaultView() {
     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
-
   }
-
 }

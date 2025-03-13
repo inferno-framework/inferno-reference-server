@@ -2,6 +2,7 @@ package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.CacheControlDirective;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import com.auth0.jwk.InvalidPublicKeyException;
 import com.auth0.jwk.Jwk;
 import com.auth0.jwk.JwkException;
@@ -15,6 +16,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.dnault.xmlpatch.internal.Log;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -29,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,8 +40,8 @@ import java.util.regex.Pattern;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Resource;
 import org.json.JSONObject;
-import org.mitre.fhir.HapiReferenceServerProperties;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidClientIdException;
 import org.mitre.fhir.authorization.exception.InvalidClientSecretException;
@@ -103,10 +106,43 @@ public class AuthorizationController {
   @GetMapping(path = "authorizeClientId/{clientId}", produces = {"application/json"})
   public String validateClientId(@PathVariable String clientId, HttpServletRequest request) {
     authorizeClientId(clientId, false);
-    IGenericClient client = FhirReferenceServerUtils.getClientFromRequest(request);
-    Bundle patientsBundle = FhirUtils.getPatientsBundle(client);
+    IGenericClient fhirClient = FhirReferenceServerUtils.getClientFromRequest(request);
+    Bundle patientsBundle = FhirUtils.getPatientsBundle(fhirClient);
+
+    Client client = Client.find(clientId);
+    filterPatientPickerBundleForClient(patientsBundle, client);
+
     return FhirReferenceServerUtils.FHIR_CONTEXT_R4.newJsonParser()
         .encodeResourceToString(patientsBundle);
+  }
+
+  /**
+   * Filter the given Bundle by removing Patient IDs that aren't listed for the given Client.
+   * Clients that do not specify a list of Patient IDs, such as the default Clients,
+   * are not limited in the picker and so the Bundle is unchanged.
+   */
+  private static void filterPatientPickerBundleForClient(Bundle patientsBundle, Client client) {
+    if (client != null && client.getCustomSettings() != null) {
+      List<String> patientPickerIds = client.getCustomSettings().getPatientPickerIds();
+
+      if (patientPickerIds == null || patientPickerIds.isEmpty()) {
+        return;
+      }
+
+      Iterator<BundleEntryComponent> bundleEntries = patientsBundle.getEntry().iterator();
+
+      while (bundleEntries.hasNext()) {
+        Resource patient = bundleEntries.next().getResource();
+        String currId = patient.getIdPart();
+        if (!patientPickerIds.contains(currId)) {
+          // In general a simple remove is not enough for Bundles,
+          // there may be references or counts to update,
+          // but in this case we know these are all standalone Patients with no references,
+          // and if there even is a count it won't be used by the UI
+          bundleEntries.remove();
+        }
+      }
+    }
   }
 
   /**
@@ -134,12 +170,13 @@ public class AuthorizationController {
 
     // validate client_assertion (jwt)
     DecodedJWT decodedJwt = JWT.decode(clientAssertion);
+    String clientId = decodedJwt.getIssuer();
+    Client client = Client.find(clientId);
+    String grantType = client.getAuthorizationGrantType();
 
-    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-    String clientId = properties.getBulkClientId();
-    if (!clientId.equals(decodedJwt.getIssuer())) {
+    if (client == null || !Client.AuthorizationGrantType.CLIENT_CREDENTIALS.equals(grantType)) {
       throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
-          "Issuer should be " + clientId);
+          "Issuer must be a registered client with client_credentials grant type");
     }
 
     TokenManager tokenManager = TokenManager.getInstance();
@@ -290,46 +327,6 @@ public class AuthorizationController {
       // confidential asymmetric
       DecodedJWT decodedJwt = JWT.decode(clientAssertion);
       clientId = decodedJwt.getIssuer();
-
-      try {
-        // In this case we cache the JWKS file locally, but
-        // this verification is normally done against the registered JWKS for the given client, eg:
-        // JwkProvider provider = new UrlJwkProvider("https://inferno.healthit.gov/suites/custom/smart_stu2/");
-        HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-        URL jwks = AuthorizationController.class.getResource(properties.getAsymmetricClientJwks());
-        JwkProvider provider = new UrlJwkProvider(jwks);
-        Jwk jwk = provider.get(decodedJwt.getKeyId());
-        Algorithm algorithm;
-        if (decodedJwt.getAlgorithm().equals("RS384")) {
-          algorithm = Algorithm.RSA384((RSAPublicKey) jwk.getPublicKey(), null);
-        } else if (decodedJwt.getAlgorithm().equals("ES384")) {
-          algorithm = Algorithm.ECDSA384((ECPublicKey) jwk.getPublicKey(), null);
-        } else {
-          // the above are the only 2 options supported in the SMART app launch test kit.
-          // if more are added, report support for them in WellKnownAuthorizationEndpointController
-          throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
-              "Unsupported encryption method " + decodedJwt.getAlgorithm());
-        }
-
-        algorithm.verify(decodedJwt);
-      } catch (SignatureVerificationException e) {
-        throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
-          "Client Assertion JWT failed signature verification", e);
-      } catch (SigningKeyNotFoundException e) {
-        // thrown by provider.get(jwt.kid) above
-        throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
-          "No key found with kid " + decodedJwt.getKeyId(), e);
-      } catch (InvalidPublicKeyException e) {
-        // thrown by jwk.getPublicKey above, should never happen
-        throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Failed to parse public key", e)
-            .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-      } catch (JwkException e) {
-        // thrown by provider.get(jwt.kid) above,
-        // shouldn't be possible in practice as the method only throws
-        //  the more specific SigningKeyNotFound
-        throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Unknown error occurred", e)
-          .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
 
     } else {
       throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
@@ -734,10 +731,7 @@ public class AuthorizationController {
   }
 
   private static void authorizeClientId(String clientId, boolean basicAuth) {
-    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-    if (!properties.getPublicClientId().equals(clientId)
-        && !properties.getConfidentialClientId().equals(clientId)
-        && !properties.getAsymmetricClientId().equals(clientId)) {
+    if (Client.find(clientId) == null) {
       throw new InvalidClientIdException(clientId, basicAuth);
     }
   }
@@ -748,38 +742,112 @@ public class AuthorizationController {
    */
   private static void authenticateClient(String clientId, String basicHeader,
       String clientAssertionType, String clientAssertion, String clientSecret) {
-    HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
-
+    Client client = Client.find(clientId);
     // note we've called authorizeClientId already
-    // so the only possible options here for clientId are our 3 predefined choices
+    // so we know the client exists
 
-    if (properties.getConfidentialClientId().equals(clientId)) {
-      // confidential symmetric -- uses authorization header/basic auth
-      if (basicHeader == null
-          || !properties.getConfidentialClientSecret().equals(clientSecret)) {
-        // Client Secret invalid or not supplied
-        throw new InvalidClientSecretException();
-      }
-    } else if (properties.getAsymmetricClientId().equals(clientId)) {
-      // confidential asymmetric -- uses a signed JWT in the client_assertion
+    String clientAuthMethod = client.getClientAuthenticationMethod();
+    if (clientAuthMethod == null) {
+      throw new InternalErrorException("Client " + clientId
+          + " does not define a client authentication method");
+    }
 
-      // actual validation of the client assertion was done previously
-      // if it was provided, so here just check that it was provided
-      if (!JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)
-          || clientAssertion == null || clientAssertion.isBlank()) {
-        throw new OAuth2Exception(ErrorCode.INVALID_CLIENT,
-            "Client assertion invalid or not supplied")
-            .withResponseStatus(HttpStatus.UNAUTHORIZED);
-      }
-    } else if (properties.getPublicClientId().equals(clientId)) {
-      // public app; safeguarding secrets is not possible
-      // and so credentials should not be provided
+    switch (clientAuthMethod) {
+      case Client.ClientAuthenticationMethod.CLIENT_SECRET_BASIC:
+        // confidential symmetric -- uses authorization header/basic auth
+        if (basicHeader == null
+            || !client.getClientSecret().equals(clientSecret)) {
+          // Client Secret invalid or not supplied
+          throw new InvalidClientSecretException();
+        }
+        break;
 
-      if (basicHeader != null || clientAssertionType != null) {
-        throw new OAuth2Exception(ErrorCode.INVALID_CLIENT,
-            "Public clients may not provide secrets or assertions")
-            .withResponseStatus(HttpStatus.UNAUTHORIZED);
-      }
+      case Client.ClientAuthenticationMethod.PRIVATE_KEY_JWT:
+        // confidential asymmetric -- uses a signed JWT in the client_assertion
+
+        if (!JWT_BEARER_CLIENT_ASSERTION_TYPE.equals(clientAssertionType)
+            || clientAssertion == null || clientAssertion.isBlank()) {
+          throw new OAuth2Exception(ErrorCode.INVALID_CLIENT,
+              "Client assertion invalid or not supplied")
+              .withResponseStatus(HttpStatus.UNAUTHORIZED);
+        }
+
+        DecodedJWT decodedJwt = JWT.decode(clientAssertion);
+        try {
+          URL jwks;
+          String clientJwks = client.getProviderDetails().getJwkSetUri();
+
+          // This wouldn't happen in practice, but we cache our default "asymmetric client" jwks
+          // in src/main/resources for simplicity.
+          if (clientJwks.startsWith("resource:")) {
+            clientJwks = clientJwks.substring(9);
+            jwks = AuthorizationController.class.getResource(clientJwks);
+          } else {
+            jwks = new URL(clientJwks);
+          }
+
+          JwkProvider provider = new UrlJwkProvider(jwks);
+          Jwk jwk = provider.get(decodedJwt.getKeyId());
+          Algorithm algorithm;
+          if (decodedJwt.getAlgorithm().equals("RS384")) {
+            algorithm = Algorithm.RSA384((RSAPublicKey) jwk.getPublicKey(), null);
+          } else if (decodedJwt.getAlgorithm().equals("ES384")) {
+            algorithm = Algorithm.ECDSA384((ECPublicKey) jwk.getPublicKey(), null);
+          } else {
+            // the above are the only 2 options supported in the SMART app launch test kit.
+            // if more are added, report support in WellKnownAuthorizationEndpointController
+            throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
+                "Unsupported encryption method " + decodedJwt.getAlgorithm());
+          }
+
+          algorithm.verify(decodedJwt);
+        } catch (SignatureVerificationException e) {
+          throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
+            "Client Assertion JWT failed signature verification", e);
+        } catch (SigningKeyNotFoundException e) {
+          // thrown by provider.get(jwt.kid) above
+          throw new OAuth2Exception(ErrorCode.INVALID_REQUEST,
+            "No key found with kid " + decodedJwt.getKeyId(), e);
+        } catch (InvalidPublicKeyException e) {
+          // thrown by jwk.getPublicKey above, should never happen
+          throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Failed to parse public key", e)
+              .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (JwkException e) {
+          // thrown by provider.get(jwt.kid) above,
+          // shouldn't be possible in practice as the method only throws
+          //  the more specific SigningKeyNotFound
+          throw new OAuth2Exception(ErrorCode.SERVER_ERROR, "Unknown error occurred", e)
+            .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MalformedURLException e) {
+          // thrown by new URL() above
+          throw new OAuth2Exception(ErrorCode.SERVER_ERROR, 
+              "Client " + clientId + " contains invalid JWKS url", e)
+            .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+          throw new OAuth2Exception(ErrorCode.SERVER_ERROR,
+              "Unknown error occurred for clientId " + clientId, e)
+            .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        break;
+
+      case Client.ClientAuthenticationMethod.NONE:
+        // public app; safeguarding secrets is not possible
+        // and so credentials should not be provided
+
+        if (basicHeader != null || clientAssertionType != null) {
+          throw new OAuth2Exception(ErrorCode.INVALID_CLIENT,
+              "Public clients may not provide secrets or assertions")
+              .withResponseStatus(HttpStatus.UNAUTHORIZED);
+        }
+
+        break;
+
+      default:
+        String message = "Client " + clientId
+            + " is defined with an unsupported clientAuthenticationMethod: " + clientAuthMethod;
+        throw new OAuth2Exception(ErrorCode.SERVER_ERROR, message)
+           .withResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
