@@ -172,9 +172,8 @@ public class AuthorizationController {
     DecodedJWT decodedJwt = JWT.decode(clientAssertion);
     String clientId = decodedJwt.getIssuer();
     Client client = Client.find(clientId);
-    String grantType = client.getAuthorizationGrantType();
-
-    if (client == null || !Client.AuthorizationGrantType.CLIENT_CREDENTIALS.equals(grantType)) {
+    if (client == null || !Client.AuthorizationGrantType.CLIENT_CREDENTIALS
+        .equals(client.getAuthorizationGrantType())) {
       throw new OAuth2Exception(ErrorCode.INVALID_GRANT,
           "Issuer must be a registered client with client_credentials grant type");
     }
