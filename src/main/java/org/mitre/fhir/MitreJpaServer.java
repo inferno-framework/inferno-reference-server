@@ -177,17 +177,23 @@ public class MitreJpaServer extends RestfulServer {
     HapiReferenceServerProperties properties = new HapiReferenceServerProperties();
     try {
       String resourcesFolder = properties.getResourcesFolder();
-      Path fhirResources = Paths.get(resourcesFolder);
-      loadResources(appContext, fhirResources);
+      if (resourcesFolder != null && !resourcesFolder.isBlank()) {
+        Path fhirResources = Paths.get(resourcesFolder);
+        loadResources(appContext, fhirResources);
+      }
     } catch (Exception e) {
+      e.printStackTrace();
       throw new ServletException("Error in loading resources from file", e);
     }
 
     try {
       String clientsFolder = properties.getClientsFolder();
-      Path customClientsPath = Paths.get(clientsFolder);
-      Client.load(customClientsPath);
+      if (clientsFolder != null && !clientsFolder.isBlank()) {
+        Path customClientsPath = Paths.get(clientsFolder);
+        Client.load(customClientsPath);
+      }
     } catch (Exception e) {
+      e.printStackTrace();
       throw new ServletException("Error in loading client definitions", e);
     }
   }

@@ -89,11 +89,13 @@ public class Client implements Serializable {
     } else if (pathAsFile.exists()) {
       files = new File[] { pathAsFile };
     } else {
-      return;
+      throw new RuntimeException("Unable to load clients from " + clientsPath
+          + ". Please make sure the path exists and is readable");
     }
     
     Arrays.sort(files); // sort files for consistent and predictable ordering
     Gson gson = new Gson();
+    int errorCount = 0;
     for (File file : files) {
       try {
         String jsonString = Files.readString(file.toPath());
@@ -112,8 +114,14 @@ public class Client implements Serializable {
 
       } catch (Exception e) {
         System.err.println("Failed to load client definitions from " + file.getName());
-        throw new RuntimeException(e);
+        e.printStackTrace();
+        errorCount++;
       }
+    }
+    if (errorCount > 0) {
+      String message = "Unable to load client definitions from " + clientsPath
+          + ". Review the previous " + errorCount + " exceptions for details";
+      throw new RuntimeException(message);
     }
   }
 
