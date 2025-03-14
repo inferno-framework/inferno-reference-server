@@ -13,6 +13,7 @@ USER jetty:jetty
 
 COPY --from=mavenbuild /home/app/target/inferno-fhir-reference-server.war /var/lib/jetty/webapps/root.war
 COPY ./resources /var/lib/jetty/resources/
+COPY ./clients /var/lib/jetty/clients/
 
 RUN java -jar "$JETTY_HOME/start.jar" --create-startd --add-to-start=http-forwarded --add-modules=server,http,ee10-deploy
 
