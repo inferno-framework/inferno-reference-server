@@ -1,0 +1,8 @@
+{
+  "clientId": "SAMPLE_G10_CONFIDENTIAL_CLIENT_ID",
+  "clientAuthenticationMethod": "client_secret_basic",
+  "clientSecret": "SAMPLE_CONFIDENTIAL_CLIENT_SECRET",
+  "customSettings": {
+    "patientPickerIds": ["85", "355"]
+  }
+}

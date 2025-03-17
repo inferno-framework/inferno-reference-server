@@ -50,6 +50,8 @@ The Bulk Data Token Endpoint is `/reference-server/oauth/bulk-token`
 
 The registered Bulk Data Client ID is `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InJlZ2lzdHJhdGlvbi10b2tlbiJ9.eyJqd2tzX3VybCI6Imh0dHA6Ly8xMC4xNS4yNTIuNzMvaW5mZXJuby8ud2VsbC1rbm93bi9qd2tzLmpzb24iLCJhY2Nlc3NUb2tlbnNFeHBpcmVJbiI6MTUsImlhdCI6MTU5NzQxMzE5NX0.q4v4Msc74kN506KTZ0q_minyapJw0gwlT6M_uiL73S4`.
 
+See [SMART Clients](#smart-clients) below for more detail on the clients.
+
 `./resources/` provides the following resources:
  - Patients with ids `85` and `355`
  - a Group with id `1a`, containing patients `85` and `355` as members.
@@ -74,6 +76,40 @@ CREATE, UPDATE, or DELETE a resource will receive a `405 Method Not Allowed`
 error. To adjust this while running Docker, change the `READ_ONLY` environment
 variable to `false` in `./docker-compose.yml`. If running without Docker, run
 `./mvnw jetty:run -DREAD_ONLY=false` when starting the server.
+
+## SMART Clients
+By default, the server contains four sample SMART clients; one for each of four launch/authentication methods:
+- Standalone Launch, Public Client
+- Standalone Launch, Confidential Symmetric Authentication
+- Standalone Launch, Confidential Asymmetric Authentication
+- Backend Services (ie, Bulk Data)
+
+These four clients are defined in `src/main/resources/default_clients.json` and may be customized to change the ID, client secret, etc. If the ID for a client is changed then the corresponding setting should be changed in `src/main/resources/hapi.properties`
+
+Additional clients may be defined by putting JSON files into the `./clients` directory. It is recommended to start with one of the existing clients and modifying fields as appropriate. Customizations specific to this reference server will all be located in the `customSettings` field, which currently only contains a field `patientPickerIds` - a list of strings that represent Patient IDs which will be used to filter the Patient Picker UI. 
+
+A brief overview of the schema:
+
+```
+{
+  "clientId": "client ID",
+  "authorizationGrantType": "authorization_code" | "client_credentials",
+  "clientAuthenticationMethod": "none" | "client_secret_basic" | "private_key_jwt",
+  "clientSecret": "client secret, only used for client_secret_basic auth method",
+  "providerDetails": {
+    "jwkSetUri": "location of JWKS, only used for private_key_jwt auth method"
+  },
+  "customSettings": {
+    "patientPickerIds": ["id1", "id2", ...]
+  }
+}
+```
+
+Note on `providerDetails.jwkSetUri`:
+- for a web-based JWKS, use the URL here
+- for a file-based JWKS, use a `file:///` URL
+- for a JWKS located under `src/main/resources`, use `resource:/file_path`, eg `resource:/inferno_client_jwks.json`
+
 
 ## Running Tests
 
