@@ -1,13 +1,15 @@
 package org.mitre.fhir.bulk;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
+import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
-
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -26,11 +28,6 @@ import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.TestUtils;
-
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
 public class TestBulkInterceptor {
 
