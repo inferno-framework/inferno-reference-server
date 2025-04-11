@@ -4,13 +4,15 @@ require 'json'
 
 BASE_URL = "http://localhost:8080/reference-server/r4"
 
+GROUP_ID = "1a"
+
 # 1. Do a real export on the server
 
 connection = Faraday.new do |f|
   f.headers['Authorization'] = "Bearer SAMPLE_TOKEN"
 end
 
-response = connection.get("#{BASE_URL}/Group/1a/$export", nil, { "Prefer": "respond-async", "X-Override-Interceptor": "true"})
+response = connection.get("#{BASE_URL}/Group/#{GROUP_ID}/$export", nil, { "Prefer": "respond-async", "X-Override-Interceptor": "true"})
 unless response.success?
   puts response.inspect
   exit
@@ -129,6 +131,13 @@ binaries.push(location_binary)
 
 bundle = {
   "resourceType" => "Bundle",
+  "meta" => {
+    "source" => 'https://github.com/inferno-framework/inferno-reference-server',
+    "tag" => [{
+      "system" => "group-id",
+      "code" => GROUP_ID
+    }]
+  },
   "type" => "transaction",
   "entry" => binaries.map do |binary|
     {
@@ -147,15 +156,3 @@ File.open(path, 'w') do |f|
 end
 
 puts "wrote bundle to #{path}"
-
-
-keys = binaries.map do |binary|
-  [binary['meta']['extension'][1]['valueString'], binary['id']]
-end
-
-path = 'src/main/resources/cached_bulk_data_export_ids.json'
-File.open(path, 'w') do |f|
-  f.write(JSON.pretty_generate(keys))
-end
-
-puts "wrote keys to #{path}"

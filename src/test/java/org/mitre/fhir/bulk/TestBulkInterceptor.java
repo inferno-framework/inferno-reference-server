@@ -1,23 +1,23 @@
 package org.mitre.fhir.bulk;
 
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
+
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.server.Server;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.Binary;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Group;
 import org.hl7.fhir.r4.model.Group.GroupMemberComponent;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.StringType;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -26,6 +26,11 @@ import org.mitre.fhir.authorization.token.Token;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
 import org.mitre.fhir.utils.TestUtils;
+
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
+import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
 public class TestBulkInterceptor {
 
@@ -38,11 +43,23 @@ public class TestBulkInterceptor {
   private static IIdType groupId;
   private static IIdType testPatientId;
   private static IIdType testEncounterId;
+  private static IIdType testBinaryId;
 
   private static Token testToken;
 
   @Test
   public void testBulkInterceptor() throws IOException {
+    String urlString = createGroupExport();
+    Assert.assertTrue(checkExportPollStatusExists(urlString));
+    // confirm that delete works and is being routed to the proper delete method
+    deleteGroupExport(urlString);
+  }
+  
+  @Test
+  public void testBulkInterceptorWithCache() throws IOException {
+    String[][] cachedIds = {{ "Patient", testBinaryId.toString() }};
+    BulkInterceptor.cacheGroupBulkExport(groupId.toString(), cachedIds);
+    
     String urlString = createGroupExport();
     Assert.assertTrue(checkExportPollStatusExists(urlString));
     // confirm that delete works and is being routed to the proper delete method
@@ -168,6 +185,17 @@ public class TestBulkInterceptor {
         .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
             FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
         .execute().getId();
+    
+    Binary binary = new Binary();
+    binary.getMeta().addExtension("https://hapifhir.org/NamingSystem/bulk-export-job-id", new StringType("123"));
+    binary.getMeta().addExtension("https://hapifhir.org/NamingSystem/bulk-export-binary-resource-type", new StringType("Patient"));
+    binary.setContentType("application/fhir+ndjson");
+    binary.setContentAsBase64("eyJyZXNvdXJjZVR5cGUiOiAiUGF0aWVudCJ9");
+    
+    testBinaryId = ourClient.create().resource(binary)
+        .withAdditionalHeader(FhirReferenceServerUtils.AUTHORIZATION_HEADER_NAME,
+            FhirReferenceServerUtils.createAuthorizationHeaderValue(testToken.getTokenValue()))
+        .execute().getId();  
   }
 
   /**

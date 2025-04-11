@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.r4.formats.JsonParser;
+import org.hl7.fhir.r4.model.Binary;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
@@ -186,6 +187,22 @@ public class MitreJpaServer extends RestfulServer {
       throw new ServletException("Error in loading resources from file", e);
     }
 
+    String cachedBulkDataExportPath = System.getenv("CACHED_BULK_DATA_EXPORT");
+    if (cachedBulkDataExportPath != null && !cachedBulkDataExportPath.isBlank()) {
+      try {
+        File cachedBulkDataExport = new File(cachedBulkDataExportPath);
+        System.out.println("Loading cached bulk data export " + cachedBulkDataExport.getName());
+        JsonParser parser = new JsonParser();
+        Bundle bundle = (Bundle) parser.parse(FileUtils.readFileToByteArray(cachedBulkDataExport));
+        DaoRegistry registry = new DaoRegistry(getFhirContext());
+        registry.setApplicationContext(appContext);
+        registry.getSystemDao().transaction(null, bundle);
+        loadCachedBulkExportIds(bundle);
+      } catch (Exception e) {
+        throw new ServletException("Error in loading cached bulk data export", e);
+      }
+    }
+
     try {
       String clientsFolder = properties.getClientsFolder();
       if (clientsFolder != null && !clientsFolder.isBlank()) {
@@ -244,5 +261,45 @@ public class MitreJpaServer extends RestfulServer {
       }
     }
     System.out.println("Done loading resources.");
+  }
+
+  private void loadCachedBulkExportIds(Bundle bundle) {
+    // this Bundle was created by the script pregenerate_bulk_data_export.rb
+
+    String[][] ids = new String[bundle.getEntry().size()][];
+
+    for (int i = 0; i < bundle.getEntry().size(); i++) {
+      Binary b = (Binary) bundle.getEntry().get(i).getResource();
+
+      // these resources look like this
+      //{
+      //  "resourceType": "Binary",
+      //  "id": "zdTotLo91lr4sxt54LjDNiImeIhgG3xd",
+      //  "meta": {
+      //    "extension": [
+      //      {
+      //        "url": "https://hapifhir.org/NamingSystem/bulk-export-job-id",
+      //        "valueString": "b39ed20b-1f3b-4fca-84c5-7ff21e4c2237"
+      //      },
+      //      {
+      //        "url": "https://hapifhir.org/NamingSystem/bulk-export-binary-resource-type",
+      //        "valueString": "Condition"
+      //      }
+      //    ],
+      //    "versionId": "1",
+      //    "lastUpdated": "2024-11-07T12:33:53.843+00:00"
+      //  },
+      //  "contentType": "application/fhir+ndjson",
+      //  "data": "..."
+      // }
+
+      String resourceType = b.getMeta().getExtensionByUrl("https://hapifhir.org/NamingSystem/bulk-export-binary-resource-type").getValue().toString();
+      String id = b.getIdPart(); // only the id, not "Binary/id"
+
+      ids[i] = new String[] { resourceType, id };
+    }
+
+    String groupId = bundle.getMeta().getTagFirstRep().getCode();
+    BulkInterceptor.cacheGroupBulkExport(groupId, ids);
   }
 }
