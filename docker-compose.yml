@@ -18,6 +18,8 @@ services:
     environment:
       - CUSTOM_BEARER_TOKEN=SAMPLE_TOKEN
       - CACHED_BULK_DATA_EXPORT=./resources/cached_bulk_data_export.json
+      - SOURCE_DATA_REPO=https://github.com/inferno-framework/inferno-reference-server-data
+      - SOURCE_DATA_BRANCH=fi-3865-ref-server-data
     networks:
       - fhirnet
     depends_on:
