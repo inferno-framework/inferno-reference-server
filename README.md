@@ -17,7 +17,16 @@ run both containers with `docker-compose up`.
 
 Note that sometimes on the initial start up, the database initialization might cause the inferno reference server container to not start correctly, so you may need to stop the container with `docker-compose down` and restart it with `docker-compose up` .
 
-## Resetting the server
+### Loading data from a repository
+
+The server is configured to load the FHIR resources in `./resources` at startup. When running in Docker, there is also the option
+to fetch resources from a Git repository by setting the following environment variables:
+- SOURCE_DATA_REPO: URL of a Git repository containing a resources and clients folder. No data is fetched if not set.
+- SOURCE_DATA_BRANCH (optional): Branch name to fetch. Defaults to "main" if not set
+
+The referenced git repository will be fetched every time the server starts, however if the server has persisted data, note that the newly fetched data will not be loaded again until the server is reset.
+
+### Resetting the server
 
 You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.
 
