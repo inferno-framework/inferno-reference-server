@@ -14,7 +14,7 @@ USER root
 # add git for cloning data repositories
 RUN apt update && apt install -y git ca-certificates
 
-RUN curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh | MODE=ubuntu sh
+# RUN curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh | MODE=ubuntu sh
 
 USER jetty:jetty
 
