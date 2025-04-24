@@ -180,7 +180,9 @@ public class AuthorizationController {
 
     TokenManager tokenManager = TokenManager.getInstance();
     Token token = tokenManager.createToken(scopeString);
+    token.setClientId(clientId);
     int expiresIn = 300;
+    token.setExp(java.time.Instant.now().getEpochSecond() + expiresIn);
 
     JSONObject accessToken = new JSONObject();
     accessToken.put("token_type", "bearer");
