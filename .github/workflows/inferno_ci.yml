@@ -67,7 +67,7 @@ jobs:
                                       --groups 4 7 \
                                       --inputs "url:http://localhost:8080/reference-server/r4" \
                                                patient_id:85 \
-                                               additional_patient_ids:85,355 \
+                                               additional_patient_ids:85,355,907 \
                                                "smart_auth_info:{\"access_token\":\"SAMPLE_TOKEN\"}" \
                                                "bulk_smart_auth_info:{ \
                                                   \"encryption_algorithm\": \"ES384\", \
@@ -82,7 +82,7 @@ jobs:
                                                "bulk_scope:system/*.read" \
                                                bulk_encryption_method:ES384 \
                                                group_id:1a bulk_timeout:180 \
-                                               bulk_patient_ids_in_group:85,355
+                                               bulk_patient_ids_in_group:85,355,907
 
       - name: Run g10 test kit Single Patient API and Multi-Patient API with US Core 6.1.0 and Bulk Data 2.0.0
         working-directory: ${{ github.workspace }}/${{ env.TEST_KIT_NAME }}
@@ -94,7 +94,7 @@ jobs:
                                       --groups 10 8 \
                                       --inputs "url:localhost:8080/reference-server/r4" \
                                                patient_id:85 \
-                                               additional_patient_ids:85,355 \
+                                               additional_patient_ids:85,355,907 \
                                                "smart_auth_info:{\"access_token\":\"SAMPLE_TOKEN\"}" \
                                                "bulk_smart_auth_info:{ \
                                                   \"encryption_algorithm\": \"ES384\", \
@@ -110,7 +110,7 @@ jobs:
                                                bulk_encryption_method:ES384 \
                                                group_id:1a \
                                                bulk_timeout:180 \
-                                               bulk_patient_ids_in_group:85,355 \
+                                               bulk_patient_ids_in_group:85,355,907 \
                                                "since_timestamp:2024-10-10T23:52:09+00:00"
 
       - name: Stop server
