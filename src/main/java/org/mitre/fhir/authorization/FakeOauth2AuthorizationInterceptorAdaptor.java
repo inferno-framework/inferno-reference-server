@@ -1,10 +1,13 @@
 package org.mitre.fhir.authorization;
 
 import ca.uhn.fhir.rest.api.server.RequestDetails;
+import ca.uhn.fhir.rest.api.RestOperationTypeEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.server.interceptor.InterceptorAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +15,12 @@ import java.util.function.BiPredicate;
 import org.hl7.fhir.r4.model.Bundle;
 import org.mitre.fhir.authorization.exception.InvalidBearerTokenException;
 import org.mitre.fhir.authorization.exception.InvalidScopesException;
+import org.mitre.fhir.authorization.exception.OAuth2Exception;
+import org.mitre.fhir.authorization.exception.OAuth2Exception.ErrorCode;
 import org.mitre.fhir.authorization.token.TokenManager;
 import org.mitre.fhir.authorization.token.TokenNotFoundException;
 import org.mitre.fhir.utils.FhirReferenceServerUtils;
+import org.springframework.http.HttpStatus;
 
 public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapter {
 
@@ -87,6 +93,7 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
     List<Scope> grantedScopes = scopesArray.stream().map(s -> Scope.fromString(s)).toList();
 
     boolean anyScopeApplies = false;
+    List<String> allowedCategroyValues = new ArrayList<String>();
     Map<String, String> parametersToAdd = new HashMap<>();
     BiPredicate<String, String> accessChecker = canAccessResourcePredicate(request);
     for (Scope s : grantedScopes) {
@@ -96,10 +103,29 @@ public class FakeOauth2AuthorizationInterceptorAdaptor extends InterceptorAdapte
       // so we always want to apply all granular scopes to a search.
       anyScopeApplies = s.apply(requestDetails, parametersToAdd, accessChecker, anyScopeApplies)
             || anyScopeApplies;
+      
+      
+      String scopeString = s.toString();
+      if (scopeString.contains("?category=") && scopeString.contains(resource)) {
+        allowedCategroyValues.add(scopeString.substring(scopeString.lastIndexOf("=") + 1));
+      }
     }
 
     if (!anyScopeApplies) {
       throw new InvalidScopesException(resource);
+    }
+
+    if (requestDetails.getRestOperationType() == RestOperationTypeEnum.SEARCH_TYPE && !allowedCategroyValues.isEmpty()) {
+      String[] searchedCategoryValues = requestDetails.getParameters().get("category");
+      if (searchedCategoryValues != null && searchedCategoryValues.length > 0) {
+        // System.out.println("Granular Search");
+        // System.out.println(String.join(",", searchedCategoryValues));
+        // System.out.println(allowedCategroyValues.toString());
+        // System.out.println(allowedCategroyValues.contains(searchedCategoryValues[0]));
+        if (!allowedCategroyValues.contains(searchedCategoryValues[0])) {
+          throw new InvalidScopesException(resource + "?category=" + searchedCategoryValues[0]);
+        }
+      }
     }
 
     Map<String, String[]> requestParams = requestDetails.getParameters();
