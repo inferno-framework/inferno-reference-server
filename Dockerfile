@@ -8,7 +8,7 @@ COPY config /home/app/config
 
 RUN mvn -q -f /home/app/pom.xml package -DskipTests
 
-FROM jetty:12.0.8-jdk17
+FROM jetty:12.0.40-jdk17
 
 USER root
 # add git for cloning data repositories
