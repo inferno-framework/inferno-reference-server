@@ -23,7 +23,7 @@ jobs:
 
   test:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       # Remove this step if you don't want to run the latest release of the Test Kit
