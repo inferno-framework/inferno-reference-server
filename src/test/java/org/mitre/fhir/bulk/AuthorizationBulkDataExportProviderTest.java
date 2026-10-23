@@ -218,7 +218,6 @@ public class AuthorizationBulkDataExportProviderTest {
     group.setName("Test Name");
 
     Reference patientReference = new Reference();
-    patientReference.setResource(pt);
     patientReference.setReference("Patient/" + testPatientId.getIdPart());
     GroupMemberComponent patientMember = new GroupMemberComponent(patientReference);
     group.addMember(patientMember);

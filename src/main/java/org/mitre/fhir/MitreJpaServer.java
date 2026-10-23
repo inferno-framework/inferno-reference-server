@@ -194,8 +194,7 @@ public class MitreJpaServer extends RestfulServer {
         System.out.println("Loading cached bulk data export " + cachedBulkDataExport.getName());
         JsonParser parser = new JsonParser();
         Bundle bundle = (Bundle) parser.parse(FileUtils.readFileToByteArray(cachedBulkDataExport));
-        DaoRegistry registry = new DaoRegistry(getFhirContext());
-        registry.setApplicationContext(appContext);
+        DaoRegistry registry = appContext.getBean(DaoRegistry.class);
         registry.getSystemDao().transaction(null, bundle);
         loadCachedBulkExportIds(bundle);
       } catch (Exception e) {
@@ -216,8 +215,7 @@ public class MitreJpaServer extends RestfulServer {
   }
 
   private void loadResources(ApplicationContext appContext, Path fhirResources) throws Exception {
-    DaoRegistry registry = new DaoRegistry(getFhirContext());
-    registry.setApplicationContext(appContext);
+    DaoRegistry registry = appContext.getBean(DaoRegistry.class);
 
     Map<String, Long> resCounts = registry.getSystemDao().getResourceCounts();
 

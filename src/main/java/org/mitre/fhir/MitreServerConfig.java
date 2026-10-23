@@ -7,21 +7,20 @@ import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings.ClientIdStrategyEnum;
 import ca.uhn.fhir.jpa.api.config.JpaStorageSettings.IdStrategyEnum;
 import ca.uhn.fhir.jpa.api.config.ThreadPoolFactoryConfig;
+import ca.uhn.fhir.jpa.api.dao.DaoRegistrationService;
+import ca.uhn.fhir.jpa.api.dao.DaoRegistry;
 import ca.uhn.fhir.jpa.batch2.JpaBatch2Config;
+import ca.uhn.fhir.jpa.config.SearchConfig;
 import ca.uhn.fhir.jpa.config.r4.JpaR4Config;
 import ca.uhn.fhir.jpa.config.util.HapiEntityManagerFactoryUtil;
-import ca.uhn.fhir.jpa.config.util.ValidationSupportConfigUtil;
-import ca.uhn.fhir.jpa.dao.DaoSearchParamProvider;
 import ca.uhn.fhir.jpa.model.config.PartitionSettings;
 import ca.uhn.fhir.jpa.model.entity.StorageSettings.IndexEnabledEnum;
 import ca.uhn.fhir.jpa.provider.DaoRegistryResourceSupportedSvc;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
 import ca.uhn.fhir.jpa.search.HapiHSearchAnalysisConfigurers;
-import ca.uhn.fhir.jpa.searchparam.registry.ISearchParamProvider;
 import ca.uhn.fhir.jpa.searchparam.registry.SearchParamRegistryImpl;
 import ca.uhn.fhir.jpa.subscription.channel.config.SubscriptionChannelConfig;
 import ca.uhn.fhir.jpa.subscription.match.deliver.email.IEmailSender;
-import ca.uhn.fhir.jpa.validation.JpaValidationSupportChain;
 import ca.uhn.fhir.rest.api.IResourceSupportedSvc;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
@@ -33,7 +32,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.search.backend.lucene.cfg.LuceneBackendSettings;
 import org.hibernate.search.backend.lucene.cfg.LuceneIndexSettings;
 import org.hibernate.search.engine.cfg.BackendSettings;
-import org.hl7.fhir.common.hapi.validation.support.CachingValidationSupport;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +48,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@Import({JpaR4Config.class, Batch2JobsConfig.class, JpaBatch2Config.class,
+@Import({JpaR4Config.class, SearchConfig.class, Batch2JobsConfig.class, JpaBatch2Config.class,
     SubscriptionChannelConfig.class, ThreadPoolFactoryConfig.class})
 public class MitreServerConfig {
 
@@ -171,13 +169,6 @@ public class MitreServerConfig {
     return new ResponseHighlighterInterceptor();
   }
 
-  @Primary
-  @Bean
-  public CachingValidationSupport validationSupportChain(
-      JpaValidationSupportChain theJpaValidationSupportChain) {
-    return ValidationSupportConfigUtil.newCachingValidationSupport(theJpaValidationSupportChain);
-  }
-  
   /**
    * Returns the JpaTransactionManager.
    * 
@@ -199,11 +190,6 @@ public class MitreServerConfig {
     return retVal;
   }
 
-  @Bean
-  public ISearchParamProvider mySearchParamProvider() {
-    return new DaoSearchParamProvider();
-  }
-
   // Required for MitreJpaServer
   @Bean
   public ISearchParamRegistry searchParamRegistry() {
@@ -213,6 +199,17 @@ public class MitreServerConfig {
   @Bean
   public IResourceSupportedSvc resourceSupportedSvc(IDaoRegistry theDaoRegistry) {
     return new DaoRegistryResourceSupportedSvc(theDaoRegistry);
+  }
+
+  @Bean
+  public DaoRegistry daoRegistry(FhirContext theFhirContext) {
+    return new DaoRegistry(theFhirContext);
+  }
+
+  // The resource DAOs use this to add themselves to the DaoRegistry
+  @Bean
+  public DaoRegistrationService daoRegistrationService(DaoRegistry theDaoRegistry) {
+    return new DaoRegistrationService(theDaoRegistry);
   }
 
   @Bean
