@@ -148,7 +148,8 @@ public class MitreJpaServer extends RestfulServer {
     ISearchParamRegistry searchParamRegistry = appContext.getBean(ISearchParamRegistry.class);
     Map<String, Set<String>> allSearchParams = new HashMap<>();
     for (String resourceType : this.getFhirContext().getResourceTypes()) {
-      ResourceSearchParams params = searchParamRegistry.getActiveSearchParams(resourceType);
+      ResourceSearchParams params = searchParamRegistry.getActiveSearchParams(resourceType,
+          ISearchParamRegistry.SearchParamLookupContextEnum.ALL);
       Set<String> paramNames = params.getSearchParamNames();
       allSearchParams.put(resourceType, paramNames);
     }

@@ -229,6 +229,24 @@
   -->
   <dependencyManagement>
     <dependencies>
+      <!--
+        Known advisories accepted for now:
+        - spring-webmvc 6.2.19 (CVE-2026-47884, CVE-2026-47890): the fix is only in Spring 7,
+          which HAPI 8.12 does not support. Neither applies here, since the app does not use
+          XsltView or Server-Sent Events.
+        - ognl 3.3.4 (via Thymeleaf): the fixed version could break Thymeleaf templates.
+        - guava 32.1.2-jre bundled inside graphql-java 23.1 (via HAPI): it is a shaded copy, so
+          the guava pin below cannot replace it, and even graphql-java 26.1 bundles the same version.
+        Revisit these when HAPI moves to Spring 7.
+      -->
+
+      <!-- nested dependencies of hapi-fhir-base -->
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>33.7.2-jre</version>
+      </dependency>
+
       <!-- nested dependencies of hapi-fhir-jpaserver-base -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -237,33 +255,39 @@
       </dependency>
 
       <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-autoconfigure</artifactId>
+        <version>3.5.16</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.25.5</version>
+      </dependency>
+
+      <dependency>
         <groupId>net.minidev</groupId>
         <artifactId>json-smart</artifactId>
         <version>2.5.2</version>
       </dependency>
 
+      <!-- Keep every Jackson module on one version. A BOM pins core, databind,
+        annotations and all datatype/dataformat/module artifacts together. -->
       <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
         <version>2.21.8</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
       <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.21.8</version>
-      </dependency>
-
-      <dependency>
-        <groupId>tools.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
+        <groupId>tools.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
         <version>3.1.8</version>
-      </dependency>
-
-      <dependency>
-        <groupId>tools.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>3.1.8</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
       <dependency>
