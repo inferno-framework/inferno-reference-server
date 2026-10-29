@@ -148,7 +148,8 @@ public class MitreJpaServer extends RestfulServer {
     ISearchParamRegistry searchParamRegistry = appContext.getBean(ISearchParamRegistry.class);
     Map<String, Set<String>> allSearchParams = new HashMap<>();
     for (String resourceType : this.getFhirContext().getResourceTypes()) {
-      ResourceSearchParams params = searchParamRegistry.getActiveSearchParams(resourceType);
+      ResourceSearchParams params = searchParamRegistry.getActiveSearchParams(resourceType,
+          ISearchParamRegistry.SearchParamLookupContextEnum.ALL);
       Set<String> paramNames = params.getSearchParamNames();
       allSearchParams.put(resourceType, paramNames);
     }
@@ -194,8 +195,7 @@ public class MitreJpaServer extends RestfulServer {
         System.out.println("Loading cached bulk data export " + cachedBulkDataExport.getName());
         JsonParser parser = new JsonParser();
         Bundle bundle = (Bundle) parser.parse(FileUtils.readFileToByteArray(cachedBulkDataExport));
-        DaoRegistry registry = new DaoRegistry(getFhirContext());
-        registry.setApplicationContext(appContext);
+        DaoRegistry registry = appContext.getBean(DaoRegistry.class);
         registry.getSystemDao().transaction(null, bundle);
         loadCachedBulkExportIds(bundle);
       } catch (Exception e) {
@@ -216,8 +216,7 @@ public class MitreJpaServer extends RestfulServer {
   }
 
   private void loadResources(ApplicationContext appContext, Path fhirResources) throws Exception {
-    DaoRegistry registry = new DaoRegistry(getFhirContext());
-    registry.setApplicationContext(appContext);
+    DaoRegistry registry = appContext.getBean(DaoRegistry.class);
 
     Map<String, Long> resCounts = registry.getSystemDao().getResourceCounts();
 

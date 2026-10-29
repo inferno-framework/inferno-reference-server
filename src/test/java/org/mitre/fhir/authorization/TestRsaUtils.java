@@ -6,7 +6,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import java.security.Signature;
 import java.security.interfaces.RSAPublicKey;
-import net.sf.ehcache.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ThreadLocalRandom;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mitre.fhir.utils.RsaUtils;

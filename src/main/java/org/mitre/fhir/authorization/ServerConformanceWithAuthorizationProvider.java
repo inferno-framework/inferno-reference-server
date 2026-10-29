@@ -4,6 +4,7 @@ import ca.uhn.fhir.jpa.api.config.JpaStorageSettings;
 import ca.uhn.fhir.jpa.api.dao.IFhirSystemDao;
 import ca.uhn.fhir.jpa.provider.JpaCapabilityStatementProvider;
 import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.rest.annotation.Metadata;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.util.ISearchParamRegistry;
@@ -27,8 +28,6 @@ public class ServerConformanceWithAuthorizationProvider extends JpaCapabilitySta
 
   private static final String CAPABILITY_STATEMENT_FILE_PATH = "capability-statement-template.json";
 
-  private CapabilityStatement capabilityStatement;
-
   public ServerConformanceWithAuthorizationProvider(RestfulServer theRestfulServer,
       IFhirSystemDao<Bundle, Meta> theSystemDao, JpaStorageSettings theDaoConfig,
       ISearchParamRegistry searchParamRegistry) {
@@ -51,29 +50,25 @@ public class ServerConformanceWithAuthorizationProvider extends JpaCapabilitySta
     return FhirReferenceServerUtils.getServerBaseUrl(theRequest) + INTROSPECT_EXTENSION_VALUE_URI;
   }
 
+  // Build the statement fresh for every request, since its URLs depend on the request
+  // (eg http vs https). cacheMillis = 0 also turns off HAPI's own one-minute cache.
   @Override
+  @Metadata(cacheMillis = 0)
   public CapabilityStatement getServerConformance(HttpServletRequest theRequest,
       RequestDetails theRequestDetails) {
-
-    if (capabilityStatement != null) {
-      return capabilityStatement;
-    }
 
     IParser parser = FhirReferenceServerUtils.FHIR_CONTEXT_R4.newJsonParser();
 
     String jsonString = getCapabilityStatementJsonString(theRequest);
 
-    capabilityStatement = parser.parseResource(CapabilityStatement.class, jsonString);
-
-    return capabilityStatement;
+    return parser.parseResource(CapabilityStatement.class, jsonString);
   }
 
   private String getCapabilityStatementJsonString(HttpServletRequest theRequest) {
     // read from file
-    try {
+    try (InputStream in =
+        getClass().getClassLoader().getResourceAsStream(CAPABILITY_STATEMENT_FILE_PATH)) {
 
-      InputStream in =
-          getClass().getClassLoader().getResourceAsStream(CAPABILITY_STATEMENT_FILE_PATH);
       String capabilityStatementString = new String(in.readAllBytes());
 
       capabilityStatementString = capabilityStatementString.replaceAll("\\$HOST",

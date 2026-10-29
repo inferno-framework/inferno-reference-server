@@ -82,7 +82,10 @@ The tokens are currently saved in memory, so if the reference server is restarte
 By default, the Dockerized server runs in read-only mode – meaning, operations
 modifying the state of the server are not supported. For example, requests to
 CREATE, UPDATE, or DELETE a resource will receive a `405 Method Not Allowed`
-error. To adjust this while running Docker, change the `READ_ONLY` environment
+error. Batches and transactions are only allowed if every entry is a `GET`, and
+only a fixed list of read-only operations (eg `$export`, `$everything`, `$expand`)
+may be called; see `ReadOnlyInterceptor.java` for the full list.
+To adjust this while running Docker, change the `READ_ONLY` environment
 variable to `false` in `./docker-compose.yml`. If running without Docker, run
 `./mvnw jetty:run -DREAD_ONLY=false` when starting the server.
 
