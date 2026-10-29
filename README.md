@@ -26,12 +26,6 @@ to fetch resources from a Git repository by setting the following environment va
 
 The referenced git repository will be fetched every time the server starts, however if the server has persisted data, note that the newly fetched data will not be loaded again until the server is reset.
 
-### Upgrading to HAPI FHIR 8
-
-This version upgrades HAPI FHIR from 7.6.0 to 8.12.1, which changes the database schema.
-Existing servers must be rebuilt: reset the database as described below, then start the
-server so the data is reloaded.
-
 ### Resetting the server
 
 You can delete the server's data by stopping the containers with `docker-compose down` and then running `docker volume rm inferno-reference-server_fhir-pgdata` to remove the existing volume. Note that the default data will be reloaded when starting the containers.

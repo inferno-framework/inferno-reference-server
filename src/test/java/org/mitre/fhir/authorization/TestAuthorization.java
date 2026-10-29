@@ -359,6 +359,26 @@ public class TestAuthorization {
         ServerConformanceWithAuthorizationProvider.getTokenExtensionUri(request));
   }
 
+  @Test
+  public void testCapabilityStatementNotCached() {
+    // Request the CapabilityStatement through two different hostnames.
+    // Each response should use the hostname of its own request,
+    // not one saved from an earlier request.
+    for (String host : List.of("localhost", "127.0.0.1")) {
+      IGenericClient client = ourCtx.newRestfulGenericClient(
+          "http://" + host + ":" + ourPort + "/reference-server/r4/");
+      CapabilityStatement capabilityStatement =
+          client.capabilities().ofType(CapabilityStatement.class).execute();
+
+      String tokenUri = capabilityStatement.getRest().get(0).getSecurity().getExtension().get(0)
+          .getExtensionByUrl(ServerConformanceWithAuthorizationProvider.TOKEN_EXTENSION_URL)
+          .getValue().primitiveValue();
+
+      Assert.assertEquals("http://" + host + ":" + ourPort + "/reference-server/oauth/token",
+          tokenUri);
+    }
+  }
+
 
   @Test
   public void testGetTokenWithoutBasicAuth() throws Exception {
